@@ -20,9 +20,9 @@ export class AppComponent {
            (response) => {
              this.testing = 'bye';
              this.carList = response;
-             alert(JSON.stringify(this.carList));
+             console.log(JSON.stringify(this.carList));
              },
            (error) => { console.log('Error happened' + JSON.stringify(error)); },
-           () => { alert('the subscription is completed'); });
+           () => { console.log('the subscription is completed'); });
     }
 }
