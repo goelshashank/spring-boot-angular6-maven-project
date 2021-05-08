@@ -7,7 +7,7 @@
   </parent>
   <artifactId>tutorial-server</artifactId>
   <packaging>war</packaging>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -78,6 +78,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.swathisprasad.springboot.Application</mainClass>
+                </configuration>
             </plugin>
             <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
