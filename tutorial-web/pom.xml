@@ -14,7 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<build>
+<!--	<build>
 		<plugins>
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
@@ -65,5 +65,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>
+	</build>-->
 </project>
