@@ -48,10 +48,16 @@ public class RecipeController {
 	@Autowired
 	private IngredientRepo ingredientRepo;
 
-	@GetMapping("/getRecipes")
-	public ResponseEntity<List<Recipe>> getRecipes(@RequestBody String title) {
-		List<Recipe> recipeList = recipeRepo.findByTitle(title);
+	@GetMapping("/getAllRecipes")
+	public ResponseEntity<List<Recipe>> getAllRecipes() {
+		List<Recipe> recipeList = recipeRepo.findAll();
 		return new ResponseEntity<>(recipeList, HttpStatus.OK);
+	}
+
+	@GetMapping("/getAllIngredients")
+	public ResponseEntity<List<Ingredient>> getAllIngredients() {
+		List<Ingredient> ingredients = ingredientRepo.findAll();
+		return new ResponseEntity<>(ingredients, HttpStatus.OK);
 	}
 
 	@PostMapping("/addRecipes")
