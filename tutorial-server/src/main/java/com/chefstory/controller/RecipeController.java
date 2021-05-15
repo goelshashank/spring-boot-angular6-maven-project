@@ -45,7 +45,7 @@ import java.util.List;
 	}
 
 	@PostMapping("/addRecipes") public ResponseEntity addRecipes(@RequestBody List<Recipe> recipes) {
-		recipeRepo.saveAll(recipes);
+		recipeRepo.save(recipes.get(0));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -62,6 +62,7 @@ import java.util.List;
 		if (CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds()) && CollectionUtils
 				.isEmpty(addIngredientToRecipe.getRecipeCompIds()))
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+/*
 
 		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds())) {
 			addIngredientToRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
@@ -75,6 +76,33 @@ import java.util.List;
 				ingredientInRecipeRepo.insert(addIngredientToRecipe.getRecipeId(),null,t);
 			});
 		}
+
+*/
+
+		List<IngredientInRecipe> ingredientInRecipes = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds())) {
+			addIngredientToRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
+				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
+				ingredientInRecipe.setRecipeId(addIngredientToRecipe.getRecipeId());
+				Ingredient ingredient = new Ingredient();
+				ingredient.setId(t);
+				ingredientInRecipe.setIngredient(ingredient);
+				ingredientInRecipes.add(ingredientInRecipe);
+			});
+
+		}
+
+		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getRecipeCompIds())) {
+			addIngredientToRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
+				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
+				ingredientInRecipe.setRecipeId(addIngredientToRecipe.getRecipeId());
+				Recipe recipe = new Recipe();
+				recipe.setId(t);
+				ingredientInRecipe.setRecipe(recipe);
+				ingredientInRecipes.add(ingredientInRecipe);
+			});
+		}
+		ingredientInRecipeRepo.saveAll(ingredientInRecipes);
 
 
 		return new ResponseEntity<>(HttpStatus.OK);

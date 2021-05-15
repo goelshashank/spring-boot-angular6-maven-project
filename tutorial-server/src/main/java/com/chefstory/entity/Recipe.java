@@ -26,7 +26,6 @@ import java.util.List;
  */
 @Data @Accessors(chain = true) @Entity(name = "recipe")
 @Table(indexes = {@Index(columnList = "title"), @Index(columnList = "category"), @Index(columnList = "sub_category")})
-
 @JsonInclude(JsonInclude.Include.NON_NULL) public class Recipe
 		extends BaseEntity {
 
