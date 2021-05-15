@@ -1,6 +1,7 @@
 package com.chefstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -21,14 +22,23 @@ import javax.persistence.ManyToOne;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "ingredient_In_Receipe")
+@Entity(name = "ingredient_in_receipe")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Ingredient_In_Receipe extends BaseEntity{
 
 	@Column(name="receipe_id", nullable=false)
 	private Long receipeId;
 
 	@ManyToOne
-	@JoinColumn(name="ingredient_id", nullable=false)
+	@JoinColumn(name="ingredient_id")
 	private Ingredient ingredient;
+
+	@ManyToOne
+	@JoinColumn(name="receipe_id_1")
+	private Receipe receipe;
+
+	@Column(name = "quantity_unit")
+	private Double  quantityUnit;
+
 
 }

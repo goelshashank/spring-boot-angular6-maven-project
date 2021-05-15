@@ -1,5 +1,6 @@
 package com.chefstory.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -25,12 +26,15 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "receipe")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Receipe extends BaseEntity{
 
 	@Column(name = "title")
 	private String  title;
 	@Column(name = "categories")
 	private String  categories;
+	@Column(name = "sub_categories")
+	private String  subCategories;
 	@Column(name = "course")
 	private String  course;
 	@Column(name = "collections")

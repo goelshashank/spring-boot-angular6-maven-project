@@ -29,11 +29,11 @@ public abstract class BaseEntity implements Serializable {
 
 	@CreationTimestamp
 	@Temporal(value = TemporalType.TIMESTAMP)
-	@Column(name="CREATED_TS")
+	@Column(name="created_ts")
 	private Date createdTs;
 
 	@UpdateTimestamp
-	@Column(name="MODIFIED_TS")
+	@Column(name="modified_ts")
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date modifiedTs;
 

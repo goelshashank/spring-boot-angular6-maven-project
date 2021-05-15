@@ -67,6 +67,7 @@ public class ReceipeController {
 		Ingredient_In_Receipe ingredientInReceipe=new Ingredient_In_Receipe();
 		ingredientInReceipe.setReceipeId(addIngredientToReceipe.getReceipe().getId());
 		ingredientInReceipe.setIngredient(addIngredientToReceipe.getIngredient());
+		ingredientInReceipe.setReceipe(addIngredientToReceipe.getReceipe1());
 		ingredientInReceipeRepo.save(ingredientInReceipe);
 		return new ResponseEntity<>(HttpStatus.OK);
 
