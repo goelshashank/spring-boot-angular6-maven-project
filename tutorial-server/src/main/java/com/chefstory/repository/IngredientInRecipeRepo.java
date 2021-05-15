@@ -1,26 +1,27 @@
 package com.chefstory.repository;
 
-import com.chefstory.entity.IngredientInRecipe;
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
+import com.chefstory.entity.IngredientInRecipe;
 
 /**
  * @author Shashank Goel
  * @version 1.0
  * @since 09/05/21
  */
-@Repository public interface IngredientInRecipeRepo extends JpaRepository<IngredientInRecipe, Integer> {
+@Repository
+public interface IngredientInRecipeRepo extends JpaRepository<IngredientInRecipe, Integer> {
 
 	@Modifying
-	@Query(value = "insert into ingredient_in_recipe (recipe_id,ingredient_comp_id,recipe_comp_id) VALUES (:recipe_id,:ingredient_comp_id,:recipe_comp_id)",
-			nativeQuery = true)
+	@Query(value = "insert into ingredient_in_recipe (recipe_id,ingredient_comp_id,recipe_comp_id) VALUES (:recipe_id,:ingredient_comp_id,:recipe_comp_id)", nativeQuery = true)
 	@Transactional
-	 int insert(@Param("recipe_id") Long recipeId, @Param("ingredient_comp_id")
-			Long ingredientCompId, @Param("recipe_comp_id") Long recipeCompId);
+	int insert(@Param("recipe_id") Long recipeId, @Param("ingredient_comp_id") Long ingredientCompId,
+			@Param("recipe_comp_id") Long recipeCompId);
 
 }

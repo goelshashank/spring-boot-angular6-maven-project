@@ -3,14 +3,12 @@
  */
 package com.chefstory.controller;
 
-import com.chefstory.entity.Ingredient;
-import com.chefstory.entity.IngredientInRecipe;
-import com.chefstory.entity.Recipe;
-import com.chefstory.model.AddIngredientToRecipe;
-import com.chefstory.repository.IngredientInRecipeRepo;
-import com.chefstory.repository.IngredientRepo;
-import com.chefstory.repository.RecipeRepo;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,43 +21,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import com.chefstory.entity.Ingredient;
+import com.chefstory.entity.IngredientInRecipe;
+import com.chefstory.entity.Recipe;
+import com.chefstory.model.AddIngredientToRecipe;
+import com.chefstory.repository.IngredientInRecipeRepo;
+import com.chefstory.repository.IngredientRepo;
+import com.chefstory.repository.RecipeRepo;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Swathi
  *
  */
-@RestController @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE) @Slf4j @Validated public class RecipeController {
+@RestController
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
+@Validated
+public class RecipeController {
 
-	@Autowired private RecipeRepo recipeRepo;
-	@Autowired private IngredientInRecipeRepo ingredientInRecipeRepo;
-	@Autowired private IngredientRepo ingredientRepo;
+	@Autowired
+	private RecipeRepo recipeRepo;
+	@Autowired
+	private IngredientInRecipeRepo ingredientInRecipeRepo;
+	@Autowired
+	private IngredientRepo ingredientRepo;
 
-	@GetMapping("/getRecipes") public ResponseEntity<List<Recipe>> getRecipes(@RequestBody String title) {
+	@GetMapping("/getRecipes")
+	public ResponseEntity<List<Recipe>> getRecipes(@RequestBody String title) {
 		List<Recipe> recipeList = recipeRepo.findByTitle(title);
 		return new ResponseEntity<>(recipeList, HttpStatus.OK);
 	}
 
-	@PostMapping("/addRecipes") public ResponseEntity addRecipes(@RequestBody List<Recipe> recipes) {
+	@PostMapping("/addRecipes")
+	public ResponseEntity addRecipes(@RequestBody List<Recipe> recipes) {
 		recipeRepo.save(recipes.get(0));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/addIngredients") public ResponseEntity addIngredients(@RequestBody List<Ingredient> ingredients) {
+	@PostMapping("/addIngredients")
+	public ResponseEntity addIngredients(@RequestBody List<Ingredient> ingredients) {
 		ingredientRepo.saveAll(ingredients);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/addIngredientsToRecipe")
 	@Transactional
-	public ResponseEntity addIngredientToRecipe(
-			@Valid @RequestBody AddIngredientToRecipe addIngredientToRecipe) {
+	public ResponseEntity addIngredientToRecipe(@Valid @RequestBody AddIngredientToRecipe addIngredientToRecipe) {
 
-		if (CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds()) && CollectionUtils
-				.isEmpty(addIngredientToRecipe.getRecipeCompIds()))
+		if (CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds())
+				&& CollectionUtils.isEmpty(addIngredientToRecipe.getRecipeCompIds()))
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		List<IngredientInRecipe> ingredientInRecipes = new ArrayList<>();
@@ -85,7 +97,6 @@ import java.util.List;
 			});
 		}
 		ingredientInRecipeRepo.saveAll(ingredientInRecipes);
-
 
 		return new ResponseEntity<>(HttpStatus.OK);
 
