@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
  * @version 1.0
  * @since 09/05/21
  */
-@Repository
-public interface IngredientRepo extends JpaRepository<Ingredient, Integer> {
+@Repository public interface IngredientRepo extends JpaRepository<Ingredient, Integer> {
+
+	public Ingredient findByTitle(String title);
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.chefstory;
 
@@ -15,17 +15,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author Swathi
  *
  */
-@SpringBootApplication
-public class Application extends SpringBootServletInitializer {
+@SpringBootApplication public class Application extends SpringBootServletInitializer {
 
-	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
-
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+	@Bean public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*").allowedHeaders("*");
@@ -33,8 +29,7 @@ public class Application extends SpringBootServletInitializer {
 		};
 	}
 
-	@Bean
-	public CommonsRequestLoggingFilter requestLoggingFilter() {
+	@Bean public CommonsRequestLoggingFilter requestLoggingFilter() {
 		CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
 		loggingFilter.setIncludeClientInfo(true);
 		loggingFilter.setIncludeQueryString(true);
