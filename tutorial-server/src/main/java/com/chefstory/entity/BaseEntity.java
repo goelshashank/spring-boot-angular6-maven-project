@@ -31,6 +31,6 @@ import java.util.Date;
 
 	@Version @Column(name = "version") @JsonIgnore private Long version;
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Integer id;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
 }

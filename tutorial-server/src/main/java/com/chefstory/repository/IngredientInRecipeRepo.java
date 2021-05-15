@@ -2,7 +2,12 @@ package com.chefstory.repository;
 
 import com.chefstory.entity.IngredientInRecipe;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
 
 /**
  * @author Shashank Goel
@@ -10,4 +15,12 @@ import org.springframework.stereotype.Repository;
  * @since 09/05/21
  */
 @Repository public interface IngredientInRecipeRepo extends JpaRepository<IngredientInRecipe, Integer> {
+
+	@Modifying
+	@Query(value = "insert into ingredient_in_recipe (recipe_id,ingredient_comp_id,recipe_comp_id) VALUES (:recipe_id,:ingredient_comp_id,:recipe_comp_id)",
+			nativeQuery = true)
+	@Transactional
+	 int insert(@Param("recipe_id") Long recipeId, @Param("ingredient_comp_id")
+			Long ingredientCompId, @Param("recipe_comp_id") Long recipeCompId);
+
 }

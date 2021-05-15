@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Getter @Setter @ToString @JsonInclude(JsonInclude.Include.NON_NULL) public class AddIngredientToRecipe {
 
-	@NotNull Integer recipeId;
-	List<Integer> ingredientCompIds;
-	List<Integer> recipeCompIds;
+	@NotNull Long recipeId;
+	List<Long> ingredientCompIds;
+	List<Long> recipeCompIds;
 }

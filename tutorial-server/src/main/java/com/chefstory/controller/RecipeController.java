@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,37 +54,28 @@ import java.util.List;
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/addIngredientsToRecipe") public ResponseEntity addIngredientToRecipe(
+	@PostMapping("/addIngredientsToRecipe")
+	@Transactional
+	public ResponseEntity addIngredientToRecipe(
 			@Valid @RequestBody AddIngredientToRecipe addIngredientToRecipe) {
 
-		if (CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds()) || CollectionUtils
+		if (CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds()) && CollectionUtils
 				.isEmpty(addIngredientToRecipe.getRecipeCompIds()))
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		List<IngredientInRecipe> ingredientInRecipes = new ArrayList<>();
 		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds())) {
 			addIngredientToRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
-				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-				ingredientInRecipe.setRecipeId(addIngredientToRecipe.getRecipeId());
-				Ingredient ingredient = new Ingredient();
-				ingredient.setId(t);
-				ingredientInRecipe.setIngredient(ingredient);
-				ingredientInRecipes.add(ingredientInRecipe);
+				ingredientInRecipeRepo.insert(addIngredientToRecipe.getRecipeId(),t,null);
 			});
 
 		}
 
 		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getRecipeCompIds())) {
 			addIngredientToRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
-				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-				ingredientInRecipe.setRecipeId(addIngredientToRecipe.getRecipeId());
-				Recipe recipe = new Recipe();
-				recipe.setId(t);
-				ingredientInRecipe.setRecipe(recipe);
-				ingredientInRecipes.add(ingredientInRecipe);
+				ingredientInRecipeRepo.insert(addIngredientToRecipe.getRecipeId(),null,t);
 			});
 		}
-		ingredientInRecipeRepo.saveAll(ingredientInRecipes);
+
 
 		return new ResponseEntity<>(HttpStatus.OK);
 

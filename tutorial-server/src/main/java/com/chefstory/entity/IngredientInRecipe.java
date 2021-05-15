@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
@@ -21,12 +22,12 @@ import javax.persistence.Table;
  * @version 1.0
  * @since 09/05/21
  */
-@Data @Accessors(chain = true) @Entity(name = "recipe_id")
+@Data @Accessors(chain = true) @Entity(name = "ingredient_in_recipe")
 @Table(indexes = {@Index(columnList = "recipe_id"), @Index(columnList = "ingredient_comp_id"), @Index(columnList = "recipe_comp_id")})
 @JsonInclude(JsonInclude.Include.NON_NULL) public class IngredientInRecipe
 		extends BaseEntity {
 
-	@Column(name = "recipe_id", nullable = false) private Integer recipeId;
+	@Column(name = "recipe_id", nullable = false) private Long recipeId;
 
 	@ManyToOne @JoinColumn(name = "ingredient_comp_id") private Ingredient ingredient;
 

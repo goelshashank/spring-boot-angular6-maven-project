@@ -27,7 +27,7 @@ import javax.persistence.Table;
 public class Ingredient
 		extends BaseEntity {
 
-	@Column(name = "title") private String title;
+	@Column(name = "title", unique = true) private String title;
 
 	@Column(name = "category") private String category;
 
