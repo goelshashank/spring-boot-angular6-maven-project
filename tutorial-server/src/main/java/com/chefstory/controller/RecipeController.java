@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,10 +69,9 @@ import java.util.List;
 				ingredientInRecipe.setRecipeId(addIngredientToRecipe.getRecipeId());
 				Ingredient ingredient = new Ingredient();
 				ingredient.setId(t);
-				ingredientInRecipe.setIngredient(ingredient);
+				ingredientInRecipe.setIngredientComp(ingredient);
 				ingredientInRecipes.add(ingredientInRecipe);
 			});
-
 		}
 
 		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getRecipeCompIds())) {
@@ -82,7 +80,7 @@ import java.util.List;
 				ingredientInRecipe.setRecipeId(addIngredientToRecipe.getRecipeId());
 				Recipe recipe = new Recipe();
 				recipe.setId(t);
-				ingredientInRecipe.setRecipe(recipe);
+				ingredientInRecipe.setRecipeComp(recipe);
 				ingredientInRecipes.add(ingredientInRecipe);
 			});
 		}

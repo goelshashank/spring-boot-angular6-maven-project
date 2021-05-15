@@ -29,9 +29,9 @@ import javax.persistence.Table;
 
 	@Column(name = "recipe_id", nullable = false) private Long recipeId;
 
-	@ManyToOne @JoinColumn(name = "ingredient_comp_id") private Ingredient ingredient;
+	@ManyToOne  @JoinColumn(name = "ingredient_comp_id") private Ingredient ingredientComp;
 
-	@ManyToOne @JoinColumn(name = "recipe_comp_id") private Recipe recipe;
+	@ManyToOne @JoinColumn(name = "recipe_comp_id") private Recipe recipeComp;
 
 	@Column(name = "quantity_unit") private Double quantityUnit;
 

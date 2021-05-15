@@ -40,7 +40,7 @@ import java.util.List;
 	@Column(name = "prep_time") private String prepTime;
 	@Column(name = "rating") private Integer rating;
 
-	@OneToMany @JoinColumn(name = "recipe_id") private List<IngredientInRecipe> ingredientInRecipes;
+	@OneToMany @JoinColumn(name = "recipe_id") private List<IngredientInRecipe> ingredientInRecipe;
 
 	@Column(name = "instructions") private String instructions;
 	@Column(name = "shelf_life") private String shelfLife;

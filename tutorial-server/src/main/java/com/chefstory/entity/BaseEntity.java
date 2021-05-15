@@ -29,8 +29,6 @@ import java.util.Date;
 
 	@UpdateTimestamp @Column(name = "modified_ts") @Temporal(value = TemporalType.TIMESTAMP) private Date modifiedTs;
 
-	//@Version @Column(name = "version") @JsonIgnore private Long version;
-
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
 }
