@@ -62,22 +62,6 @@ import java.util.List;
 		if (CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds()) && CollectionUtils
 				.isEmpty(addIngredientToRecipe.getRecipeCompIds()))
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-/*
-
-		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds())) {
-			addIngredientToRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
-				ingredientInRecipeRepo.insert(addIngredientToRecipe.getRecipeId(),t,null);
-			});
-
-		}
-
-		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getRecipeCompIds())) {
-			addIngredientToRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
-				ingredientInRecipeRepo.insert(addIngredientToRecipe.getRecipeId(),null,t);
-			});
-		}
-
-*/
 
 		List<IngredientInRecipe> ingredientInRecipes = new ArrayList<>();
 		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds())) {
