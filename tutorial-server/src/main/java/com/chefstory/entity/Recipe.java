@@ -2,6 +2,7 @@ package com.chefstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +23,10 @@ import java.util.List;
  * @version 1.0
  * @since 09/05/21
  */
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Accessors(chain = true) @Entity(name = "recipe") @Table(indexes = @Index(columnList = "title,category,sub_category")) @JsonInclude(JsonInclude.Include.NON_NULL) public class Recipe
+@Data @Accessors(chain = true) @Entity(name = "recipe")
+@Table(indexes = {@Index(columnList = "title"), @Index(columnList = "category"), @Index(columnList = "sub_category")})
+
+@JsonInclude(JsonInclude.Include.NON_NULL) public class Recipe
 		extends BaseEntity {
 
 	@Column(name = "title") private String title;

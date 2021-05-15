@@ -2,9 +2,11 @@ package com.chefstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
@@ -19,10 +21,13 @@ import javax.persistence.Table;
  * @version 1.0
  * @since 09/05/21
  */
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Accessors(chain = true) @Entity(name = "ingredient") @Table(indexes = @Index(columnList = "category")) @JsonInclude(JsonInclude.Include.NON_NULL) public class Ingredient
+@Data @Accessors(chain = true) @Entity(name = "ingredient")
+@Table(indexes = {@Index(columnList = "category"), @Index(columnList = "title")}) @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
+public class Ingredient
 		extends BaseEntity {
 
-	@Column(name = "title", unique = true) private String title;
+	@Column(name = "title") private String title;
 
 	@Column(name = "category") private String category;
 

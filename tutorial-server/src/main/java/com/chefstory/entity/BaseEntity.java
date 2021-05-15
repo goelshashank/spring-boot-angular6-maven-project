@@ -1,6 +1,7 @@
 package com.chefstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,9 +23,9 @@ import java.util.Date;
  * @version 1.0
  * @since 09/05/21
  */
-@Getter @Setter @MappedSuperclass public abstract class BaseEntity implements Serializable {
+@Data @MappedSuperclass public abstract class BaseEntity implements Serializable {
 
-	@CreationTimestamp @Temporal(value = TemporalType.TIMESTAMP) @Column(name = "created_ts", updatable = false) private Date createdTs;
+	@CreationTimestamp @Temporal(value = TemporalType.TIMESTAMP) @Column(name = "created_ts",updatable = false) private Date createdTs;
 
 	@UpdateTimestamp @Column(name = "modified_ts") @Temporal(value = TemporalType.TIMESTAMP) private Date modifiedTs;
 
