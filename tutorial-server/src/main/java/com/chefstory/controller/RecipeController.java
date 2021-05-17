@@ -31,10 +31,6 @@ import com.chefstory.repository.RecipeRepo;
 
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author Swathi
- *
- */
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j

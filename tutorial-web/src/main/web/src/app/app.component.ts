@@ -14,15 +14,13 @@ export class AppComponent {
 
      title = 'np-app';
      recipeList: Recipe[] = [];
-     testing = 'hi';
     constructor(private http: HttpClient) { }
 
-    getCars() {
-       this.http.get<Recipe[]>('http://localhost:8080/cool-cars').subscribe(
+    getRecipes() {
+       this.http.get<Recipe[]>(environment.baseUrl+ApiPaths.GetAllRecipes).subscribe(
            (response) => {
-             this.testing = 'bye';
-            // this.carList = response;
-           //  console.log(JSON.stringify(this.carList));
+             this.recipeList = response;
+             console.log(JSON.stringify(this.recipeList));
              },
            (error) => { console.log('Error happened' + JSON.stringify(error)); },
            () => { console.log('the subscription is completed'); });

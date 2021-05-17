@@ -59,7 +59,10 @@ public class Recipe extends BaseEntity {
 	private String shelfLife;
 	@Column(name = "remarks")
 	private String remarks;
-
+	@Column(name = "photo_id")
+	private String photoId;
+	@Column(name = "video_id")
+	private String videoId;
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;

@@ -1,5 +1,5 @@
 export enum ApiPaths {
-  GetAllRecipes = '/GetAllRecipes',
+  GetAllRecipes = '/getAllRecipes',
   GetAllIngredients = '/getAllIngredients',
   AddRecipes = '/addRecipes',
   AddIngredients = '/addIngredients',
