@@ -5,6 +5,7 @@ import { ApiPaths } from './config/ApiPaths';
 import {Recipe} from './model/Recipe';
 import {Ingredient} from './model/Ingredient';
 import {AddIngredientsToRecipe} from './model/AddIngredientsToRecipe';
+import {NgForm} from '@angular/forms';
 
 
 @Component({
@@ -43,9 +44,9 @@ export class AppComponent {
       () => { console.log('the subscription is completed'); });
   }
 
-  addIngredients() {
-
+  addIngredients(form: NgForm) {
     this.ingredientList.push(this.ingredient);
+    console.log(JSON.stringify(this.ingredientList));
     this.http.post(environment.baseUrl + ApiPaths.AddIngredients, this.ingredientList).subscribe(
       (response) => {
         console.log(JSON.stringify(response));
@@ -53,6 +54,7 @@ export class AppComponent {
       (error) => { console.log('Error happened' + JSON.stringify(error)); },
       () => { console.log('the subscription is completed'); });
     this.ingredientList.pop();
+    form.reset();
   }
 
   addRecipes(recipeList: Recipe []) {

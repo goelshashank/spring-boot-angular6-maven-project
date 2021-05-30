@@ -2,6 +2,7 @@ package com.chefstory.model;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,7 +22,7 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddIngredientsToRecipe {
 
-	@NotNull
+	@NotBlank
 	Long recipeId;
 	List<Long> ingredientCompIds;
 	List<Long> recipeCompIds;

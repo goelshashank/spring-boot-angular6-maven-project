@@ -84,32 +84,34 @@
       <div class="col py-3">
        Add Ingredient ...
 
-        <form #addIngForm="ngForm" (ngSubmit)="addIngredients()">
+        <form #addIngForm="ngForm" (ngSubmit)="addIngredients(addIngForm)">
 
           <div class="form-group">
             <label for="titleIng">Title</label>
             <input type="text" class="form-control" id="titleIng" placeholder="Enter title"
-                   [(ngModel)]="ingredient.title" name="titleIng" >
+                   required    [(ngModel)]="ingredient.title" name="titleIng" #titleIng="ngModel">
            </div>
-       <!--   <div class="form-group">
+          <div *ngIf="!titleIng.valid && titleIng.touched">
+            Title is required!
+          </div>
+          <div class="form-group">
             <label for="categoryIng">Category</label>
-            <input type="text" class="form-control" id="categoryIng" placeholder="Enter category">
+            <input type="text" class="form-control" id="categoryIng" placeholder="Enter category"
+                       [(ngModel)]="ingredient.category" name="categoryIng">
           </div>
           <div class="form-group">
             <label for="perUnitCostIng">Per Unit Cost</label>
-            <input type="text" class="form-control" id="perUnitCostIng" placeholder="Enter per unit cost">
+            <input type="text" class="form-control" id="perUnitCostIng" placeholder="Enter per unit cost"
+                       [(ngModel)]="ingredient.perUnitCost" name="perUnitCostIng">
           </div>
           <div class="form-group">
             <label for="unitIng">Unit</label>
-            <input type="text" class="form-control" id="unitIng" placeholder="Enter unit">
-          </div>-->
+            <input type="text" class="form-control" id="unitIng" placeholder="Enter unit"
+                       [(ngModel)]="ingredient.unit" name="unitIng">
+          </div>
 
 
-     <!--     <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-          </div>-->
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!addIngForm.form.valid">Submit</button>
         </form>
 
         <button type="button" class="btn btn-primary" (click)="getAllRecipes()">Primary</button>

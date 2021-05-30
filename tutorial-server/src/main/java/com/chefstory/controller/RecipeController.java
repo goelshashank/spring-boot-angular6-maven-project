@@ -57,13 +57,13 @@ public class RecipeController {
 	}
 
 	@PostMapping("/addRecipes")
-	public ResponseEntity addRecipes(@RequestBody List<Recipe> recipes) {
-		recipeRepo.save(recipes.get(0));
+	public ResponseEntity addRecipes(@Valid @RequestBody List<Recipe> recipes) {
+		recipeRepo.saveAll(recipes);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/addIngredients")
-	public ResponseEntity addIngredients(@RequestBody List<Ingredient> ingredients) {
+	public ResponseEntity addIngredients(@Valid @RequestBody List<Ingredient> ingredients) {
 		ingredientRepo.saveAll(ingredients);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

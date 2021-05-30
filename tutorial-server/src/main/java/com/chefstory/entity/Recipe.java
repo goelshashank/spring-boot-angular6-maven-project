@@ -10,6 +10,8 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -28,7 +30,8 @@ import lombok.experimental.Accessors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Recipe extends BaseEntity {
 
-	@Column(name = "title")
+	@Column(name = "title",nullable = false)
+	@NotBlank
 	private String title;
 	@Column(name = "category")
 	private String category;

@@ -6,6 +6,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -26,7 +28,8 @@ import lombok.experimental.Accessors;
 @ToString
 public class Ingredient extends BaseEntity {
 
-	@Column(name = "title", unique = true)
+	@Column(name = "title", unique = true,nullable = false)
+	@NotBlank
 	private String title;
 
 	@Column(name = "category")
