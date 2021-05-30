@@ -19,7 +19,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AddIngredientToRecipe {
+public class AddIngredientsToRecipe {
 
 	@NotNull
 	Long recipeId;

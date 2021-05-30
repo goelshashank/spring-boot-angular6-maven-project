@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chefstory.entity.Ingredient;
 import com.chefstory.entity.IngredientInRecipe;
 import com.chefstory.entity.Recipe;
-import com.chefstory.model.AddIngredientToRecipe;
+import com.chefstory.model.AddIngredientsToRecipe;
 import com.chefstory.repository.IngredientInRecipeRepo;
 import com.chefstory.repository.IngredientRepo;
 import com.chefstory.repository.RecipeRepo;
@@ -70,17 +70,17 @@ public class RecipeController {
 
 	@PostMapping("/addIngredientsToRecipe")
 	@Transactional
-	public ResponseEntity addIngredientToRecipe(@Valid @RequestBody AddIngredientToRecipe addIngredientToRecipe) {
+	public ResponseEntity addIngredientToRecipe(@Valid @RequestBody AddIngredientsToRecipe addIngredientsToRecipe) {
 
-		if (CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds())
-				&& CollectionUtils.isEmpty(addIngredientToRecipe.getRecipeCompIds()))
+		if (CollectionUtils.isEmpty(addIngredientsToRecipe.getIngredientCompIds())
+				&& CollectionUtils.isEmpty(addIngredientsToRecipe.getRecipeCompIds()))
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		List<IngredientInRecipe> ingredientInRecipes = new ArrayList<>();
-		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getIngredientCompIds())) {
-			addIngredientToRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
+		if (!CollectionUtils.isEmpty(addIngredientsToRecipe.getIngredientCompIds())) {
+			addIngredientsToRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-				ingredientInRecipe.setRecipeId(addIngredientToRecipe.getRecipeId());
+				ingredientInRecipe.setRecipeId(addIngredientsToRecipe.getRecipeId());
 				Ingredient ingredient = new Ingredient();
 				ingredient.setId(t);
 				ingredientInRecipe.setIngredientComp(ingredient);
@@ -88,10 +88,10 @@ public class RecipeController {
 			});
 		}
 
-		if (!CollectionUtils.isEmpty(addIngredientToRecipe.getRecipeCompIds())) {
-			addIngredientToRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
+		if (!CollectionUtils.isEmpty(addIngredientsToRecipe.getRecipeCompIds())) {
+			addIngredientsToRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-				ingredientInRecipe.setRecipeId(addIngredientToRecipe.getRecipeId());
+				ingredientInRecipe.setRecipeId(addIngredientsToRecipe.getRecipeId());
 				Recipe recipe = new Recipe();
 				recipe.setId(t);
 				ingredientInRecipe.setRecipeComp(recipe);
