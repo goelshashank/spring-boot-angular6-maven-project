@@ -5,7 +5,7 @@ import { Recipe } from './Recipe';
 @Injectable()
 export class IngredientInRecipe {
   id:number;
-  recipe_id: number ;
-  ingredient: Ingredient ;
-  recipe: Recipe ;
+  recipeId: number ;
+  ingredientComp: Ingredient ;
+  recipeComp: Recipe ;
 }

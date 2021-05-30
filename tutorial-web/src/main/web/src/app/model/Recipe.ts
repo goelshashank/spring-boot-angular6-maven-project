@@ -8,11 +8,11 @@ export class Recipe {
     collections: string ;
     source: string ;
     serving: string ;
-    cook_time: string ;
-    prep_time: string ;
+    cookTime: string ;
+    prepTime: string ;
     rating: number ;
     instructions: string ;
-    shelf_life: string ;
+    shelfLife: string ;
     remarks: string ;
     status: string;
 }

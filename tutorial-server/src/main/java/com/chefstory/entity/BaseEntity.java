@@ -11,6 +11,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -28,11 +29,13 @@ public abstract class BaseEntity implements Serializable {
 	@CreationTimestamp
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(name = "created_ts", updatable = false)
+	@JsonIgnore
 	private Date createdTs;
 
 	@UpdateTimestamp
 	@Column(name = "modified_ts")
 	@Temporal(value = TemporalType.TIMESTAMP)
+	@JsonIgnore
 	private Date modifiedTs;
 
 	@Id
