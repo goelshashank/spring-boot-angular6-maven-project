@@ -6,6 +6,7 @@ import {Recipe} from './model/Recipe';
 import {Ingredient} from './model/Ingredient';
 import {AddIngredientsToRecipe} from './model/AddIngredientsToRecipe';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,9 +16,11 @@ import {AddIngredientsToRecipe} from './model/AddIngredientsToRecipe';
 export class AppComponent {
 
      title = 'np-app';
-     recipeList: Recipe[] = [];
-     ingredientList: Ingredient[] = [];
+     recipe: Recipe=new Recipe();
+     ingredient: Ingredient=new Ingredient();
      addIngsToRecipe: AddIngredientsToRecipe[] = [];
+     ingredientList : Ingredient[] = [];
+     recipeList : Recipe[] = [];
     constructor(private http: HttpClient) { }
 
     getAllRecipes() {
@@ -41,16 +44,19 @@ export class AppComponent {
   }
 
   addIngredients() {
+
+    this.ingredientList.push(this.ingredient);
     this.http.post(environment.baseUrl + ApiPaths.AddIngredients, this.ingredientList).subscribe(
       (response) => {
         console.log(JSON.stringify(response));
       },
       (error) => { console.log('Error happened' + JSON.stringify(error)); },
       () => { console.log('the subscription is completed'); });
+    this.ingredientList.pop();
   }
 
-  addRecipes() {
-    this.http.post(environment.baseUrl + ApiPaths.AddRecipes, this.recipeList).subscribe(
+  addRecipes(recipeList: Recipe []) {
+    this.http.post(environment.baseUrl + ApiPaths.AddRecipes, recipeList).subscribe(
       (response) => {
         console.log(JSON.stringify(response));
       },
@@ -58,8 +64,8 @@ export class AppComponent {
       () => { console.log('the subscription is completed'); });
   }
 
-  addIngredientsToRecipe() {
-    this.http.post(environment.baseUrl + ApiPaths.AddIngredientsToRecipe,this.addIngsToRecipe).subscribe(
+  addIngredientsToRecipe(addIngsToRecipe:AddIngredientsToRecipe) {
+    this.http.post(environment.baseUrl + ApiPaths.AddIngredientsToRecipe, addIngsToRecipe).subscribe(
       (response) => {
         console.log(JSON.stringify(response));
       },

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
-//import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,8 +12,8 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     HttpClientModule,
-    CommonModule
-    //, MDBBootstrapModule.forRoot()
+    CommonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

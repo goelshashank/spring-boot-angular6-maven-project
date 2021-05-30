@@ -41,7 +41,7 @@
             <artifactId>spring-boot-starter-integration</artifactId>
         </dependency>
         <!--<dependency>
-            <groupId>com.swathisprasad.tutorial</groupId>
+            <groupId>com.chefstory</groupId>
             <artifactId>tutorial-web</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
