@@ -32,7 +32,7 @@ import com.chefstory.repository.RecipeRepo;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path="/chefstory",produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @Validated
 public class RecipeController {
