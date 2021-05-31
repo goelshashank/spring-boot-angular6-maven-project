@@ -6,6 +6,7 @@ import {Recipe} from './model/Recipe';
 import {Ingredient} from './model/Ingredient';
 import {AddIngredientsToRecipe} from './model/AddIngredientsToRecipe';
 import {NgForm} from '@angular/forms';
+import {AppConfiguration} from './model/AppConfiguration';
 
 
 @Component({
@@ -22,7 +23,12 @@ export class AppComponent {
      addIngsToRecipe: AddIngredientsToRecipe[] = [];
      ingredientList : Ingredient[] = [];
      recipeList : Recipe[] = [];
-    constructor(private http: HttpClient) { }
+      isShowAddIng=true;
+      isShowAddRecipe=true;
+    appConfiguration: AppConfiguration=new AppConfiguration();
+    constructor(private http: HttpClient) {
+      this.getConfiguration();
+    }
 
     getAllRecipes() {
        this.http.get<Recipe[]>(environment.baseUrl + ApiPaths.GetAllRecipes).subscribe(
@@ -45,35 +51,64 @@ export class AppComponent {
   }
 
   addIngredients(form: NgForm) {
-    this.ingredientList.push(this.ingredient);
-    console.log(JSON.stringify(this.ingredientList));
-    this.http.post(environment.baseUrl + ApiPaths.AddIngredients, this.ingredientList).subscribe(
+    let ingredientList: Ingredient[] = [];
+    ingredientList.push(this.ingredient);
+
+    if (form.valid)
+      console.log("Add ingredient input: "+JSON.stringify(ingredientList));
+
+    this.http.post(environment.baseUrl + ApiPaths.AddIngredients, ingredientList).subscribe(
       (response) => {
         console.log(JSON.stringify(response));
       },
       (error) => { console.log('Error happened' + JSON.stringify(error)); },
       () => { console.log('the subscription is completed'); });
-    this.ingredientList.pop();
+
     form.reset();
   }
 
-  addRecipes(recipeList: Recipe []) {
+  addRecipes(form: NgForm) {
+
+    let recipeList: Recipe[] = [];
+    recipeList.push(this.recipe);
+
+    if (form.valid)
+         console.log("Add recipe input: "+ JSON.stringify(recipeList));
+
     this.http.post(environment.baseUrl + ApiPaths.AddRecipes, recipeList).subscribe(
       (response) => {
         console.log(JSON.stringify(response));
       },
       (error) => { console.log('Error happened' + JSON.stringify(error)); },
       () => { console.log('the subscription is completed'); });
+
+    form.reset();
   }
 
-  addIngredientsToRecipe(addIngsToRecipe:AddIngredientsToRecipe) {
+/*  addRecipe(addIngsToRecipe:AddIngredientsToRecipe) {
     this.http.post(environment.baseUrl + ApiPaths.AddIngredientsToRecipe, addIngsToRecipe).subscribe(
       (response) => {
         console.log(JSON.stringify(response));
       },
       (error) => { console.log('Error happened' + JSON.stringify(error)); },
       () => { console.log('the subscription is completed'); });
+  }*/
+
+  toggleAddIng() {
+    this.isShowAddIng = !this.isShowAddIng;
+  }
+  toggleAddRecipe() {
+    this.isShowAddRecipe = !this.isShowAddRecipe;
+      this.getAllIngredients()
   }
 
-
+  getConfiguration() {
+    this.http.get<AppConfiguration>(environment.baseUrl + ApiPaths.GetConfig).subscribe(
+      (response) => {
+        this.appConfiguration = response;
+        console.log('Ingredients - ' + JSON.stringify(this.appConfiguration));
+      },
+      (error) => { console.log('Error happened' + JSON.stringify(error)); },
+      () => { console.log('the subscription is completed'); });
+  }
 }

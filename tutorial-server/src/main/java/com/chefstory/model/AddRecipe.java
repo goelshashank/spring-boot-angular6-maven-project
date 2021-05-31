@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.chefstory.entity.Recipe;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
@@ -20,10 +21,9 @@ import lombok.ToString;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AddIngredientsToRecipe {
+public class AddRecipe {
 
-	@NotBlank
-	Long recipeId;
+	@NotNull Recipe recipe;
 	List<Long> ingredientCompIds;
 	List<Long> recipeCompIds;
 }

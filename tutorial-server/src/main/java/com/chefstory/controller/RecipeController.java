@@ -4,11 +4,14 @@
 package com.chefstory.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.chefstory.model.AddRecipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chefstory.entity.Ingredient;
 import com.chefstory.entity.IngredientInRecipe;
 import com.chefstory.entity.Recipe;
-import com.chefstory.model.AddIngredientsToRecipe;
+import com.chefstory.entity.Unit;
+import com.chefstory.model.GetConfigResponse;
 import com.chefstory.repository.IngredientInRecipeRepo;
 import com.chefstory.repository.IngredientRepo;
 import com.chefstory.repository.RecipeRepo;
@@ -32,7 +36,7 @@ import com.chefstory.repository.RecipeRepo;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(path="/chefstory",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/chefstory", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @Validated
 public class RecipeController {
@@ -46,19 +50,52 @@ public class RecipeController {
 
 	@GetMapping("/getAllRecipes")
 	public ResponseEntity<List<Recipe>> getAllRecipes() {
-		List<Recipe> recipeList = recipeRepo.findAll();
-		return new ResponseEntity<>(recipeList, HttpStatus.OK);
+		List<Recipe> recipes = recipeRepo.findAll().stream().map(t -> {
+			Recipe recp = new Recipe();
+			recp.setId(t.getId());
+			recp.setTitle(t.getTitle());
+			return recp;
+		}).collect(Collectors.toList());
+		return new ResponseEntity<>(recipes, HttpStatus.OK);
 	}
 
 	@GetMapping("/getAllIngredients")
 	public ResponseEntity<List<Ingredient>> getAllIngredients() {
-		List<Ingredient> ingredients = ingredientRepo.findAll();
+		List<Ingredient> ingredients = ingredientRepo.findAll().stream().map(t -> {
+			Ingredient ing = new Ingredient();
+			ing.setId(t.getId());
+			ing.setTitle(t.getTitle());
+			return ing;
+		}).collect(Collectors.toList());
+
 		return new ResponseEntity<>(ingredients, HttpStatus.OK);
 	}
 
+	@GetMapping("/getRecipe")
+	public ResponseEntity<Recipe> getRecipe(@RequestBody Recipe recipe) {
+		return new ResponseEntity<>(recipeRepo.getOne(recipe.getId().intValue()), HttpStatus.OK);
+	}
+
+	@GetMapping("/getIngredient")
+	public ResponseEntity<Ingredient> getIngredient(@RequestBody Ingredient ingredient) {
+		return new ResponseEntity<>(ingredientRepo.getOne(ingredient.getId().intValue()), HttpStatus.OK);
+	}
+
+	@GetMapping("/getConfig")
+	public ResponseEntity<GetConfigResponse> getConfig() {
+		GetConfigResponse getConfigResponse = new GetConfigResponse();
+		getConfigResponse.setUnits(new ArrayList(Arrays.asList(Unit.values())));
+		return new ResponseEntity<>(getConfigResponse, HttpStatus.OK);
+	}
+
 	@PostMapping("/addRecipes")
-	public ResponseEntity addRecipes(@Valid @RequestBody List<Recipe> recipes) {
-		recipeRepo.saveAll(recipes);
+	@Transactional
+	public ResponseEntity addRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
+		addRecipeList.forEach(t->{
+			recipeRepo.save(t.getRecipe());
+			addIngredientToRecipe(t);
+		});
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -68,19 +105,26 @@ public class RecipeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/addIngredientsToRecipe")
-	@Transactional
-	public ResponseEntity addIngredientToRecipe(@Valid @RequestBody AddIngredientsToRecipe addIngredientsToRecipe) {
+	@PostMapping("/existIngredient")
+	public ResponseEntity<Boolean> existIngredient(@Valid @RequestBody Ingredient ingredient) {
+		Ingredient ing = ingredientRepo.findByTitle(ingredient.getTitle());
+		if (ing != null)
+			return new ResponseEntity<>(true, HttpStatus.OK);
 
-		if (CollectionUtils.isEmpty(addIngredientsToRecipe.getIngredientCompIds())
-				&& CollectionUtils.isEmpty(addIngredientsToRecipe.getRecipeCompIds()))
+		return new ResponseEntity<>(false, HttpStatus.OK);
+	}
+
+
+	public ResponseEntity addIngredientToRecipe(AddRecipe addRecipe) {
+		if (CollectionUtils.isEmpty(addRecipe.getIngredientCompIds())
+				&& CollectionUtils.isEmpty(addRecipe.getRecipeCompIds()))
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		List<IngredientInRecipe> ingredientInRecipes = new ArrayList<>();
-		if (!CollectionUtils.isEmpty(addIngredientsToRecipe.getIngredientCompIds())) {
-			addIngredientsToRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
+		if (!CollectionUtils.isEmpty(addRecipe.getIngredientCompIds())) {
+			addRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-				ingredientInRecipe.setRecipeId(addIngredientsToRecipe.getRecipeId());
+				ingredientInRecipe.setRecipeId(addRecipe.getRecipe().getId());
 				Ingredient ingredient = new Ingredient();
 				ingredient.setId(t);
 				ingredientInRecipe.setIngredientComp(ingredient);
@@ -88,10 +132,10 @@ public class RecipeController {
 			});
 		}
 
-		if (!CollectionUtils.isEmpty(addIngredientsToRecipe.getRecipeCompIds())) {
-			addIngredientsToRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
+		if (!CollectionUtils.isEmpty(addRecipe.getRecipeCompIds())) {
+			addRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-				ingredientInRecipe.setRecipeId(addIngredientsToRecipe.getRecipeId());
+				ingredientInRecipe.setRecipeId(addRecipe.getRecipe().getId());
 				Recipe recipe = new Recipe();
 				recipe.setId(t);
 				ingredientInRecipe.setRecipeComp(recipe);
