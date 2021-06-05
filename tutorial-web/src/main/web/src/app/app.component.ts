@@ -1,10 +1,10 @@
-import {Component, Injectable} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { ApiPaths } from './config/ApiPaths';
 import {Recipe} from './model/Recipe';
 import {Ingredient} from './model/Ingredient';
-import {AddIngredientsToRecipe} from './model/AddIngredientsToRecipe';
+import {AddRecipe} from './model/AddRecipe';
 import {NgForm} from '@angular/forms';
 import {AppConfiguration} from './model/AppConfiguration';
 
@@ -15,20 +15,39 @@ import {AppConfiguration} from './model/AppConfiguration';
   styleUrls: ['./app.component.css']
 })
 @Injectable()
-export class AppComponent {
+export class AppComponent implements  OnInit {
 
      title = 'np-app';
-     recipe: Recipe=new Recipe();
-     ingredient: Ingredient=new Ingredient();
-     addIngsToRecipe: AddIngredientsToRecipe[] = [];
      ingredientList : Ingredient[] = [];
      recipeList : Recipe[] = [];
-      isShowAddIng=true;
-      isShowAddRecipe=true;
-    appConfiguration: AppConfiguration=new AppConfiguration();
+     appConfiguration: AppConfiguration=new AppConfiguration();
+     isShowAddIng=false;
+     isShowAddRecipe=false;
+      isDisplayAll=true;
+
     constructor(private http: HttpClient) {
-      this.getConfiguration();
+      //this.getConfiguration();
     }
+
+  ngOnInit(): void {
+    this.getConfiguration();
+  }
+
+  toggleRecipe(){
+    this.isShowAddRecipe=!this.isShowAddRecipe;
+    this.isShowAddIng=false;
+    this.isDisplayAll=false;
+  }
+  toggleIngredient(){
+    this.isShowAddIng=!this.isShowAddIng;
+    this.isShowAddRecipe=false;
+    this.isDisplayAll=false;
+  }
+  toggleDisplayAll(){
+    this.isDisplayAll=!this.isDisplayAll;
+    this.isShowAddRecipe=false;
+    this.isShowAddIng=false;
+  }
 
     getAllRecipes() {
        this.http.get<Recipe[]>(environment.baseUrl + ApiPaths.GetAllRecipes).subscribe(
@@ -38,6 +57,7 @@ export class AppComponent {
              },
            (error) => { console.log('Error happened' + JSON.stringify(error)); },
            () => { console.log('the subscription is completed'); });
+       return this.recipeList;
     }
 
   getAllIngredients() {
@@ -48,65 +68,15 @@ export class AppComponent {
       },
       (error) => { console.log('Error happened' + JSON.stringify(error)); },
       () => { console.log('the subscription is completed'); });
+    return this.ingredientList;
   }
 
-  addIngredients(form: NgForm) {
-    let ingredientList: Ingredient[] = [];
-    ingredientList.push(this.ingredient);
-
-    if (form.valid)
-      console.log("Add ingredient input: "+JSON.stringify(ingredientList));
-
-    this.http.post(environment.baseUrl + ApiPaths.AddIngredients, ingredientList).subscribe(
-      (response) => {
-        console.log(JSON.stringify(response));
-      },
-      (error) => { console.log('Error happened' + JSON.stringify(error)); },
-      () => { console.log('the subscription is completed'); });
-
-    form.reset();
-  }
-
-  addRecipes(form: NgForm) {
-
-    let recipeList: Recipe[] = [];
-    recipeList.push(this.recipe);
-
-    if (form.valid)
-         console.log("Add recipe input: "+ JSON.stringify(recipeList));
-
-    this.http.post(environment.baseUrl + ApiPaths.AddRecipes, recipeList).subscribe(
-      (response) => {
-        console.log(JSON.stringify(response));
-      },
-      (error) => { console.log('Error happened' + JSON.stringify(error)); },
-      () => { console.log('the subscription is completed'); });
-
-    form.reset();
-  }
-
-/*  addRecipe(addIngsToRecipe:AddIngredientsToRecipe) {
-    this.http.post(environment.baseUrl + ApiPaths.AddIngredientsToRecipe, addIngsToRecipe).subscribe(
-      (response) => {
-        console.log(JSON.stringify(response));
-      },
-      (error) => { console.log('Error happened' + JSON.stringify(error)); },
-      () => { console.log('the subscription is completed'); });
-  }*/
-
-  toggleAddIng() {
-    this.isShowAddIng = !this.isShowAddIng;
-  }
-  toggleAddRecipe() {
-    this.isShowAddRecipe = !this.isShowAddRecipe;
-      this.getAllIngredients()
-  }
 
   getConfiguration() {
     this.http.get<AppConfiguration>(environment.baseUrl + ApiPaths.GetConfig).subscribe(
       (response) => {
         this.appConfiguration = response;
-        console.log('Ingredients - ' + JSON.stringify(this.appConfiguration));
+        console.log('AppConfiguration - ' + JSON.stringify(this.appConfiguration));
       },
       (error) => { console.log('Error happened' + JSON.stringify(error)); },
       () => { console.log('the subscription is completed'); });

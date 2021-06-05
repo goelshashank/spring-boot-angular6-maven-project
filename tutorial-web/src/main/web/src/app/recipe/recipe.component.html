@@ -1,0 +1,39 @@
+<!--
+<p>recipe works!</p>
+-->
+
+<div>
+  <!--<button (click)=toggleAddRecipe() class="btn btn-primary">Add Recipe ...</button>-->
+  <form class="form-group" #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" >
+    <label for="titleRecipe">*Title</label>
+    <input #titleRecipe="ngModel" [(ngModel)]="addRecipe.recipe.title" class="form-control" id="titleRecipe"
+           name="titleRecipe"
+           placeholder="Title is required" required type="text">
+    <!--    <div class="small" *ngIf="!titleRecipe.valid && titleRecipe.touched">
+          Title is required!
+        </div>-->
+    <label for="ingredientListForRecipe">Ingredient:</label>
+    <select id="ingredientListForRecipe" name="ingredientListForRecipe" class="form-control"
+            [(ngModel)]="addRecipe.ingredientCompIds">
+      <option *ngFor="let ingredient of displayIngredientList">{{ingredient.title}}</option>
+    </select>
+    <label for="recipeListForRecipe">Recipe:</label>
+    <select id="recipeListForRecipe" name="recipeListForRecipe" class="form-control"
+            [(ngModel)]="addRecipe.recipeCompIds">
+      <option *ngFor="let recipe of displayRecipeList">{{recipe.title}}</option>
+    </select>
+
+    <label for="categoryRecipe">Category</label>
+    <input [(ngModel)]="addRecipe.recipe.category" class="form-control" id="categoryRecipe" name="categoryRecipe"
+           placeholder="Enter category"
+           type="text">
+    <label for="subCatRecipe">Sub category</label>
+    <input [(ngModel)]="addRecipe.recipe.subCategory" class="form-control" id="subCatRecipe" name="subCatRecipe"
+           placeholder="Enter sub category"
+           type="text">
+    <label for="courseRecipe">Course</label>
+    <input [(ngModel)]="addRecipe.recipe.course" class="form-control" id="courseRecipe" name="courseRecipe" placeholder="Enter course"
+           type="text">
+    <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</div>
