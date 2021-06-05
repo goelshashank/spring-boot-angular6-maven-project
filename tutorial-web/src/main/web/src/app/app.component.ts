@@ -17,20 +17,19 @@ import {AppConfiguration} from './model/AppConfiguration';
 @Injectable()
 export class AppComponent implements  OnInit {
 
-     title = 'np-app';
+     title = 'homepage';
      ingredientList : Ingredient[] = [];
      recipeList : Recipe[] = [];
      appConfiguration: AppConfiguration=new AppConfiguration();
      isShowAddIng=false;
      isShowAddRecipe=false;
-      isDisplayAll=true;
+     isDisplayAll=true;
 
     constructor(private http: HttpClient) {
-      //this.getConfiguration();
     }
 
   ngOnInit(): void {
-    this.getConfiguration();
+    this.refreshAppCache();
   }
 
   toggleRecipe(){
@@ -55,8 +54,8 @@ export class AppComponent implements  OnInit {
              this.recipeList = response;
              console.log('Recipes - ' + JSON.stringify(this.recipeList));
              },
-           (error) => { console.log('Error happened' + JSON.stringify(error)); },
-           () => { console.log('the subscription is completed'); });
+           (error) => { console.log('Error happened in get all recipes' + JSON.stringify(error)); },
+           () => { console.log('get all recipes is completed'); });
        return this.recipeList;
     }
 
@@ -66,8 +65,8 @@ export class AppComponent implements  OnInit {
         this.ingredientList = response;
         console.log('Ingredients - ' + JSON.stringify(this.ingredientList));
       },
-      (error) => { console.log('Error happened' + JSON.stringify(error)); },
-      () => { console.log('the subscription is completed'); });
+      (error) => { console.log('Error happened  in get all ingredients' + JSON.stringify(error)); },
+      () => { console.log('get all ingerdients is completed'); });
     return this.ingredientList;
   }
 
@@ -78,7 +77,15 @@ export class AppComponent implements  OnInit {
         this.appConfiguration = response;
         console.log('AppConfiguration - ' + JSON.stringify(this.appConfiguration));
       },
-      (error) => { console.log('Error happened' + JSON.stringify(error)); },
-      () => { console.log('the subscription is completed'); });
+      (error) => { console.log('Error happened in get configuration' + JSON.stringify(error)); },
+      () => { console.log('get configuration is completed'); });
   }
+
+   refreshAppCache(){
+    this.getConfiguration();
+    this.getAllIngredients();
+    this.getAllRecipes();
+    console.log("App cache refreshed");
+  }
+
 }

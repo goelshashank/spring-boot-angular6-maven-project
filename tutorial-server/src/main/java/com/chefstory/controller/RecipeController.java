@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 import com.chefstory.model.AddRecipe;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,10 +92,15 @@ public class RecipeController {
 	@PostMapping("/addRecipes")
 	@Transactional
 	public ResponseEntity addRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
-		addRecipeList.forEach(t->{
-			recipeRepo.save(t.getRecipe());
-			addIngredientToRecipe(t);
-		});
+
+			addRecipeList.forEach(addRecipe -> {
+				if (CollectionUtils.isEmpty(addRecipe.getIngredientCompIds()) && CollectionUtils.isEmpty(addRecipe.getRecipeCompIds()))
+					throw new ValidationException();
+
+				recipeRepo.save(addRecipe.getRecipe());
+				addIngredientToRecipe(addRecipe);
+			});
+
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -116,13 +122,12 @@ public class RecipeController {
 
 
 	public ResponseEntity addIngredientToRecipe(AddRecipe addRecipe) {
-		if (CollectionUtils.isEmpty(addRecipe.getIngredientCompIds())
-				&& CollectionUtils.isEmpty(addRecipe.getRecipeCompIds()))
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		List<IngredientInRecipe> ingredientInRecipes = new ArrayList<>();
 		if (!CollectionUtils.isEmpty(addRecipe.getIngredientCompIds())) {
 			addRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
+				if(t==null)
+					return;
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
 				ingredientInRecipe.setRecipeId(addRecipe.getRecipe().getId());
 				Ingredient ingredient = new Ingredient();
@@ -134,6 +139,9 @@ public class RecipeController {
 
 		if (!CollectionUtils.isEmpty(addRecipe.getRecipeCompIds())) {
 			addRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
+				if(t==null)
+					return;
+
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
 				ingredientInRecipe.setRecipeId(addRecipe.getRecipe().getId());
 				Recipe recipe = new Recipe();

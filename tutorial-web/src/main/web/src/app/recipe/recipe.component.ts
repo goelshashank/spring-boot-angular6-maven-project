@@ -16,24 +16,31 @@ import {AppComponent} from '../app.component';
 @Injectable()
 export class RecipeComponent implements OnInit {
 
+  addRecipe: AddRecipe=new AddRecipe();
   title = 'recipe';
-  addRecipe: AddRecipe = new AddRecipe(new Recipe(),[],[]);
-  isShowAddRecipe=true;
   displayRecipeList: Recipe[]=[];
   displayIngredientList: Ingredient[]=[];
+  recipe :Recipe=new Recipe();
+  ingredientCompId:number;
+  recipeCompId:number;
   constructor(private http: HttpClient, public appComponent:AppComponent) {
   }
 
   ngOnInit(): void {
+   this.appComponent.refreshAppCache();
   }
 
-  toggleAddRecipe() {
-    this.isShowAddRecipe = !this.isShowAddRecipe;
-    this.displayRecipeList=this.appComponent.getAllRecipes()
-    this.displayIngredientList=this.appComponent.getAllIngredients();
-  }
 
   addRecipes(form: NgForm) {
+
+    let addRecipeCompIdList: number[] = [];
+    let addIngCompIdList: number[] = [];
+    addRecipeCompIdList.push(this.recipeCompId);
+    addIngCompIdList.push(this.ingredientCompId);
+
+    this.addRecipe.recipeCompIds=addRecipeCompIdList;
+    this.addRecipe.ingredientCompIds=addIngCompIdList;
+    this.addRecipe.recipe=this.recipe;
 
     let addRecipeList: AddRecipe[] = [];
     addRecipeList.push(this.addRecipe);
@@ -43,12 +50,13 @@ export class RecipeComponent implements OnInit {
 
     this.http.post(environment.baseUrl + ApiPaths.AddRecipes, addRecipeList).subscribe(
       (response) => {
-        console.log(JSON.stringify(response));
+        console.log('Add recipes response -'+ JSON.stringify(response));
       },
       (error) => { console.log('Error happened' + JSON.stringify(error)); },
-      () => { console.log('the subscription is completed'); });
+      () => { console.log('add recipe call is completed'); });
 
-    form.reset();
+     form.reset();
+     this.ngOnInit();
   }
 
 }

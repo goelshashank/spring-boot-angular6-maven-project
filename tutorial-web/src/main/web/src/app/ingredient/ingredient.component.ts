@@ -18,9 +18,9 @@ export class IngredientComponent implements OnInit {
   ingredient: Ingredient=new Ingredient();
   isShowAddIng=true;
   constructor(private http: HttpClient, public appComponent:AppComponent) {
-   // this.getConfiguration();
   }
-  ngOnInit(): void {
+   ngOnInit(): void {
+    this.appComponent.refreshAppCache();
   }
 
   toggleAddIng() {
@@ -36,12 +36,13 @@ export class IngredientComponent implements OnInit {
 
     this.http.post(environment.baseUrl + ApiPaths.AddIngredients, ingredientList).subscribe(
       (response) => {
-        console.log(JSON.stringify(response));
+        console.log('Add ingredients response -'+ JSON.stringify(response));
       },
-      (error) => { console.log('Error happened' + JSON.stringify(error)); },
-      () => { console.log('the subscription is completed'); });
+      (error) => { console.log('Error happened in add ingredient' + JSON.stringify(error)); },
+      () => { console.log('add ingredient is completed'); });
 
     form.reset();
+    this.ngOnInit();
   }
 
 }
