@@ -66,7 +66,7 @@ export class AppComponent implements  OnInit {
         console.log('Ingredients - ' + JSON.stringify(this.ingredientList));
       },
       (error) => { console.log('Error happened  in get all ingredients' + JSON.stringify(error)); },
-      () => { console.log('get all ingerdients is completed'); });
+      () => { console.log('get all ingredients is completed'); });
     return this.ingredientList;
   }
 

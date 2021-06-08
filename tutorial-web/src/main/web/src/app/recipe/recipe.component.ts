@@ -18,8 +18,6 @@ export class RecipeComponent implements OnInit {
 
   addRecipe: AddRecipe=new AddRecipe();
   title = 'recipe';
-  displayRecipeList: Recipe[]=[];
-  displayIngredientList: Ingredient[]=[];
   recipe :Recipe=new Recipe();
   ingredientCompId:number;
   recipeCompId:number;
