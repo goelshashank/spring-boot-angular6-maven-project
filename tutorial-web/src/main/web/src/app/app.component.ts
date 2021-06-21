@@ -55,7 +55,7 @@ export class AppComponent implements  OnInit {
              console.log('Recipes - ' + JSON.stringify(this.recipeList));
              },
            (error) => { console.log('Error happened in get all recipes' + JSON.stringify(error)); },
-           () => { console.log('get all recipes is completed'); });
+           () => { console.log('%% get all recipes is completed successfully %%'); });
        return this.recipeList;
     }
 
@@ -66,7 +66,7 @@ export class AppComponent implements  OnInit {
         console.log('Ingredients - ' + JSON.stringify(this.ingredientList));
       },
       (error) => { console.log('Error happened  in get all ingredients' + JSON.stringify(error)); },
-      () => { console.log('get all ingredients is completed'); });
+      () => { console.log('%% get all ingredients is completed successfully %%'); });
     return this.ingredientList;
   }
 
@@ -78,14 +78,14 @@ export class AppComponent implements  OnInit {
         console.log('AppConfiguration - ' + JSON.stringify(this.appConfiguration));
       },
       (error) => { console.log('Error happened in get configuration' + JSON.stringify(error)); },
-      () => { console.log('get configuration is completed'); });
+      () => { console.log('%% get configuration is completed successfully %%'); });
   }
 
    refreshAppCache(){
     this.getConfiguration();
     this.getAllIngredients();
     this.getAllRecipes();
-    console.log("App cache refreshed");
+    console.log(" --------  App cache refreshed ---------");
   }
 
 }

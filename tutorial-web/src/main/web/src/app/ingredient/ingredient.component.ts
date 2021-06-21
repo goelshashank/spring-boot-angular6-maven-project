@@ -39,7 +39,7 @@ export class IngredientComponent implements OnInit {
         console.log('Add ingredients response -'+ JSON.stringify(response));
       },
       (error) => { console.log('Error happened in add ingredient' + JSON.stringify(error)); },
-      () => { console.log('add ingredient is completed'); });
+      () => { console.log('%% add ingredient is completed successfully %%'); });
 
     form.reset();
     this.ngOnInit();

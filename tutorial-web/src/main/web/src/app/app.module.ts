@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { IngredientComponent } from './ingredient/ingredient.component';
 import { RecipeComponent } from './recipe/recipe.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RecipeComponent } from './recipe/recipe.component';
     BrowserModule,
     HttpClientModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
