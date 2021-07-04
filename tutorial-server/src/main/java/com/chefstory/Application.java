@@ -28,42 +28,7 @@ import java.util.Map;
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws Exception {
-
-		test();
-
 		SpringApplication.run(Application.class, args);
-	}
-
-	static void  test() throws Exception{
-		Map<String,String> map=new HashMap<>();
-
-		String est=map.get("test");
-
-		PodamFactory factory = new PodamFactoryImpl();
-
-		// This will use constructor with minimum arguments and
-		// then setters to populate POJO
-		Recipe myPojo = factory.manufacturePojo(Recipe.class);
-		myPojo.setIngredientInRecipe(null);
-		String str=new Gson().toJson(myPojo);
-		StopWatch stopWatch=new StopWatch();
-		stopWatch.start();
-		ObjectMapper obj=new ObjectMapper();
-		Recipe rec=obj.readValue(str,Recipe.class);
-		stopWatch.stop();
-		System.out.println("--"+stopWatch.getTotalTimeMillis());
-		stopWatch=new StopWatch();
-		stopWatch.start();
-		rec=new Gson().fromJson(str, Recipe.class);
-		rec=obj.readValue(str,Recipe.class);
-		stopWatch.stop();
-		System.out.println("---"+stopWatch.getTotalTimeMillis());
-		stopWatch=new StopWatch();
-		stopWatch.start();
-		String str1=rec.toString();
-		stopWatch.stop();
-		System.out.println("----"+stopWatch.getLastTaskTimeNanos());
-		System.out.println("");
 	}
 
 	@Bean

@@ -33,17 +33,17 @@ export class AppComponent implements  OnInit {
   }
 
   toggleRecipe(){
-    this.isShowAddRecipe=!this.isShowAddRecipe;
+    this.isShowAddRecipe=true;
     this.isShowAddIng=false;
     this.isDisplayAll=false;
   }
   toggleIngredient(){
-    this.isShowAddIng=!this.isShowAddIng;
+    this.isShowAddIng=true;
     this.isShowAddRecipe=false;
     this.isDisplayAll=false;
   }
   toggleDisplayAll(){
-    this.isDisplayAll=!this.isDisplayAll;
+    this.isDisplayAll=true;
     this.isShowAddRecipe=false;
     this.isShowAddIng=false;
   }

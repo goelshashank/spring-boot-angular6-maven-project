@@ -1,88 +1,20 @@
-<!--
-<p>recipe works!</p>
--->
 
 <div>
-  <!--<button (click)=toggleAddRecipe() class="btn btn-primary">Add Recipe ...</button>-->
-  <form class="form-group" #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" >
+  <form class="form-group"  #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" >
     <label for="titleRecipe">*Title</label>
     <input #titleRecipe="ngModel" [(ngModel)]="recipe.title" class="form-control" id="titleRecipe"
            name="titleRecipe"
-           placeholder="Title is required" required type="text">
-    <!--    <div class="small" *ngIf="!titleRecipe.valid && titleRecipe.touched">
-          Title is required!
-        </div>-->
+           placeholder="Title is required" required type="text" appendTo="body">
+
     <label for="ingredientListForRecipe">Ingredient:</label>
- <!--   <select id="ingredientListForRecipe" name="ingredientListForRecipe" class="form-control"
-            [(ngModel)]="ingredientCompId">
-      <option *ngFor="let ingredient of appComponent.ingredientList" [value]="ingredient.id">{{ingredient.title}}</option>
-    </select>-->
 
     <ng-select id="ingredientListForRecipe"  name="ingredientListForRecipe"  [items]="appComponent.ingredientList"
                bindLabel="title"
                bindValue="id"
                [multiple]="true"
-               placeholder="Select ingredient"
                [(ngModel)]="addIngCompIdList"
-               [searchable]="true" class="form-control">
+               [searchable]="true" class="form-control" appendTo="body">
     </ng-select>
-
- <!--   <ng-select id="ingredientListForRecipe"  name="ingredientListForRecipe"
-      [items]="appComponent.ingredientList"
-      [multiple]="true"
-      bindLabel="title"
-      groupBy="title"
-      [selectableGroup]="true"
-      [selectableGroupAsModel]="false"
-      [closeOnSelect]="false"
-      bindValue="id"
-      [(ngModel)]="addIngCompIdList" class="form-control" >
-   &lt;!&ndash;   <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
-        <input id="item-{{index}}" name="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.gender | uppercase}}
-      </ng-template>&ndash;&gt;
-      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-        <input id="item-{{index}}" name="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.title}}
-      </ng-template>
-    </ng-select>
--->
-<!--
-    <p>
-      Selected user: {{addIngCompIdList}}
-    </p>
--->
-
-
-  <!--  <ng-select id="ingredientListForRecipe" name="ingredientListForRecipe" [multiple]="true"
-               [items]="appComponent.ingredientList" [(ngModel)]="addIngCompIdList" placeholder="Select ingredient"
-               bindLabel="name" bindValue="name" class="form-control">
-      <ng-template ng-header-tmp>
-        <input type="checkbox"  (change)="toggleCheckAll($event)"/> Selected count: {{addIngCompIdList.length}}
-      </ng-template>
-      <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-        <div class="ng-value" *ngFor="let item of items | slice:0:2">
-          <span >{{item.name}}{{item.id}}</span>
-          <span  (click)="clear(item)" aria-hidden="true">×</span>
-        </div>
-        <div class="ng-value" *ngIf="items.length > 2">
-          <span class="ng-value-label">{{items.length - 2}} more...</span>
-        </div>
-      </ng-template>
-      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-        <input id="item-{{index}}" name="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}
-      </ng-template>
-      <ng-template ng-footer-tmp>
-
-        <button (click)="selectAll()" class="btn btn-sm btn-secondary">Apply</button>
-        <button (click)="unselectAll()" class="btn btn-sm btn-secondary">Cancel</button>
-      </ng-template>
-    </ng-select>-->
-
-
- <!--   <label for="recipeListForRecipe">Recipe:</label>
-    <select id="recipeListForRecipe" name="recipeListForRecipe" class="form-control"
-            [(ngModel)]="recipeCompId">
-      <option *ngFor="let recipe of appComponent.recipeList" [value]="recipe.id">{{recipe.title}}</option>
-    </select>-->
 
     <label for="categoryRecipe">Category</label>
     <input [(ngModel)]="recipe.category" class="form-control" id="categoryRecipe" name="categoryRecipe"
