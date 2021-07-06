@@ -7,6 +7,8 @@ import {HttpClient} from '@angular/common/http';
 import {Recipe} from '../model/Recipe';
 import {Ingredient} from '../model/Ingredient';
 import {AppComponent} from '../app.component';
+import {RecipeComp} from '../model/RecipeComp';
+import {IngredientComp} from '../model/IngredientComp';
 
 @Component({
   selector: 'app-recipe',
@@ -16,24 +18,27 @@ import {AppComponent} from '../app.component';
 @Injectable()
 export class RecipeComponent implements OnInit {
 
-  addRecipe: AddRecipe=new AddRecipe();
-  title = 'recipe';
-  recipe :Recipe=new Recipe();
-  addRecipeCompIdList:number []=[];
-  addIngCompIdList:number []=[];
- // ing :Ingredient=new Ingredient();
+    addRecipe: AddRecipe=new AddRecipe();
+    title = 'recipe';
+    recipe :Recipe=new Recipe();
+    addRecipeCompIdList:number []=[];
+    addIngCompIdList:number []=[];
+  addRecipeCompList:RecipeComp []=[];
+  addIngCompList:IngredientComp []=[];
+   // ing :Ingredient=new Ingredient();
+
   constructor(private http: HttpClient, public appComponent:AppComponent) {
   }
 
   ngOnInit(): void {
-   this.appComponent.refreshAppCache();
+    this.appComponent.refreshAppCache();
   }
 
 
   addRecipes(form: NgForm) {
 
-    this.addRecipe.recipeCompIds=this.addRecipeCompIdList;
-    this.addRecipe.ingredientCompIds=this.addIngCompIdList;
+    this.addRecipe.recipeComp=this.addRecipeCompList;
+    this.addRecipe.ingredientComp=this.addIngCompList;
     this.addRecipe.recipe=this.recipe;
 
     let addRecipeList: AddRecipe[] = [];

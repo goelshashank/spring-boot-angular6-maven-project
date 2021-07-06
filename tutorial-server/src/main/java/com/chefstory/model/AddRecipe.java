@@ -24,6 +24,6 @@ import lombok.ToString;
 public class AddRecipe {
 
 	@NotNull Recipe recipe;
-	List<Long> ingredientCompIds;
-	List<Long> recipeCompIds;
+	List<IngComp> ingredientComp;
+	List<RecipeComp> recipeComp;
 }

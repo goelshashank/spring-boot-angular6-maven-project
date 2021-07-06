@@ -8,13 +8,19 @@
 
     <label for="ingredientListForRecipe">Ingredient:</label>
 
-    <ng-select id="ingredientListForRecipe"  name="ingredientListForRecipe"  [items]="appComponent.ingredientList"
-               bindLabel="title"
-               bindValue="id"
+    <ng-select id="ingredientListForRecipe"  name="ingredientListForRecipe"
                [multiple]="true"
                [(ngModel)]="addIngCompIdList"
                [searchable]="true" class="form-control" appendTo="body">
+      <ng-option *ngFor="let ing of appComponent.ingredientList" [value]="ing.id">{{ing.title}}</ng-option>
     </ng-select>
+
+    <div *ngFor="let addIng of addIngCompIdList" appendTo="body" >
+      <small [(ngModel)]=".title"> {{event.name}} - {{addIng. | json}} </small>
+      <input  [(ngModel)]="add.title" class="form-control" id="ingCont"
+             name="ingCont"
+             placeholder="Quantity" required type="text" appendTo="body">
+    </div>
 
     <label for="categoryRecipe">Category</label>
     <input [(ngModel)]="recipe.category" class="form-control" id="categoryRecipe" name="categoryRecipe"

@@ -94,7 +94,7 @@ public class RecipeController {
 	public ResponseEntity addRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
 
 			addRecipeList.forEach(addRecipe -> {
-				if (CollectionUtils.isEmpty(addRecipe.getIngredientCompIds()) && CollectionUtils.isEmpty(addRecipe.getRecipeCompIds()))
+				if (CollectionUtils.isEmpty(addRecipe.getIngredientComp()) && CollectionUtils.isEmpty(addRecipe.getRecipeComp()))
 					throw new ValidationException();
 
 				recipeRepo.save(addRecipe.getRecipe());
@@ -124,29 +124,31 @@ public class RecipeController {
 	public ResponseEntity addIngredientToRecipe(AddRecipe addRecipe) {
 
 		List<IngredientInRecipe> ingredientInRecipes = new ArrayList<>();
-		if (!CollectionUtils.isEmpty(addRecipe.getIngredientCompIds())) {
-			addRecipe.getIngredientCompIds().parallelStream().forEach(t -> {
+		if (!CollectionUtils.isEmpty(addRecipe.getIngredientComp())) {
+			addRecipe.getIngredientComp().parallelStream().forEach(t -> {
 				if(t==null)
 					return;
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
 				ingredientInRecipe.setRecipeId(addRecipe.getRecipe().getId());
 				Ingredient ingredient = new Ingredient();
-				ingredient.setId(t);
+				ingredient.setId(t.getId());
 				ingredientInRecipe.setIngredientComp(ingredient);
+				ingredientInRecipe.setQuantityUnit(t.getQuantityUnit());
 				ingredientInRecipes.add(ingredientInRecipe);
 			});
 		}
 
-		if (!CollectionUtils.isEmpty(addRecipe.getRecipeCompIds())) {
-			addRecipe.getRecipeCompIds().parallelStream().forEach(t -> {
+		if (!CollectionUtils.isEmpty(addRecipe.getRecipeComp())) {
+			addRecipe.getRecipeComp().parallelStream().forEach(t -> {
 				if(t==null)
 					return;
 
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
 				ingredientInRecipe.setRecipeId(addRecipe.getRecipe().getId());
 				Recipe recipe = new Recipe();
-				recipe.setId(t);
+				recipe.setId(t.getId());
 				ingredientInRecipe.setRecipeComp(recipe);
+				ingredientInRecipe.setQuantityUnit(t.getQuantityUnit());
 				ingredientInRecipes.add(ingredientInRecipe);
 			});
 		}
