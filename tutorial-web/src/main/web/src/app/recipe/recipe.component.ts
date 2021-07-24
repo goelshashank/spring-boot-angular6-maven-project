@@ -7,7 +7,6 @@ import {HttpClient} from '@angular/common/http';
 import {Recipe} from '../model/Recipe';
 import {Ingredient} from '../model/Ingredient';
 import {AppComponent} from '../app.component';
-import {IngredientComp} from '../model/IngredientComp';
 
 @Component({
   selector: 'app-recipe',
