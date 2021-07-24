@@ -3,7 +3,6 @@
 -->
 
 <div>
-  <!--<button (click)=toggleAddIng() class="btn btn-primary">Add Ingredient ...</button>-->
   <form #addIngForm="ngForm" (ngSubmit)="addIngredients(addIngForm)" class="form-group">
 
     <label for="titleIng">*Title</label>
@@ -19,9 +18,7 @@
     <input [(ngModel)]="ingredient.perUnitCost" class="form-control" id="perUnitCostIng" name="perUnitCostIng"
            placeholder="Enter per unit cost"
            type="text">
-    <!--         <label for="unitIng">Unit</label>
-             <input [(ngModel)]="ingredient.unit" class="form-control" id="unitIng" name="unitIng" placeholder="Enter unit"
-                    type="text">-->
+
     <label for="unitListIng">Units:</label>
     <select [(ngModel)]="ingredient.unit" class="form-control" id="unitListIng"
             name="unitListIng">
