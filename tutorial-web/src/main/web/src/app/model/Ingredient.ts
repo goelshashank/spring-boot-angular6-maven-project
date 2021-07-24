@@ -7,4 +7,5 @@ export class Ingredient {
   photoId: string ;
   videoId: string ;
   status: string ;
+  quantityUnit: number;
 }

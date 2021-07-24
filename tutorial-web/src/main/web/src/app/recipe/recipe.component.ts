@@ -7,7 +7,6 @@ import {HttpClient} from '@angular/common/http';
 import {Recipe} from '../model/Recipe';
 import {Ingredient} from '../model/Ingredient';
 import {AppComponent} from '../app.component';
-import {RecipeComp} from '../model/RecipeComp';
 import {IngredientComp} from '../model/IngredientComp';
 
 @Component({
@@ -21,11 +20,8 @@ export class RecipeComponent implements OnInit {
     addRecipe: AddRecipe=new AddRecipe();
     title = 'recipe';
     recipe :Recipe=new Recipe();
-    addRecipeCompIdList:number []=[];
-    addIngCompIdList:number []=[];
-  addRecipeCompList:RecipeComp []=[];
-  addIngCompList:IngredientComp []=[];
-   // ing :Ingredient=new Ingredient();
+    ingCompMap : Map<number, Ingredient> = new Map<number, Ingredient>();
+    totalCost : number;
 
   constructor(private http: HttpClient, public appComponent:AppComponent) {
   }
@@ -37,8 +33,7 @@ export class RecipeComponent implements OnInit {
 
   addRecipes(form: NgForm) {
 
-    this.addRecipe.recipeComp=this.addRecipeCompList;
-    this.addRecipe.ingredientComp=this.addIngCompList;
+    this.addRecipe.ingredientComp=Array.from(this.ingCompMap.values());
     this.addRecipe.recipe=this.recipe;
 
     let addRecipeList: AddRecipe[] = [];
@@ -58,20 +53,28 @@ export class RecipeComponent implements OnInit {
      this.ngOnInit();
   }
 
-  selectAll() {
-    this.addIngCompIdList = this.appComponent.ingredientList.map(x => x.id);
+  setIngComps(ingList:Ingredient[]){
+
+   let  ingCompMap : Map<number, Ingredient> = new Map<number, Ingredient>();
+
+    ingList.forEach(t=> {
+      if (this.ingCompMap.get(t.id) != undefined) {
+        ingCompMap.set(t.id,this.ingCompMap.get(t.id));
+      }else {
+        ingCompMap.set(t.id,t);
+      }
+    });
+    this.ingCompMap=ingCompMap;
+    console.log('Ing comp list' + JSON.stringify(Array.from(this.ingCompMap.values())));
+    this.calculateCost();
   }
 
-  unselectAll() {
-    this.addIngCompIdList = [];
-  }
 
-  toggleCheckAll(values: any) {
-    if(values.currentTarget.checked){
-      this.selectAll();
-    } else {
-      this.unselectAll();
-    }
+   async calculateCost(){
+    this.totalCost=0;
+    this.ingCompMap.forEach((value, key) => {
+      this.totalCost=this.totalCost+(value.perUnitCost*value.quantityUnit);
+    });
   }
 
 }

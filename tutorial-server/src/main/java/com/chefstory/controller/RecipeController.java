@@ -62,12 +62,7 @@ public class RecipeController {
 
 	@GetMapping("/getAllIngredients")
 	public ResponseEntity<List<Ingredient>> getAllIngredients() {
-		List<Ingredient> ingredients = ingredientRepo.findAll().stream().map(t -> {
-			Ingredient ing = new Ingredient();
-			ing.setId(t.getId());
-			ing.setTitle(t.getTitle());
-			return ing;
-		}).collect(Collectors.toList());
+		List<Ingredient> ingredients = ingredientRepo.findAll();
 
 		return new ResponseEntity<>(ingredients, HttpStatus.OK);
 	}
