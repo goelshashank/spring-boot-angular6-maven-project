@@ -6,7 +6,6 @@
            name="titleRecipe" placeholder="Title is required" required type="text">
 
     <label for="ingredientListForRecipe">Ingredient:</label>
-
     <ng-select (change)="setIngComps($event)" [multiple]="true"
                [searchable]="true"
                appendTo="body"
@@ -50,7 +49,7 @@
     <input [(ngModel)]="recipe.course" class="form-control" id="courseRecipe" name="courseRecipe" placeholder="Enter course"
            type="text">
 
-
+    <p></p>
     <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">Submit</button>
   </form>
 </div>

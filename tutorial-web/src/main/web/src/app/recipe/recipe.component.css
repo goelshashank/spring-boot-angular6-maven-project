@@ -1,6 +1,4 @@
-@import "~@ng-select/ng-select/themes/default.theme.css";
-
-ng-invalid.ng-touched:not(form) {
+.ng-invalid.ng-touched:not(form) {
   border: 2px solid red;
 }
 

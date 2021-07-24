@@ -8,9 +8,6 @@
     <label for="titleIng">*Title</label>
     <input #titleIng="ngModel" [(ngModel)]="ingredient.title" class="form-control" id="titleIng" name="titleIng"
            placeholder="Title is required" required type="text">
-    <!--  <div class="small" *ngIf="!titleIng.valid && titleIng.touched">
-        Title is required!
-      </div>-->
     <label for="categoryIng">Category</label>
     <input [(ngModel)]="ingredient.category" class="form-control" id="categoryIng" name="categoryIng" placeholder="Enter category"
            type="text">
@@ -24,6 +21,7 @@
             name="unitListIng">
       <option *ngFor="let unit of appComponent.appConfiguration.units">{{unit}}</option>
     </select>
+    <p></p>
     <button [disabled]="!addIngForm.form.valid" class="btn btn-primary" type="submit">Submit</button>
   </form>
 </div>
