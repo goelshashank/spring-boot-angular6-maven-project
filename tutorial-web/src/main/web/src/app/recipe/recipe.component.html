@@ -1,27 +1,42 @@
-
 <div>
-  <form class="form-group"  #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" >
+  <form #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" class="form-group">
     <label for="titleRecipe">*Title</label>
-    <input #titleRecipe="ngModel" [(ngModel)]="recipe.title" class="form-control" id="titleRecipe"
-           name="titleRecipe"
-           placeholder="Title is required" required type="text" appendTo="body">
+    <input #titleRecipe="ngModel" [(ngModel)]="recipe.title" appendTo="body" class="form-control"
+           id="titleRecipe"
+           name="titleRecipe" placeholder="Title is required" required type="text">
 
     <label for="ingredientListForRecipe">Ingredient:</label>
 
-    <ng-select id="ingredientListForRecipe"  name="ingredientListForRecipe"
-               [multiple]="true"
-               (change)="setIngComps($event)"
-               [searchable]="true" class="form-control" appendTo="body">
+    <ng-select (change)="setIngComps($event)" [multiple]="true"
+               [searchable]="true"
+               appendTo="body"
+               class="form-control" id="ingredientListForRecipe" name="ingredientListForRecipe">
       <ng-option *ngFor="let ing of appComponent.ingredientList" [value]="ing">{{ing.title}}</ng-option>
     </ng-select>
 
-    <ul *ngFor="let addIngComp of ingCompMap | keyvalue;let i = index;" appendTo="body" >
-    <li>
-      <small> {{addIngComp.value.title}} - {{addIngComp.value.perUnitCost}} </small>
-      <input [(ngModel)]="addIngComp.value.quantityUnit" (change)="calculateCost()"  class="form-control"
-             id="ingCont" name="ingCont" placeholder="Quantity" required type="text" appendTo="body">
-      </li>
-    </ul>
+    <table appendTo="body" class="my-table">
+      <tr class="thead-dark">
+        <th>Title</th>
+        <th>Quantity</th>
+        <th class="price">Price</th>
+      </tr>
+      <tr *ngFor="let addIngComp of ingCompMap | keyvalue;let i = index;" appendTo="body">
+
+        <td> {{addIngComp.value.title}} </td>
+        <td>
+          <input (change)="calculateCost()" [(ngModel)]="addIngComp.value.quantityUnit" appendTo="body"
+                 class="form-control" id="ingCont" name="ingCont" placeholder="Quantity" required type="text">
+        </td>
+        <td class="price"> {{addIngComp.value.perUnitCost * addIngComp.value.quantityUnit}} </td>
+      </tr>
+
+    </table>
+
+    <div>
+      <b>
+        Total Price - {{totalCost}}
+      </b>
+    </div>
 
     <label for="categoryRecipe">Category</label>
     <input [(ngModel)]="recipe.category" class="form-control" id="categoryRecipe" name="categoryRecipe"
@@ -35,9 +50,6 @@
     <input [(ngModel)]="recipe.course" class="form-control" id="courseRecipe" name="courseRecipe" placeholder="Enter course"
            type="text">
 
-    <div>
-    Total Price - {{totalCost}}
-    </div>
 
     <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">Submit</button>
   </form>

@@ -89,7 +89,7 @@ public class RecipeController {
 	public ResponseEntity addRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
 
 			addRecipeList.forEach(addRecipe -> {
-				if (CollectionUtils.isEmpty(addRecipe.getIngredientComp()) && CollectionUtils.isEmpty(addRecipe.getRecipeComp()))
+				if (CollectionUtils.isEmpty(addRecipe.getIngredientComp()))
 					throw new ValidationException();
 
 				recipeRepo.save(addRecipe.getRecipe());

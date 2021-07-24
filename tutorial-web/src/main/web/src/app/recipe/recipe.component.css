@@ -1,5 +1,19 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
 ng-invalid.ng-touched:not(form) {
   border: 2px solid red;
 }
 
+.my-table {
+  word-wrap: break-word;
+  table-layout: fixed;
+  width: 100%;
+}
+
+table.my-table td.price {
+  text-align: center;
+}
+
+table.my-table th.price {
+  text-align: center;
+}

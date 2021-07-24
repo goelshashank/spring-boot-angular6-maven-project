@@ -15,11 +15,13 @@ import {AppComponent} from '../app.component';
 export class IngredientComponent implements OnInit {
 
   title = 'ingredient';
-  ingredient: Ingredient=new Ingredient();
-  isShowAddIng=true;
-  constructor(private http: HttpClient, public appComponent:AppComponent) {
+  ingredient: Ingredient = new Ingredient();
+  isShowAddIng = true;
+
+  constructor(private http: HttpClient, public appComponent: AppComponent) {
   }
-   ngOnInit(): void {
+
+  ngOnInit(): void {
     this.appComponent.refreshAppCache();
   }
 
@@ -31,15 +33,20 @@ export class IngredientComponent implements OnInit {
     let ingredientList: Ingredient[] = [];
     ingredientList.push(this.ingredient);
 
-    if (form.valid)
-      console.log("Add ingredient list: "+JSON.stringify(ingredientList));
+    if (form.valid) {
+      console.log('Add ingredient list: ' + JSON.stringify(ingredientList));
+    }
 
     this.http.post(environment.baseUrl + ApiPaths.AddIngredients, ingredientList).subscribe(
       (response) => {
-        console.log('Add ingredients response -'+ JSON.stringify(response));
+        console.log('Add ingredients response -' + JSON.stringify(response));
       },
-      (error) => { console.log('Error happened in add ingredient' + JSON.stringify(error)); },
-      () => { console.log('%% add ingredient is completed successfully %%'); });
+      (error) => {
+        console.log('Error happened in add ingredient' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% add ingredient is completed successfully %%');
+      });
 
     form.reset();
     this.ngOnInit();

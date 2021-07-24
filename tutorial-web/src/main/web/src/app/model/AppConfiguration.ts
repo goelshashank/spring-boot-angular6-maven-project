@@ -1,3 +1,3 @@
 export class AppConfiguration {
-  units: string[] ;
+  units: string[];
 }
