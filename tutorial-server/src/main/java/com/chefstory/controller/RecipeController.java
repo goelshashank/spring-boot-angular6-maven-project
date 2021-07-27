@@ -67,14 +67,14 @@ public class RecipeController {
 		return new ResponseEntity<>(ingredients, HttpStatus.OK);
 	}
 
-	@GetMapping("/getRecipe")
+	@PostMapping("/getRecipe")
 	public ResponseEntity<Recipe> getRecipe(@RequestBody Recipe recipe) {
-		return new ResponseEntity<>(recipeRepo.getOne(recipe.getId().intValue()), HttpStatus.OK);
+		return new ResponseEntity<>(recipeRepo.findById(recipe.getId()), HttpStatus.OK);
 	}
 
-	@GetMapping("/getIngredient")
+	@PostMapping("/getIngredient")
 	public ResponseEntity<Ingredient> getIngredient(@RequestBody Ingredient ingredient) {
-		return new ResponseEntity<>(ingredientRepo.getOne(ingredient.getId().intValue()), HttpStatus.OK);
+		return new ResponseEntity<>(ingredientRepo.findById(ingredient.getId()), HttpStatus.OK);
 	}
 
 	@GetMapping("/getConfig")

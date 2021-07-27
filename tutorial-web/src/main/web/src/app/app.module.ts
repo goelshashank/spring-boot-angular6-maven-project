@@ -7,6 +7,7 @@ import {FormsModule} from '@angular/forms';
 import {IngredientComponent} from './ingredient/ingredient.component';
 import {RecipeComponent} from './recipe/recipe.component';
 import {NgSelectModule} from '@ng-select/ng-select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {NgSelectModule} from '@ng-select/ng-select';
     HttpClientModule,
     CommonModule,
     FormsModule,
-    NgSelectModule
+    NgSelectModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

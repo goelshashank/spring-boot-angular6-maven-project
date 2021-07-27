@@ -14,4 +14,6 @@ import com.chefstory.entity.Ingredient;
 public interface IngredientRepo extends JpaRepository<Ingredient, Integer> {
 
 	public Ingredient findByTitle(String title);
+
+	public Ingredient findById(Long id);
 }

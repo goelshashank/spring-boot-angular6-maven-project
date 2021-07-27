@@ -48,7 +48,17 @@
         <app-ingredient *ngIf="isShowAddIng"></app-ingredient>
         <app-recipe *ngIf="isShowAddRecipe"></app-recipe>
         <div *ngIf="isDisplayAll">
-          
+
+          <label for="searchRecipe">Search Recipe</label>
+          <ng-select  (change)="populateRecipe($event)"
+                      [multiple]="false"
+                     [searchable]="true"
+                     appendTo="body"
+                     class="form-control" id="ingredientListForRecipe" id="searchRecipe">
+            <ng-option *ngFor="let recipe of recipeList" [value]="recipe">{{recipe.title}}</ng-option>
+          </ng-select>
+
+
 
             <!--
                       <div class="accordion" id="accordionExample" >

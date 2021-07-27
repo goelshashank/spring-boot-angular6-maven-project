@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   isShowAddIng = false;
   isShowAddRecipe = false;
   isDisplayAll = true;
+  displayRecipeInfo:Recipe;
 
   constructor(private http: HttpClient) {
   }
@@ -102,4 +103,18 @@ export class AppComponent implements OnInit {
     console.log(' --------  App cache refreshed ---------');
   }
 
+
+  populateRecipe(recipe:Recipe){
+    this.http.post<Recipe>(environment.baseUrl + ApiPaths.GetRecipe,recipe).subscribe(
+      (response) => {
+        this.displayRecipeInfo = response;
+        console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
+      },
+      (error) => {
+        console.log('Error happened in getting recipe' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% get recipe is completed successfully %%');
+      });
+  }
 }
