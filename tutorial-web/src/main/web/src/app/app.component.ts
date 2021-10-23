@@ -117,4 +117,21 @@ export class AppComponent implements OnInit {
         console.log('%% get recipe is completed successfully %%');
       });
   }
+
+  uploadImage(file:File){
+    const formData: FormData = new FormData();
+
+    formData.append('file', file);
+
+    this.http.post(environment.baseUrl + ApiPaths.Upload, formData).subscribe(
+      (response) => {
+        console.log('Upload image response-' + JSON.stringify(response));
+      },
+      (error) => {
+        console.log('Error happened in uploading image' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% uploading image is completed successfully %%');
+      });
+  }
 }

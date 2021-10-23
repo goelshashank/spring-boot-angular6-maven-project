@@ -58,27 +58,15 @@
             <ng-option *ngFor="let recipe of recipeList" [value]="recipe">{{recipe.title}}</ng-option>
           </ng-select>
 
-
-
-            <!--
-                      <div class="accordion" id="accordionExample" >
-                        <div  *ngFor="let recipe of recipeList;" class="accordion-item">
-                          <h2 class="accordion-header" id="headingOne">
-                            <button aria-controls="collapseOne" aria-expanded="true" class="accordion-button"
-                                    attr.data-bs-target="#collapse_{{recipe.id}}"
-                                    data-bs-toggle="collapse" type="button">
-                              {{recipe.title}}
-                            </button>
-                          </h2>
-                          <div aria-labelledby="headingOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample"
-                               id="collapse_{{recipe.id}}" >
-                            <div class="accordion-body">
-                              {{recipe.title}}
-                            </div>
-                          </div>
-                        </div>
-                      </div>-->
-
+          <table>
+            <tr>
+              <th>Ingredients</th>
+              <th>Details</th>
+            </tr>
+            <tr *ngFor="let ingredient of ingredientList">
+              <td>{{ingredient.title}}</td>
+            </tr>
+          </table>
         </div>
 
         </div>

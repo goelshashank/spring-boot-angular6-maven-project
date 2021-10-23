@@ -21,6 +21,11 @@
             name="unitListIng">
       <option *ngFor="let unit of appComponent.appConfiguration.units">{{unit}}</option>
     </select>
+
+
+    <input type="file" (change)="onFileUpload($event)">
+    <img id="blah" style="width:45px; height:45px;" [src]="imageSrc || 'http://placehold.it/180'" alt="your image" *ngIf="imageSrc" />
+
     <p></p>
     <button [disabled]="!addIngForm.form.valid" class="btn btn-primary" type="submit">Submit</button>
   </form>

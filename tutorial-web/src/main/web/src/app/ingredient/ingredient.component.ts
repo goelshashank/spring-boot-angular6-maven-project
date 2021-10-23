@@ -17,6 +17,8 @@ export class IngredientComponent implements OnInit {
   title = 'ingredient';
   ingredient: Ingredient = new Ingredient();
   isShowAddIng = true;
+  imageSrc: string;
+  file: File;
 
   constructor(private http: HttpClient, public appComponent: AppComponent) {
   }
@@ -48,8 +50,25 @@ export class IngredientComponent implements OnInit {
         console.log('%% add ingredient is completed successfully %%');
       });
 
+
+    this.appComponent.uploadImage(this.file);
+
+//-------------------------
     form.reset();
     this.ngOnInit();
+  }
+
+  onFileUpload(event){
+
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imageSrc = e.target.result;
+      };
+      this.file=event.target.files[0]
+      reader.readAsDataURL(this.file);
+
+    }
   }
 
 }
