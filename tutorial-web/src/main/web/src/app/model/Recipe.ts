@@ -1,3 +1,5 @@
+import {IngredientInRecip} from './IngredientInRecip';
+
 export class Recipe {
   id: number;
   title: string;
@@ -14,4 +16,5 @@ export class Recipe {
   shelfLife: string;
   remarks: string;
   status: string;
+  ingredientInRecipe: IngredientInRecip[];
 }
