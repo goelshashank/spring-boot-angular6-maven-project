@@ -50,22 +50,76 @@
         <div *ngIf="isDisplayAll">
 
           <label for="searchRecipe">Search Recipe</label>
-          <ng-select  (change)="populateRecipe($event)"
+          <ng-select  (change)="getRecipe($event)"
                       [multiple]="false"
                      [searchable]="true"
                      appendTo="body"
                      class="form-control" id="ingredientListForRecipe" id="searchRecipe">
             <ng-option *ngFor="let recipe of recipeList" [value]="recipe">{{recipe.title}}</ng-option>
           </ng-select>
-          <table>
-            <tr>
-              <th>Ingredients</th>
-              <th>Details</th>
-            </tr>
-            <tr *ngFor="let ingredient of ingredientInRecipeList">
-              <td>{{ingredient.ingredientComp.title}}</td>
-            </tr>
-          </table>
+          <div class="table-responsive">
+
+                <table>
+                  <thead>
+                  <tr>
+                    <th scope="col" class="text-center col-md-2">Ingredients</th>
+                    <th scope="col" class="text-center col-md-2">quantityUnit</th>
+                    <th scope="col" class="text-center col-md-2">category</th>
+                    <th scope="col" class="text-center col-md-2">perUnitCost</th>
+                    <th scope="col" class="text-center col-md-2">unit</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let ingredient of displayRecipeInfo.ingredientInRecipe" >
+                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.title}} </td>
+                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.quantityUnit}} </td>
+                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.category}} </td>
+                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.perUnitCost}} </td>
+                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.unit}} </td>
+                  </tr>
+                  </tbody>
+                  </table>
+
+         <!--     <thead>
+              <tr>
+                <th scope="col" style="width:40%">Ingredients</th>
+                <th scope="col">Details</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+              <td>
+              <div class="table-responsive">
+                <table class="table table-hover ">
+                  <tbody>
+                  <tr *ngFor="let ingredient of displayRecipeInfo.ingredientInRecipe" (click)=getIngredient(ingredient.ingredientComp)
+                  class="sortable">
+                    <td>{{ingredient.ingredientComp.title}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              </td>
+
+                <td>
+                  <p>
+                    Title: <b>{{displayIngredientInfo.title}} </b> <br>
+                    quantityUnit: <b>{{displayIngredientInfo.quantityUnit}}</b> <br>
+                    category: <b>{{displayIngredientInfo.category}}</b> <br>
+                    perUnitCost: <b>{{displayIngredientInfo.perUnitCost}}</b> <br>
+                    status: <b>{{displayIngredientInfo.status}}</b> <br>
+                    unit: <b>{{displayIngredientInfo.unit}}</b>
+                  </p>
+                </td>
+                </tr>
+
+
+              </tbody> -->
+
+
+
+          </div>
+
 
         </div>
 

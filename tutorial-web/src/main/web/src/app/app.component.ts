@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
   isShowAddIng = false;
   isShowAddRecipe = false;
   isDisplayAll = true;
-  displayRecipeInfo:Recipe;
-  ingredientInRecipeList: IngredientInRecipe[];
+  displayRecipeInfo:Recipe=new Recipe();
+  displayIngredientInfo:Ingredient=new Ingredient();
 
   constructor(private http: HttpClient) {
   }
@@ -106,11 +106,10 @@ export class AppComponent implements OnInit {
   }
 
 
-  populateRecipe(recipe:Recipe){
+  getRecipe(recipe:Recipe){
     this.http.post<Recipe>(environment.baseUrl + ApiPaths.GetRecipe,recipe).subscribe(
       (response) => {
         this.displayRecipeInfo = response;
-        this.ingredientInRecipeList=this.displayRecipeInfo.ingredientInRecipe;
         console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
       },
       (error) => {
@@ -118,6 +117,20 @@ export class AppComponent implements OnInit {
       },
       () => {
         console.log('%% get recipe is completed successfully %%');
+      });
+  }
+
+  getIngredient(ing:Ingredient){
+    this.http.post<Ingredient>(environment.baseUrl + ApiPaths.GetIngredient,ing).subscribe(
+      (response) => {
+        this.displayIngredientInfo = response;
+        console.log('Ingredient - ' + JSON.stringify(this.displayIngredientInfo));
+      },
+      (error) => {
+        console.log('Error happened in getting Ingredient' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% get Ingredient is completed successfully %%');
       });
   }
 
@@ -137,4 +150,5 @@ export class AppComponent implements OnInit {
         console.log('%% uploading image is completed successfully %%');
       });
   }
+
 }

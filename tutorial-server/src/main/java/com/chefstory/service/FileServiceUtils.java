@@ -32,7 +32,7 @@ public class FileServiceUtils {
 
     public void save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(UUID.randomUUID().toString()));
+            Files.copy(file.getInputStream(), this.root.resolve(UUID.randomUUID().toString()+".jpg"));
             System.out.println("File is saved successfully");
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
