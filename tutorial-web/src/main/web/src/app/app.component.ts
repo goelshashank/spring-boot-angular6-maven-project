@@ -7,6 +7,7 @@ import {Ingredient} from './model/Ingredient';
 import {AddRecipe} from './model/AddRecipe';
 import {NgForm} from '@angular/forms';
 import {AppConfiguration} from './model/AppConfiguration';
+import {IngredientInRecipe} from "./model/IngredientInRecipe";
 
 
 @Component({
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
   isShowAddRecipe = false;
   isDisplayAll = true;
   displayRecipeInfo:Recipe;
+  ingredientInRecipeList: IngredientInRecipe[];
 
   constructor(private http: HttpClient) {
   }
@@ -108,6 +110,7 @@ export class AppComponent implements OnInit {
     this.http.post<Recipe>(environment.baseUrl + ApiPaths.GetRecipe,recipe).subscribe(
       (response) => {
         this.displayRecipeInfo = response;
+        this.ingredientInRecipeList=this.displayRecipeInfo.ingredientInRecipe;
         console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
       },
       (error) => {

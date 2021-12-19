@@ -1,4 +1,4 @@
-import {IngredientInRecip} from './IngredientInRecip';
+import {IngredientInRecipe} from './IngredientInRecipe';
 
 export class Recipe {
   id: number;
@@ -16,5 +16,5 @@ export class Recipe {
   shelfLife: string;
   remarks: string;
   status: string;
-  ingredientInRecipe: IngredientInRecip[];
+  ingredientInRecipe: IngredientInRecipe[];
 }
