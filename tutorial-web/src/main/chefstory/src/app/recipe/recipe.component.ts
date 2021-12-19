@@ -61,14 +61,17 @@ export class RecipeComponent implements OnInit {
 
     let ingCompMap: Map<number, Ingredient> = new Map<number, Ingredient>();
     ingList.forEach(t => {
-      let ing: Ingredient;
+      let ing: Ingredient | undefined;
       if (this.ingCompMap.get(t.id) != undefined) {
         ing = this.ingCompMap.get(t.id);
       } else {
         ing = t;
       }
+      // @ts-ignore
       ing.quantityUnit = 1;
-      ingCompMap.set(t.id, ing);
+      if (ing instanceof Ingredient) {
+        ingCompMap.set(t.id, ing);
+      }
     });
     this.ingCompMap = ingCompMap;
     console.log('Ing comp list' + JSON.stringify(Array.from(this.ingCompMap.values())));

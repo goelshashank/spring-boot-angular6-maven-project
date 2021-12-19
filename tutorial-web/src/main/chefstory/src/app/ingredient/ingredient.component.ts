@@ -58,6 +58,7 @@ export class IngredientComponent implements OnInit {
     this.ngOnInit();
   }
 
+  // @ts-ignore
   onFileUpload(event){
 
     if (event.target.files && event.target.files[0]) {
