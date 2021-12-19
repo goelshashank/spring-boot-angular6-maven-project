@@ -1,5 +1,5 @@
 {
-  "name": "recipe-maker",
+  "name": "chefstory",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,6 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.1.0",
-    "@angular/cdk": "^13.1.1",
     "@angular/common": "~13.1.0",
     "@angular/compiler": "~13.1.0",
     "@angular/core": "~13.1.0",
@@ -19,10 +18,10 @@
     "@angular/platform-browser": "~13.1.0",
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
-    "angular-bootstrap-md": "^4.3.2",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "@ng-select/ng-select": "^7.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.1.2",
