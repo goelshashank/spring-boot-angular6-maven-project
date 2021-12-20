@@ -27,4 +27,10 @@ public enum Time implements Unit{
 				.findFirst();
 	}
 
+
+	public String getDescription(){
+		return abv + " " +detail;
+	}
+
+
 }

@@ -29,4 +29,10 @@ public enum Volume implements Unit{
 				.findFirst();
 	}
 
+
+	public String getDescription(){
+		 return abv + " " +detail;
+	}
+
+
 }

@@ -22,4 +22,7 @@ public interface Unit {
 		map.put("Volume",Arrays.stream(Volume.values()).map(t-> (Unit)t).collect(Collectors.toList()));
 		return map;
 	}
+
+	public String getDescription();
+
 }

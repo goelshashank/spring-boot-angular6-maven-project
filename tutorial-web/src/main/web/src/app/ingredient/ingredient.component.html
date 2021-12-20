@@ -19,7 +19,10 @@
     <label for="unitListIng">Units:</label>
     <select [(ngModel)]="ingredient.unit" class="form-control" id="unitListIng"
             name="unitListIng">
-      <option *ngFor="let unit of appComponent.appConfiguration.units">{{unit}}</option>
+      <optgroup [attr.label]="group.key" *ngFor="let group of appComponent.appConfiguration.unitsDetailed | keyvalue">
+      <option *ngFor="let unitDetailed of group.value" value="{{unitDetailed.unit}}">{{unitDetailed.unit}}
+        ({{unitDetailed.description}})</option>
+      </optgroup>
     </select>
 
 

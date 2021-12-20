@@ -28,4 +28,8 @@ public enum Quantity implements Unit{
 				.findFirst();
 	}
 
+	public String getDescription(){
+		return abv + " " +detail;
+	}
+
 }

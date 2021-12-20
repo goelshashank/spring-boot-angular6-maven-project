@@ -27,7 +27,7 @@ public class GetConfigResponse {
 			List<UnitWrap> l = v.stream().map(t -> {
 				UnitWrap unitWrap = new UnitWrap();
 				unitWrap.setUnit(t);
-				unitWrap.setDescription(t.toString());
+				unitWrap.setDescription(t.getDescription());
 				return unitWrap;
 			}).collect(Collectors.toList());
 			map.put(k, l);
