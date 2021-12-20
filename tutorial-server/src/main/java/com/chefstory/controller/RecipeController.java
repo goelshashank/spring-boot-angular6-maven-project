@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -86,7 +87,9 @@ public class RecipeController {
 	@GetMapping("/getConfig")
 	public ResponseEntity<GetConfigResponse> getConfig() {
 		GetConfigResponse getConfigResponse = new GetConfigResponse();
-		getConfigResponse.setUnits(new ArrayList(Arrays.asList(Unit.values())));
+		getConfigResponse.setUnitsDetailed(Unit.values());
+		getConfigResponse.setUnits(Unit.values().values().stream()
+				.flatMap(List::stream).collect(Collectors.toList()));
 		return new ResponseEntity<>(getConfigResponse, HttpStatus.OK);
 	}
 

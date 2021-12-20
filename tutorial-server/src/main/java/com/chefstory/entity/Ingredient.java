@@ -38,8 +38,8 @@ public class Ingredient extends BaseEntity {
 	private Double perUnitCost;
 
 	@Column(name = "unit")
-	@Enumerated(EnumType.STRING)
-	private Unit unit;
+	//@Enumerated(EnumType.STRING)
+	private String unit;
 
 	@Column(name = "photo_id")
 	private String photoId;

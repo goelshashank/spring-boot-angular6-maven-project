@@ -39,4 +39,7 @@ public class IngredientInRecipe extends BaseEntity {
 	@Column(name = "quantity_unit")
 	private Double quantityUnit;
 
+	@Column(name = "unit")
+	private String unit;
+
 }
