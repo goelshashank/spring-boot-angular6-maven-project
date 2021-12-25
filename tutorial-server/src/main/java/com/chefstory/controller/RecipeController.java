@@ -55,6 +55,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Validated
 public class RecipeController {
 
+	private static final String DEFAULT="default";
+	
 	@Autowired
 	private RecipeRepo recipeRepo;
 	@Autowired
@@ -70,8 +72,8 @@ public class RecipeController {
 
 	@PostConstruct
 	public void init(){
-		if(CollectionUtils.isEmpty(supplierRepo.findByTitle("default")))
-			supplierRepo.save(new Supplier().setTitle("default"));
+		if(CollectionUtils.isEmpty(supplierRepo.findByTitle(DEFAULT)))
+			supplierRepo.save(new Supplier().setTitle(DEFAULT));
 	}
 
 	@GetMapping("/getAllRecipes")
@@ -143,7 +145,7 @@ public class RecipeController {
 		List<Ingredient> list=new ArrayList<>();
 		addIngredients.forEach(t->{
 			Ingredient ingredient=t.getIngredient();
-			Supplier supplier=CollectionUtils.isEmpty(t.getSupplierComps())?supplierRepo.findByTitle("default").get(0):null;
+			Supplier supplier=CollectionUtils.isEmpty(t.getSupplierComps())?supplierRepo.findByTitle(DEFAULT).get(0):null;
 			ingredient.setSupplierForIngredients(Arrays.asList(new SupplierForIngredient().setIngredient(ingredient).setSupplierComp(supplier)));
 			list.add(ingredient);
 		});
