@@ -17,11 +17,11 @@ import com.chefstory.entity.IngredientInRecipe;
  */
 @Repository
 public interface IngredientInRecipeRepo extends JpaRepository<IngredientInRecipe, Integer> {
-
+/*
 	@Modifying
-	@Query(value = "insert into ingredient_in_recipe (recipe_id,ingredient_comp_id,recipe_comp_id) VALUES (:recipe_id,:ingredient_comp_id,:recipe_comp_id)", nativeQuery = true)
+	@Query(value = "insert into ingredient_in_recipe (recipe_id,ingredient_id,recipe_id) VALUES (:recipe_id,:ingredient_id,:recipe_id)", nativeQuery = true)
 	@Transactional
-	int insert(@Param("recipe_id") Long recipeId, @Param("ingredient_comp_id") Long ingredientCompId,
-			@Param("recipe_comp_id") Long recipeCompId);
+	int insert(@Param("recipe_id") Long recipeId, @Param("ingredient_id") Long ingredientCompId,
+			@Param("recipe_id") Long recipeCompId);*/
 
 }

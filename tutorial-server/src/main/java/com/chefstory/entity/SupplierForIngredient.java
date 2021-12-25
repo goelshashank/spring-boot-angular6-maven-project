@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @Data
 @Accessors(chain = true)
 @Entity(name = "supplier_for_ingredient")
-@Table(indexes = { @Index(columnList = "ingredient_id"), @Index(columnList = "supplier_comp_id") })
+@Table(indexes = { @Index(columnList = "ingredient_id"), @Index(columnList = "supplier_id") })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SupplierForIngredient extends BaseEntity {
 
@@ -31,7 +31,7 @@ public class SupplierForIngredient extends BaseEntity {
 	private Ingredient ingredient;
 
 	@ManyToOne
-	@JoinColumn(name = "supplier_comp_id")
-	private Supplier supplierComp;
+	@JoinColumn(name = "supplier_id")
+	private Supplier supplier;
 
 }

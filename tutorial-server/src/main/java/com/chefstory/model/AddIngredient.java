@@ -4,15 +4,14 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.chefstory.entity.BrandForIngredient;
 import com.chefstory.entity.Ingredient;
-import com.chefstory.entity.Recipe;
 import com.chefstory.entity.SupplierForIngredient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -26,5 +25,7 @@ import lombok.experimental.Accessors;
 public class AddIngredient {
 
 	@NotNull Ingredient ingredient;
-	List<SupplierComp> supplierComps;
+	List<AddSupplier> addSuppliers;
+	List<AddBrand> addBrands;
+
 }

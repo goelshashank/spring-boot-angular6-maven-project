@@ -16,15 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SupplierComp {
+public class AddSupplier {
 
-	@NotNull private Long id;
 	private Supplier supplier;
-
-	public SupplierComp setId(Long id) {
-		this.id = id;
-		this.supplier =new Supplier();
-		supplier.setId(id);
-		return this;
-	}
 }

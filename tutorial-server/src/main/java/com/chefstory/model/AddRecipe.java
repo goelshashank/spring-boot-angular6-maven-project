@@ -25,5 +25,5 @@ import lombok.experimental.Accessors;
 public class AddRecipe {
 
 	@NotNull Recipe recipe;
-	List<IngComp> ingredientComp;
+	List<AddIngredient> addIngredients;
 }

@@ -1,10 +1,12 @@
 package com.chefstory.model;
 
+import javax.validation.constraints.NotNull;
+
+import com.chefstory.entity.Brand;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @author Shashank Goel
@@ -14,8 +16,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RecipeComp {
+public class AddBrand {
 
-	@NotNull private Long id;
-	private Double quantityUnit;
+	private Brand brand;
+
 }

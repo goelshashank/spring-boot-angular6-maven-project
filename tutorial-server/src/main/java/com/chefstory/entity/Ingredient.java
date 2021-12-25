@@ -57,6 +57,10 @@ public class Ingredient extends BaseEntity {
 	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
 	private List<SupplierForIngredient> supplierForIngredients;
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
+	private List<BrandForIngredient> brandForIngredients;
+
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;

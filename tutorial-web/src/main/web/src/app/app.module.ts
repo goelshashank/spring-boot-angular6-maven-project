@@ -8,12 +8,16 @@ import {IngredientComponent} from './ingredient/ingredient.component';
 import {RecipeComponent} from './recipe/recipe.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrandComponent } from './brand/brand.component';
+import { SupplierComponent } from './supplier/supplier.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IngredientComponent,
-    RecipeComponent
+    RecipeComponent,
+    BrandComponent,
+    SupplierComponent
   ],
   imports: [
     BrowserModule,

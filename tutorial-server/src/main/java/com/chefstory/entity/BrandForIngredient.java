@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
@@ -19,15 +20,17 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Entity(name = "brand_for_ingredient")
-@Table(indexes = { @Index(columnList = "ingredient_id"), @Index(columnList = "brand_comp_id") })
+@Table(indexes = { @Index(columnList = "ingredient_id"), @Index(columnList = "brand_id") })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BrandForIngredient extends BaseEntity {
 
-	@Column(name = "ingredient_id", nullable = false)
-	private Long ingredientId;
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "ingredient_id", nullable = false)
+	private Ingredient ingredient;
 
 	@ManyToOne
-	@JoinColumn(name = "brand_comp_id")
-	private Brand brandComp;
+	@JoinColumn(name = "brand_id")
+	private Brand brand;
 
 }

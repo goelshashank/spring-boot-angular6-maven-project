@@ -5,17 +5,22 @@ package com.chefstory.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.chefstory.entity.Brand;
+import com.chefstory.entity.BrandForIngredient;
 import com.chefstory.entity.Supplier;
 import com.chefstory.entity.SupplierForIngredient;
 import com.chefstory.model.AddIngredient;
 import com.chefstory.model.AddRecipe;
+import com.chefstory.repository.BrandForIngredientRepo;
+import com.chefstory.repository.BrandRepo;
 import com.chefstory.repository.SupplierForIngredientRepo;
 import com.chefstory.repository.SupplierRepo;
 import com.chefstory.service.FileServiceUtils;
@@ -60,11 +65,21 @@ public class RecipeController {
 	private SupplierRepo supplierRepo;
 	@Autowired
 	private SupplierForIngredientRepo supplierForIngredientRepo;
+	@Autowired
+	private Supplier defaultSupplier;
+	@Autowired
+	private Brand defaultBrand;
+	@Autowired
+	BrandForIngredientRepo brandForIngredientRepo;
+	@Autowired
+	BrandRepo brandRepo;
 
 	@PostConstruct
 	public void init(){
-		if(CollectionUtils.isEmpty(supplierRepo.findByTitle(DEFAULT)))
-			supplierRepo.save(new Supplier().setTitle(DEFAULT));
+		defaultSupplier=CollectionUtils.isEmpty(supplierRepo.findByTitle(DEFAULT))?supplierRepo.save(new Supplier().setTitle(DEFAULT)):
+				supplierRepo.findByTitle(DEFAULT).get(0);
+		defaultBrand=CollectionUtils.isEmpty(brandRepo.findByTitle(DEFAULT))?brandRepo.save(new Brand().setTitle(DEFAULT)):
+				brandRepo.findByTitle(DEFAULT).get(0);
 	}
 
 	@GetMapping("/getAllRecipes")
@@ -89,14 +104,63 @@ public class RecipeController {
 		return new ResponseEntity<>(ingredients, HttpStatus.OK);
 	}
 
-	@PostMapping("/getRecipe")
-	public ResponseEntity<Recipe> getRecipe(@RequestBody Recipe recipe) {
-		return new ResponseEntity<>(recipeRepo.findById(recipe.getId()), HttpStatus.OK);
+	@GetMapping("/getAllBrands")
+	public ResponseEntity<List<Brand>> getAllBrands() {
+		List<Brand> brands = brandRepo.findAll();/*.stream().map(t -> {
+			Recipe recp = new Recipe();
+			recp.setId(t.getId());
+			recp.setTitle(t.getTitle());
+			return recp;
+		}).collect(Collectors.toList());*/
+		return new ResponseEntity<>(brands, HttpStatus.OK);
 	}
 
-	@PostMapping("/getIngredient")
-	public ResponseEntity<Ingredient> getIngredient(@RequestBody Ingredient ingredient) {
-		return new ResponseEntity<>(ingredientRepo.findById(ingredient.getId()), HttpStatus.OK);
+	@GetMapping("/getAllSuppliers")
+	public ResponseEntity<List<Supplier>> getAllSuppliers() {
+		List<Supplier> suppliers = supplierRepo.findAll();/*.stream().map(t -> {
+			Ingredient ing = new Ingredient();
+			ing.setId(t.getId());
+			ing.setTitle(t.getTitle());
+			return ing;
+		}).collect(Collectors.toList());*/
+		return new ResponseEntity<>(suppliers, HttpStatus.OK);
+	}
+
+	@PostMapping("/getRecipes")
+	public ResponseEntity<Map<Long,Recipe>> getRecipes(@RequestBody List<Recipe> recipes) {
+		Map<Long,Recipe> recipeMap=new HashMap<>();
+		recipes.stream().forEach(t-> {
+			recipeMap.put(t.getId(),recipeRepo.findById(t.getId()));
+		});
+		return new ResponseEntity<>(recipeMap, HttpStatus.OK);
+	}
+
+	@PostMapping("/getIngredients")
+	public ResponseEntity<Map<Long,Ingredient>> getIngredients(@RequestBody List<Ingredient> ingredients) {
+		Map<Long,Ingredient> ingredientMap=new HashMap<>();
+		ingredients.stream().forEach(t-> {
+			ingredientMap.put(t.getId(),ingredientRepo.findById(t.getId()));
+		});
+		return new ResponseEntity<>(ingredientMap, HttpStatus.OK);
+	}
+
+	@PostMapping("/getBrands")
+	public ResponseEntity<Map<Long,Brand>> getBrands(@RequestBody List<Brand> Brands) {
+		Map<Long,Brand> brandMap=new HashMap<>();
+		Brands.stream().forEach(t-> {
+			brandMap.put(t.getId(),brandRepo.findById(t.getId()));
+		});
+		return new ResponseEntity<>(brandMap, HttpStatus.OK);
+	}
+
+
+	@PostMapping("/getSuppliers")
+	public ResponseEntity<Map<Long,Supplier>> getSuppliers(@RequestBody List<Supplier> Suppliers) {
+		Map<Long,Supplier> supplierMap=new HashMap<>();
+		Suppliers.stream().forEach(t-> {
+			supplierMap.put(t.getId(),supplierRepo.findById(t.getId()));
+		});
+		return new ResponseEntity<>(supplierMap, HttpStatus.OK);
 	}
 
 	@GetMapping("/getConfig")
@@ -110,27 +174,26 @@ public class RecipeController {
 	}
 
 	@PostMapping("/addRecipes")
-	@Transactional
 	public ResponseEntity addRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
 
 		List<Recipe> recipes=new ArrayList<>();
 		addRecipeList.forEach(t->{
-			if(CollectionUtils.isEmpty(t.getIngredientComp()))
+			if(CollectionUtils.isEmpty(t.getAddIngredients()))
 				return;
 
 			Recipe recipe=t.getRecipe();
 
 			List<IngredientInRecipe> ingredientInRecipes=
-					t.getIngredientComp().stream().map(u->{
-						SupplierForIngredient supplierForIngredient=new SupplierForIngredient().setIngredient(u.getIngredient())
-								.setSupplierComp(supplierRepo.findByTitle(DEFAULT).get(0));
-						supplierForIngredientRepo.save(supplierForIngredient);
+					t.getAddIngredients().stream().map(u->{
+						Supplier supplier=CollectionUtils.isEmpty(u.getAddSuppliers())?defaultSupplier:u.getAddSuppliers().get(0).getSupplier();
+						Brand brand=CollectionUtils.isEmpty(u.getAddBrands())?defaultBrand:u.getAddBrands().get(0).getBrand();
 						IngredientInRecipe ingredientInRecipe= new IngredientInRecipe()
-							.setRecipe(recipe).setIngredientComp(u.getIngredient())
-							.setSupplierForIngredient(supplierForIngredient);
+							.setRecipe(recipe).setIngredient(u.getIngredient())
+							.setSupplier(supplier).setBrand(brand);
 					return ingredientInRecipe;
 					}).collect(Collectors.toList());
 			recipe.setIngredientInRecipe(ingredientInRecipes);
+
 			recipes.add(recipe);
 		});
 		recipeRepo.saveAll(recipes);
@@ -143,21 +206,9 @@ public class RecipeController {
 
 		List<Ingredient> list=new ArrayList<>();
 		addIngredients.forEach(t->{
-			Ingredient ingredient=t.getIngredient();
-			List<SupplierForIngredient> supplierForIngredients;
-			if(CollectionUtils.isEmpty(t.getSupplierComps())){
-				supplierForIngredients= Arrays.asList(new SupplierForIngredient()
-						.setIngredient(ingredient).setSupplierComp((
-								CollectionUtils.isEmpty(t.getSupplierComps())?supplierRepo.findByTitle(DEFAULT).get(0):
-				t.getSupplierComps().get(0).getSupplier())));
-			}
-			else {
-				supplierForIngredients=	t.getSupplierComps().stream()
-						.map(u -> new SupplierForIngredient().setIngredient(ingredient)
-								.setSupplierComp(u.getSupplier())).collect(Collectors.toList());
-			}
-
-			ingredient.setSupplierForIngredients(supplierForIngredients);
+			Ingredient ingredient=
+					t.getIngredient().setBrandForIngredients(addBrands(t, t.getIngredient()))
+							.setSupplierForIngredients(addSupplier(t, t.getIngredient()));
 			list.add(ingredient);
 		});
 		ingredientRepo.saveAll(list);
@@ -165,9 +216,47 @@ public class RecipeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	private List<SupplierForIngredient> addSupplier(AddIngredient t, Ingredient ingredient) {
+		List<SupplierForIngredient> supplierForIngredients;
+		if(CollectionUtils.isEmpty(t.getAddSuppliers())){
+			supplierForIngredients= Arrays.asList(new SupplierForIngredient()
+					.setIngredient(ingredient).setSupplier((
+							CollectionUtils.isEmpty(t.getAddSuppliers())?defaultSupplier:
+			t.getAddSuppliers().get(0).getSupplier())));
+		}
+		else {
+			supplierForIngredients=	t.getAddSuppliers().stream()
+					.map(u -> new SupplierForIngredient().setIngredient(ingredient)
+							.setSupplier(u.getSupplier())).collect(Collectors.toList());
+		}
+		return  supplierForIngredients;
+	}
+
+	private List<BrandForIngredient> addBrands(AddIngredient t, Ingredient ingredient) {
+		List<BrandForIngredient> brandForIngredients;
+		if(CollectionUtils.isEmpty(t.getAddBrands())){
+			brandForIngredients= Arrays.asList(new BrandForIngredient()
+					.setIngredient(ingredient).setBrand((
+							CollectionUtils.isEmpty(t.getAddBrands())?defaultBrand:
+									t.getAddBrands().get(0).getBrand())));
+		}
+		else {
+			brandForIngredients=	t.getAddBrands().stream()
+					.map(u -> new BrandForIngredient().setIngredient(ingredient)
+							.setBrand(u.getBrand())).collect(Collectors.toList());
+		}
+		return brandForIngredients;
+	}
+
 	@PostMapping("/addSuppliers")
 	public ResponseEntity addSuppliers(@Valid @RequestBody List<Supplier> suppliers) {
 		supplierRepo.saveAll(suppliers);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping("/addBrands")
+	public ResponseEntity addBrands(@Valid @RequestBody List<Brand> brands) {
+		brandRepo.saveAll(brands);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
