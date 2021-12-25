@@ -3,21 +3,14 @@
  */
 package com.chefstory.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 
 import com.chefstory.entity.Supplier;
 import com.chefstory.entity.SupplierForIngredient;
@@ -26,14 +19,12 @@ import com.chefstory.model.AddRecipe;
 import com.chefstory.repository.SupplierForIngredientRepo;
 import com.chefstory.repository.SupplierRepo;
 import com.chefstory.service.FileServiceUtils;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -145,8 +136,18 @@ public class RecipeController {
 		List<Ingredient> list=new ArrayList<>();
 		addIngredients.forEach(t->{
 			Ingredient ingredient=t.getIngredient();
-			Supplier supplier=CollectionUtils.isEmpty(t.getSupplierComps())?supplierRepo.findByTitle(DEFAULT).get(0):null;
-			ingredient.setSupplierForIngredients(Arrays.asList(new SupplierForIngredient().setIngredient(ingredient).setSupplierComp(supplier)));
+			List<SupplierForIngredient> supplierForIngredients=new ArrayList<>();
+			if(CollectionUtils.isEmpty(t.getSupplierComps())){
+				supplierForIngredients= Arrays.asList(new SupplierForIngredient()
+						.setIngredient(ingredient).setSupplierComp(supplierRepo.findByTitle(DEFAULT).get(0)));
+			}
+			else {
+				supplierForIngredients=	t.getSupplierComps().stream()
+						.map(u -> new SupplierForIngredient().setIngredient(ingredient)
+								.setSupplierComp(u.getSupplier())).collect(Collectors.toList());
+			}
+
+			ingredient.setSupplierForIngredients(supplierForIngredients);
 			list.add(ingredient);
 		});
 		ingredientRepo.saveAll(list);

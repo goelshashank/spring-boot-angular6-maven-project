@@ -2,6 +2,7 @@ package com.chefstory.model;
 
 import javax.validation.constraints.NotNull;
 
+import com.chefstory.entity.Supplier;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
@@ -18,4 +19,12 @@ import lombok.experimental.Accessors;
 public class SupplierComp {
 
 	@NotNull private Long id;
+	private Supplier supplier;
+
+	public SupplierComp setId(Long id) {
+		this.id = id;
+		this.supplier =new Supplier();
+		supplier.setId(id);
+		return this;
+	}
 }
