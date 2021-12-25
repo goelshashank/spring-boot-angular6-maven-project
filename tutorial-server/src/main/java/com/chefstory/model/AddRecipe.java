@@ -26,5 +26,4 @@ public class AddRecipe {
 
 	@NotNull Recipe recipe;
 	List<IngComp> ingredientComp;
-	List<RecipeComp> recipeComp;
 }
