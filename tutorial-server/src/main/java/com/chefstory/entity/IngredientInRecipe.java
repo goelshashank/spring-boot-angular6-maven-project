@@ -25,7 +25,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity(name = "ingredient_in_recipe")
 @Table(indexes = { @Index(columnList = "recipe_id"), @Index(columnList = "ingredient_comp_id"),
-		@Index(columnList = "recipe_comp_id") })
+		@Index(columnList = "supplier_ing_comp_id") })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientInRecipe extends BaseEntity {
 
@@ -39,8 +39,8 @@ public class IngredientInRecipe extends BaseEntity {
 	private Ingredient ingredientComp;
 
 	@ManyToOne
-	@JoinColumn(name = "recipe_comp_id")
-	private Recipe recipeComp;
+	@JoinColumn(name = "supplier_ing_comp_id")
+	private SupplierForIngredient supplierForIngredient;
 
 	@Column(name = "quantity_unit")
 	private Double quantityUnit;

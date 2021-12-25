@@ -69,23 +69,23 @@ public class RecipeController {
 
 	@GetMapping("/getAllRecipes")
 	public ResponseEntity<List<Recipe>> getAllRecipes() {
-		List<Recipe> recipes = recipeRepo.findAll().stream().map(t -> {
+		List<Recipe> recipes = recipeRepo.findAll();/*.stream().map(t -> {
 			Recipe recp = new Recipe();
 			recp.setId(t.getId());
 			recp.setTitle(t.getTitle());
 			return recp;
-		}).collect(Collectors.toList());
+		}).collect(Collectors.toList());*/
 		return new ResponseEntity<>(recipes, HttpStatus.OK);
 	}
 
 	@GetMapping("/getAllIngredients")
 	public ResponseEntity<List<Ingredient>> getAllIngredients() {
-		List<Ingredient> ingredients = ingredientRepo.findAll().stream().map(t -> {
+		List<Ingredient> ingredients = ingredientRepo.findAll();/*.stream().map(t -> {
 			Ingredient ing = new Ingredient();
 			ing.setId(t.getId());
 			ing.setTitle(t.getTitle());
 			return ing;
-		}).collect(Collectors.toList());
+		}).collect(Collectors.toList());*/
 		return new ResponseEntity<>(ingredients, HttpStatus.OK);
 	}
 
@@ -119,9 +119,17 @@ public class RecipeController {
 				return;
 
 			Recipe recipe=t.getRecipe();
+
 			List<IngredientInRecipe> ingredientInRecipes=
-					t.getIngredientComp().stream().map(u-> new IngredientInRecipe()
-							.setRecipe(recipe).setIngredientComp(u.getIngredient())).collect(Collectors.toList());
+					t.getIngredientComp().stream().map(u->{
+						SupplierForIngredient supplierForIngredient=new SupplierForIngredient().setIngredient(u.getIngredient())
+								.setSupplierComp(supplierRepo.findByTitle(DEFAULT).get(0));
+						supplierForIngredientRepo.save(supplierForIngredient);
+						IngredientInRecipe ingredientInRecipe= new IngredientInRecipe()
+							.setRecipe(recipe).setIngredientComp(u.getIngredient())
+							.setSupplierForIngredient(supplierForIngredient);
+					return ingredientInRecipe;
+					}).collect(Collectors.toList());
 			recipe.setIngredientInRecipe(ingredientInRecipes);
 			recipes.add(recipe);
 		});
@@ -136,10 +144,12 @@ public class RecipeController {
 		List<Ingredient> list=new ArrayList<>();
 		addIngredients.forEach(t->{
 			Ingredient ingredient=t.getIngredient();
-			List<SupplierForIngredient> supplierForIngredients=new ArrayList<>();
+			List<SupplierForIngredient> supplierForIngredients;
 			if(CollectionUtils.isEmpty(t.getSupplierComps())){
 				supplierForIngredients= Arrays.asList(new SupplierForIngredient()
-						.setIngredient(ingredient).setSupplierComp(supplierRepo.findByTitle(DEFAULT).get(0)));
+						.setIngredient(ingredient).setSupplierComp((
+								CollectionUtils.isEmpty(t.getSupplierComps())?supplierRepo.findByTitle(DEFAULT).get(0):
+				t.getSupplierComps().get(0).getSupplier())));
 			}
 			else {
 				supplierForIngredients=	t.getSupplierComps().stream()
