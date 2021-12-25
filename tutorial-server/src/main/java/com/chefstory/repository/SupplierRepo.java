@@ -1,11 +1,10 @@
 package com.chefstory.repository;
 
+import java.util.List;
+
+import com.chefstory.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.chefstory.entity.Ingredient;
-
-import java.util.List;
 
 /**
  * @author Shashank Goel
@@ -13,9 +12,9 @@ import java.util.List;
  * @since 09/05/21
  */
 @Repository
-public interface IngredientRepo extends JpaRepository<Ingredient, Integer> {
+public interface SupplierRepo extends JpaRepository<Supplier, Integer> {
 
-	public List<Ingredient> findByTitle(String title);
+	public List<Supplier> findByTitle(String title);
 
-	public Ingredient findById(Long id);
+	public Supplier findById(Long id);
 }

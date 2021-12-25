@@ -1,5 +1,6 @@
 package com.chefstory.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -51,8 +53,8 @@ public class Ingredient extends BaseEntity {
 	@Column(name = "video_id")
 	private String videoId;
 
-	@OneToMany
-	@JoinColumn(name = "ingredient_id")
+	@JsonManagedReference
+	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
 	private List<SupplierForIngredient> supplierForIngredients;
 
 	@Column(name = "status")

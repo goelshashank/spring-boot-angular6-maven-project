@@ -7,7 +7,8 @@ import javax.persistence.Column;
 		import javax.persistence.ManyToOne;
 		import javax.persistence.Table;
 
-		import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 		import lombok.Data;
 		import lombok.experimental.Accessors;
@@ -24,8 +25,10 @@ import javax.persistence.Column;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SupplierForIngredient extends BaseEntity {
 
-	@Column(name = "ingredient_id", nullable = false)
-	private Long ingredientId;
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "ingredient_id", nullable = false)
+	private Ingredient ingredient;
 
 	@ManyToOne
 	@JoinColumn(name = "supplier_comp_id")

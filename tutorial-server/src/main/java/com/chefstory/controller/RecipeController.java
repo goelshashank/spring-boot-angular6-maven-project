@@ -14,11 +14,17 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
+import com.chefstory.entity.Supplier;
+import com.chefstory.entity.SupplierForIngredient;
+import com.chefstory.model.AddIngredient;
 import com.chefstory.model.AddRecipe;
+import com.chefstory.repository.SupplierForIngredientRepo;
+import com.chefstory.repository.SupplierRepo;
 import com.chefstory.service.FileServiceUtils;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +63,16 @@ public class RecipeController {
 	private IngredientRepo ingredientRepo;
 	@Autowired
 	private FileServiceUtils fileServiceUtils;
+	@Autowired
+	private SupplierRepo supplierRepo;
+	@Autowired
+	private SupplierForIngredientRepo supplierForIngredientRepo;
+
+	@PostConstruct
+	public void init(){
+		if(CollectionUtils.isEmpty(supplierRepo.findByTitle("default")))
+			supplierRepo.save(new Supplier().setTitle("default"));
+	}
 
 	@GetMapping("/getAllRecipes")
 	public ResponseEntity<List<Recipe>> getAllRecipes() {
@@ -99,31 +116,35 @@ public class RecipeController {
 	@Transactional
 	public ResponseEntity addRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
 
-			addRecipeList.forEach(addRecipe -> {
-				if (CollectionUtils.isEmpty(addRecipe.getIngredientComp()))
-					throw new ValidationException();
-
-				recipeRepo.save(addRecipe.getRecipe());
-				addIngredientToRecipe(addRecipe);
-			});
-
-
+		List<Recipe> recipes=new ArrayList<>();
+		recipes.add(new Recipe().setTitle("1"));
+		//addSuppliers(Arrays.asList(new Supplier().setTitle("a")));
+		Ingredient ingredient=ingredientRepo.findByTitle("fgds").get(0);
+		Ingredient ing1=new Ingredient();
+		ing1.setId(ingredient.getId());
+		recipes.get(0).setIngredientInRecipe(Arrays.asList(new IngredientInRecipe()
+				.setRecipe(recipes.get(0)).setIngredientComp(ing1)));
+		recipeRepo.saveAll(recipes);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/addIngredients")
-	public ResponseEntity addIngredients(@Valid @RequestBody List<Ingredient> ingredients) {
-		ingredientRepo.saveAll(ingredients);
+	public ResponseEntity addIngredients(@Valid @RequestBody List<AddIngredient> addIngredients) {
+
+		addIngredients.forEach(t->{
+			Ingredient ingredient=t.getIngredient();
+			Supplier supplier=CollectionUtils.isEmpty(t.getSupplierComps())?supplierRepo.findByTitle("default").get(0):null;
+			ingredient.setSupplierForIngredients(Arrays.asList(new SupplierForIngredient().setIngredient(ingredient).setSupplierComp(supplier)));
+			ingredientRepo.save(ingredient);
+		});
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/existIngredient")
-	public ResponseEntity<Boolean> existIngredient(@Valid @RequestBody Ingredient ingredient) {
-		Ingredient ing = ingredientRepo.findByTitle(ingredient.getTitle());
-		if (ing != null)
-			return new ResponseEntity<>(true, HttpStatus.OK);
-
-		return new ResponseEntity<>(false, HttpStatus.OK);
+	@PostMapping("/addSuppliers")
+	public ResponseEntity addSuppliers(@Valid @RequestBody List<Supplier> suppliers) {
+		supplierRepo.saveAll(suppliers);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 
@@ -135,12 +156,13 @@ public class RecipeController {
 				if(t==null)
 					return;
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-				ingredientInRecipe.setRecipeId(addRecipe.getRecipe().getId());
+				ingredientInRecipe.setRecipe(addRecipe.getRecipe());
 				Ingredient ingredient = new Ingredient();
 				ingredient.setId(t.getId());
 				ingredientInRecipe.setIngredientComp(ingredient);
 				ingredientInRecipe.setQuantityUnit(t.getQuantityUnit());
 				ingredientInRecipes.add(ingredientInRecipe);
+				addRecipe.getRecipe().setIngredientInRecipe(ingredientInRecipes);
 			});
 		}
 
@@ -150,15 +172,16 @@ public class RecipeController {
 					return;
 
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-				ingredientInRecipe.setRecipeId(addRecipe.getRecipe().getId());
+				ingredientInRecipe.setRecipe(addRecipe.getRecipe());
 				Recipe recipe = new Recipe();
 				recipe.setId(t.getId());
 				ingredientInRecipe.setRecipeComp(recipe);
 				ingredientInRecipe.setQuantityUnit(t.getQuantityUnit());
 				ingredientInRecipes.add(ingredientInRecipe);
+				addRecipe.getRecipe().setIngredientInRecipe(ingredientInRecipes);
 			});
 		}
-		ingredientInRecipeRepo.saveAll(ingredientInRecipes);
+ 		recipeRepo.save(addRecipe.getRecipe());
 
 		return new ResponseEntity<>(HttpStatus.OK);
 

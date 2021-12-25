@@ -2,10 +2,11 @@ package com.chefstory.model;
 
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.chefstory.entity.Ingredient;
 import com.chefstory.entity.Recipe;
+import com.chefstory.entity.SupplierForIngredient;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
@@ -22,9 +23,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AddRecipe {
+public class AddIngredient {
 
-	@NotNull Recipe recipe;
-	List<IngComp> ingredientComp;
-	List<RecipeComp> recipeComp;
+	@NotNull Ingredient ingredient;
+	List<SupplierComp> supplierComps;
 }

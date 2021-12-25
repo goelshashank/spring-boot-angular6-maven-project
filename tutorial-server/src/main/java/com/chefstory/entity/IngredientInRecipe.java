@@ -1,12 +1,16 @@
 package com.chefstory.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
@@ -25,8 +29,10 @@ import lombok.experimental.Accessors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientInRecipe extends BaseEntity {
 
-	@Column(name = "recipe_id", nullable = false)
-	private Long recipeId;
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "recipe_id", nullable = false)
+	private Recipe recipe;
 
 	@ManyToOne
 	@JoinColumn(name = "ingredient_comp_id")
