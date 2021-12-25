@@ -22,6 +22,7 @@ import com.chefstory.model.AddRecipe;
 import com.chefstory.service.FileServiceUtils;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -85,6 +86,7 @@ public class RecipeController {
 	}
 
 	@GetMapping("/getConfig")
+	@Cacheable
 	public ResponseEntity<GetConfigResponse> getConfig() {
 		GetConfigResponse getConfigResponse = new GetConfigResponse();
 		getConfigResponse.setUnitsDetailed(Unit.values());

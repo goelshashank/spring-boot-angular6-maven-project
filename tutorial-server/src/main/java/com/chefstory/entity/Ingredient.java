@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -13,6 +15,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * @author Shashank Goel
@@ -46,6 +50,10 @@ public class Ingredient extends BaseEntity {
 
 	@Column(name = "video_id")
 	private String videoId;
+
+	@OneToMany
+	@JoinColumn(name = "ingredient_id")
+	private List<SupplierForIngredient> supplierForIngredients;
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
