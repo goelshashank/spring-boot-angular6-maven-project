@@ -7,7 +7,7 @@ import {Ingredient} from './model/Ingredient';
 import {AddRecipe} from './model/AddRecipe';
 import {NgForm} from '@angular/forms';
 import {AppConfiguration} from './model/AppConfiguration';
-import {IngredientInRecipe} from "./model/IngredientInRecipe";
+import {IngredientInRecip} from "./model/IngredientInRecip";
 
 
 @Component({

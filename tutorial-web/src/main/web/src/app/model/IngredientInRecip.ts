@@ -1,6 +1,6 @@
 import {Ingredient} from './Ingredient';
 
 
-export class IngredientInRecipe {
+export class IngredientInRecip {
   ingredientComp: Ingredient;
 }
