@@ -8,6 +8,8 @@ import {AppComponent} from '../app.component';
 import {AddIngredient} from '../model/AddIngredient';
 import {Brand} from '../model/Brand';
 import {Supplier} from '../model/Supplier';
+import {AddSupplier} from '../model/AddSupplier';
+import {AddBrand} from '../model/AddBrand';
 
 @Component({
   selector: 'app-ingredient',
@@ -74,4 +76,27 @@ export class IngredientComponent implements OnInit {
     }
   }
 
+
+  setSuppliers(suppliers: Supplier[]) {
+    suppliers.forEach(t => {
+      let addSupplier: AddSupplier=new AddSupplier();
+      addSupplier.supplier=t;
+      this.addIngredient.addSuppliers.push(addSupplier);
+    });
+
+    console.log('Supplier  list' + JSON.stringify(Array.from(this.addIngredient.addSuppliers)));
+
+  }
+
+
+  setBrands(brands: Brand[]) {
+    brands.forEach(t => {
+      let addBrand: AddBrand=new AddBrand();
+      addBrand.brand=t;
+      this.addIngredient.addBrands.push(addBrand);
+    });
+
+    console.log('Brands list' + JSON.stringify(Array.from(this.addIngredient.addBrands)));
+
+  }
 }

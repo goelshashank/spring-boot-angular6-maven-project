@@ -58,7 +58,7 @@ export class RecipeComponent implements OnInit {
     this.ngOnInit();
   }
 
-  setIngComps(ingList: Ingredient[]) {
+  setIngredients(ingList: Ingredient[]) {
 
     let ingCompMap: Map<number, AddIngredient> = new Map<number, AddIngredient>();
     ingList.forEach(t => {

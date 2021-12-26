@@ -15,6 +15,20 @@
     <input [(ngModel)]="addIngredient.ingredient.perUnitCost" class="form-control" id="perUnitCostIng" name="perUnitCostIng"
            placeholder="Enter per unit cost"
            type="text">
+    <label id="supplierForIng" for="supplierForIng">Supplier:</label>
+    <ng-select (change)="setSuppliers($event)" [multiple]="true"
+               [searchable]="true"
+               appendTo="body"
+               class="form-control" id="supplierForIng" name="supplierForIng">
+      <ng-option *ngFor="let sup of appComponent.suppliers" [value]="sup">{{sup.title}}</ng-option>
+    </ng-select>
+    <label id="brandForIng" for="brandForIng">Brand:</label>
+    <ng-select (change)="setBrands($event)" [multiple]="true"
+               [searchable]="true"
+               appendTo="body"
+               class="form-control" id="brandForIng" name="brandForIng">
+      <ng-option *ngFor="let brand of appComponent.brands" [value]="brand">{{brand.title}}</ng-option>
+    </ng-select>
 
     <label for="unitListIng">Units:</label>
     <select [(ngModel)]="addIngredient.ingredient.unit" class="form-control" id="unitListIng"

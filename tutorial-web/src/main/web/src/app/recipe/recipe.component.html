@@ -5,12 +5,12 @@
            id="titleRecipe"
            name="titleRecipe" placeholder="Title is required" required type="text">
 
-    <label for="ingredientListForRecipe">Ingredient:</label>
-    <ng-select (change)="setIngComps($event)" [multiple]="true"
+    <label id="ingredientListForRecipe" for="ingredientListForRecipe">Ingredient:</label>
+    <ng-select (change)="setIngredients($event)" [multiple]="true"
                [searchable]="true"
                appendTo="body"
                class="form-control" id="ingredientListForRecipe" name="ingredientListForRecipe">
-      <ng-option *ngFor="let ing of appComponent.ingredientList" [value]="ing">{{ing.title}}</ng-option>
+      <ng-option *ngFor="let ing of appComponent.ingredients" [value]="ing">{{ing.title}}</ng-option>
     </ng-select>
 
     <table appendTo="body" class="my-table">

@@ -49,13 +49,13 @@
         <app-recipe *ngIf="isShowAddRecipe"></app-recipe>
         <div *ngIf="isDisplayAll">
 
-          <label for="searchRecipe">Search Recipe</label>
+          <label for="searchRecipe" id="searchRecipe">Search Recipe</label>
           <ng-select  (change)="getRecipe($event)"
                       [multiple]="false"
                      [searchable]="true"
                      appendTo="body"
                      class="form-control"  id="searchRecipe">
-            <ng-option *ngFor="let recipe of recipeList" [value]="recipe">{{recipe.title}}</ng-option>
+            <ng-option *ngFor="let recipe of recipes" [value]="recipe">{{recipe.title}}</ng-option>
           </ng-select>
           <div class="table-responsive">
 

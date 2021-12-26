@@ -8,6 +8,8 @@ import {AddRecipe} from './model/AddRecipe';
 import {NgForm} from '@angular/forms';
 import {AppConfiguration} from './model/AppConfiguration';
 import {IngredientInRecip} from "./model/IngredientInRecip";
+import {Supplier} from './model/Supplier';
+import {Brand} from './model/Brand';
 
 
 @Component({
@@ -19,8 +21,10 @@ import {IngredientInRecip} from "./model/IngredientInRecip";
 export class AppComponent implements OnInit {
 
   title = 'homepage';
-  ingredientList: Ingredient[] = [];
-  recipeList: Recipe[] = [];
+  ingredients: Ingredient[] = [];
+  recipes: Recipe[] = [];
+  suppliers: Supplier[] = [];
+  brands: Brand[] = [];
   appConfiguration: AppConfiguration = new AppConfiguration();
   isShowAddIng = false;
   isShowAddRecipe = false;
@@ -56,8 +60,8 @@ export class AppComponent implements OnInit {
   getAllRecipes() {
     this.http.get<Recipe[]>(environment.baseUrl + ApiPaths.GetAllRecipes).subscribe(
       (response) => {
-        this.recipeList = response;
-        console.log('Recipes - ' + JSON.stringify(this.recipeList));
+        this.recipes = response;
+        console.log('Recipes - ' + JSON.stringify(this.recipes));
       },
       (error) => {
         console.log('Error happened in get all recipes' + JSON.stringify(error));
@@ -65,22 +69,50 @@ export class AppComponent implements OnInit {
       () => {
         console.log('%% get all recipes is completed successfully %%');
       });
-    return this.recipeList;
+    return this.recipes;
   }
 
   getAllIngredients() {
     this.http.get<Ingredient[]>(environment.baseUrl + ApiPaths.GetAllIngredients).subscribe(
       (response) => {
-        this.ingredientList = response;
-        console.log('Ingredients - ' + JSON.stringify(this.ingredientList));
+        this.ingredients = response;
+        console.log('Ingredients - ' + JSON.stringify(this.ingredients));
       },
       (error) => {
         console.log('Error happened  in get all ingredients' + JSON.stringify(error));
       },
       () => {
         console.log('%% get all ingredients is completed successfully %%');
-      });
-    return this.ingredientList;
+      });return this.ingredients;
+  }
+
+  getAllSuppliers() {
+    this.http.get<Supplier[]>(environment.baseUrl + ApiPaths.GetAllSuppliers).subscribe(
+      (response) => {
+        this.suppliers = response;
+        console.log('suppliers - ' + JSON.stringify(this.suppliers));
+      },
+      (error) => {
+        console.log('Error happened  in get all suppliers' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% get all suppliers is completed successfully %%');
+      });return this.suppliers;
+  }
+
+
+  getAllBrands() {
+    this.http.get<Brand[]>(environment.baseUrl + ApiPaths.GetAllBrands).subscribe(
+      (response) => {
+        this.brands = response;
+        console.log('Ingredients - ' + JSON.stringify(this.brands));
+      },
+      (error) => {
+        console.log('Error happened  in get all brands' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% get all brands is completed successfully %%');
+      });return this.brands;
   }
 
 
@@ -102,6 +134,8 @@ export class AppComponent implements OnInit {
     this.getConfiguration();
     this.getAllIngredients();
     this.getAllRecipes();
+    this.getAllSuppliers();
+    this.getAllBrands();
     console.log(' --------  App cache refreshed ---------');
   }
 
