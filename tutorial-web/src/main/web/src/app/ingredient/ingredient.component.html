@@ -6,18 +6,18 @@
   <form #addIngForm="ngForm" (ngSubmit)="addIngredients(addIngForm)" class="form-group">
 
     <label for="titleIng">*Title</label>
-    <input #titleIng="ngModel" [(ngModel)]="ingredient.title" class="form-control" id="titleIng" name="titleIng"
+    <input #titleIng="ngModel" [(ngModel)]="addIngredient.ingredient.title" class="form-control" id="titleIng" name="titleIng"
            placeholder="Title is required" required type="text">
     <label for="categoryIng">Category</label>
-    <input [(ngModel)]="ingredient.category" class="form-control" id="categoryIng" name="categoryIng" placeholder="Enter category"
+    <input [(ngModel)]="addIngredient.ingredient.category" class="form-control" id="categoryIng" name="categoryIng" placeholder="Enter category"
            type="text">
     <label for="perUnitCostIng">Per Unit Cost</label>
-    <input [(ngModel)]="ingredient.perUnitCost" class="form-control" id="perUnitCostIng" name="perUnitCostIng"
+    <input [(ngModel)]="addIngredient.ingredient.perUnitCost" class="form-control" id="perUnitCostIng" name="perUnitCostIng"
            placeholder="Enter per unit cost"
            type="text">
 
     <label for="unitListIng">Units:</label>
-    <select [(ngModel)]="ingredient.unit" class="form-control" id="unitListIng"
+    <select [(ngModel)]="addIngredient.ingredient.unit" class="form-control" id="unitListIng"
             name="unitListIng">
       <optgroup [attr.label]="group.key" *ngFor="let group of appComponent.appConfiguration.unitsDetailed | keyvalue">
       <option *ngFor="let unitDetailed of group.value" value="{{unitDetailed.unit}}">{{unitDetailed.unit}}

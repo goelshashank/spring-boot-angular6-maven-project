@@ -107,9 +107,9 @@ export class AppComponent implements OnInit {
 
 
   getRecipe(recipe:Recipe){
-    this.http.post<Recipe>(environment.baseUrl + ApiPaths.GetRecipe,recipe).subscribe(
-      (response) => {
-        this.displayRecipeInfo = response;
+    this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes,Array.of(recipe)).subscribe(
+      (response ) => {
+        this.displayRecipeInfo = response[0];
         console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
       },
       (error) => {
@@ -121,9 +121,9 @@ export class AppComponent implements OnInit {
   }
 
   getIngredient(ing:Ingredient){
-    this.http.post<Ingredient>(environment.baseUrl + ApiPaths.GetIngredient,ing).subscribe(
-      (response) => {
-        this.displayIngredientInfo = response;
+    this.http.post<Map<number,Ingredient>>(environment.baseUrl + ApiPaths.GetIngredients,Array.of(ing)).subscribe(
+      (response: Map<number,Ingredient>) => {
+        this.displayIngredientInfo = response.get(ing.id);
         console.log('Ingredient - ' + JSON.stringify(this.displayIngredientInfo));
       },
       (error) => {

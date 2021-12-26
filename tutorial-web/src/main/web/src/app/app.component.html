@@ -70,12 +70,12 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor="let ingredient of displayRecipeInfo.ingredientInRecipe" >
-                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.title}} </td>
-                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.quantityUnit}} </td>
-                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.category}} </td>
-                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.perUnitCost}} </td>
-                    <td  class="text-center col-md-2"> {{ingredient.ingredientComp.unit}} </td>
+                  <tr *ngFor="let ingredientInRecipe of displayRecipeInfo.ingredientInRecipe" >
+                    <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.title}} </td>
+                    <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.quantityUnit}} </td>
+                    <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.category}} </td>
+                    <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.perUnitCost}} </td>
+                    <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.unit}} </td>
                   </tr>
                   </tbody>
                   </table>

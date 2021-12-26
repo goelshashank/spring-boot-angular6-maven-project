@@ -1,9 +1,7 @@
 import {Recipe} from './Recipe';
-import {Ingredient} from './Ingredient';
+import {AddIngredient} from './AddIngredient';
 
 export class AddRecipe {
   recipe: Recipe;
-  ingredientComp: Ingredient[];
-  recipeComp: Recipe[];
-
+  addIngredients: AddIngredient[];
 }

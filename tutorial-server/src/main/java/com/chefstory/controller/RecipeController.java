@@ -5,6 +5,7 @@ package com.chefstory.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class RecipeController {
 
 	private static final String DEFAULT="default";
-	
+	private static final String ADD="add";
+	private static final String UPDATE="update";
+	private static final String REMOVE="remove";
+
 	@Autowired
 	private RecipeRepo recipeRepo;
 	@Autowired
@@ -66,13 +70,12 @@ public class RecipeController {
 	@Autowired
 	private SupplierForIngredientRepo supplierForIngredientRepo;
 	@Autowired
-	private Supplier defaultSupplier;
-	@Autowired
-	private Brand defaultBrand;
-	@Autowired
 	BrandForIngredientRepo brandForIngredientRepo;
 	@Autowired
 	BrandRepo brandRepo;
+
+	private Supplier defaultSupplier;
+	private Brand defaultBrand;
 
 	@PostConstruct
 	public void init(){
@@ -127,21 +130,21 @@ public class RecipeController {
 	}
 
 	@PostMapping("/getRecipes")
-	public ResponseEntity<Map<Long,Recipe>> getRecipes(@RequestBody List<Recipe> recipes) {
+	public ResponseEntity<Collection<Recipe>> getRecipes(@RequestBody List<Recipe> recipes) {
 		Map<Long,Recipe> recipeMap=new HashMap<>();
 		recipes.stream().forEach(t-> {
 			recipeMap.put(t.getId(),recipeRepo.findById(t.getId()));
 		});
-		return new ResponseEntity<>(recipeMap, HttpStatus.OK);
+		return new ResponseEntity<>(recipeMap.values(), HttpStatus.OK);
 	}
 
 	@PostMapping("/getIngredients")
-	public ResponseEntity<Map<Long,Ingredient>> getIngredients(@RequestBody List<Ingredient> ingredients) {
+	public ResponseEntity<Collection<Ingredient>> getIngredients(@RequestBody List<Ingredient> ingredients) {
 		Map<Long,Ingredient> ingredientMap=new HashMap<>();
 		ingredients.stream().forEach(t-> {
 			ingredientMap.put(t.getId(),ingredientRepo.findById(t.getId()));
 		});
-		return new ResponseEntity<>(ingredientMap, HttpStatus.OK);
+		return new ResponseEntity<>(ingredientMap.values(), HttpStatus.OK);
 	}
 
 	@PostMapping("/getBrands")
@@ -173,8 +176,8 @@ public class RecipeController {
 		return new ResponseEntity<>(getConfigResponse, HttpStatus.OK);
 	}
 
-	@PostMapping("/addRecipes")
-	public ResponseEntity addRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
+	@PostMapping("/updateRecipes/{action}")
+	public ResponseEntity updateRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
 
 		List<Recipe> recipes=new ArrayList<>();
 		addRecipeList.forEach(t->{
@@ -201,17 +204,19 @@ public class RecipeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/addIngredients")
-	public ResponseEntity addIngredients(@Valid @RequestBody List<AddIngredient> addIngredients) {
+	@PostMapping("/updateIngredients/{action}")
+	public ResponseEntity updateIngredients(@Valid @RequestBody List<AddIngredient> addIngredients,@PathVariable(name="action",required
+			=true)String action) {
 
-		List<Ingredient> list=new ArrayList<>();
-		addIngredients.forEach(t->{
-			Ingredient ingredient=
-					t.getIngredient().setBrandForIngredients(addBrands(t, t.getIngredient()))
-							.setSupplierForIngredients(addSupplier(t, t.getIngredient()));
-			list.add(ingredient);
-		});
-		ingredientRepo.saveAll(list);
+		if(ADD.equalsIgnoreCase(action)) {
+			List<Ingredient> list = new ArrayList<>();
+			addIngredients.forEach(t -> {
+				Ingredient ingredient = t.getIngredient().setBrandForIngredients(addBrands(t, t.getIngredient()))
+						.setSupplierForIngredients(addSupplier(t, t.getIngredient()));
+				list.add(ingredient);
+			});
+			ingredientRepo.saveAll(list);
+		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -248,14 +253,16 @@ public class RecipeController {
 		return brandForIngredients;
 	}
 
-	@PostMapping("/addSuppliers")
-	public ResponseEntity addSuppliers(@Valid @RequestBody List<Supplier> suppliers) {
+	@PostMapping("/updateSuppliers/{action}")
+	public ResponseEntity updateSuppliers(@Valid @RequestBody List<Supplier> suppliers,@PathVariable(name="action",required
+			=true)String action) {
 		supplierRepo.saveAll(suppliers);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/addBrands")
-	public ResponseEntity addBrands(@Valid @RequestBody List<Brand> brands) {
+	@PostMapping("/updateBrands/{action}")
+	public ResponseEntity updateBrands(@Valid @RequestBody List<Brand> brands,@PathVariable(name="action",required
+			=true)String action) {
 		brandRepo.saveAll(brands);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

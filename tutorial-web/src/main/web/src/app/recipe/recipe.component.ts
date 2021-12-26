@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {Recipe} from '../model/Recipe';
 import {Ingredient} from '../model/Ingredient';
 import {AppComponent} from '../app.component';
+import {AddIngredient} from '../model/AddIngredient';
 
 @Component({
   selector: 'app-recipe',
@@ -19,7 +20,7 @@ export class RecipeComponent implements OnInit {
   addRecipe: AddRecipe = new AddRecipe();
   title = 'recipe';
   recipe: Recipe = new Recipe();
-  ingCompMap: Map<number, Ingredient> = new Map<number, Ingredient>();
+  addIngMap: Map<number, AddIngredient> = new Map<number, AddIngredient>();
   totalCost: number;
 
   constructor(private http: HttpClient, public appComponent: AppComponent) {
@@ -32,7 +33,7 @@ export class RecipeComponent implements OnInit {
 
   addRecipes(form: NgForm) {
 
-    this.addRecipe.ingredientComp = Array.from(this.ingCompMap.values());
+    this.addRecipe.addIngredients = Array.from(this.addIngMap.values());
     this.addRecipe.recipe = this.recipe;
 
     let addRecipeList: AddRecipe[] = [];
@@ -59,26 +60,26 @@ export class RecipeComponent implements OnInit {
 
   setIngComps(ingList: Ingredient[]) {
 
-    let ingCompMap: Map<number, Ingredient> = new Map<number, Ingredient>();
+    let ingCompMap: Map<number, AddIngredient> = new Map<number, AddIngredient>();
     ingList.forEach(t => {
-      let ing: Ingredient;
-      if (this.ingCompMap.get(t.id) != undefined) {
-        ing = this.ingCompMap.get(t.id);
+      let addIngredient: AddIngredient=new AddIngredient();
+      if (this.addIngMap.get(t.id) != undefined) {
+        addIngredient = this.addIngMap.get(t.id);
       } else {
-        ing = t;
+        addIngredient.ingredient = t;
       }
-      ing.quantityUnit = 1;
-      ingCompMap.set(t.id, ing);
+      addIngredient.ingredient.quantityUnit = 1;
+      ingCompMap.set(t.id, addIngredient);
     });
-    this.ingCompMap = ingCompMap;
-    console.log('Ing comp list' + JSON.stringify(Array.from(this.ingCompMap.values())));
+    this.addIngMap = ingCompMap;
+    console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
     this.calculateCost();
   }
 
   async calculateCost() {
     this.totalCost = 0;
-    this.ingCompMap.forEach((value, key) => {
-      this.totalCost = this.totalCost + (value.perUnitCost * value.quantityUnit);
+    this.addIngMap.forEach((value, key) => {
+      this.totalCost = this.totalCost + (value.ingredient.perUnitCost * value.ingredient.quantityUnit);
     });
   }
 

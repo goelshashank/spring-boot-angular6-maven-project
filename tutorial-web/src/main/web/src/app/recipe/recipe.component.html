@@ -19,14 +19,14 @@
         <th>Quantity</th>
         <th class="price">Price</th>
       </tr>
-      <tr *ngFor="let addIngComp of ingCompMap | keyvalue;let i = index;" appendTo="body">
+      <tr *ngFor="let addIng of addIngMap | keyvalue;let i = index;" appendTo="body">
 
-        <td> {{addIngComp.value.title}} </td>
+        <td> {{addIng.value.ingredient.title}} </td>
         <td>
-          <input (change)="calculateCost()" [(ngModel)]="addIngComp.value.quantityUnit" appendTo="body"
+          <input (change)="calculateCost()" [(ngModel)]="addIng.value.ingredient.quantityUnit" appendTo="body"
                  class="form-control" id="ingCont" name="ingCont" placeholder="Quantity" required type="text">
         </td>
-        <td class="price"> {{addIngComp.value.perUnitCost * addIngComp.value.quantityUnit}} </td>
+        <td class="price"> {{addIng.value.ingredient.perUnitCost * addIng.value.ingredient.quantityUnit}} </td>
       </tr>
 
     </table>

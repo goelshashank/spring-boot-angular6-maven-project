@@ -5,6 +5,9 @@ import {environment} from '../../environments/environment';
 import {ApiPaths} from '../config/ApiPaths';
 import {HttpClient} from '@angular/common/http';
 import {AppComponent} from '../app.component';
+import {AddIngredient} from '../model/AddIngredient';
+import {Brand} from '../model/Brand';
+import {Supplier} from '../model/Supplier';
 
 @Component({
   selector: 'app-ingredient',
@@ -15,7 +18,7 @@ import {AppComponent} from '../app.component';
 export class IngredientComponent implements OnInit {
 
   title = 'ingredient';
-  ingredient: Ingredient = new Ingredient();
+  addIngredient: AddIngredient = new AddIngredient();
   isShowAddIng = true;
   imageSrc: string;
   file: File;
@@ -32,14 +35,14 @@ export class IngredientComponent implements OnInit {
   }
 
   addIngredients(form: NgForm) {
-    let ingredientList: Ingredient[] = [];
-    ingredientList.push(this.ingredient);
+    let addIngredients: AddIngredient[] = [];
+    addIngredients.push(this.addIngredient);
 
     if (form.valid) {
-      console.log('Add ingredient list: ' + JSON.stringify(ingredientList));
+      console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
     }
 
-    this.http.post(environment.baseUrl + ApiPaths.AddIngredients, ingredientList).subscribe(
+    this.http.post(environment.baseUrl + ApiPaths.AddIngredients, addIngredients).subscribe(
       (response) => {
         console.log('Add ingredients response -' + JSON.stringify(response));
       },
