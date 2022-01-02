@@ -7,6 +7,7 @@ import javax.persistence.Column;
 		import javax.persistence.JoinColumn;
 		import javax.persistence.ManyToOne;
 		import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,7 +23,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @Data
 @Accessors(chain = true)
 @Entity(name = "supplier_for_ingredient")
-@Table(indexes = { @Index(columnList = "ingredient_id"), @Index(columnList = "supplier_id") })
+@Table(indexes = { @Index(columnList = "ingredient_id"), @Index(columnList = "supplier_id") },
+		uniqueConstraints =@UniqueConstraint(columnNames = {"ingredient_id", "supplier_id"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SupplierForIngredient extends BaseEntity {
 

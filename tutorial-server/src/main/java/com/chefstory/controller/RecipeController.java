@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +31,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -188,6 +190,9 @@ public class RecipeController {
 
 				Recipe recipe = t.getRecipe();
 
+				CompletableFuture.runAsync(()->
+						updateIngredients(t.getAddIngredients(),UPDATE));
+
 				List<IngredientInRecipe> ingredientInRecipes = t.getAddIngredients().stream().map(u -> {
 
 					Supplier supplier = CollectionUtils.isEmpty(u.getAddSuppliers()) ? defaultSupplier : u.getAddSuppliers().get(0).getSupplier();
@@ -218,6 +223,16 @@ public class RecipeController {
 				list.add(ingredient);
 			});
 			ingredientRepo.saveAll(list);
+		}else if(UPDATE.equalsIgnoreCase(action)){
+			addIngredients.forEach(t -> {
+				try {
+					Ingredient ingredient = t.getIngredient().setBrandForIngredients(addBrands(t, t.getIngredient()))
+							.setSupplierForIngredients(addSupplier(t, t.getIngredient()));
+					ingredientRepo.save(ingredient);
+				}catch (Exception e){
+					log.error("Error in updating ingredient {}",t.getIngredient(),e);
+				}
+			});
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);

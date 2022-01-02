@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,7 +26,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity(name = "ingredient_in_recipe")
 @Table(indexes = { @Index(columnList = "recipe_id"), @Index(columnList = "ingredient_id"),
-		@Index(columnList = "supplier_id") })
+		@Index(columnList = "supplier_id") },
+		uniqueConstraints =@UniqueConstraint(columnNames = {"ingredient_id", "recipe_id","supplier_id","brand_id"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientInRecipe extends BaseEntity {
 

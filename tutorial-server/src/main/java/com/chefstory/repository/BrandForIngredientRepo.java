@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import com.chefstory.entity.SupplierForIngredient;
 
+import java.util.List;
+
 /**
  * @author Shashank Goel
  * @version 1.0
@@ -13,5 +15,8 @@ import com.chefstory.entity.SupplierForIngredient;
  */
 @Repository
 public interface BrandForIngredientRepo extends JpaRepository<BrandForIngredient, Integer> {
+
+
+	public List<BrandForIngredientRepo> findByIngredientIdAndBrandId(Long ingId,Long brandId);
 
 }
