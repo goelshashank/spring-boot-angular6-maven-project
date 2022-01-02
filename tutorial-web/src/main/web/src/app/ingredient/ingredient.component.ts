@@ -99,4 +99,8 @@ export class IngredientComponent implements OnInit {
     console.log('Brands list' + JSON.stringify(Array.from(this.addIngredient.addBrands)));
 
   }
+
+  calculatePerUnitCost(){
+    this.addIngredient.ingredient.perUnitCost=this.addIngredient.ingredient.skuCost/this.addIngredient.ingredient.skuQty;
+  }
 }

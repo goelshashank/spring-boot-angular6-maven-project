@@ -18,6 +18,8 @@
         <th>Title</th>
         <th>Quantity</th>
         <th class="price">Price</th>
+        <th>Supplier</th>
+        <th>Brand</th>
       </tr>
       <tr *ngFor="let addIng of addIngMap | keyvalue;let i = index;" appendTo="body">
 
@@ -27,6 +29,26 @@
                  class="form-control" id="ingCont" name="ingCont" placeholder="Quantity" required type="text">
         </td>
         <td class="price"> {{addIng.value.ingredient.perUnitCost * addIng.value.ingredient.quantityUnit}} </td>
+
+
+    <td>
+        <ng-select  [multiple]="false"
+                   [searchable]="true"
+                   appendTo="body"
+                   class="form-control" id="supplierForIng" name="supplierForIng">
+          <ng-option *ngFor="let sup of addIng.value.ingredient.supplierForIngredients"
+                     [value]="sup">{{sup.supplier.title}}</ng-option>
+        </ng-select>
+    </td>
+        <td>
+          <ng-select  [multiple]="false"
+                      [searchable]="true"
+                      appendTo="body"
+                      class="form-control" id="brandForIng" name="brandForIng">
+            <ng-option *ngFor="let brand of addIng.value.ingredient.brandForIngredients"
+                       [value]="brand">{{brand.brand.title}}</ng-option>
+          </ng-select>
+        </td>
       </tr>
 
     </table>

@@ -109,7 +109,17 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
         </dependency>
+      <dependency>
+            <groupId>cz.habarta.typescript-generator</groupId>
+            <artifactId>typescript-generator-spring</artifactId>
+            <version>${cz.habarta.typescript-generator.version}</version>
+        </dependency>
     </dependencies>
+
+    <properties>
+        <cz.habarta.typescript-generator.version>2.34.976</cz.habarta.typescript-generator.version>
+        <typescript-output-dir>/Users/b0218850/IdeaProjects/spring-boot-angular6-maven-project/tutorial-web/src/main/web/src/app/model/generated-ts-classes</typescript-output-dir>
+    </properties>
 
     <build>
         <plugins>
@@ -164,6 +174,33 @@
                     <target>9</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>cz.habarta.typescript-generator</groupId>
+                <artifactId>typescript-generator-maven-plugin</artifactId>
+                <version>${cz.habarta.typescript-generator.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jsonLibrary>jackson2</jsonLibrary>
+                    <classPatterns>
+                        <pattern>com.chefstory.entity.*</pattern>
+                    </classPatterns>
+                    <classPatterns>
+                        <pattern>com.chefstory.model.*</pattern>
+                    </classPatterns>
+                    <outputFile>${typescript-output-dir}/chefstory.d.ts</outputFile>
+                    <outputKind>module</outputKind>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>

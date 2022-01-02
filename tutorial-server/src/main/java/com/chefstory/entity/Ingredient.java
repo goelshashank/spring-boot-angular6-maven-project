@@ -9,11 +9,13 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -40,8 +42,11 @@ public class Ingredient extends BaseEntity {
 	@Column(name = "category")
 	private String category;
 
-	@Column(name = "per_unit_cost")
-	private Double perUnitCost;
+	@Column(name = "sku_cost")
+	private Double skuCost;
+
+	@Column(name = "sku_qty")
+	private Double skuQty;
 
 	@Column(name = "unit")
 	//@Enumerated(EnumType.STRING)
@@ -65,4 +70,8 @@ public class Ingredient extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
+	@JsonProperty("perUnitCost")
+	private Double getPerUnitCost(){
+		return skuCost/skuQty;
+	}
 }

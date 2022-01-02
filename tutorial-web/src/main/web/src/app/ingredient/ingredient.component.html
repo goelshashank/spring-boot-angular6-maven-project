@@ -11,10 +11,27 @@
     <label for="categoryIng">Category</label>
     <input [(ngModel)]="addIngredient.ingredient.category" class="form-control" id="categoryIng" name="categoryIng" placeholder="Enter category"
            type="text">
-    <label for="perUnitCostIng">Per Unit Cost</label>
-    <input [(ngModel)]="addIngredient.ingredient.perUnitCost" class="form-control" id="perUnitCostIng" name="perUnitCostIng"
-           placeholder="Enter per unit cost"
+
+    <br>
+    <div class="input-group">
+    <label for="skuCostIng" >sku Cost</label>
+    <input (change)="calculatePerUnitCost()" [(ngModel)]="addIngredient.ingredient.skuCost" class="form-control"
+           id="skuCostIng" name="skuCostIng"
+           placeholder="Enter sku cost"
            type="text">
+    <label for="skuQty">sku Qty</label>
+    <input (change)="calculatePerUnitCost()" [(ngModel)]="addIngredient.ingredient.skuQty" class="form-control" id="skuQty"
+           name="skuQty"
+           placeholder="Enter sku qty"
+           type="text">
+    </div>
+
+    <div>
+      <b>
+        Per unit cost - {{this.addIngredient.ingredient.perUnitCost}}
+      </b>
+    </div>
+
     <label id="supplierForIng" for="supplierForIng">Supplier:</label>
     <ng-select (change)="setSuppliers($event)" [multiple]="true"
                [searchable]="true"

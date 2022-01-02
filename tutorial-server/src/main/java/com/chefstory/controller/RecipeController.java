@@ -177,29 +177,30 @@ public class RecipeController {
 	}
 
 	@PostMapping("/updateRecipes/{action}")
-	public ResponseEntity updateRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList) {
+	public ResponseEntity updateRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList,@PathVariable(name="action",required
+			=true)String action) {
 
-		List<Recipe> recipes=new ArrayList<>();
-		addRecipeList.forEach(t->{
-			if(CollectionUtils.isEmpty(t.getAddIngredients()))
-				return;
+		if(ADD.equalsIgnoreCase(action)) {
+			List<Recipe> recipes = new ArrayList<>();
+			addRecipeList.forEach(t -> {
+				if (CollectionUtils.isEmpty(t.getAddIngredients()))
+					return;
 
-			Recipe recipe=t.getRecipe();
+				Recipe recipe = t.getRecipe();
 
-			List<IngredientInRecipe> ingredientInRecipes=
-					t.getAddIngredients().stream().map(u->{
-						Supplier supplier=CollectionUtils.isEmpty(u.getAddSuppliers())?defaultSupplier:u.getAddSuppliers().get(0).getSupplier();
-						Brand brand=CollectionUtils.isEmpty(u.getAddBrands())?defaultBrand:u.getAddBrands().get(0).getBrand();
-						IngredientInRecipe ingredientInRecipe= new IngredientInRecipe()
-							.setRecipe(recipe).setIngredient(u.getIngredient())
+				List<IngredientInRecipe> ingredientInRecipes = t.getAddIngredients().stream().map(u -> {
+					Supplier supplier = CollectionUtils.isEmpty(u.getAddSuppliers()) ? defaultSupplier : u.getAddSuppliers().get(0).getSupplier();
+					Brand brand = CollectionUtils.isEmpty(u.getAddBrands()) ? defaultBrand : u.getAddBrands().get(0).getBrand();
+					IngredientInRecipe ingredientInRecipe = new IngredientInRecipe().setRecipe(recipe).setIngredient(u.getIngredient())
 							.setSupplier(supplier).setBrand(brand);
 					return ingredientInRecipe;
-					}).collect(Collectors.toList());
-			recipe.setIngredientInRecipe(ingredientInRecipes);
+				}).collect(Collectors.toList());
+				recipe.setIngredientInRecipe(ingredientInRecipes);
 
-			recipes.add(recipe);
-		});
-		recipeRepo.saveAll(recipes);
+				recipes.add(recipe);
+			});
+			recipeRepo.saveAll(recipes);
+		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
