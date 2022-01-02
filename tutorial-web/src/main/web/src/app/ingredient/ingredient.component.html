@@ -36,7 +36,8 @@
     <ng-select (change)="setSuppliers($event)" [multiple]="true"
                [searchable]="true"
                appendTo="body"
-               class="form-control" id="supplierForIng" name="supplierForIng">
+               class="form-control" id="supplierForIng" name="supplierForIng" [addTag]="true"
+                >
       <ng-option *ngFor="let sup of appComponent.suppliers" [value]="sup">{{sup.title}}</ng-option>
     </ng-select>
     <label id="brandForIng" for="brandForIng">Brand:</label>

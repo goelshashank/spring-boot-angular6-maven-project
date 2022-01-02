@@ -8,6 +8,10 @@ import {Recipe} from '../model/Recipe';
 import {Ingredient} from '../model/Ingredient';
 import {AppComponent} from '../app.component';
 import {AddIngredient} from '../model/AddIngredient';
+import {Supplier} from '../model/Supplier';
+import {AddSupplier} from '../model/AddSupplier';
+import {Brand} from '../model/Brand';
+import {AddBrand} from '../model/AddBrand';
 
 @Component({
   selector: 'app-recipe',
@@ -73,14 +77,22 @@ export class RecipeComponent implements OnInit {
     });
     this.addIngMap = ingCompMap;
     console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
-    this.calculateCost();
+    this.calculateCostTotal();
   }
 
-  async calculateCost() {
+  async calculateCostTotal() {
     this.totalCost = 0;
     this.addIngMap.forEach((value, key) => {
       this.totalCost = this.totalCost + (value.ingredient.perUnitCost * value.ingredient.quantityUnit);
     });
+  }
+
+  async addSupplier(addSupplier:AddSupplier) {
+    this.addIngMap.get(addSupplier.id).addSuppliers[0]=addSupplier;
+  }
+
+  async addBrand(addBrand:AddBrand) {
+    this.addIngMap.get(addBrand.id).addBrands[0]=addBrand;
   }
 
 }

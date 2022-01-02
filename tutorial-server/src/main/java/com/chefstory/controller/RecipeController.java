@@ -189,6 +189,7 @@ public class RecipeController {
 				Recipe recipe = t.getRecipe();
 
 				List<IngredientInRecipe> ingredientInRecipes = t.getAddIngredients().stream().map(u -> {
+
 					Supplier supplier = CollectionUtils.isEmpty(u.getAddSuppliers()) ? defaultSupplier : u.getAddSuppliers().get(0).getSupplier();
 					Brand brand = CollectionUtils.isEmpty(u.getAddBrands()) ? defaultBrand : u.getAddBrands().get(0).getBrand();
 					IngredientInRecipe ingredientInRecipe = new IngredientInRecipe().setRecipe(recipe).setIngredient(u.getIngredient())
@@ -232,8 +233,13 @@ public class RecipeController {
 		}
 		else {
 			supplierForIngredients=	t.getAddSuppliers().stream()
-					.map(u -> new SupplierForIngredient().setIngredient(ingredient)
-							.setSupplier(u.getSupplier())).collect(Collectors.toList());
+					.map(u -> {
+						if(CollectionUtils.isEmpty(supplierRepo.findByTitle(u.getSupplier().getTitle()))) {
+							supplierRepo.save(u.getSupplier());
+						}
+						return new SupplierForIngredient().setIngredient(ingredient)
+							.setSupplier(u.getSupplier());
+					}).collect(Collectors.toList());
 		}
 		return  supplierForIngredients;
 	}
@@ -248,8 +254,14 @@ public class RecipeController {
 		}
 		else {
 			brandForIngredients=	t.getAddBrands().stream()
-					.map(u -> new BrandForIngredient().setIngredient(ingredient)
-							.setBrand(u.getBrand())).collect(Collectors.toList());
+					.map(u ->
+					{
+						if(CollectionUtils.isEmpty(brandRepo.findByTitle(u.getBrand().getTitle()))) {
+							brandRepo.save(u.getBrand());
+						}
+						return new BrandForIngredient().setIngredient(ingredient)
+							.setBrand(u.getBrand());
+		}).collect(Collectors.toList());
 		}
 		return brandForIngredients;
 	}

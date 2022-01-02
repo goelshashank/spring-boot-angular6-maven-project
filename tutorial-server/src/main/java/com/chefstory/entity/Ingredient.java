@@ -74,4 +74,9 @@ public class Ingredient extends BaseEntity {
 	private Double getPerUnitCost(){
 		return skuCost/skuQty;
 	}
+
+	@Transient
+	@JsonProperty("quantityUnit")
+	private Double quantityUnit;
+
 }

@@ -192,8 +192,6 @@
                     <jsonLibrary>jackson2</jsonLibrary>
                     <classPatterns>
                         <pattern>com.chefstory.entity.*</pattern>
-                    </classPatterns>
-                    <classPatterns>
                         <pattern>com.chefstory.model.*</pattern>
                     </classPatterns>
                     <outputFile>${typescript-output-dir}/chefstory.d.ts</outputFile>

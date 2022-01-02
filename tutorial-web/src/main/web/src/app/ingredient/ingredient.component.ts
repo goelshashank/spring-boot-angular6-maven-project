@@ -81,12 +81,14 @@ export class IngredientComponent implements OnInit {
     suppliers.forEach(t => {
       let addSupplier: AddSupplier=new AddSupplier();
       addSupplier.supplier=t;
+      addSupplier.supplier.title=t.label;
       this.addIngredient.addSuppliers.push(addSupplier);
     });
 
     console.log('Supplier  list' + JSON.stringify(Array.from(this.addIngredient.addSuppliers)));
 
   }
+
 
 
   setBrands(brands: Brand[]) {
