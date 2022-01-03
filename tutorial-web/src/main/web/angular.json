@@ -116,7 +116,9 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "web2:serve:production"
+              "devServerTarget": "web2:serve:production",
+              "optimization": true,
+              "outputHashing": "all"
             }
           }
         }

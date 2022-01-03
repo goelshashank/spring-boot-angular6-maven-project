@@ -26,6 +26,7 @@ import com.chefstory.repository.BrandRepo;
 import com.chefstory.repository.SupplierForIngredientRepo;
 import com.chefstory.repository.SupplierRepo;
 import com.chefstory.service.FileServiceUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -249,7 +250,7 @@ public class RecipeController {
 		else {
 			supplierForIngredients=	t.getAddSuppliers().stream()
 					.map(u -> {
-						if(CollectionUtils.isEmpty(supplierRepo.findByTitle(u.getSupplier().getTitle()))) {
+						if(StringUtils.isNotBlank(u.getSupplier().getTitle()) && CollectionUtils.isEmpty(supplierRepo.findByTitle(u.getSupplier().getTitle()))) {
 							supplierRepo.save(u.getSupplier());
 						}
 						return new SupplierForIngredient().setIngredient(ingredient)
@@ -271,7 +272,7 @@ public class RecipeController {
 			brandForIngredients=	t.getAddBrands().stream()
 					.map(u ->
 					{
-						if(CollectionUtils.isEmpty(brandRepo.findByTitle(u.getBrand().getTitle()))) {
+						if(StringUtils.isNotBlank(u.getBrand().getTitle()) && CollectionUtils.isEmpty(brandRepo.findByTitle(u.getBrand().getTitle()))) {
 							brandRepo.save(u.getBrand());
 						}
 						return new BrandForIngredient().setIngredient(ingredient)
