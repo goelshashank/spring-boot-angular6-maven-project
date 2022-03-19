@@ -7,8 +7,8 @@ import {FormsModule} from '@angular/forms';
 import {IngredientComponent} from './ingredient/ingredient.component';
 import {RecipeComponent} from './recipe/recipe.component';
 import {NgSelectModule} from '@ng-select/ng-select';
-import { BrandComponent } from './brand/brand.component';
-import { SupplierComponent } from './supplier/supplier.component';
+import {BrandComponent} from './brand/brand.component';
+import {SupplierComponent} from './supplier/supplier.component';
 
 @NgModule({
   declarations: [

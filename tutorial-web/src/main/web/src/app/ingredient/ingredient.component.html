@@ -8,9 +8,14 @@
     <label for="titleIng">*Title</label>
     <input #titleIng="ngModel" [(ngModel)]="addIngredient.ingredient.title" class="form-control" id="titleIng" name="titleIng"
            placeholder="Title is required" required type="text">
-    <label for="categoryIng">Category</label>
-    <input [(ngModel)]="addIngredient.ingredient.category" class="form-control" id="categoryIng" name="categoryIng" placeholder="Enter category"
-           type="text">
+    <label id="categoryForIng" for="categoryForIng">Category</label>
+    <ng-select (change)="setCategories($event)" [multiple]="true"
+               [searchable]="true"
+               appendTo="body"
+               class="form-control" id="categoryForIng1" name="categoryForIng" [addTag]="true"
+    >
+      <ng-option *ngFor="let cat of appComponent.categories" [value]="cat">{{cat.title}}</ng-option>
+    </ng-select>
 
     <br>
     <div class="input-group">
@@ -36,7 +41,7 @@
     <ng-select (change)="setSuppliers($event)" [multiple]="true"
                [searchable]="true"
                appendTo="body"
-               class="form-control" id="supplierForIng" name="supplierForIng" [addTag]="true"
+               class="form-control" id="supplierForIng1" name="supplierForIng" [addTag]="true"
                 >
       <ng-option *ngFor="let sup of appComponent.suppliers" [value]="sup">{{sup.title}}</ng-option>
     </ng-select>
@@ -44,7 +49,7 @@
     <ng-select (change)="setBrands($event)" [multiple]="true"
                [searchable]="true"
                appendTo="body"
-               class="form-control" id="brandForIng" name="brandForIng">
+               class="form-control" id="brandForIng1" name="brandForIng" [addTag]="true">
       <ng-option *ngFor="let brand of appComponent.brands" [value]="brand">{{brand.title}}</ng-option>
     </ng-select>
 

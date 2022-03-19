@@ -3,51 +3,30 @@
  */
 package com.chefstory.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-import javax.validation.Valid;
-
-import com.chefstory.entity.Brand;
-import com.chefstory.entity.BrandForIngredient;
-import com.chefstory.entity.Supplier;
-import com.chefstory.entity.SupplierForIngredient;
+import com.chefstory.entity.*;
+import com.chefstory.entity.pojo.Unit;
 import com.chefstory.model.AddIngredient;
 import com.chefstory.model.AddRecipe;
-import com.chefstory.repository.BrandForIngredientRepo;
-import com.chefstory.repository.BrandRepo;
-import com.chefstory.repository.SupplierForIngredientRepo;
-import com.chefstory.repository.SupplierRepo;
+import com.chefstory.model.GetConfigResponse;
+import com.chefstory.repository.*;
 import com.chefstory.service.FileServiceUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.chefstory.service.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import com.chefstory.entity.Ingredient;
-import com.chefstory.entity.IngredientInRecipe;
-import com.chefstory.entity.Recipe;
-import com.chefstory.entity.Unit;
-import com.chefstory.model.GetConfigResponse;
-import com.chefstory.repository.IngredientInRecipeRepo;
-import com.chefstory.repository.IngredientRepo;
-import com.chefstory.repository.RecipeRepo;
-
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.chefstory.utils.Constants.ADD;
+import static com.chefstory.utils.Constants.UPDATE;
 
 @RestController
 @RequestMapping(path = "/chefstory", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,15 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Validated
 public class RecipeController {
 
-	private static final String DEFAULT="default";
-	private static final String ADD="add";
-	private static final String UPDATE="update";
-	private static final String REMOVE="remove";
 
 	@Autowired
 	private RecipeRepo recipeRepo;
-	@Autowired
-	private IngredientInRecipeRepo ingredientInRecipeRepo;
 	@Autowired
 	private IngredientRepo ingredientRepo;
 	@Autowired
@@ -71,64 +44,33 @@ public class RecipeController {
 	@Autowired
 	private SupplierRepo supplierRepo;
 	@Autowired
-	private SupplierForIngredientRepo supplierForIngredientRepo;
-	@Autowired
-	BrandForIngredientRepo brandForIngredientRepo;
-	@Autowired
 	BrandRepo brandRepo;
-
-	private Supplier defaultSupplier;
-	private Brand defaultBrand;
-
-	@PostConstruct
-	public void init(){
-		defaultSupplier=CollectionUtils.isEmpty(supplierRepo.findByTitle(DEFAULT))?supplierRepo.save(new Supplier().setTitle(DEFAULT)):
-				supplierRepo.findByTitle(DEFAULT).get(0);
-		defaultBrand=CollectionUtils.isEmpty(brandRepo.findByTitle(DEFAULT))?brandRepo.save(new Brand().setTitle(DEFAULT)):
-				brandRepo.findByTitle(DEFAULT).get(0);
-	}
+	@Autowired
+	RecipeService recipeService;
+	@Autowired
+	CategoryRepo categoryRepo;
 
 	@GetMapping("/getAllRecipes")
 	public ResponseEntity<List<Recipe>> getAllRecipes() {
-		List<Recipe> recipes = recipeRepo.findAll();/*.stream().map(t -> {
-			Recipe recp = new Recipe();
-			recp.setId(t.getId());
-			recp.setTitle(t.getTitle());
-			return recp;
-		}).collect(Collectors.toList());*/
+		List<Recipe> recipes = recipeRepo.findAll();
 		return new ResponseEntity<>(recipes, HttpStatus.OK);
 	}
 
 	@GetMapping("/getAllIngredients")
 	public ResponseEntity<List<Ingredient>> getAllIngredients() {
-		List<Ingredient> ingredients = ingredientRepo.findAll();/*.stream().map(t -> {
-			Ingredient ing = new Ingredient();
-			ing.setId(t.getId());
-			ing.setTitle(t.getTitle());
-			return ing;
-		}).collect(Collectors.toList());*/
-		return new ResponseEntity<>(ingredients, HttpStatus.OK);
+		List<Ingredient> ingredients = ingredientRepo.findAll();
+		return new ResponseEntity<>(Arrays.asList(ingredients.get(0)), HttpStatus.OK);
 	}
 
 	@GetMapping("/getAllBrands")
 	public ResponseEntity<List<Brand>> getAllBrands() {
-		List<Brand> brands = brandRepo.findAll();/*.stream().map(t -> {
-			Recipe recp = new Recipe();
-			recp.setId(t.getId());
-			recp.setTitle(t.getTitle());
-			return recp;
-		}).collect(Collectors.toList());*/
+		List<Brand> brands = brandRepo.findAll();
 		return new ResponseEntity<>(brands, HttpStatus.OK);
 	}
 
 	@GetMapping("/getAllSuppliers")
 	public ResponseEntity<List<Supplier>> getAllSuppliers() {
-		List<Supplier> suppliers = supplierRepo.findAll();/*.stream().map(t -> {
-			Ingredient ing = new Ingredient();
-			ing.setId(t.getId());
-			ing.setTitle(t.getTitle());
-			return ing;
-		}).collect(Collectors.toList());*/
+		List<Supplier> suppliers = supplierRepo.findAll();
 		return new ResponseEntity<>(suppliers, HttpStatus.OK);
 	}
 
@@ -159,6 +101,15 @@ public class RecipeController {
 		return new ResponseEntity<>(brandMap, HttpStatus.OK);
 	}
 
+	@PostMapping("/getCategories")
+	public ResponseEntity<Map<Long,Category>> getCategories(@RequestBody List<Category> Brands) {
+		Map<Long,Category> categoryMap=new HashMap<>();
+		Brands.stream().forEach(t-> {
+			categoryMap.put(t.getId(),categoryRepo.findById(t.getId()));
+		});
+		return new ResponseEntity<>(categoryMap, HttpStatus.OK);
+	}
+
 
 	@PostMapping("/getSuppliers")
 	public ResponseEntity<Map<Long,Supplier>> getSuppliers(@RequestBody List<Supplier> Suppliers) {
@@ -184,102 +135,24 @@ public class RecipeController {
 			=true)String action) {
 
 		if(ADD.equalsIgnoreCase(action)) {
-			List<Recipe> recipes = new ArrayList<>();
-			addRecipeList.forEach(t -> {
-				if (CollectionUtils.isEmpty(t.getAddIngredients()))
-					return;
-
-				Recipe recipe = t.getRecipe();
-
-				CompletableFuture.runAsync(()->
-						updateIngredients(t.getAddIngredients(),UPDATE));
-
-				List<IngredientInRecipe> ingredientInRecipes = t.getAddIngredients().stream().map(u -> {
-
-					Supplier supplier = CollectionUtils.isEmpty(u.getAddSuppliers()) ? defaultSupplier : u.getAddSuppliers().get(0).getSupplier();
-					Brand brand = CollectionUtils.isEmpty(u.getAddBrands()) ? defaultBrand : u.getAddBrands().get(0).getBrand();
-					IngredientInRecipe ingredientInRecipe = new IngredientInRecipe().setRecipe(recipe).setIngredient(u.getIngredient())
-							.setSupplier(supplier).setBrand(brand);
-					return ingredientInRecipe;
-				}).collect(Collectors.toList());
-				recipe.setIngredientInRecipe(ingredientInRecipes);
-
-				recipes.add(recipe);
-			});
-			recipeRepo.saveAll(recipes);
+			recipeService.addRecipe(addRecipeList);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
 
 	@PostMapping("/updateIngredients/{action}")
 	public ResponseEntity updateIngredients(@Valid @RequestBody List<AddIngredient> addIngredients,@PathVariable(name="action",required
 			=true)String action) {
 
 		if(ADD.equalsIgnoreCase(action)) {
-			List<Ingredient> list = new ArrayList<>();
-			addIngredients.forEach(t -> {
-				Ingredient ingredient = t.getIngredient().setBrandForIngredients(addBrands(t, t.getIngredient()))
-						.setSupplierForIngredients(addSupplier(t, t.getIngredient()));
-				list.add(ingredient);
-			});
-			ingredientRepo.saveAll(list);
+			recipeService.addIngredient(addIngredients);
 		}else if(UPDATE.equalsIgnoreCase(action)){
-			addIngredients.forEach(t -> {
-				try {
-					Ingredient ingredient = t.getIngredient().setBrandForIngredients(addBrands(t, t.getIngredient()))
-							.setSupplierForIngredients(addSupplier(t, t.getIngredient()));
-					ingredientRepo.save(ingredient);
-				}catch (Exception e){
-					log.error("Error in updating ingredient {}",t.getIngredient(),e);
-				}
-			});
+			recipeService.updateIngredient(addIngredients);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	private List<SupplierForIngredient> addSupplier(AddIngredient t, Ingredient ingredient) {
-		List<SupplierForIngredient> supplierForIngredients;
-		if(CollectionUtils.isEmpty(t.getAddSuppliers())){
-			supplierForIngredients= Arrays.asList(new SupplierForIngredient()
-					.setIngredient(ingredient).setSupplier((
-							CollectionUtils.isEmpty(t.getAddSuppliers())?defaultSupplier:
-			t.getAddSuppliers().get(0).getSupplier())));
-		}
-		else {
-			supplierForIngredients=	t.getAddSuppliers().stream()
-					.map(u -> {
-						if(StringUtils.isNotBlank(u.getSupplier().getTitle()) && CollectionUtils.isEmpty(supplierRepo.findByTitle(u.getSupplier().getTitle()))) {
-							supplierRepo.save(u.getSupplier());
-						}
-						return new SupplierForIngredient().setIngredient(ingredient)
-							.setSupplier(u.getSupplier());
-					}).collect(Collectors.toList());
-		}
-		return  supplierForIngredients;
-	}
-
-	private List<BrandForIngredient> addBrands(AddIngredient t, Ingredient ingredient) {
-		List<BrandForIngredient> brandForIngredients;
-		if(CollectionUtils.isEmpty(t.getAddBrands())){
-			brandForIngredients= Arrays.asList(new BrandForIngredient()
-					.setIngredient(ingredient).setBrand((
-							CollectionUtils.isEmpty(t.getAddBrands())?defaultBrand:
-									t.getAddBrands().get(0).getBrand())));
-		}
-		else {
-			brandForIngredients=	t.getAddBrands().stream()
-					.map(u ->
-					{
-						if(StringUtils.isNotBlank(u.getBrand().getTitle()) && CollectionUtils.isEmpty(brandRepo.findByTitle(u.getBrand().getTitle()))) {
-							brandRepo.save(u.getBrand());
-						}
-						return new BrandForIngredient().setIngredient(ingredient)
-							.setBrand(u.getBrand());
-		}).collect(Collectors.toList());
-		}
-		return brandForIngredients;
 	}
 
 	@PostMapping("/updateSuppliers/{action}")

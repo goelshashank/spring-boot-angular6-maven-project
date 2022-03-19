@@ -1,6 +1,7 @@
 import {UnitDetailed} from './UnitDetailed';
 import {SupplierForIngredient} from './SupplierForIngredient';
 import {BrandForIngredient} from './BrandForIngredient';
+import {CategoryFor} from "./CategoryFor";
 
 export class Ingredient {
   id: number;
@@ -17,5 +18,6 @@ export class Ingredient {
   perUnitCost:number=this.skuCost/this.skuQty;
   supplierForIngredients:SupplierForIngredient[];
   brandForIngredients:BrandForIngredient[];
+  categoriesForIngredient:CategoryFor[];
 
 }

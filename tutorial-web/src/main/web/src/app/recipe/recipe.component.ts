@@ -8,9 +8,7 @@ import {Recipe} from '../model/Recipe';
 import {Ingredient} from '../model/Ingredient';
 import {AppComponent} from '../app.component';
 import {AddIngredient} from '../model/AddIngredient';
-import {Supplier} from '../model/Supplier';
 import {AddSupplier} from '../model/AddSupplier';
-import {Brand} from '../model/Brand';
 import {AddBrand} from '../model/AddBrand';
 
 @Component({

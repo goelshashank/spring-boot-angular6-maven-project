@@ -18,14 +18,15 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @Accessors(chain = true)
-@Entity(name = "supplier")
+@Entity(name = "category")
 @Table
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
-public class Supplier extends BaseEntity {
+public class Category extends BaseEntity {
 
 	@Column(name = "title", unique = true, nullable = false)
 	@NotBlank
 	private String title;
+
 
 }

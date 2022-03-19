@@ -1,6 +1,7 @@
 package com.chefstory.repository;
 
-import com.chefstory.entity.Recipe;
+import com.chefstory.entity.Brand;
+import com.chefstory.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,9 +13,9 @@ import java.util.List;
  * @since 09/05/21
  */
 @Repository
-public interface RecipeRepo extends JpaRepository<Recipe, Integer> {
+public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
-	public List<Recipe> findByTitle(String title);
+	public List<Category> findByTitle(String title);
 
-	public Recipe findById(Long id);
+	public Category findById(Long id);
 }

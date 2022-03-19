@@ -1,4 +1,4 @@
-package com.chefstory.entity;
+package com.chefstory.entity.pojo;
 
 import java.util.Arrays;
 import java.util.Optional;

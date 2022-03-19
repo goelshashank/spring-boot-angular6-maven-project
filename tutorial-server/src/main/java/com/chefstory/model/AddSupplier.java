@@ -1,10 +1,7 @@
 package com.chefstory.model;
 
-import javax.validation.constraints.NotNull;
-
 import com.chefstory.entity.Supplier;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.Data;
 import lombok.experimental.Accessors;
 

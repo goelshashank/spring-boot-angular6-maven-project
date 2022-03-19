@@ -1,19 +1,15 @@
 package com.chefstory.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
 import javax.persistence.Column;
-		import javax.persistence.Entity;
-		import javax.persistence.EnumType;
-		import javax.persistence.Enumerated;
-		import javax.persistence.Index;
-		import javax.persistence.Table;
-		import javax.validation.constraints.NotBlank;
-
-		import com.fasterxml.jackson.annotation.JsonInclude;
-
-		import lombok.Data;
-		import lombok.ToString;
-		import lombok.experimental.Accessors;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author Shashank Goel

@@ -1,7 +1,8 @@
 
-export class Brand {
+export class Category {
   id: number;
   title: string;
+
   private _label:string;
 
   get label(): string {

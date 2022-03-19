@@ -4,12 +4,10 @@ import {environment} from '../environments/environment';
 import {ApiPaths} from './config/ApiPaths';
 import {Recipe} from './model/Recipe';
 import {Ingredient} from './model/Ingredient';
-import {AddRecipe} from './model/AddRecipe';
-import {NgForm} from '@angular/forms';
 import {AppConfiguration} from './model/AppConfiguration';
-import {IngredientInRecip} from "./model/IngredientInRecip";
 import {Supplier} from './model/Supplier';
 import {Brand} from './model/Brand';
+import {Category} from "./model/Category";
 
 
 @Component({
@@ -25,6 +23,7 @@ export class AppComponent implements OnInit {
   recipes: Recipe[] = [];
   suppliers: Supplier[] = [];
   brands: Brand[] = [];
+  categories:Category[]=[];
   appConfiguration: AppConfiguration = new AppConfiguration();
   isShowAddIng = false;
   isShowAddRecipe = false;
@@ -105,7 +104,7 @@ export class AppComponent implements OnInit {
     this.http.get<Brand[]>(environment.baseUrl + ApiPaths.GetAllBrands).subscribe(
       (response) => {
         this.brands = response;
-        console.log('Ingredients - ' + JSON.stringify(this.brands));
+        console.log('Brands - ' + JSON.stringify(this.brands));
       },
       (error) => {
         console.log('Error happened  in get all brands' + JSON.stringify(error));
@@ -113,6 +112,20 @@ export class AppComponent implements OnInit {
       () => {
         console.log('%% get all brands is completed successfully %%');
       });return this.brands;
+  }
+
+  getAllCategories() {
+    this.http.get<Category[]>(environment.baseUrl + ApiPaths.GetAllCategories).subscribe(
+      (response) => {
+        this.categories = response;
+        console.log('categories - ' + JSON.stringify(this.categories));
+      },
+      (error) => {
+        console.log('Error happened  in get all categories' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% get all categories is completed successfully %%');
+      });return this.categories;
   }
 
 

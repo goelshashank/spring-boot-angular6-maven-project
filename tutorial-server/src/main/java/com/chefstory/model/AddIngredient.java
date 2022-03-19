@@ -1,18 +1,12 @@
 package com.chefstory.model;
 
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
-
-import com.chefstory.entity.BrandForIngredient;
 import com.chefstory.entity.Ingredient;
-import com.chefstory.entity.SupplierForIngredient;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author Shashank Goel
@@ -27,5 +21,6 @@ public class AddIngredient {
 	@NotNull Ingredient ingredient;
 	List<AddSupplier> addSuppliers;
 	List<AddBrand> addBrands;
+	List<AddCategory> addCategories;
 
 }

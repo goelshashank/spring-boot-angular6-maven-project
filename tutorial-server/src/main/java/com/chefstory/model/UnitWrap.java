@@ -1,6 +1,6 @@
 package com.chefstory.model;
 
-import com.chefstory.entity.Unit;
+import com.chefstory.entity.pojo.Unit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 

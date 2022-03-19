@@ -1,4 +1,5 @@
 import {IngredientInRecip} from './IngredientInRecip';
+import {CategoryFor} from "./CategoryFor";
 
 export class Recipe {
   id: number;
@@ -17,4 +18,5 @@ export class Recipe {
   remarks: string;
   status: string;
   ingredientInRecipe: IngredientInRecip[];
+  categoriesForRecipe:CategoryFor[];
 }

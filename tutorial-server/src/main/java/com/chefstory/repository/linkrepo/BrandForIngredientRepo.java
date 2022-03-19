@@ -1,10 +1,8 @@
-package com.chefstory.repository;
+package com.chefstory.repository.linkrepo;
 
-import com.chefstory.entity.BrandForIngredient;
+import com.chefstory.entity.linkent.BrandForIngredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.chefstory.entity.SupplierForIngredient;
 
 import java.util.List;
 

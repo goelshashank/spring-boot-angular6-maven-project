@@ -1,25 +1,18 @@
 package com.chefstory.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
-
+import com.chefstory.entity.linkent.BrandForIngredient;
+import com.chefstory.entity.linkent.CategoryFor;
+import com.chefstory.entity.linkent.SupplierForIngredient;
+import com.chefstory.entity.pojo.Status;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -30,7 +23,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @Entity(name = "ingredient")
-@Table(indexes = { @Index(columnList = "category"), @Index(columnList = "title") })
+@Table(indexes = { @Index(columnList = "title") })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class Ingredient extends BaseEntity {
@@ -39,9 +32,6 @@ public class Ingredient extends BaseEntity {
 	@NotBlank
 	private String title;
 
-	@Column(name = "category")
-	private String category;
-
 	@Column(name = "sku_cost")
 	private Double skuCost;
 
@@ -49,7 +39,6 @@ public class Ingredient extends BaseEntity {
 	private Double skuQty;
 
 	@Column(name = "unit")
-	//@Enumerated(EnumType.STRING)
 	private String unit;
 
 	@Column(name = "photo_id")
@@ -66,12 +55,19 @@ public class Ingredient extends BaseEntity {
 	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
 	private List<BrandForIngredient> brandForIngredients;
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
+	private List<CategoryFor> categoriesForIngredient;
+
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
 	@JsonProperty("perUnitCost")
 	private Double getPerUnitCost(){
+		if(skuCost==null || skuQty ==null)
+			return 0.0;
+
 		return skuCost/skuQty;
 	}
 

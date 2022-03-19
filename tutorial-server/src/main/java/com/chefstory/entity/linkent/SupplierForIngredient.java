@@ -1,19 +1,14 @@
-package com.chefstory.entity;
+package com.chefstory.entity.linkent;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-		import javax.persistence.Entity;
-		import javax.persistence.Index;
-		import javax.persistence.JoinColumn;
-		import javax.persistence.ManyToOne;
-		import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
+import com.chefstory.entity.BaseEntity;
+import com.chefstory.entity.Ingredient;
+import com.chefstory.entity.Supplier;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
-		import lombok.Data;
-		import lombok.experimental.Accessors;
+import javax.persistence.*;
 
 /**
  * @author Shashank Goel

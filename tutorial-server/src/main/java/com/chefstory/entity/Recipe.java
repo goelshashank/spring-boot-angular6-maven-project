@@ -1,23 +1,16 @@
 package com.chefstory.entity;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-
+import com.chefstory.entity.linkent.CategoryFor;
+import com.chefstory.entity.linkent.IngredientInRecipe;
+import com.chefstory.entity.pojo.Status;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * @author Shashank Goel
@@ -44,18 +37,25 @@ public class Recipe extends BaseEntity {
 	private String collections;
 	@Column(name = "source")
 	private String source;
-	@Column(name = "serving")
-	private String serving;
+	@Column(name = "serving_qty")
+	private Double servingQty;
 	@Column(name = "cook_time")
 	private String cookTime;
 	@Column(name = "prep_time")
 	private String prepTime;
 	@Column(name = "rating")
 	private Integer rating;
+	@Column(name = "unit")
+	private String unit;
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "recipe",cascade = CascadeType.ALL)
 	private List<IngredientInRecipe> ingredientInRecipe;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "recipe",cascade = CascadeType.ALL)
+	private List<CategoryFor> categoriesForRecipe;
+
 
 	@Column(name = "instructions")
 	private String instructions;
@@ -70,5 +70,7 @@ public class Recipe extends BaseEntity {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;
+
+
 
 }

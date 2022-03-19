@@ -1,4 +1,4 @@
-package com.chefstory.entity;
+package com.chefstory.entity.pojo;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -8,21 +8,21 @@ import java.util.Optional;
  * @version 1.0
  * @since 19/12/21
  */
-public enum Weight implements Unit{
-
-	Kilogram ("kg","1000g") , Gram ("g",""),
-	Ounce ("oz","28.35g"), Pound("lb","453.59g"), Tonne("T","1000000g");
+public enum Time implements Unit{
+	
+	Second ("second","s") , Minute ("min","60s"),
+	Hour ("hundred","100s");
 
 	private final String abv;
 	private final String detail;
 
-	Weight(String abv, String detail) {
+	Time(String abv, String detail) {
 		this.abv = abv;
 		this.detail = detail;
 	}
 
-	public static Optional<Weight> getWeightByAbv(String abv) {
-		return Arrays.stream(Weight.values())
+	public static Optional<Time> getTimeByAbv(String abv) {
+		return Arrays.stream(Time.values())
 				.filter(t -> t.abv.equalsIgnoreCase(abv))
 				.findFirst();
 	}
