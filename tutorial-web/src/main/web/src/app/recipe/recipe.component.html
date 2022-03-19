@@ -9,7 +9,7 @@
     <ng-select (change)="setIngredients($event)" [multiple]="true"
                [searchable]="true"
                appendTo="body"
-               class="form-control" id="ingredientListForRecipe" name="ingredientListForRecipe">
+               class="form-control" id="ingredientListForRecipe1" name="ingredientListForRecipe">
       <ng-option *ngFor="let ing of appComponent.ingredients" [value]="ing">{{ing.title}}</ng-option>
     </ng-select>
 
@@ -39,7 +39,7 @@
                    appendTo="body"
                    class="form-control" id="supplierForIng" name="supplierForIng">
           <ng-option *ngFor="let sup of addIng.value.ingredient.supplierForIngredients"
-                     [value]="sup">{{sup.supplier.title}}</ng-option>
+                     [selected]="addIng.value.ingredient.supplierForIngredients[0]"  [value]="sup">{{sup.supplier.title}}</ng-option>
         </ng-select>
     </td>
         <td>
@@ -49,7 +49,17 @@
                       appendTo="body"
                       class="form-control" id="brandForIng" name="brandForIng">
             <ng-option *ngFor="let brand of addIng.value.ingredient.brandForIngredients"
-                       [value]="brand">{{brand.brand.title}}</ng-option>
+                       [selected]="addIng.value.ingredient.brandForIngredients[0]"   [value]="brand">{{brand.brand.title}}</ng-option>
+          </ng-select>
+        </td>
+        <td>
+          <ng-select  (change)="addCategory($event)"
+                      [multiple]="false"
+                      [searchable]="true"
+                      appendTo="body"
+                      class="form-control" id="categoriesForIng" name="categoryForIng">
+            <ng-option *ngFor="let categoryFor of addIng.value.ingredient.categoriesForIngredient"
+                       [selected]="addIng.value.ingredient.categoriesForIngredient[0]"   [value]="categoryFor">{{categoryFor.category.title}}</ng-option>
           </ng-select>
         </td>
       </tr>
@@ -62,10 +72,15 @@
       </b>
     </div>
 
-    <label for="categoryRecipe">Category</label>
-    <input [(ngModel)]="recipe.category" class="form-control" id="categoryRecipe" name="categoryRecipe"
-           placeholder="Enter category"
-           type="text">
+    <label id="categoryForRecipe" for="categoryForRecipe">Category</label>
+    <ng-select (change)="setCategories($event)" [multiple]="true"
+               [searchable]="true"
+               appendTo="body"
+               class="form-control" id="recipeForIng1" name="categoryForRecipe" [addTag]="true">
+      <ng-option *ngFor="let cat of appComponent.categoriesRecipe" [value]="cat">{{cat.title}}</ng-option>
+    </ng-select>
+
+
     <label for="subCatRecipe">Sub category</label>
     <input [(ngModel)]="recipe.subCategory" class="form-control" id="subCatRecipe" name="subCatRecipe"
            placeholder="Enter sub category"

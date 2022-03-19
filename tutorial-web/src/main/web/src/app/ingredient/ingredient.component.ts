@@ -11,6 +11,7 @@ import {AddSupplier} from '../model/AddSupplier';
 import {AddBrand} from '../model/AddBrand';
 import {Category} from "../model/Category";
 import {AddCategory} from "../model/AddCategory";
+import {Constants} from "../config/Constants";
 
 @Component({
   selector: 'app-ingredient',
@@ -89,15 +90,17 @@ export class IngredientComponent implements OnInit {
     console.log('Supplier  list' + JSON.stringify(Array.from(this.addIngredient.addSuppliers)));
 
   }
+
   setCategories(categories: Category[]) {
     categories.forEach(t => {
       let addCategory: AddCategory=new AddCategory();
       addCategory.category=t;
       addCategory.category.title=t.label;
+      addCategory.category.type=Constants.INGREDIENT;
       this.addIngredient.addCategories.push(addCategory);
     });
 
-    console.log('Categories  list' + JSON.stringify(Array.from(this.addIngredient.addBrands)));
+    console.log(' ingredient Categories  list' + JSON.stringify(Array.from(this.addIngredient.addCategories)));
 
   }
 

@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -19,14 +18,22 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Accessors(chain = true)
 @Entity(name = "category")
-@Table
+@Table(indexes = { @Index(columnList = "title,type")},
+		uniqueConstraints =@UniqueConstraint(columnNames = {"title", "type"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class Category extends BaseEntity {
 
-	@Column(name = "title", unique = true, nullable = false)
+	@Column(name = "title",  nullable = false)
 	@NotBlank
 	private String title;
 
+	@Column(name = "type", nullable = false)
+	@NotBlank
+	private String type;
 
+	public Category setType(String type) {
+			this.type = StringUtils.isNotBlank(type)?type.toUpperCase():type;
+			return this;
+	}
 }

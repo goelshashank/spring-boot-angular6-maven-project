@@ -10,6 +10,11 @@ import {AppComponent} from '../app.component';
 import {AddIngredient} from '../model/AddIngredient';
 import {AddSupplier} from '../model/AddSupplier';
 import {AddBrand} from '../model/AddBrand';
+import {Category} from "../model/Category";
+import {AddCategory} from "../model/AddCategory";
+import {Constants} from "../config/Constants";
+import {Supplier} from "../model/Supplier";
+import {Brand} from "../model/Brand";
 
 @Component({
   selector: 'app-recipe',
@@ -64,7 +69,7 @@ export class RecipeComponent implements OnInit {
 
     let ingCompMap: Map<number, AddIngredient> = new Map<number, AddIngredient>();
     ingList.forEach(t => {
-      let addIngredient: AddIngredient=new AddIngredient();
+      let addIngredient: AddIngredient = new AddIngredient();
       if (this.addIngMap.get(t.id) != undefined) {
         addIngredient = this.addIngMap.get(t.id);
       } else {
@@ -85,12 +90,34 @@ export class RecipeComponent implements OnInit {
     });
   }
 
-  async addSupplier(addSupplier:AddSupplier) {
-    this.addIngMap.get(addSupplier.id).addSuppliers[0]=addSupplier;
+   addSupplier(supplier: Supplier) {
+    let addSupplier:AddSupplier=new AddSupplier();
+    addSupplier.supplier=supplier;
+    this.addIngMap.get(addSupplier.id).addSuppliers[0] = addSupplier;
   }
 
-  async addBrand(addBrand:AddBrand) {
-    this.addIngMap.get(addBrand.id).addBrands[0]=addBrand;
+   addBrand(brand: Brand) {
+    let addBrand:AddBrand=new AddBrand();
+    addBrand.brand=brand;
+    this.addIngMap.get(addBrand.id).addBrands[0] = addBrand;
+  }
+   addCategory(category: Category) {
+    let addCategory:AddCategory=new AddCategory();
+    addCategory.category=category;
+    this.addIngMap.get(addCategory.id).addCategories[0] = addCategory;
   }
 
+
+  setCategories(categories: Category[]) {
+    categories.forEach(t => {
+      let addCategory: AddCategory = new AddCategory();
+      addCategory.category = t;
+      addCategory.category.title = t.label;
+      addCategory.category.type = Constants.RECIPE;
+      this.addRecipe.addCategories.push(addCategory);
+    });
+
+    console.log('recipe Categories  list' + JSON.stringify(Array.from(this.addRecipe.addCategories)));
+
+  }
 }

@@ -56,12 +56,16 @@ public class RecipeController {
 		return new ResponseEntity<>(recipes, HttpStatus.OK);
 	}
 
+	@GetMapping("/getAllCategories")
+	public ResponseEntity<List<Category>> getAllCategories() {
+		List<Category> categories = categoryRepo.findAll();
+		return new ResponseEntity<>(categories, HttpStatus.OK);
+	}
 	@GetMapping("/getAllIngredients")
 	public ResponseEntity<List<Ingredient>> getAllIngredients() {
 		List<Ingredient> ingredients = ingredientRepo.findAll();
-		return new ResponseEntity<>(Arrays.asList(ingredients.get(0)), HttpStatus.OK);
+		return new ResponseEntity<>(ingredients, HttpStatus.OK);
 	}
-
 	@GetMapping("/getAllBrands")
 	public ResponseEntity<List<Brand>> getAllBrands() {
 		List<Brand> brands = brandRepo.findAll();
@@ -102,10 +106,10 @@ public class RecipeController {
 	}
 
 	@PostMapping("/getCategories")
-	public ResponseEntity<Map<Long,Category>> getCategories(@RequestBody List<Category> Brands) {
-		Map<Long,Category> categoryMap=new HashMap<>();
-		Brands.stream().forEach(t-> {
-			categoryMap.put(t.getId(),categoryRepo.findById(t.getId()));
+	public ResponseEntity<Map<String,List<Category>>> getCategories(@RequestBody List<Category> categories) {
+		Map<String,List<Category>> categoryMap=new HashMap<>();
+		categories.stream().forEach(t-> {
+			categoryMap.put(t.getType(),categoryRepo.findByType(t.getType()));
 		});
 		return new ResponseEntity<>(categoryMap, HttpStatus.OK);
 	}

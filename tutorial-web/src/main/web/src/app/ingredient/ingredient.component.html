@@ -14,7 +14,7 @@
                appendTo="body"
                class="form-control" id="categoryForIng1" name="categoryForIng" [addTag]="true"
     >
-      <ng-option *ngFor="let cat of appComponent.categories" [value]="cat">{{cat.title}}</ng-option>
+      <ng-option *ngFor="let cat of appComponent.categoriesIngredient" [value]="cat">{{cat.title}}</ng-option>
     </ng-select>
 
     <br>

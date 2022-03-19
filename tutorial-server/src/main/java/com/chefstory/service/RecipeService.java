@@ -9,7 +9,7 @@ import com.chefstory.model.AddIngredient;
 import com.chefstory.model.AddRecipe;
 import com.chefstory.repository.*;
 import com.chefstory.repository.linkrepo.BrandForIngredientRepo;
-import com.chefstory.repository.forRepo.IngredientInRecipeRepo;
+import com.chefstory.repository.linkrepo.IngredientInRecipeRepo;
 import com.chefstory.repository.linkrepo.SupplierForIngredientRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static com.chefstory.utils.Constants.DEFAULT;
+import static com.chefstory.utils.Constants.*;
 
 @Service
 @Slf4j
@@ -52,7 +52,8 @@ public class RecipeService {
 
     private Supplier defaultSupplier;
     private Brand defaultBrand;
-    private Category defaultCategory;
+    private Category defaultIngredientCategory;
+    private Category defaultRecipeCategory;
 
     @PostConstruct
     public void init(){
@@ -60,7 +61,9 @@ public class RecipeService {
                 supplierRepo.findByTitle(DEFAULT).get(0);
         defaultBrand=CollectionUtils.isEmpty(brandRepo.findByTitle(DEFAULT))?brandRepo.save(new Brand().setTitle(DEFAULT)):
                 brandRepo.findByTitle(DEFAULT).get(0);
-        defaultCategory=CollectionUtils.isEmpty(categoryRepo.findByTitle(DEFAULT))?categoryRepo.save(new Category().setTitle(DEFAULT)):
+        defaultIngredientCategory=CollectionUtils.isEmpty(categoryRepo.findByTitleAndType(DEFAULT,INGREDIENT))?categoryRepo.save(new Category().setTitle(DEFAULT).setType(INGREDIENT)):
+                categoryRepo.findByTitle(DEFAULT).get(0);
+        defaultRecipeCategory=CollectionUtils.isEmpty(categoryRepo.findByTitleAndType(DEFAULT,RECIPE))?categoryRepo.save(new Category().setTitle(DEFAULT).setType(RECIPE)):
                 categoryRepo.findByTitle(DEFAULT).get(0);
     }
 
@@ -77,8 +80,11 @@ public class RecipeService {
         else {
             supplierForIngredients=	t.getAddSuppliers().stream()
                     .map(u -> {
-                        if(StringUtils.isNotBlank(u.getSupplier().getTitle()) && CollectionUtils.isEmpty(supplierRepo.findByTitle(u.getSupplier().getTitle()))) {
+
+                        try {
                             supplierRepo.save(u.getSupplier());
+                        }catch (Exception e){
+                            log.error("Exception in saving supplier - {}, with error {}",u,e.getMessage());
                         }
                         return new SupplierForIngredient().setIngredient(ingredient)
                                 .setSupplier(u.getSupplier());
@@ -93,16 +99,19 @@ public class RecipeService {
         if(CollectionUtils.isEmpty(t.getAddCategories())){
             categoryFors = Arrays.asList(new CategoryFor()
                     .setIngredient(ingredient).setCategory((
-                            CollectionUtils.isEmpty(t.getAddBrands())?defaultCategory:
+                            CollectionUtils.isEmpty(t.getAddBrands())?defaultIngredientCategory:
                                     t.getAddCategories().get(0).getCategory())));
         }
         else {
             categoryFors =	t.getAddCategories().stream()
                     .map(u ->
                     {
-                        if(StringUtils.isNotBlank(u.getCategory().getTitle()) && CollectionUtils.isEmpty(categoryRepo.findByTitle(u.getCategory().getTitle()))) {
+                        try {
                             categoryRepo.save(u.getCategory());
+                        }catch (Exception e){
+                            log.error("Exception in saving category - {}, with error {}",u,e.getMessage());
                         }
+
                         return new CategoryFor().setIngredient(ingredient)
                                 .setCategory(u.getCategory());
                     }).collect(Collectors.toList());
@@ -121,12 +130,15 @@ public class RecipeService {
                                     t.getAddBrands().get(0).getBrand())));
         }
         else {
-            brandForIngredients=	t.getAddBrands().stream()
+            brandForIngredients=t.getAddBrands().stream()
                     .map(u ->
                     {
-                        if(StringUtils.isNotBlank(u.getBrand().getTitle()) && CollectionUtils.isEmpty(brandRepo.findByTitle(u.getBrand().getTitle()))) {
+                        try {
                             brandRepo.save(u.getBrand());
+                        }catch (Exception e){
+                            log.error("Exception in saving brand - {}, with error {}",u,e.getMessage());
                         }
+
                         return new BrandForIngredient().setIngredient(ingredient)
                                 .setBrand(u.getBrand());
                     }).collect(Collectors.toList());
@@ -150,7 +162,7 @@ public class RecipeService {
     public void addIngredient(List<AddIngredient> addIngredients) {
         List<Ingredient> list = new ArrayList<>();
         addIngredients.forEach(t -> {
-            Ingredient ingredient = t.getIngredient().setCategoryFors(addCategories(t))
+            Ingredient ingredient = t.getIngredient().setCategoriesForIngredient(addCategories(t))
                     .setBrandForIngredients(addBrands(t))
                     .setSupplierForIngredients(addSupplier(t));
             list.add(ingredient);
@@ -174,7 +186,10 @@ public class RecipeService {
 
                 Supplier supplier = CollectionUtils.isEmpty(u.getAddSuppliers()) ? defaultSupplier : u.getAddSuppliers().get(0).getSupplier();
                 Brand brand = CollectionUtils.isEmpty(u.getAddBrands()) ? defaultBrand : u.getAddBrands().get(0).getBrand();
-                IngredientInRecipe ingredientInRecipe = new IngredientInRecipe().setRecipe(recipe).setIngredient(u.getIngredient())
+                Category category = CollectionUtils.isEmpty(u.getAddCategories()) ? defaultRecipeCategory : u.getAddCategories().get(0).getCategory();
+
+                IngredientInRecipe ingredientInRecipe = new IngredientInRecipe()
+                        .setRecipe(recipe).setIngredient(u.getIngredient()).setCategory(category)
                         .setSupplier(supplier).setBrand(brand);
                 return ingredientInRecipe;
             }).collect(Collectors.toList());

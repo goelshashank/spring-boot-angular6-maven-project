@@ -16,9 +16,8 @@ import javax.persistence.*;
 @Data
 @Accessors(chain = true)
 @Entity(name = "ingredient_in_recipe")
-@Table(indexes = { @Index(columnList = "recipe_id"), @Index(columnList = "ingredient_id"),
-		@Index(columnList = "supplier_id") },
-		uniqueConstraints =@UniqueConstraint(columnNames = {"ingredient_id", "recipe_id","supplier_id","brand_id"}))
+@Table(indexes = { @Index(columnList = "recipe_id") },
+		uniqueConstraints =@UniqueConstraint(columnNames = {"ingredient_id", "recipe_id","supplier_id","brand_id","category_id"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientInRecipe extends BaseEntity {
 
@@ -38,6 +37,10 @@ public class IngredientInRecipe extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
+
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
 
 	@Column(name = "quantity_unit")
 	private Double quantityUnit;

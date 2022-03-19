@@ -8,6 +8,7 @@ import {AppConfiguration} from './model/AppConfiguration';
 import {Supplier} from './model/Supplier';
 import {Brand} from './model/Brand';
 import {Category} from "./model/Category";
+import {Constants} from "./config/Constants";
 
 
 @Component({
@@ -24,6 +25,8 @@ export class AppComponent implements OnInit {
   suppliers: Supplier[] = [];
   brands: Brand[] = [];
   categories:Category[]=[];
+  categoriesRecipe:Category[]=[];
+  categoriesIngredient:Category[]=[];
   appConfiguration: AppConfiguration = new AppConfiguration();
   isShowAddIng = false;
   isShowAddRecipe = false;
@@ -118,6 +121,12 @@ export class AppComponent implements OnInit {
     this.http.get<Category[]>(environment.baseUrl + ApiPaths.GetAllCategories).subscribe(
       (response) => {
         this.categories = response;
+        this.categoriesRecipe=this.categories.filter(t=>{
+         return t.type==Constants.RECIPE;
+        })
+        this.categoriesIngredient=this.categories.filter(t=>{
+          return t.type==Constants.INGREDIENT;
+        })
         console.log('categories - ' + JSON.stringify(this.categories));
       },
       (error) => {
@@ -125,7 +134,7 @@ export class AppComponent implements OnInit {
       },
       () => {
         console.log('%% get all categories is completed successfully %%');
-      });return this.categories;
+      });
   }
 
 
