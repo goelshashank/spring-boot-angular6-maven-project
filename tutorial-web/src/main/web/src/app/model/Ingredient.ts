@@ -6,7 +6,6 @@ import {CategoryFor} from "./CategoryFor";
 export class Ingredient {
   id: number;
   title: string;
-  category: string;
   skuCost: number=0;
   skuQty: number=0;
   unitDetailed:UnitDetailed;

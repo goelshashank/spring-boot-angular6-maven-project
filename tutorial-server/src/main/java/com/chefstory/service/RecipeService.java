@@ -93,13 +93,41 @@ public class RecipeService {
         return  supplierForIngredients;
     }
 
+
+    public List<CategoryFor> addCategories(AddRecipe t) {
+        Recipe recipe=t.getRecipe();
+        List<CategoryFor> categoryFors;
+        if(CollectionUtils.isEmpty(t.getAddCategories())){
+            categoryFors = Arrays.asList(new CategoryFor()
+                    .setRecipe(recipe).setCategory((
+                            CollectionUtils.isEmpty(t.getAddCategories())?defaultRecipeCategory:
+                                    t.getAddCategories().get(0).getCategory())));
+        }
+        else {
+            categoryFors =	t.getAddCategories().stream()
+                    .map(u ->
+                    {
+                        try {
+                            categoryRepo.save(u.getCategory());
+                        }catch (Exception e){
+                            log.error("Exception in saving category - {}, with error {}",u,e.getMessage());
+                        }
+
+                        return new CategoryFor().setRecipe(recipe)
+                                .setCategory(u.getCategory());
+                    }).collect(Collectors.toList());
+        }
+        return categoryFors;
+    }
+
+
     public List<CategoryFor> addCategories(AddIngredient t) {
         Ingredient ingredient=t.getIngredient();
         List<CategoryFor> categoryFors;
         if(CollectionUtils.isEmpty(t.getAddCategories())){
             categoryFors = Arrays.asList(new CategoryFor()
                     .setIngredient(ingredient).setCategory((
-                            CollectionUtils.isEmpty(t.getAddBrands())?defaultIngredientCategory:
+                            CollectionUtils.isEmpty(t.getAddCategories())?defaultIngredientCategory:
                                     t.getAddCategories().get(0).getCategory())));
         }
         else {
@@ -147,6 +175,7 @@ public class RecipeService {
     }
 
 
+/*
     public void updateIngredient(List<AddIngredient> addIngredients) {
         addIngredients.forEach(t -> {
             try {
@@ -158,6 +187,7 @@ public class RecipeService {
             }
         });
     }
+*/
 
     public void addIngredient(List<AddIngredient> addIngredients) {
         List<Ingredient> list = new ArrayList<>();
@@ -193,7 +223,7 @@ public class RecipeService {
                         .setSupplier(supplier).setBrand(brand);
                 return ingredientInRecipe;
             }).collect(Collectors.toList());
-            recipe.setIngredientInRecipe(ingredientInRecipes);
+            recipe.setIngredientInRecipe(ingredientInRecipes).setCategoriesForRecipe(addCategories(t));
 
             recipes.add(recipe);
         });

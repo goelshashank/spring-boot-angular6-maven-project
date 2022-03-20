@@ -153,7 +153,7 @@ public class RecipeController {
 		if(ADD.equalsIgnoreCase(action)) {
 			recipeService.addIngredient(addIngredients);
 		}else if(UPDATE.equalsIgnoreCase(action)){
-			recipeService.updateIngredient(addIngredients);
+			//recipeService.updateIngredient(addIngredients);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);

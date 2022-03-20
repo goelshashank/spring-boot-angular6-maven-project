@@ -15,6 +15,9 @@ import {AddCategory} from "../model/AddCategory";
 import {Constants} from "../config/Constants";
 import {Supplier} from "../model/Supplier";
 import {Brand} from "../model/Brand";
+import {SupplierForIngredient} from "../model/SupplierForIngredient";
+import {BrandForIngredient} from "../model/BrandForIngredient";
+import {CategoryFor} from "../model/CategoryFor";
 
 @Component({
   selector: 'app-recipe',
@@ -91,21 +94,24 @@ export class RecipeComponent implements OnInit {
     });
   }
 
-   addSupplier(supplier: Supplier) {
+   addSupplier(supplierForIngredient: SupplierForIngredient,ing:Ingredient) {
     let addSupplier:AddSupplier=new AddSupplier();
-    addSupplier.supplier=supplier;
-    this.addIngMap.get(supplier.id).addSuppliers[0] = addSupplier;
+    addSupplier.supplier=supplierForIngredient.supplier;
+     this.addIngMap.get(ing.id).addSuppliers=new Array(0);
+    this.addIngMap.get(ing.id).addSuppliers.push(addSupplier);
   }
 
-   addBrand(brand: Brand) {
+   addBrand(brandForIngredient: BrandForIngredient,ing:Ingredient) {
     let addBrand:AddBrand=new AddBrand();
-    addBrand.brand=brand;
-    this.addIngMap.get(brand.id).addBrands[0] = addBrand;
+     addBrand.brand=brandForIngredient.brand;
+     this.addIngMap.get(ing.id).addBrands=new Array(0);
+    this.addIngMap.get(ing.id).addBrands.push(addBrand);
   }
-   addCategory(category: Category) {
+   addCategory(categoryFor: CategoryFor,ing:Ingredient) {
     let addCategory:AddCategory=new AddCategory();
-    addCategory.category=category;
-    this.addIngMap.get(category.id).addCategories[0] = addCategory;
+      addCategory.category=categoryFor.category;
+     this.addIngMap.get(ing.id).addCategories=new Array(0);
+    this.addIngMap.get(ing.id).addCategories.push(addCategory);
   }
 
 

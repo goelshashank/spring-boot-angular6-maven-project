@@ -175,7 +175,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  uploadImage(file:File){
+   uploadImage(file:File){
     const formData: FormData = new FormData();
 
     formData.append('file', file);
