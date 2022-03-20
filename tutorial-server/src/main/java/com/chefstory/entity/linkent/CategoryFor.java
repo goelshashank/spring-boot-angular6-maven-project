@@ -27,7 +27,7 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryFor extends BaseEntity {
 
-	@JsonBackReference
+	@JsonBackReference(value="categoriesForIngredient")
 	@ManyToOne
 	@JoinColumn(name = "ingredient_id")
 	private Ingredient ingredient;
@@ -36,7 +36,7 @@ public class CategoryFor extends BaseEntity {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
-	@JsonBackReference
+	@JsonBackReference(value="categoriesForRecipe")
 	@ManyToOne
 	@JoinColumn(name = "recipe_id")
 	private Recipe recipe;

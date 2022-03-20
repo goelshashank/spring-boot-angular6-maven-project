@@ -23,7 +23,7 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BrandForIngredient extends BaseEntity {
 
-	@JsonBackReference
+	@JsonBackReference(value="brandForIngredients")
 	@ManyToOne
 	@JoinColumn(name = "ingredient_id", nullable = false)
 	private Ingredient ingredient;

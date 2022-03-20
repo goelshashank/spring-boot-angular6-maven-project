@@ -1,5 +1,6 @@
 import {IngredientInRecip} from './IngredientInRecip';
 import {CategoryFor} from "./CategoryFor";
+import {UnitDetailed} from "./UnitDetailed";
 
 export class Recipe {
   id: number;
@@ -9,7 +10,7 @@ export class Recipe {
   course: string;
   collections: string;
   source: string;
-  serving: string;
+  servingQty: string;
   cookTime: string;
   prepTime: string;
   rating: number;
@@ -19,4 +20,6 @@ export class Recipe {
   status: string;
   ingredientInRecipe: IngredientInRecip[];
   categoriesForRecipe:CategoryFor[];
+  unitDetailed:UnitDetailed;
+  unit:string;
 }

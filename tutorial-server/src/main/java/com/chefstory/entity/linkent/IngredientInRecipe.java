@@ -21,7 +21,7 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientInRecipe extends BaseEntity {
 
-	@JsonBackReference
+	@JsonBackReference(value="ingredientInRecipe")
 	@ManyToOne
 	@JoinColumn(name = "recipe_id", nullable = false)
 	private Recipe recipe;

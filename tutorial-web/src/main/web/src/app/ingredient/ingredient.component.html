@@ -3,7 +3,7 @@
 -->
 
 <div>
-  <form #addIngForm="ngForm" (ngSubmit)="addIngredients(addIngForm)" class="form-group">
+  <form #addIngForm="ngForm" (ngSubmit)="addIngredients(addIngForm)" class="form-group"  autocomplete="off">
 
     <label for="titleIng">*Title</label>
     <input #titleIng="ngModel" [(ngModel)]="addIngredient.ingredient.title" class="form-control" id="titleIng" name="titleIng"

@@ -47,15 +47,15 @@ public class Ingredient extends BaseEntity {
 	@Column(name = "video_id")
 	private String videoId;
 
-	@JsonManagedReference
+	@JsonManagedReference(value="supplierForIngredients")
 	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
 	private List<SupplierForIngredient> supplierForIngredients;
 
-	@JsonManagedReference
+	@JsonManagedReference(value="brandForIngredients")
 	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
 	private List<BrandForIngredient> brandForIngredients;
 
-	@JsonManagedReference
+	@JsonManagedReference(value="categoriesForIngredient")
 	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
 	private List<CategoryFor> categoriesForIngredient;
 

@@ -1,95 +1,187 @@
 <div>
-  <form #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" class="form-group">
-    <label for="titleRecipe">*Title</label>
-    <input #titleRecipe="ngModel" [(ngModel)]="recipe.title" appendTo="body" class="form-control"
-           id="titleRecipe"
-           name="titleRecipe" placeholder="Title is required" required type="text">
-
-    <label id="ingredientListForRecipe" for="ingredientListForRecipe">Ingredient:</label>
-    <ng-select (change)="setIngredients($event)" [multiple]="true"
-               [searchable]="true"
-               appendTo="body"
-               class="form-control" id="ingredientListForRecipe1" name="ingredientListForRecipe">
-      <ng-option *ngFor="let ing of appComponent.ingredients" [value]="ing">{{ing.title}}</ng-option>
-    </ng-select>
-
-    <table appendTo="body" class="my-table">
-      <tr class="thead-dark">
-        <th>Title</th>
-        <th>Quantity</th>
-        <th class="price">Price</th>
-        <th>Supplier</th>
-        <th>Brand</th>
-      </tr>
-      <tr *ngFor="let addIng of addIngMap | keyvalue;let i = index;" appendTo="body">
-
-        <td> {{addIng.value.ingredient.title}} </td>
-        <td>
-          <input (change)="calculateCostTotal()"
-                 [(ngModel)]="addIng.value.ingredient.quantityUnit" appendTo="body"
-                 class="form-control" id="ingCont" name="ingCont" placeholder="Quantity" required type="text">
-        </td>
-        <td class="price"> {{addIng.value.ingredient.perUnitCost * addIng.value.ingredient.quantityUnit}} </td>
-
-
-    <td>
-        <ng-select  (change)="addSupplier($event)"
-                   [multiple]="false"
-                   [searchable]="true"
-                   appendTo="body"
-                   class="form-control" id="supplierForIng" name="supplierForIng">
-          <ng-option *ngFor="let sup of addIng.value.ingredient.supplierForIngredients"
-                     [selected]="addIng.value.ingredient.supplierForIngredients[0]"  [value]="sup">{{sup.supplier.title}}</ng-option>
-        </ng-select>
-    </td>
-        <td>
-          <ng-select  (change)="addBrand($event)"
-            [multiple]="false"
-                      [searchable]="true"
-                      appendTo="body"
-                      class="form-control" id="brandForIng" name="brandForIng">
-            <ng-option *ngFor="let brand of addIng.value.ingredient.brandForIngredients"
-                       [selected]="addIng.value.ingredient.brandForIngredients[0]"   [value]="brand">{{brand.brand.title}}</ng-option>
+  <div class="row gx-3">
+    <div class="col-md-3">
+      <!-- Your first column here -->
+      <div class="row gx-1">
+        <div class="col-md-10">
+          <label for="searchRecipe" id="searchRecipe">Search Recipe</label>
+          <ng-select (change)="getRecipe($event)"
+                     [multiple]="false"
+                     [searchable]="true"
+                     appendTo="body"
+                     class="form-control" id="searchRecipe1">
+            <ng-option *ngFor="let recipe of appComponent.recipes" [value]="recipe">{{recipe.title}}</ng-option>
           </ng-select>
-        </td>
-        <td>
-          <ng-select  (change)="addCategory($event)"
-                      [multiple]="false"
-                      [searchable]="true"
-                      appendTo="body"
-                      class="form-control" id="categoriesForIng" name="categoryForIng">
-            <ng-option *ngFor="let categoryFor of addIng.value.ingredient.categoriesForIngredient"
-                       [selected]="addIng.value.ingredient.categoriesForIngredient[0]"   [value]="categoryFor">{{categoryFor.category.title}}</ng-option>
-          </ng-select>
-        </td>
-      </tr>
 
-    </table>
+        </div>
 
-    <div>
-      <b>
-        Total Price - {{totalCost}}
-      </b>
+        <div class="col-md-1 mt-4">
+          <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">+</button>
+        </div>
+
+      </div>
+
+      <div class="row  d-flex ps-3 mt-3 main">
+      <ui *ngFor="let recipe of appComponent.recipes" class="list-group w-75 " >
+        <button type="button" class="list-group-item list-group-item-action "
+                (change)="getRecipe($event)">{{recipe.title}}</button>
+       </ui>
+      </div>
+
+
     </div>
 
-    <label id="categoryForRecipe" for="categoryForRecipe">Category</label>
-    <ng-select (change)="setCategories($event)" [multiple]="true"
-               [searchable]="true"
-               appendTo="body"
-               class="form-control" id="recipeForIng1" name="categoryForRecipe" [addTag]="true">
-      <ng-option *ngFor="let cat of appComponent.categoriesRecipe" [value]="cat">{{cat.title}}</ng-option>
-    </ng-select>
+
+    <div class="col-md-9">
+      <!-- Your second column here -->
 
 
-    <label for="subCatRecipe">Sub category</label>
-    <input [(ngModel)]="recipe.subCategory" class="form-control" id="subCatRecipe" name="subCatRecipe"
-           placeholder="Enter sub category"
-           type="text">
-    <label for="courseRecipe">Course</label>
-    <input [(ngModel)]="recipe.course" class="form-control" id="courseRecipe" name="courseRecipe" placeholder="Enter course"
-           type="text">
+          <div class="table-responsive">
 
-    <p></p>
-    <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">Submit</button>
-  </form>
+            <table>
+              <thead>
+              <tr>
+                <th scope="col" class="text-center col-md-2">Ingredients</th>
+                <th scope="col" class="text-center col-md-2">quantityUnit</th>
+                <th scope="col" class="text-center col-md-2">category</th>
+                <th scope="col" class="text-center col-md-2">perUnitCost</th>
+                <th scope="col" class="text-center col-md-2">unit</th>
+                <th scope="col" class="text-center col-md-2">supplier</th>
+                <th scope="col" class="text-center col-md-2">brand</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let ingredientInRecipe of displayRecipeInfo.ingredientInRecipe" >
+                <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.title}} </td>
+                <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.quantityUnit}} </td>
+                <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.category}} </td>
+                <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.perUnitCost}} </td>
+                <td  class="text-center col-md-2"> {{ingredientInRecipe.ingredient.unit}} </td>
+                <td  class="text-center col-md-2"> {{ingredientInRecipe.supplier.title}} </td>
+                <td  class="text-center col-md-2"> {{ingredientInRecipe.brand.title}} </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+
+
+
+      <div>
+
+      <form #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" class="form-group"  autocomplete="off">
+        <label for="titleRecipe">*Title</label>
+        <input #titleRecipe="ngModel" [(ngModel)]="recipe.title" appendTo="body" class="form-control"
+               id="titleRecipe"
+               name="titleRecipe" placeholder="Title is required" required type="text">
+
+        <label id="ingredientListForRecipe" for="ingredientListForRecipe">Ingredient:</label>
+        <ng-select (change)="setIngredients($event)" [multiple]="true"
+                   [searchable]="true"
+                   appendTo="body"
+                   class="form-control" id="ingredientListForRecipe1" name="ingredientListForRecipe">
+          <ng-option *ngFor="let ing of appComponent.ingredients" [value]="ing">{{ing.title}}</ng-option>
+        </ng-select>
+
+        <table appendTo="body" class="my-table">
+          <tr class="thead-dark">
+            <th>Title</th>
+            <th>Quantity</th>
+            <th class="price">Price</th>
+            <th>Supplier</th>
+            <th>Brand</th>
+            <th>Category</th>
+          </tr>
+          <tr *ngFor="let addIng of addIngMap | keyvalue;let i = index;" appendTo="body">
+
+            <td> {{addIng.value.ingredient.title}} </td>
+            <td>
+              <input (change)="calculateCostTotal()"
+                     [(ngModel)]="addIng.value.ingredient.quantityUnit" appendTo="body"
+                     class="form-control" id="ingCont" name="ingCont" placeholder="Quantity" required type="text">
+            </td>
+            <td class="price"> {{addIng.value.ingredient.perUnitCost * addIng.value.ingredient.quantityUnit}} </td>
+
+
+            <td>
+              <ng-select (change)="addSupplier($event)"
+                         [multiple]="false"
+                         [searchable]="true"
+                         appendTo="body"
+                         class="form-control" id="supplierForIng" name="supplierForIng"
+                         [ngModel]="addIng.value.ingredient.supplierForIngredients[0]">
+                <ng-option *ngFor="let sup of addIng.value.ingredient.supplierForIngredients"
+                           [value]="sup">{{sup.supplier.title}}</ng-option>
+              </ng-select>
+            </td>
+            <td>
+              <ng-select (change)="addBrand($event)"
+                         [multiple]="false"
+                         [searchable]="true"
+                         appendTo="body"
+                         class="form-control" id="brandForIng" name="brandForIng"
+                         [ngModel]="addIng.value.ingredient.brandForIngredients[0]">
+                <ng-option *ngFor="let brand of addIng.value.ingredient.brandForIngredients"
+                           [value]="brand">{{brand.brand.title}}</ng-option>
+              </ng-select>
+            </td>
+            <td>
+              <ng-select (change)="addCategory($event)"
+                         [multiple]="false"
+                         [searchable]="true"
+                         appendTo="body"
+                         class="form-control" id="categoriesForIng" name="categoryForIng"
+                         [ngModel]="addIng.value.ingredient.categoriesForIngredient[0]"
+              >
+                <ng-option *ngFor="let categoryFor of addIng.value.ingredient.categoriesForIngredient"
+                           [value]="categoryFor">{{categoryFor.category.title}}</ng-option>
+              </ng-select>
+            </td>
+          </tr>
+
+        </table>
+
+        <div>
+          <b>
+            Total Price - {{totalCost}}
+          </b>
+        </div>
+
+        <label id="categoryForRecipe" for="categoryForRecipe">Category</label>
+        <ng-select (change)="setCategories($event)" [multiple]="true"
+                   [searchable]="true"
+                   appendTo="body"
+                   class="form-control" id="recipeForIng1" name="categoryForRecipe" [addTag]="true">
+          <ng-option *ngFor="let cat of appComponent.categoriesRecipe" [value]="cat">{{cat.title}}</ng-option>
+        </ng-select>
+
+
+        <label for="subCatRecipe">Sub category</label>
+        <input [(ngModel)]="recipe.subCategory" class="form-control" id="subCatRecipe" name="subCatRecipe"
+               placeholder="Enter sub category"
+               type="text">
+        <label for="courseRecipe">Course</label>
+        <input [(ngModel)]="recipe.course" class="form-control" id="courseRecipe" name="courseRecipe"
+               placeholder="Enter course"
+               type="text">
+
+        <!--    <label for="unitListRec">Units:</label>
+            <select [(ngModel)]="addRecipe.recipe.unit" class="form-control" id="unitListRec"
+                    name="unitListRec">
+              <optgroup [attr.label]="group.key" *ngFor="let group of appComponent.appConfiguration.unitsDetailed | keyvalue">
+                <option *ngFor="let unitDetailed of group.value" value="{{unitDetailed.unit}}">{{unitDetailed.unit}}
+                  ({{unitDetailed.description}})</option>
+              </optgroup>
+            </select>-->
+
+        <p></p>
+        <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">Submit</button>
+      </form>
+        </div>
+
+    </div>
+  </div>
+
+
 </div>

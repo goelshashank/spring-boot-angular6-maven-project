@@ -46,11 +46,11 @@ public class Recipe extends BaseEntity {
 	@Column(name = "unit")
 	private String unit;
 
-	@JsonManagedReference
+	@JsonManagedReference(value="ingredientInRecipe")
 	@OneToMany(mappedBy = "recipe",cascade = CascadeType.ALL)
 	private List<IngredientInRecipe> ingredientInRecipe;
 
-	@JsonManagedReference
+	@JsonManagedReference(value="categoriesForRecipe")
 	@OneToMany(mappedBy = "recipe",cascade = CascadeType.ALL)
 	private List<CategoryFor> categoriesForRecipe;
 

@@ -29,6 +29,7 @@ export class RecipeComponent implements OnInit {
   recipe: Recipe = new Recipe();
   addIngMap: Map<number, AddIngredient> = new Map<number, AddIngredient>();
   totalCost: number;
+  displayRecipeInfo:Recipe=new Recipe();
 
   constructor(private http: HttpClient, public appComponent: AppComponent) {
   }
@@ -93,18 +94,18 @@ export class RecipeComponent implements OnInit {
    addSupplier(supplier: Supplier) {
     let addSupplier:AddSupplier=new AddSupplier();
     addSupplier.supplier=supplier;
-    this.addIngMap.get(addSupplier.id).addSuppliers[0] = addSupplier;
+    this.addIngMap.get(supplier.id).addSuppliers[0] = addSupplier;
   }
 
    addBrand(brand: Brand) {
     let addBrand:AddBrand=new AddBrand();
     addBrand.brand=brand;
-    this.addIngMap.get(addBrand.id).addBrands[0] = addBrand;
+    this.addIngMap.get(brand.id).addBrands[0] = addBrand;
   }
    addCategory(category: Category) {
     let addCategory:AddCategory=new AddCategory();
     addCategory.category=category;
-    this.addIngMap.get(addCategory.id).addCategories[0] = addCategory;
+    this.addIngMap.get(category.id).addCategories[0] = addCategory;
   }
 
 
@@ -120,4 +121,20 @@ export class RecipeComponent implements OnInit {
     console.log('recipe Categories  list' + JSON.stringify(Array.from(this.addRecipe.addCategories)));
 
   }
+
+
+  getRecipe(recipe:Recipe){
+    this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes,Array.of(recipe)).subscribe(
+      (response ) => {
+        this.displayRecipeInfo = response[0];
+        console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
+      },
+      (error) => {
+        console.log('Error happened in getting recipe' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% get recipe is completed successfully %%');
+      });
+  }
+
 }
