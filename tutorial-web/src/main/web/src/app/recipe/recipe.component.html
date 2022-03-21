@@ -16,7 +16,7 @@
         </div>
 
         <div class="col-md-1 mt-4">
-          <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">+</button>
+          <button (click)="toggleRecipeDiag(false,true)"  class="btn btn-primary " type="submit">+</button>
         </div>
 
       </div>
@@ -32,11 +32,11 @@
     </div>
 
 
-    <div class="col-md-9">
+    <div class="col-md-9" >
       <!-- Your second column here -->
 
 
-          <div class="table-responsive">
+          <div class="table-responsive" *ngIf="showRecipe">
 
             <table>
               <thead>
@@ -68,7 +68,7 @@
 
 
 
-      <div>
+      <div *ngIf="addRecipe">
 
       <form #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" class="form-group"  autocomplete="off">
         <label for="titleRecipe">*Title</label>
@@ -164,8 +164,13 @@
         <input [(ngModel)]="recipe.course" class="form-control" id="courseRecipe" name="courseRecipe"
                placeholder="Enter course"
                type="text">
+        <label for="servingQty">Serving Qty</label>
+        <input [(ngModel)]="recipe.servingQty" class="form-control" id="servingQty" name="servingQty"
+               placeholder="Enter servingQty"
+               type="text">
 
-        <!--    <label for="unitListRec">Units:</label>
+
+         <!--   <label for="unitListRec">Units:</label>
             <select [(ngModel)]="addRecipe.recipe.unit" class="form-control" id="unitListRec"
                     name="unitListRec">
               <optgroup [attr.label]="group.key" *ngFor="let group of appComponent.appConfiguration.unitsDetailed | keyvalue">
@@ -173,6 +178,7 @@
                   ({{unitDetailed.description}})</option>
               </optgroup>
             </select>-->
+
 
         <p></p>
         <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">Submit</button>

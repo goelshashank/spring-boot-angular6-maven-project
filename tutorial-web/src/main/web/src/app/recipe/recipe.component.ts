@@ -33,6 +33,9 @@ export class RecipeComponent implements OnInit {
   addIngMap: Map<number, AddIngredient> = new Map<number, AddIngredient>();
   totalCost: number;
   displayRecipeInfo:Recipe=new Recipe();
+  showRecipe=true;
+  addARecipe=false;
+
 
   constructor(private http: HttpClient, public appComponent: AppComponent) {
   }
@@ -65,6 +68,8 @@ export class RecipeComponent implements OnInit {
         console.log(' %% add recipe call is completed successfully %%');
       });
 
+
+    //------------------------
     form.reset();
     this.ngOnInit();
   }
@@ -141,6 +146,14 @@ export class RecipeComponent implements OnInit {
       () => {
         console.log('%% get recipe is completed successfully %%');
       });
+  }
+
+  toggleRecipeDiag(showRecipe:boolean,addARecipe: boolean){
+      this.showRecipe=showRecipe;
+      this.addARecipe=addARecipe;
+      if(addARecipe)
+          this.ngOnInit();
+
   }
 
 }
