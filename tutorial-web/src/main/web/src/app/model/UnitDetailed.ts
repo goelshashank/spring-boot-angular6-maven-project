@@ -1,4 +1,4 @@
-export class UnitDetailed{
-  unit:string;
-  description:string;
+export class UnitDetailed {
+  unit: string;
+  description: string;
 }

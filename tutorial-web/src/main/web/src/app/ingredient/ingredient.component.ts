@@ -9,9 +9,9 @@ import {Brand} from '../model/Brand';
 import {Supplier} from '../model/Supplier';
 import {AddSupplier} from '../model/AddSupplier';
 import {AddBrand} from '../model/AddBrand';
-import {Category} from "../model/Category";
-import {AddCategory} from "../model/AddCategory";
-import {Constants} from "../config/Constants";
+import {Category} from '../model/Category';
+import {AddCategory} from '../model/AddCategory';
+import {Constants} from '../config/Constants';
 
 @Component({
   selector: 'app-ingredient',
@@ -65,14 +65,14 @@ export class IngredientComponent implements OnInit {
     this.ngOnInit();
   }
 
-  onFileUpload(event){
+  onFileUpload(event) {
 
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imageSrc = e.target.result;
       };
-      this.file=event.target.files[0]
+      this.file = event.target.files[0];
       reader.readAsDataURL(this.file);
 
     }
@@ -81,9 +81,9 @@ export class IngredientComponent implements OnInit {
 
   setSuppliers(suppliers: Supplier[]) {
     suppliers.forEach(t => {
-      let addSupplier: AddSupplier=new AddSupplier();
-      addSupplier.supplier=t;
-      addSupplier.supplier.title=t.label;
+      let addSupplier: AddSupplier = new AddSupplier();
+      addSupplier.supplier = t;
+      addSupplier.supplier.title = t.label;
       this.addIngredient.addSuppliers.push(addSupplier);
     });
 
@@ -93,10 +93,10 @@ export class IngredientComponent implements OnInit {
 
   setCategories(categories: Category[]) {
     categories.forEach(t => {
-      let addCategory: AddCategory=new AddCategory();
-      addCategory.category=t;
-      addCategory.category.title=t.label;
-      addCategory.category.type=Constants.INGREDIENT;
+      let addCategory: AddCategory = new AddCategory();
+      addCategory.category = t;
+      addCategory.category.title = t.label;
+      addCategory.category.type = Constants.INGREDIENT;
       this.addIngredient.addCategories.push(addCategory);
     });
 
@@ -107,9 +107,9 @@ export class IngredientComponent implements OnInit {
 
   setBrands(brands: Brand[]) {
     brands.forEach(t => {
-      let addBrand: AddBrand=new AddBrand();
-      addBrand.brand=t;
-      addBrand.brand.title=t.label;
+      let addBrand: AddBrand = new AddBrand();
+      addBrand.brand = t;
+      addBrand.brand.title = t.label;
       this.addIngredient.addBrands.push(addBrand);
     });
 
@@ -117,7 +117,7 @@ export class IngredientComponent implements OnInit {
 
   }
 
-  calculatePerUnitCost(){
-    this.addIngredient.ingredient.perUnitCost=this.addIngredient.ingredient.skuCost/this.addIngredient.ingredient.skuQty;
+  calculatePerUnitCost() {
+    this.addIngredient.ingredient.perUnitCost = this.addIngredient.ingredient.skuCost / this.addIngredient.ingredient.skuQty;
   }
 }

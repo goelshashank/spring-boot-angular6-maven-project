@@ -10,14 +10,12 @@ import {AppComponent} from '../app.component';
 import {AddIngredient} from '../model/AddIngredient';
 import {AddSupplier} from '../model/AddSupplier';
 import {AddBrand} from '../model/AddBrand';
-import {Category} from "../model/Category";
-import {AddCategory} from "../model/AddCategory";
-import {Constants} from "../config/Constants";
-import {Supplier} from "../model/Supplier";
-import {Brand} from "../model/Brand";
-import {SupplierForIngredient} from "../model/SupplierForIngredient";
-import {BrandForIngredient} from "../model/BrandForIngredient";
-import {CategoryFor} from "../model/CategoryFor";
+import {Category} from '../model/Category';
+import {AddCategory} from '../model/AddCategory';
+import {Constants} from '../config/Constants';
+import {SupplierForIngredient} from '../model/SupplierForIngredient';
+import {BrandForIngredient} from '../model/BrandForIngredient';
+import {CategoryFor} from '../model/CategoryFor';
 
 @Component({
   selector: 'app-recipe',
@@ -32,9 +30,9 @@ export class RecipeComponent implements OnInit {
   recipe: Recipe = new Recipe();
   addIngMap: Map<number, AddIngredient> = new Map<number, AddIngredient>();
   totalCost: number;
-  displayRecipeInfo:Recipe=new Recipe();
-  showRecipe=true;
-  addARecipe=false;
+  displayRecipeInfo: Recipe = new Recipe();
+  showRecipe = true;
+  addARecipe = false;
 
 
   constructor(private http: HttpClient, public appComponent: AppComponent) {
@@ -99,23 +97,24 @@ export class RecipeComponent implements OnInit {
     });
   }
 
-   addSupplier(supplierForIngredient: SupplierForIngredient,ing:Ingredient) {
-    let addSupplier:AddSupplier=new AddSupplier();
-    addSupplier.supplier=supplierForIngredient.supplier;
-     this.addIngMap.get(ing.id).addSuppliers=new Array(0);
+  addSupplier(supplierForIngredient: SupplierForIngredient, ing: Ingredient) {
+    let addSupplier: AddSupplier = new AddSupplier();
+    addSupplier.supplier = supplierForIngredient.supplier;
+    this.addIngMap.get(ing.id).addSuppliers = new Array(0);
     this.addIngMap.get(ing.id).addSuppliers.push(addSupplier);
   }
 
-   addBrand(brandForIngredient: BrandForIngredient,ing:Ingredient) {
-    let addBrand:AddBrand=new AddBrand();
-     addBrand.brand=brandForIngredient.brand;
-     this.addIngMap.get(ing.id).addBrands=new Array(0);
+  addBrand(brandForIngredient: BrandForIngredient, ing: Ingredient) {
+    let addBrand: AddBrand = new AddBrand();
+    addBrand.brand = brandForIngredient.brand;
+    this.addIngMap.get(ing.id).addBrands = new Array(0);
     this.addIngMap.get(ing.id).addBrands.push(addBrand);
   }
-   addCategory(categoryFor: CategoryFor,ing:Ingredient) {
-    let addCategory:AddCategory=new AddCategory();
-      addCategory.category=categoryFor.category;
-     this.addIngMap.get(ing.id).addCategories=new Array(0);
+
+  addCategory(categoryFor: CategoryFor, ing: Ingredient) {
+    let addCategory: AddCategory = new AddCategory();
+    addCategory.category = categoryFor.category;
+    this.addIngMap.get(ing.id).addCategories = new Array(0);
     this.addIngMap.get(ing.id).addCategories.push(addCategory);
   }
 
@@ -134,9 +133,9 @@ export class RecipeComponent implements OnInit {
   }
 
 
-  getRecipe(recipe:Recipe){
-    this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes,Array.of(recipe)).subscribe(
-      (response ) => {
+  getRecipe(recipe: Recipe) {
+    this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).subscribe(
+      (response) => {
         this.displayRecipeInfo = response[0];
         console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
       },
@@ -146,13 +145,14 @@ export class RecipeComponent implements OnInit {
       () => {
         console.log('%% get recipe is completed successfully %%');
       });
+    this.toggleRecipeDiag(true, false);
   }
 
-  toggleRecipeDiag(showRecipe:boolean,addARecipe: boolean){
-      this.showRecipe=showRecipe;
-      this.addARecipe=addARecipe;
-      if(addARecipe)
-          this.ngOnInit();
+  toggleRecipeDiag(showRecipe: boolean, addARecipe: boolean) {
+    this.ngOnInit();
+
+    this.showRecipe = showRecipe;
+    this.addARecipe = addARecipe;
 
   }
 

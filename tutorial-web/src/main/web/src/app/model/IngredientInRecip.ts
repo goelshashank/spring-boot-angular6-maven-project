@@ -6,8 +6,8 @@ import {Brand} from './Brand';
 
 export class IngredientInRecip {
   ingredient: Ingredient;
-  recipe:Recipe;
-  supplier:Supplier;
-  brand:Brand;
+  recipe: Recipe;
+  supplier: Supplier;
+  brand: Brand;
 
 }
