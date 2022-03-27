@@ -19,26 +19,26 @@ import javax.persistence.*;
 @Data
 @Accessors(chain = true)
 @Entity(name = "category_for_ingredient")
-@Table(indexes = { @Index(columnList = "ingredient_id"), @Index(columnList = "recipe_id")},
-		uniqueConstraints ={
-		@UniqueConstraint(columnNames = {"ingredient_id", "category_id"}),
-				@UniqueConstraint(columnNames = {"recipe_id", "category_id"})
-		})
+@Table(indexes = {@Index(columnList = "ingredient_id"), @Index(columnList = "recipe_id")},
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"ingredient_id", "category_id"}),
+                @UniqueConstraint(columnNames = {"recipe_id", "category_id"})
+        })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryFor extends BaseEntity {
 
-	@JsonBackReference(value="categoriesForIngredient")
-	@ManyToOne
-	@JoinColumn(name = "ingredient_id")
-	private Ingredient ingredient;
+    @JsonBackReference(value = "categoriesForIngredient")
+    @ManyToOne
+    @JoinColumn(name = "ingredient_id")
+    private Ingredient ingredient;
 
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	private Category category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-	@JsonBackReference(value="categoriesForRecipe")
-	@ManyToOne
-	@JoinColumn(name = "recipe_id")
-	private Recipe recipe;
+    @JsonBackReference(value = "categoriesForRecipe")
+    @ManyToOne
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
 
 }

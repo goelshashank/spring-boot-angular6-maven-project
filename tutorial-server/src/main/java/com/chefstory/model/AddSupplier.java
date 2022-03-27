@@ -15,5 +15,5 @@ import lombok.experimental.Accessors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddSupplier {
 
-	private Supplier supplier;
+    private Supplier supplier;
 }

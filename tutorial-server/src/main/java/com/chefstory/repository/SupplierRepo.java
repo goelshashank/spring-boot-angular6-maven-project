@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface SupplierRepo extends JpaRepository<Supplier, Integer> {
 
-	public List<Supplier> findByTitle(String title);
+    public List<Supplier> findByTitle(String title);
 
-	public Supplier findById(Long id);
+    public Supplier findById(Long id);
 }

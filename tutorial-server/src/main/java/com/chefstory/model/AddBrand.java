@@ -15,6 +15,6 @@ import lombok.experimental.Accessors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddBrand {
 
-	private Brand brand;
+    private Brand brand;
 
 }

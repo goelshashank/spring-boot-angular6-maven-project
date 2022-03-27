@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
  */
 public interface Unit {
 
-	static Map<String,List<Unit>> values() {
-		Map<String,List<Unit>> map=new HashMap<>();
-		map.put("Quanity",Arrays.stream(Quantity.values()).map(t-> (Unit)t).collect(Collectors.toList()));
-		map.put("Weight",Arrays.stream(Weight.values()).map(t-> (Unit)t).collect(Collectors.toList()));
-		map.put("Time",Arrays.stream(Time.values()).map(t-> (Unit)t).collect(Collectors.toList()));
-		map.put("Volume",Arrays.stream(Volume.values()).map(t-> (Unit)t).collect(Collectors.toList()));
-		return map;
-	}
+    static Map<String, List<Unit>> values() {
+        Map<String, List<Unit>> map = new HashMap<>();
+        map.put("Quanity", Arrays.stream(Quantity.values()).map(t -> (Unit) t).collect(Collectors.toList()));
+        map.put("Weight", Arrays.stream(Weight.values()).map(t -> (Unit) t).collect(Collectors.toList()));
+        map.put("Time", Arrays.stream(Time.values()).map(t -> (Unit) t).collect(Collectors.toList()));
+        map.put("Volume", Arrays.stream(Volume.values()).map(t -> (Unit) t).collect(Collectors.toList()));
+        return map;
+    }
 
-	public String getDescription();
+    public String getDescription();
 
 }

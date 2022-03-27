@@ -18,18 +18,18 @@ import javax.persistence.*;
 @Data
 @Accessors(chain = true)
 @Entity(name = "brand_for_ingredient")
-@Table(indexes = { @Index(columnList = "ingredient_id")},
-		uniqueConstraints =@UniqueConstraint(columnNames = {"ingredient_id", "brand_id"}))
+@Table(indexes = {@Index(columnList = "ingredient_id")},
+        uniqueConstraints = @UniqueConstraint(columnNames = {"ingredient_id", "brand_id"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BrandForIngredient extends BaseEntity {
 
-	@JsonBackReference(value="brandForIngredients")
-	@ManyToOne
-	@JoinColumn(name = "ingredient_id", nullable = false)
-	private Ingredient ingredient;
+    @JsonBackReference(value = "brandForIngredients")
+    @ManyToOne
+    @JoinColumn(name = "ingredient_id", nullable = false)
+    private Ingredient ingredient;
 
-	@ManyToOne
-	@JoinColumn(name = "brand_id")
-	private Brand brand;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
 }

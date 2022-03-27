@@ -8,28 +8,28 @@ import java.util.Optional;
  * @version 1.0
  * @since 19/12/21
  */
-public enum Quantity implements Unit{
+public enum Quantity implements Unit {
 
 
-	Each ("each","") , Dozen ("dozen","12 each"),
-	Hundred ("hundred","100 each"), Thousand("thousand","1000 each"), Million("million","1000000 each");
+    Each("each", ""), Dozen("dozen", "12 each"),
+    Hundred("hundred", "100 each"), Thousand("thousand", "1000 each"), Million("million", "1000000 each");
 
-	private final String abv;
-	private final String detail;
+    private final String abv;
+    private final String detail;
 
-	Quantity(String abv, String detail) {
-		this.abv = abv;
-		this.detail = detail;
-	}
+    Quantity(String abv, String detail) {
+        this.abv = abv;
+        this.detail = detail;
+    }
 
-	public static Optional<Quantity> getQuantityByAbv(String abv) {
-		return Arrays.stream(Quantity.values())
-				.filter(t -> t.abv.equalsIgnoreCase(abv))
-				.findFirst();
-	}
+    public static Optional<Quantity> getQuantityByAbv(String abv) {
+        return Arrays.stream(Quantity.values())
+                .filter(t -> t.abv.equalsIgnoreCase(abv))
+                .findFirst();
+    }
 
-	public String getDescription(){
-		return abv + " " +detail;
-	}
+    public String getDescription() {
+        return abv + " " + detail;
+    }
 
 }

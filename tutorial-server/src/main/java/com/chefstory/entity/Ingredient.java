@@ -23,56 +23,55 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @Entity(name = "ingredient")
-@Table(indexes = { @Index(columnList = "title") })
+@Table(indexes = {@Index(columnList = "title")})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class Ingredient extends BaseEntity {
 
-	@Column(name = "title", unique = true, nullable = false)
-	@NotBlank
-	private String title;
+    @Column(name = "title", unique = true, nullable = false)
+    @NotBlank
+    private String title;
 
-	@Column(name = "sku_cost")
-	private Double skuCost;
+    @Column(name = "sku_cost")
+    private Double skuCost;
 
-	@Column(name = "sku_qty")
-	private Double skuQty;
+    @Column(name = "sku_qty")
+    private Double skuQty;
 
-	@Column(name = "unit")
-	private String unit;
+    @Column(name = "unit")
+    private String unit;
 
-	@Column(name = "photo_id")
-	private String photoId;
+    @Column(name = "photo_id")
+    private String photoId;
 
-	@Column(name = "video_id")
-	private String videoId;
+    @Column(name = "video_id")
+    private String videoId;
 
-	@JsonManagedReference(value="supplierForIngredients")
-	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
-	private List<SupplierForIngredient> supplierForIngredients;
+    @JsonManagedReference(value = "supplierForIngredients")
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+    private List<SupplierForIngredient> supplierForIngredients;
 
-	@JsonManagedReference(value="brandForIngredients")
-	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
-	private List<BrandForIngredient> brandForIngredients;
+    @JsonManagedReference(value = "brandForIngredients")
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+    private List<BrandForIngredient> brandForIngredients;
 
-	@JsonManagedReference(value="categoriesForIngredient")
-	@OneToMany(mappedBy = "ingredient",cascade = CascadeType.ALL)
-	private List<CategoryFor> categoriesForIngredient;
+    @JsonManagedReference(value = "categoriesForIngredient")
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+    private List<CategoryFor> categoriesForIngredient;
 
-	@Column(name = "status")
-	@Enumerated(EnumType.STRING)
-	private Status status;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    @Transient
+    @JsonProperty("quantityUnit")
+    private Double quantityUnit;
 
-	@JsonProperty("perUnitCost")
-	private Double getPerUnitCost(){
-		if(skuCost==null || skuQty ==null)
-			return 0.0;
+    @JsonProperty("perUnitCost")
+    private Double getPerUnitCost() {
+        if (skuCost == null || skuQty == null)
+            return 0.0;
 
-		return skuCost/skuQty;
-	}
-
-	@Transient
-	@JsonProperty("quantityUnit")
-	private Double quantityUnit;
+        return skuCost / skuQty;
+    }
 
 }

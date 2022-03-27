@@ -24,8 +24,8 @@ import javax.validation.constraints.NotBlank;
 @ToString
 public class Supplier extends BaseEntity {
 
-	@Column(name = "title", unique = true, nullable = false)
-	@NotBlank
-	private String title;
+    @Column(name = "title", unique = true, nullable = false)
+    @NotBlank
+    private String title;
 
 }

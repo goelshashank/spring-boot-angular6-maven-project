@@ -18,7 +18,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddRecipe {
 
-	@NotNull Recipe recipe;
-	List<AddIngredient> addIngredients;
-	List<AddCategory> addCategories;
+    @NotNull Recipe recipe;
+    List<AddIngredient> addIngredients;
+    List<AddCategory> addCategories;
 }

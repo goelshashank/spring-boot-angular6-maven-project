@@ -19,11 +19,12 @@ import java.util.stream.Stream;
 public class FileServiceUtils {
 
     private final Path root = Paths.get("C:\\IdeaProjects\\spring-boot-angular6-maven-project\\tutorial-server\\src\\main\\resources\\images");
+
     @PostConstruct
     public void init() {
         try {
-            if(!Files.exists(root))
-                 Files.createDirectory(root);
+            if (!Files.exists(root))
+                Files.createDirectory(root);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
         }
@@ -31,7 +32,7 @@ public class FileServiceUtils {
 
     public void save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(UUID.randomUUID().toString()+".jpg"));
+            Files.copy(file.getInputStream(), this.root.resolve(UUID.randomUUID().toString() + ".jpg"));
             System.out.println("File is saved successfully");
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());

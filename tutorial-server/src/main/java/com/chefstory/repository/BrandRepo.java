@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface BrandRepo extends JpaRepository<Brand, Integer> {
 
-	public List<Brand> findByTitle(String title);
+    public List<Brand> findByTitle(String title);
 
-	public Brand findById(Long id);
+    public Brand findById(Long id);
 }

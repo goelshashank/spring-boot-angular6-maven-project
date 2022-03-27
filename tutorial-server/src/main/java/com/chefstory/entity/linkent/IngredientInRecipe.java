@@ -16,36 +16,36 @@ import javax.persistence.*;
 @Data
 @Accessors(chain = true)
 @Entity(name = "ingredient_in_recipe")
-@Table(indexes = { @Index(columnList = "recipe_id") },
-		uniqueConstraints =@UniqueConstraint(columnNames = {"ingredient_id", "recipe_id","supplier_id","brand_id","category_id"}))
+@Table(indexes = {@Index(columnList = "recipe_id")},
+        uniqueConstraints = @UniqueConstraint(columnNames = {"ingredient_id", "recipe_id", "supplier_id", "brand_id", "category_id"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientInRecipe extends BaseEntity {
 
-	@JsonBackReference(value="ingredientInRecipe")
-	@ManyToOne
-	@JoinColumn(name = "recipe_id", nullable = false)
-	private Recipe recipe;
+    @JsonBackReference(value = "ingredientInRecipe")
+    @ManyToOne
+    @JoinColumn(name = "recipe_id", nullable = false)
+    private Recipe recipe;
 
-	@ManyToOne
-	@JoinColumn(name = "ingredient_id")
-	private Ingredient ingredient;
-	
-	@ManyToOne
-	@JoinColumn(name = "supplier_id")
-	private Supplier supplier;
+    @ManyToOne
+    @JoinColumn(name = "ingredient_id")
+    private Ingredient ingredient;
 
-	@ManyToOne
-	@JoinColumn(name = "brand_id")
-	private Brand brand;
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	private Category category;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
-	@Column(name = "quantity_unit")
-	private Double quantityUnit;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-	@Column(name = "unit")
-	private String unit;
+    @Column(name = "quantity_unit")
+    private Double quantityUnit;
+
+    @Column(name = "unit")
+    private String unit;
 
 }

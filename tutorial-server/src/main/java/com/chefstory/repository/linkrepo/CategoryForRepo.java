@@ -15,6 +15,6 @@ import java.util.List;
 public interface CategoryForRepo extends JpaRepository<CategoryFor, Integer> {
 
 
-	public List<CategoryForRepo> findByIngredientIdAndCategoryId(Long ingId, Long brandId);
+    public List<CategoryForRepo> findByIngredientIdAndCategoryId(Long ingId, Long brandId);
 
 }
