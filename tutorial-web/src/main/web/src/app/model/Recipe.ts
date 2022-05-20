@@ -20,6 +20,6 @@ export class Recipe {
   status: string;
   ingredientInRecipe: IngredientInRecip[];
   categoriesForRecipe: CategoryFor[];
-  unitDetailed: UnitDetailed;
+  unitDetailed: UnitDetailed=new UnitDetailed("");
   unit: string;
 }

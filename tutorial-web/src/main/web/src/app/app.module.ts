@@ -9,6 +9,8 @@ import {RecipeComponent} from './recipe/recipe.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {BrandComponent} from './brand/brand.component';
 import {SupplierComponent} from './supplier/supplier.component';
+import {RouterModule} from '@angular/router';
+import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import {SupplierComponent} from './supplier/supplier.component';
     HttpClientModule,
     CommonModule,
     FormsModule,
-    NgSelectModule
+    NgSelectModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

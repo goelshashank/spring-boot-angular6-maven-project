@@ -1,4 +1,9 @@
 export class UnitDetailed {
-  unit: string;
+  unit: string="";
   description: string;
+
+
+  constructor(unit: string) {
+    this.unit = unit;
+  }
 }

@@ -12,6 +12,7 @@ import {AddBrand} from '../model/AddBrand';
 import {Category} from '../model/Category';
 import {AddCategory} from '../model/AddCategory';
 import {Constants} from '../config/Constants';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-ingredient',
@@ -27,7 +28,7 @@ export class IngredientComponent implements OnInit {
   imageSrc: string;
   file: File;
 
-  constructor(private http: HttpClient, public appComponent: AppComponent) {
+  constructor(private http: HttpClient, public appComponent: AppComponent,private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

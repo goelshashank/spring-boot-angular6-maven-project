@@ -13,33 +13,85 @@
             <ng-option *ngFor="let recipe of appComponent.recipes"
                        [value]="recipe">{{recipe.title}}</ng-option>
           </ng-select>
-
         </div>
-
         <div class="col-md-1 mt-4">
           <button (click)="toggleRecipeDiag(false,true)"
                   class="btn btn-primary " type="submit">+
           </button>
         </div>
-
       </div>
-
       <div class="row  d-flex ps-3 mt-3 main">
         <ui *ngFor="let recipe of appComponent.recipes" class="list-group w-75 ">
-          <button (change)="getRecipe($event)" class="list-group-item list-group-item-action "
+          <button (click)="getRecipe(recipe)" class="list-group-item list-group-item-action "
                   type="button">{{recipe.title}}</button>
         </ui>
       </div>
-
-
     </div>
 
-
     <div class="col-md-9">
-      <!-- Your second column here -->
-
-
       <div *ngIf="showRecipe" class="table-responsive">
+
+        <div class="row gx-3">
+          <div class="row gx-3">
+            <div class="col-md">
+              <h6 class="align-middle">serving qty</h6>
+              <p class="align-middle">{{displayRecipeInfo.servingQty}}</p>
+            </div>
+            <div class="col-md">
+              <h6 class="align-middle">category</h6>
+              <p class="align-middle">{{displayRecipeInfo.category}}</p>
+            </div>
+            <div class="col-md">
+              <h6 class="align-middle">subCategory</h6>
+              <p class="align-middle">{{displayRecipeInfo.subCategory}}</p>
+            </div>
+            <div class="col-md">
+              <h6 class="align-middle">course</h6>
+              <p class="align-middle">{{displayRecipeInfo.course}}</p>
+            </div>
+          </div>
+          <div class="row gx-3">
+            <div class="col-md">
+              <h6 class="align-middle">cookTime</h6>
+              <p class="align-middle">{{displayRecipeInfo.cookTime}}</p>
+            </div>
+            <div class="col-md">
+              <h6 class="align-middle">shelfLife</h6>
+              <p class="align-middle">{{displayRecipeInfo.shelfLife}}</p>
+            </div>
+            <div class="col-md">
+              <h6 class="align-middle">prepTime</h6>
+              <p class="align-middle">{{displayRecipeInfo.prepTime}}</p>
+            </div>
+            <div class="col-md">
+              <h6 class="align-middle">instructions</h6>
+              <p class="align-middle">{{displayRecipeInfo.instructions}}</p>
+            </div>
+          </div>
+          <div class="row gx-3">
+            <div class="col-md">
+              <h6 class="align-middle">rating</h6>
+              <p class="align-middle">{{displayRecipeInfo.rating}}</p>
+            </div>
+            <div class="col-md">
+              <h6 class="align-middle">remarks</h6>
+              <p class="align-middle">{{displayRecipeInfo.remarks}}</p>
+            </div>
+          <!--  <div class="col-md">
+              <h6 class="align-middle">unit</h6>
+              <p class="align-middle">{{displayRecipeInfo.unitDetailed.unit}}</p>
+            </div>-->
+            <div class="col-md">
+              <h6 class="align-middle">subCategory</h6>
+              <p class="align-middle">{{displayRecipeInfo.instructions}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row gx-3">
+        </div>
+
+
 
         <table>
           <thead>
@@ -69,12 +121,9 @@
         </table>
 
       </div>
-
-
-      <div *ngIf="addRecipe">
-
+      <div *ngIf="!showRecipe">
         <form #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" autocomplete="off"
-              class="form-group">
+              class="form-group" >
           <label for="titleRecipe">*Title</label>
           <input #titleRecipe="ngModel" [(ngModel)]="recipe.title" appendTo="body"
                  class="form-control"
@@ -204,7 +253,6 @@
           </button>
         </form>
       </div>
-
     </div>
   </div>
 

@@ -16,6 +16,7 @@ import {Constants} from '../config/Constants';
 import {SupplierForIngredient} from '../model/SupplierForIngredient';
 import {BrandForIngredient} from '../model/BrandForIngredient';
 import {CategoryFor} from '../model/CategoryFor';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-recipe',
@@ -35,11 +36,15 @@ export class RecipeComponent implements OnInit {
   addARecipe = false;
 
 
-  constructor(private http: HttpClient, public appComponent: AppComponent) {
+  constructor(private http: HttpClient, public appComponent: AppComponent,private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.appComponent.refreshAppCache();
+   this.recipe = new Recipe();
+    this.addIngMap= new Map<number, AddIngredient>();
+    this.totalCost=0;
+    this.displayRecipeInfo = new Recipe();
   }
 
 
@@ -134,6 +139,7 @@ export class RecipeComponent implements OnInit {
 
 
   getRecipe(recipe: Recipe) {
+    this.toggleRecipeDiag(true, false);
     this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).subscribe(
       (response) => {
         this.displayRecipeInfo = response[0];
@@ -145,10 +151,11 @@ export class RecipeComponent implements OnInit {
       () => {
         console.log('%% get recipe is completed successfully %%');
       });
-    this.toggleRecipeDiag(true, false);
+
   }
 
   toggleRecipeDiag(showRecipe: boolean, addARecipe: boolean) {
+
     this.ngOnInit();
 
     this.showRecipe = showRecipe;
