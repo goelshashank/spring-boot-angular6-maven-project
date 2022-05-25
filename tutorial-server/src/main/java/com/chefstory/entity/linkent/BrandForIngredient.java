@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -32,4 +33,17 @@ public class BrandForIngredient extends BaseEntity {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
+    @Column(name = "sku_cost")
+    private Double skuCost;
+
+    @Column(name = "sku_qty")
+    private Double skuQty;
+
+    @JsonProperty("perUnitCost")
+    private Double getPerUnitCost() {
+        if (skuCost == null || skuQty == null)
+            return 0.0;
+
+        return skuCost / skuQty;
+    }
 }

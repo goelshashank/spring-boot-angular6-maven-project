@@ -1,5 +1,6 @@
 package com.chefstory.entity;
 
+import com.chefstory.entity.pojo.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @MappedSuperclass
-public abstract class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable,Cloneable {
 
     @CreationTimestamp
     @Temporal(value = TemporalType.TIMESTAMP)
@@ -33,5 +34,9 @@ public abstract class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status status=Status.ACTIVE;
 
 }

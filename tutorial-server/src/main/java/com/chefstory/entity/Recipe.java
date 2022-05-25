@@ -65,9 +65,5 @@ public class Recipe extends BaseEntity {
     private String photoId;
     @Column(name = "video_id")
     private String videoId;
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
 
 }
