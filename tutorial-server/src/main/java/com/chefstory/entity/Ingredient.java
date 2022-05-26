@@ -27,7 +27,7 @@ import java.util.List;
 @ToString
 public class Ingredient extends BaseEntity {
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title",unique = true, nullable = false)
     @NotBlank
     private String title;
 

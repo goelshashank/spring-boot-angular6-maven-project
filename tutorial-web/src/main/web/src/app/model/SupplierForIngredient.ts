@@ -1,5 +1,5 @@
 import {Supplier} from './Supplier';
 
 export class SupplierForIngredient {
-  supplier: Supplier;
+  supplier: Supplier=new Supplier();
 }

@@ -4,15 +4,18 @@ import {environment} from '../../environments/environment';
 import {ApiPaths} from '../config/ApiPaths';
 import {HttpClient} from '@angular/common/http';
 import {AppComponent} from '../app.component';
-import {AddIngredient} from '../model/AddIngredient';
+
 import {Brand} from '../model/Brand';
 import {Supplier} from '../model/Supplier';
-import {AddSupplier} from '../model/AddSupplier';
-import {AddBrand} from '../model/AddBrand';
+
 import {Category} from '../model/Category';
-import {AddCategory} from '../model/AddCategory';
+
 import {Constants} from '../config/Constants';
 import {ActivatedRoute, Router} from '@angular/router';
+import { AddIngredient } from '../model/AddIngredient';
+import { SupplierForIngredient } from '../model/SupplierForIngredient';
+import { CategoryFor } from '../model/CategoryFor';
+import { BrandForIngredient } from '../model/BrandForIngredient';
 
 @Component({
   selector: 'app-ingredient',
@@ -82,43 +85,44 @@ export class IngredientComponent implements OnInit {
 
   setSuppliers(suppliers: Supplier[]) {
     suppliers.forEach(t => {
-      let addSupplier: AddSupplier = new AddSupplier();
+      let addSupplier: SupplierForIngredient = new SupplierForIngredient();
       addSupplier.supplier = t;
       addSupplier.supplier.title = t.label;
-      this.addIngredient.addSuppliers.push(addSupplier);
+      this.addIngredient.ingredient.supplierForIngredients.push(addSupplier);
     });
 
-    console.log('Supplier  list' + JSON.stringify(Array.from(this.addIngredient.addSuppliers)));
+    console.log('Supplier  list' + JSON.stringify(Array.from(this.addIngredient.ingredient.supplierForIngredients)));
 
   }
 
   setCategories(categories: Category[]) {
     categories.forEach(t => {
-      let addCategory: AddCategory = new AddCategory();
+      let addCategory: CategoryFor = new CategoryFor();
       addCategory.category = t;
       addCategory.category.title = t.label;
       addCategory.category.type = Constants.INGREDIENT;
-      this.addIngredient.addCategories.push(addCategory);
+      this.addIngredient.ingredient.categoriesForIngredient.push(addCategory);
     });
 
-    console.log(' ingredient Categories  list' + JSON.stringify(Array.from(this.addIngredient.addCategories)));
+    console.log(' ingredient Categories  list' + JSON.stringify(Array.from(this.addIngredient.ingredient.categoriesForIngredient)));
 
   }
 
 
   setBrands(brands: Brand[]) {
     brands.forEach(t => {
-      let addBrand: AddBrand = new AddBrand();
+      let addBrand: BrandForIngredient = new BrandForIngredient();
       addBrand.brand = t;
       addBrand.brand.title = t.label;
-      this.addIngredient.addBrands.push(addBrand);
+      this.addIngredient.ingredient.brandForIngredients.push(addBrand);
     });
 
-    console.log('Brands list' + JSON.stringify(Array.from(this.addIngredient.addBrands)));
+    console.log('Brands list' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
 
   }
 
-  calculatePerUnitCost() {
-    this.addIngredient.ingredient.perUnitCost = this.addIngredient.ingredient.skuCost / this.addIngredient.ingredient.skuQty;
+  calculatePerUnitCost(brandForIngredient : BrandForIngredient) {
+    brandForIngredient.perUnitCost = brandForIngredient.skuCost / brandForIngredient.skuQty;
   }
+  
 }

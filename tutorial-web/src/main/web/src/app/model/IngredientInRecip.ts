@@ -5,9 +5,9 @@ import {Brand} from './Brand';
 
 
 export class IngredientInRecip {
-  ingredient: Ingredient;
+  ingredient: Ingredient=new Ingredient();
   recipe: Recipe;
-  supplier: Supplier;
-  brand: Brand;
+  supplier: Supplier=new Supplier();
+  brand: Brand=new Brand();
 
 }

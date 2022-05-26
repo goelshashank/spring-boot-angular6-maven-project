@@ -12,8 +12,8 @@ export class Ingredient {
   videoId: string;
   status: string;
   quantityUnit: number;
-  supplierForIngredients: SupplierForIngredient[];
-  brandForIngredients: BrandForIngredient[];
-  categoriesForIngredient: CategoryFor[];
+  supplierForIngredients: SupplierForIngredient[]=[];
+  brandForIngredients: BrandForIngredient[]=[];
+  categoriesForIngredient: CategoryFor[]=[];
 
 }

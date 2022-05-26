@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 
@@ -32,4 +33,15 @@ public class SupplierForIngredient extends BaseEntity {
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
+    public SupplierForIngredient setIngredient(Ingredient ingredient) {
+        if(StringUtils.isNotBlank(ingredient.getTitle()))
+            this.ingredient = ingredient;
+        return this;
+    }
+
+    public SupplierForIngredient setSupplier(Supplier supplier) {
+        if(StringUtils.isNotBlank(supplier.getTitle()))
+             this.supplier = supplier;
+        return this;
+    }
 }

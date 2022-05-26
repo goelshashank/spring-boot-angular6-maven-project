@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 
@@ -45,5 +46,17 @@ public class BrandForIngredient extends BaseEntity {
             return 0.0;
 
         return skuCost / skuQty;
+    }
+
+    public BrandForIngredient setIngredient(Ingredient ingredient) {
+        if(StringUtils.isNotBlank(ingredient.getTitle()))
+                this.ingredient = ingredient;
+        return this;
+    }
+
+    public BrandForIngredient setBrand(Brand brand) {
+        if(StringUtils.isNotBlank(brand.getTitle()))
+              this.brand = brand;
+        return this;
     }
 }

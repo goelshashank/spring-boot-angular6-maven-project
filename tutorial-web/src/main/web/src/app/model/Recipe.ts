@@ -18,8 +18,8 @@ export class Recipe {
   shelfLife: string;
   remarks: string;
   status: string;
-  ingredientInRecipe: IngredientInRecip[];
-  categoriesForRecipe: CategoryFor[];
+  ingredientInRecipe: IngredientInRecip[]=[];
+  categoriesForRecipe: CategoryFor[]=[];
   unitDetailed: UnitDetailed=new UnitDetailed("");
   unit: string;
 }

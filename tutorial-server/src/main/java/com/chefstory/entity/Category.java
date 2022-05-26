@@ -24,7 +24,7 @@ import javax.validation.constraints.NotBlank;
 @ToString
 public class Category extends BaseEntity {
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title",unique = true, nullable = false)
     @NotBlank
     private String title;
 

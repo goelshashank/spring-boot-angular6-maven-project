@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 
@@ -41,4 +42,15 @@ public class CategoryFor extends BaseEntity {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
+    public CategoryFor setRecipe(Recipe recipe) {
+        if(StringUtils.isNotBlank(recipe.getTitle()))
+             this.recipe = recipe;
+        return this;
+    }
+
+    public CategoryFor setIngredient(Ingredient ingredient) {
+        if(StringUtils.isNotBlank(ingredient.getTitle()))
+             this.ingredient = ingredient;
+        return this;
+    }
 }

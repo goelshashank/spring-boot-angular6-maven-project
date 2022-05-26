@@ -19,8 +19,4 @@ import java.util.List;
 public class AddIngredient {
 
     @NotNull Ingredient ingredient;
-    List<AddSupplier> addSuppliers;
-    List<AddBrand> addBrands;
-    List<AddCategory> addCategories;
-
 }

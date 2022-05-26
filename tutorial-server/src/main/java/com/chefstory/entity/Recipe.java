@@ -24,7 +24,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Recipe extends BaseEntity {
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title",unique = true, nullable = false)
     @NotBlank
     private String title;
     @Column(name = "sub_category")
