@@ -9,41 +9,53 @@
     <input #titleIng="ngModel" [(ngModel)]="addIngredient.ingredient.title" class="form-control" id="titleIng"
       name="titleIng" placeholder="Title is required" required type="text">
     <label for="categoryForIng" id="categoryForIng">Category</label>
-    <ng-select (change)="setCategories($event)" [addTag]="true" [multiple]="true" [searchable]="true" appendTo="body"
+  
+  
+    <ng-select (add)="setCategories($event)"  (remove)="removeCategories($event)" [addTag]="true" [multiple]="true" [searchable]="true" appendTo="body"
       class="form-control" id="categoryForIng1" name="categoryForIng">
       <ng-option *ngFor="let cat of appComponent.categoriesIngredient" [value]="cat">{{cat.title}}</ng-option>
     </ng-select>
 
-    <br>
-
-
-    <label for="supplierForIng" id="supplierForIng">Supplier:</label>
-    <ng-select (change)="setSuppliers($event)" [addTag]="true" [multiple]="true" [searchable]="true" appendTo="body"
+  
+    <label for="supplierForIng" id="supplierForIng">Supplier</label>
+    <ng-select (add)="setSuppliers($event)" (remove)="removeSuppliers($event)" [addTag]="true" [multiple]="true" [searchable]="true" appendTo="body"
       class="form-control" id="supplierForIng1" name="supplierForIng">
       <ng-option *ngFor="let sup of appComponent.suppliers" [value]="sup">{{sup.title}}</ng-option>
     </ng-select>
 
-
-    <div class="input-group">
-      
-        <label for="brandForIng" id="brandForIng">Brand:</label>
-        <ng-select (change)="setBrands($event)" [addTag]="true" [multiple]="true" [searchable]="true" appendTo="body"
-          class="form-control" id="brandForIng1" name="brandForIng">
+        <label for="brandForIng" id="brandForIng">Brand</label>
+        <ng-select (add)="setBrands($event)" (remove)="removeBrands($event)" [addTag]="true" [multiple]="true" [searchable]="true" appendTo="body"
+          class="form-control" id="brandForIng1" name="brandForIng" #filterWith>
           <ng-option *ngFor="let brand of appComponent.brands" [value]="brand">{{brand.title}}</ng-option>
         </ng-select>
-        <div   *ngFor="let addBrandForIng of addIngredient.ingredient.brandForIngredients">
-          <label for="skuCostIng">sku Cost</label>
-          <input (change)="calculatePerUnitCost(addBrandForIng)" [(ngModel)]="addBrandForIng.skuCost" class="form-control" id="skuCostIng" name="skuCostIng"
-            placeholder="Enter sku cost" type="text">
-          <label for="skuQty">sku Qty</label>
-          <input (change)="calculatePerUnitCost(addBrandForIng)" [(ngModel)]="addBrandForIng.skuQty" class="form-control"
-            id="skuQty" name="skuQty" placeholder="Enter sku qty" type="text">
-          <b>
-            Per unit cost - {{addBrandForIng.perUnitCost}}
-          </b>
-        </div>
 
-    </div>
+        <ul>
+        <li  *ngFor="let addBrandForIng of this.addIngredient.ingredient.brandForIngredients; trackBy: trackByItems">
+       
+              {{addBrandForIng.brand.title}} 
+        <br/>
+       
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="sku Cost" aria-label="sku Cost" 
+          (change)="calculatePerUnitCost(addBrandForIng)" [(ngModel)]="addBrandForIng.skuCost" class="form-control" id="skuCostIng" name="skuCostIng">
+          <span class="input-group-text">/</span>
+          <input type="text" class="form-control" placeholder="sku Qty" aria-label="sku Qty" 
+          (change)="calculatePerUnitCost(addBrandForIng)" [(ngModel)]="addBrandForIng.skuQty" class="form-control"
+          id="skuQty" name="skuQty">
+        </div>    
+        
+      <!--   <label for="skuCostIng">sku Cost</label>
+              <input (change)="calculatePerUnitCost(addBrandForIng)" [(ngModel)]="addBrandForIng.skuCost" class="form-control" id="skuCostIng" name="skuCostIng"
+                placeholder="Enter sku cost" type="text">
+              <label for="skuQty">sku Qty</label>
+              <input (change)="calculatePerUnitCost(addBrandForIng)" [(ngModel)]="addBrandForIng.skuQty" class="form-control"
+                id="skuQty" name="skuQty" placeholder="Enter sku qty" type="text"> -->
+              <b>
+                Per unit cost - {{addBrandForIng.perUnitCost}}
+              </b>
+            </li>
+      </ul>
+
 
     <label for="unitListIng">Units:</label>
     <select [(ngModel)]="addIngredient.ingredient.unit" class="form-control" id="unitListIng" name="unitListIng">
