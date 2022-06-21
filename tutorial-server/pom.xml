@@ -119,6 +119,11 @@
             <artifactId>typescript-generator-spring</artifactId>
             <version>${cz.habarta.typescript-generator.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <properties>
