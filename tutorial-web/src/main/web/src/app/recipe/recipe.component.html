@@ -1,8 +1,9 @@
-<div>
-  <div class="row gx-3">
-    <div class="col-md-3">
-      <!-- Your first column here -->
-      <div class="row gx-1">
+
+<div class="container bg-primary px-2 py-2">
+  <div class="row bg-info px-2 py-2">
+    <div class="col-md-3 bg-light  ">
+      
+      <div class="row gx-1 ">
         <div class="col-md-10">
           <label for="searchRecipe" id="searchRecipe">Search Recipe</label>
           <ng-select (change)="getRecipe($event)"
@@ -28,11 +29,11 @@
       </div>
     </div>
 
-    <div class="col-md-9">
-      <div *ngIf="showRecipe" class="table-responsive">
+    <div  *ngIf="showRecipe" class="col-md-9 bg-success">
+      
 
-        <div class="row gx-3 container-fluid">
-          <div class="row gx-3">
+        <div class="row container-fluid position-absolute top-5 start-2 ">
+          <div class="row justify-content-around gx-3">
             <div class="col-md">
               <h6 class="align-middle">serving qty</h6>
               <p class="align-middle">{{displayRecipeInfo.servingQty}}</p>
@@ -45,16 +46,11 @@
               <h6 class="align-middle">subCategory</h6>
               <p class="align-middle">{{displayRecipeInfo.subCategory}}</p>
             </div>
-            <div class="col-md">
-              <h6 class="align-middle">course</h6>
-              <p class="align-middle">{{displayRecipeInfo.course}}</p>
-            </div>
+        
           </div>
-          <div class="row gx-3">
-            <div class="col-md">
-              <h6 class="align-middle">cookTime</h6>
-              <p class="align-middle">{{displayRecipeInfo.cookTime}}</p>
-            </div>
+      
+          <div class="row justify-content-around gx-3">
+       
             <div class="col-md">
               <h6 class="align-middle">shelfLife</h6>
               <p class="align-middle">{{displayRecipeInfo.shelfLife}}</p>
@@ -68,7 +64,7 @@
               <p class="align-middle">{{displayRecipeInfo.instructions}}</p>
             </div>
           </div>
-          <div class="row gx-3">
+          <div class="row justify-content-around gx-3">
             <div class="col-md">
               <h6 class="align-middle">rating</h6>
               <p class="align-middle">{{displayRecipeInfo.rating}}</p>
@@ -86,11 +82,25 @@
               <p class="align-middle">{{displayRecipeInfo.instructions}}</p>
             </div>
           </div>
+          <div class="row justify-content-around gx-3">
+            <div class="col-md">
+              <h6 class="align-middle">course</h6>
+              <p class="align-middle">{{displayRecipeInfo.course}}</p>
+            </div>
+            <div class="col-md">
+              <h6 class="align-middle">cookTime</h6>
+              <p class="align-middle">{{displayRecipeInfo.cookTime}}</p>
+            </div>
+            <div class="col-md">
+            <!--   <h6 class="align-middle">cookTime</h6>
+              <p class="align-middle">{{displayRecipeInfo.cookTime}}</p> -->
+            </div>
+          </div>
         </div>
 
 
-
-        <table>
+        <div class="row container-fluid position-absolute top-200 start-0">
+        <table >
           <thead>
           <tr>
             <th class="text-center col-md-2" scope="col">Ingredients</th>
@@ -116,8 +126,8 @@
           </tr>
           </tbody>
         </table>
-
-      </div>
+          </div>
+   
       <div *ngIf="!showRecipe">
         <form #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" autocomplete="off"
               class="form-group" >
