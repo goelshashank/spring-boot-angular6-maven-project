@@ -1,150 +1,201 @@
-
-<div class="container bg-primary px-2 py-2">
-  <div class="row bg-info px-2 py-2">
-    <div class="col-md-3 bg-light  ">
-      
-      <div class="row gx-1 ">
+<div class="container-fluid ">
+  <div class="row my-4 ">
+    <div class="col-2 bg-light shadow rounded">
+      <div class="row gx-1">
         <div class="col-md-10">
           <label for="searchRecipe" id="searchRecipe">Search Recipe</label>
-          <ng-select (change)="getRecipe($event)"
-                     [multiple]="false"
-                     [searchable]="true"
-                     appendTo="body"
-                     class="form-control" id="searchRecipe1">
-            <ng-option *ngFor="let recipe of appComponent.recipes"
-                       [value]="recipe">{{recipe.title}}</ng-option>
+          <ng-select
+            (change)="getRecipe($event)"
+            [multiple]="false"
+            [searchable]="true"
+            appendTo="body"
+            class="form-control"
+            id="searchRecipe1"
+          >
+            <ng-option
+              *ngFor="let recipe of appComponent.recipes"
+              [value]="recipe"
+              >{{ recipe.title }}</ng-option
+            >
           </ng-select>
         </div>
         <div class="col-md-1 mt-4">
-          <button (click)="toggleRecipeDiag(false,true)"
-                  class="btn btn-primary " type="submit">+
+          <button
+            (click)="toggleRecipeDiag(false, true)"
+            class="btn btn-primary"
+            type="submit"
+          >
+            +
           </button>
         </div>
       </div>
-      <div class="row  d-flex ps-3 mt-3 main">
-        <ui *ngFor="let recipe of appComponent.recipes" class="list-group w-75 ">
-          <button (click)="getRecipe(recipe)" class="list-group-item list-group-item-action "
-                  type="button">{{recipe.title}}</button>
+      <div class="row d-flex ps-3 mt-3 main">
+        <ui *ngFor="let recipe of appComponent.recipes" class="list-group w-75">
+          <button
+            (click)="getRecipe(recipe)"
+            class="list-group-item list-group-item-action"
+            type="button"
+          >
+            {{ recipe.title }}
+          </button>
         </ui>
       </div>
     </div>
 
-    <div  *ngIf="showRecipe" class="col-md-9 bg-success">
-      
-
-        <div class="row container-fluid position-absolute top-5 start-2 ">
-          <div class="row justify-content-around gx-3">
-            <div class="col-md">
-              <h6 class="align-middle">serving qty</h6>
-              <p class="align-middle">{{displayRecipeInfo.servingQty}}</p>
-            </div>
-            <div class="col-md">
-              <h6 class="align-middle">category</h6>
-              <p class="align-middle">{{displayRecipeInfo.category}}</p>
-            </div>
-            <div class="col-md">
-              <h6 class="align-middle">subCategory</h6>
-              <p class="align-middle">{{displayRecipeInfo.subCategory}}</p>
-            </div>
-        
-          </div>
-      
-          <div class="row justify-content-around gx-3">
+    <div *ngIf="showRecipe" class="col">
+      <div class="row px-1 bg-light shadow rounded mx-5">
        
-            <div class="col-md">
-              <h6 class="align-middle">shelfLife</h6>
-              <p class="align-middle">{{displayRecipeInfo.shelfLife}}</p>
-            </div>
-            <div class="col-md">
-              <h6 class="align-middle">prepTime</h6>
-              <p class="align-middle">{{displayRecipeInfo.prepTime}}</p>
-            </div>
-            <div class="col-md">
-              <h6 class="align-middle">instructions</h6>
-              <p class="align-middle">{{displayRecipeInfo.instructions}}</p>
-            </div>
+        <div class="row">
+          <div class="col">
+            <h6 class="align-middle">Serving-Qty : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.servingQty }}</p>
           </div>
-          <div class="row justify-content-around gx-3">
-            <div class="col-md">
-              <h6 class="align-middle">rating</h6>
-              <p class="align-middle">{{displayRecipeInfo.rating}}</p>
-            </div>
-            <div class="col-md">
-              <h6 class="align-middle">remarks</h6>
-              <p class="align-middle">{{displayRecipeInfo.remarks}}</p>
-            </div>
+          <div class="col">
+            <h6 class="align-middle">Category : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.category }}</p>
+          </div>
+          <div class="col">
+            <h6 class="align-middle">Sub-Category : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.subCategory }}</p>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col">
+            <h6 class="align-middle">Shelf-Life : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.shelfLife }}</p>
+          </div>
+          <div class="col">
+            <h6 class="align-middle">Prep-Time : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.prepTime }}</p>
+          </div>
+          <div class="col">
+            <h6 class="align-middle">Instructions : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col">
+            <h6 class="align-middle">Rating : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.rating }}</p>
+          </div>
+          <div class="col">
+            <h6 class="align-middle">Remarks : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.remarks }}</p>
+          </div>
           <!--  <div class="col-md">
               <h6 class="align-middle">unit</h6>
               <p class="align-middle">{{displayRecipeInfo.unitDetailed.unit}}</p>
             </div>-->
-            <div class="col-md">
-              <h6 class="align-middle">subCategory</h6>
-              <p class="align-middle">{{displayRecipeInfo.instructions}}</p>
-            </div>
-          </div>
-          <div class="row justify-content-around gx-3">
-            <div class="col-md">
-              <h6 class="align-middle">course</h6>
-              <p class="align-middle">{{displayRecipeInfo.course}}</p>
-            </div>
-            <div class="col-md">
-              <h6 class="align-middle">cookTime</h6>
-              <p class="align-middle">{{displayRecipeInfo.cookTime}}</p>
-            </div>
-            <div class="col-md">
-            <!--   <h6 class="align-middle">cookTime</h6>
-              <p class="align-middle">{{displayRecipeInfo.cookTime}}</p> -->
-            </div>
+          <div class="col">
+            <h6 class="align-middle">Sub-Category : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
           </div>
         </div>
 
+        <div class="row">
+          <div class="col">
+            <h6 class="align-middle">Course : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.course }}</p>
+          </div>
+          <div class="col">
+            <h6 class="align-middle">Cook-Time : </h6>
+            <p class="align-middle">{{ displayRecipeInfo.cookTime }}</p>
+          </div>
+          <div class="col">
+            <!--   <h6 class="align-middle">cookTime</h6>
+              <p class="align-middle">{{displayRecipeInfo.cookTime}}</p> -->
+          </div>
+        </div>
 
-        <div class="row container-fluid position-absolute top-200 start-0">
-        <table >
-          <thead>
-          <tr>
-            <th class="text-center col-md-2" scope="col">Ingredients</th>
-            <th class="text-center col-md-2" scope="col">quantityUnit</th>
-            <th class="text-center col-md-2" scope="col">category</th>
-            <th class="text-center col-md-2" scope="col">perUnitCost</th>
-            <th class="text-center col-md-2" scope="col">unit</th>
-            <th class="text-center col-md-2" scope="col">supplier</th>
-            <th class="text-center col-md-2" scope="col">brand</th>
-          </tr>
+      </div>
+
+      <div class="row my-3 bg-light shadow rounded mx-5">
+        <table class="table table-striped">
+          <thead class="px-2">
+            <tr >
+              <th  scope="col">Ingredients</th>
+              <th  scope="col">Quantity-Unit</th>
+              <th  scope="col">Category</th>
+              <th  scope="col">Per-Unit-Cost</th>
+              <th  scope="col">Unit</th>
+              <th  scope="col">Supplier</th>
+              <th  scope="col">Brand</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let ingredientInRecipe of displayRecipeInfo.ingredientInRecipe">
-            <td class="text-center col-md-2"> {{ingredientInRecipe.ingredient.title}} </td>
-            <td class="text-center col-md-2"> {{ingredientInRecipe.ingredient.quantityUnit}} </td>
-            <td
-               class="text-center col-md-2">
-              {{ingredientInRecipe.ingredient.categoriesForIngredient[0].category.title}} </td>
-            <td class="text-center col-md-2"> {{ingredientInRecipe.ingredient.perUnitCost}} </td>
-            <td class="text-center col-md-2"> {{ingredientInRecipe.ingredient.unit}} </td>
-            <td class="text-center col-md-2"> {{ingredientInRecipe.supplier.title}} </td>
-            <td class="text-center col-md-2"> {{ingredientInRecipe.brand.title}} </td>
-          </tr>
+            <tr
+              *ngFor="
+                let ingredientInRecipe of displayRecipeInfo.ingredientInRecipe
+              "
+            >
+              <td class="text-center col">
+                {{ ingredientInRecipe.ingredient.title }}
+              </td>
+              <td class="text-center col">
+                {{ ingredientInRecipe.ingredient.quantityUnit }}
+              </td>
+              <td class="text-center col">
+                {{
+                  ingredientInRecipe.ingredient.categoriesForIngredient[0]
+                    .category.title
+                }}
+              </td>
+              <td class="text-center col">
+                {{ ingredientInRecipe.ingredient.perUnitCost }}
+              </td>
+              <td class="text-center col">
+                {{ ingredientInRecipe.ingredient.unit }}
+              </td>
+              <td class="text-center col">
+                {{ ingredientInRecipe.supplier.title }}
+              </td>
+              <td class="text-center col">
+                {{ ingredientInRecipe.brand.title }}
+              </td>
+            </tr>
           </tbody>
         </table>
-          </div>
-   
-      <div *ngIf="!showRecipe">
-        <form #addRecipeForm="ngForm" (ngSubmit)="addRecipes(addRecipeForm)" autocomplete="off"
-              class="form-group" >
-          <label for="titleRecipe">*Title</label>
-          <input #titleRecipe="ngModel" [(ngModel)]="recipe.title" appendTo="body"
-                 class="form-control"
-                 id="titleRecipe"
-                 name="titleRecipe" placeholder="Title is required" required type="text">
+      </div>
 
-          <label for="ingredientListForRecipe" id="ingredientListForRecipe">Ingredient:</label>
-          <ng-select (change)="setIngredients($event)" [multiple]="true"
-                     [searchable]="true"
-                     appendTo="body"
-                     class="form-control" id="ingredientListForRecipe1"
-                     name="ingredientListForRecipe">
-            <ng-option *ngFor="let ing of appComponent.ingredients"
-                       [value]="ing">{{ing.title}}</ng-option>
+      <div *ngIf="!showRecipe">
+        <form
+          #addRecipeForm="ngForm"
+          (ngSubmit)="addRecipes(addRecipeForm)"
+          autocomplete="off"
+          class="form-group"
+        >
+          <label for="titleRecipe">*Title</label>
+          <input
+            #titleRecipe="ngModel"
+            [(ngModel)]="recipe.title"
+            appendTo="body"
+            class="form-control"
+            id="titleRecipe"
+            name="titleRecipe"
+            placeholder="Title is required"
+            required
+            type="text"
+          />
+
+          <label for="ingredientListForRecipe" id="ingredientListForRecipe"
+            >Ingredient:</label
+          >
+          <ng-select
+            (change)="setIngredients($event)"
+            [multiple]="true"
+            [searchable]="true"
+            appendTo="body"
+            class="form-control"
+            id="ingredientListForRecipe1"
+            name="ingredientListForRecipe"
+          >
+            <ng-option
+              *ngFor="let ing of appComponent.ingredients"
+              [value]="ing"
+              >{{ ing.title }}</ng-option
+            >
           </ng-select>
 
           <table appendTo="body" class="my-table">
@@ -156,93 +207,146 @@
               <th>Brand</th>
               <th>Category</th>
             </tr>
-            <tr *ngFor="let addIng of addIngMap | keyvalue;let i = index;" appendTo="body">
-
-              <td> {{addIng.value.ingredient.title}} </td>
+            <tr
+              *ngFor="let addIng of addIngMap | keyvalue; let i = index"
+              appendTo="body"
+            >
+              <td>{{ addIng.value.ingredient.title }}</td>
               <td>
-                <input (change)="calculateCostTotal()"
-                       [(ngModel)]="addIng.value.ingredient.quantityUnit" appendTo="body"
-                       class="form-control" id="ingCont" name="ingCont" placeholder="Quantity"
-                       required
-                       type="text">
+                <input
+                  (change)="calculateCostTotal()"
+                  [(ngModel)]="addIng.value.ingredient.quantityUnit"
+                  appendTo="body"
+                  class="form-control"
+                  id="ingCont"
+                  name="ingCont"
+                  placeholder="Quantity"
+                  required
+                  type="text"
+                />
               </td>
-              <td
-                class="price"> {{addIng.value.ingredient.perUnitCost * addIng.value.ingredient.quantityUnit}} </td>
-
+              <td class="price">
+                {{
+                  addIng.value.ingredient.perUnitCost *
+                    addIng.value.ingredient.quantityUnit
+                }}
+              </td>
 
               <td>
-                <ng-select (change)="addSupplier($event,addIng.value.ingredient)"
-                           [multiple]="false"
-                           [searchable]="true"
-                           appendTo="body"
-                           class="form-control" id="supplierForIng" name="supplierForIng">
+                <ng-select
+                  (change)="addSupplier($event, addIng.value.ingredient)"
+                  [multiple]="false"
+                  [searchable]="true"
+                  appendTo="body"
+                  class="form-control"
+                  id="supplierForIng"
+                  name="supplierForIng"
+                >
                   <!-- [ngModel]="addIng.value.ingredient.supplierForIngredients[0]"-->
                   <ng-option
-                    *ngFor="let supplierForIngredient of addIng.value.ingredient.supplierForIngredients"
-                    [value]="supplierForIngredient">{{supplierForIngredient.supplier.title}}</ng-option>
+                    *ngFor="
+                      let supplierForIngredient of addIng.value.ingredient
+                        .supplierForIngredients
+                    "
+                    [value]="supplierForIngredient"
+                    >{{ supplierForIngredient.supplier.title }}</ng-option
+                  >
                 </ng-select>
               </td>
               <td>
-                <ng-select (change)="addBrand($event,addIng.value.ingredient)"
-                           [multiple]="false"
-                           [searchable]="true"
-                           appendTo="body"
-                           class="form-control" id="brandForIng" name="brandForIng">
+                <ng-select
+                  (change)="addBrand($event, addIng.value.ingredient)"
+                  [multiple]="false"
+                  [searchable]="true"
+                  appendTo="body"
+                  class="form-control"
+                  id="brandForIng"
+                  name="brandForIng"
+                >
                   <!-- [ngModel]="addIng.value.ingredient.brandForIngredients[0]"-->
                   <ng-option
-                    *ngFor="let brandForIngredient of addIng.value.ingredient.brandForIngredients"
-                    [value]="brandForIngredient">{{brandForIngredient.brand.title}}</ng-option>
+                    *ngFor="
+                      let brandForIngredient of addIng.value.ingredient
+                        .brandForIngredients
+                    "
+                    [value]="brandForIngredient"
+                    >{{ brandForIngredient.brand.title }}</ng-option
+                  >
                 </ng-select>
               </td>
               <td>
-                <ng-select (change)="addCategory($event,addIng.value.ingredient)"
-                           [multiple]="false"
-                           [searchable]="true"
-                           appendTo="body"
-                           class="form-control" id="categoriesForIng" name="categoryForIng">
+                <ng-select
+                  (change)="addCategory($event, addIng.value.ingredient)"
+                  [multiple]="false"
+                  [searchable]="true"
+                  appendTo="body"
+                  class="form-control"
+                  id="categoriesForIng"
+                  name="categoryForIng"
+                >
                   <!-- [ngModel]="addIng.value.ingredient.categoriesForIngredient[0]"-->
                   <ng-option
-                    *ngFor="let categoryFor of addIng.value.ingredient.categoriesForIngredient"
-                    [value]="categoryFor">{{categoryFor.category.title}}</ng-option>
+                    *ngFor="
+                      let categoryFor of addIng.value.ingredient
+                        .categoriesForIngredient
+                    "
+                    [value]="categoryFor"
+                    >{{ categoryFor.category.title }}</ng-option
+                  >
                 </ng-select>
               </td>
             </tr>
-
           </table>
 
           <div>
-            <b>
-              Total Price - {{totalCost}}
-            </b>
+            <b> Total Price - {{ totalCost }} </b>
           </div>
 
           <label for="categoryForRecipe" id="categoryForRecipe">Category</label>
-          <ng-select (change)="setCategories($event)" [addTag]="true"
-                     [multiple]="true"
-                     [searchable]="true"
-                     appendTo="body" class="form-control" id="categoryForRecipe1"
-                     name="categoryForRecipe">
-            <ng-option *ngFor="let cat of appComponent.categoriesRecipe"
-                       [value]="cat">{{cat.title}}</ng-option>
+          <ng-select
+            (change)="setCategories($event)"
+            [addTag]="true"
+            [multiple]="true"
+            [searchable]="true"
+            appendTo="body"
+            class="form-control"
+            id="categoryForRecipe1"
+            name="categoryForRecipe"
+          >
+            <ng-option
+              *ngFor="let cat of appComponent.categoriesRecipe"
+              [value]="cat"
+              >{{ cat.title }}</ng-option
+            >
           </ng-select>
 
-
           <label for="subCatRecipe">Sub category</label>
-          <input [(ngModel)]="recipe.subCategory" class="form-control" id="subCatRecipe"
-                 name="subCatRecipe"
-                 placeholder="Enter sub category"
-                 type="text">
+          <input
+            [(ngModel)]="recipe.subCategory"
+            class="form-control"
+            id="subCatRecipe"
+            name="subCatRecipe"
+            placeholder="Enter sub category"
+            type="text"
+          />
           <label for="courseRecipe">Course</label>
-          <input [(ngModel)]="recipe.course" class="form-control" id="courseRecipe"
-                 name="courseRecipe"
-                 placeholder="Enter course"
-                 type="text">
+          <input
+            [(ngModel)]="recipe.course"
+            class="form-control"
+            id="courseRecipe"
+            name="courseRecipe"
+            placeholder="Enter course"
+            type="text"
+          />
           <label for="servingQty">Serving Qty</label>
-          <input [(ngModel)]="recipe.servingQty" class="form-control" id="servingQty"
-                 name="servingQty"
-                 placeholder="Enter servingQty"
-                 type="text">
-
+          <input
+            [(ngModel)]="recipe.servingQty"
+            class="form-control"
+            id="servingQty"
+            name="servingQty"
+            placeholder="Enter servingQty"
+            type="text"
+          />
 
           <!--   <label for="unitListRec">Units:</label>
              <select [(ngModel)]="addRecipe.recipe.unit" class="form-control" id="unitListRec"
@@ -253,15 +357,17 @@
                </optgroup>
              </select>-->
 
-
           <p></p>
-          <button [disabled]="!addRecipeForm.form.valid" class="btn btn-primary" type="submit">
+          <button
+            [disabled]="!addRecipeForm.form.valid"
+            class="btn btn-primary"
+            type="submit"
+          >
             Submit
           </button>
         </form>
       </div>
     </div>
   </div>
-
-
 </div>
+ 

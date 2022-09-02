@@ -1,0 +1,14 @@
+ {
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<tutorial-server>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.chefstory.Application",
+            "projectName": "tutorial-server",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
