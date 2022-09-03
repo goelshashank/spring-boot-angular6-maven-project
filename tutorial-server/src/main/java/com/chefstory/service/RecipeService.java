@@ -127,11 +127,16 @@ public class RecipeService {
             categoryFors = t.getIngredient().getCategoriesForIngredient().stream()
                     .map(u ->
                     {
+                        try {
                             categoryRepo.save(u.getCategory());
-                            log.info("category added - {} for ingredient- {}",u.getCategory().getTitle(),ingredient.getTitle());
-                        return new CategoryFor().setIngredient(ingredient)
-                                .setCategory(u.getCategory());
-                    }).collect(Collectors.toList());
+                            log.info("category added - {} for ingredient- {}", u.getCategory().getTitle(), ingredient.getTitle());
+                            return new CategoryFor().setIngredient(ingredient)
+                                    .setCategory(u.getCategory());
+                        }catch (Exception e) {
+                            log.warn("Exception in adding category {}",e.getMessage());
+                            return null;
+                        }
+                    }).filter(u-> u!=null).collect(Collectors.toList());
         }
         return categoryFors;
     }
@@ -146,11 +151,16 @@ public class RecipeService {
             brandForIngredients = t.getIngredient().getBrandForIngredients().stream()
                     .map(u ->
                     {
+                        try {
                             brandRepo.save(u.getBrand());
                             log.info("brand added - {} for ingredient- {}",u.getBrand().getTitle(),ingredient.getTitle());
                         return new BrandForIngredient().setIngredient(ingredient)
                                 .setBrand(u.getBrand());
-                    }).collect(Collectors.toList());
+                        }catch (Exception e) {
+                            log.warn("Exception in adding brand {}",e.getMessage());
+                            return null;
+                        }
+                    }).filter(u-> u!=null).collect(Collectors.toList());
         }
         return brandForIngredients;
     }
@@ -165,11 +175,18 @@ public class RecipeService {
         } else {
             supplierForIngredients = t.getIngredient().getSupplierForIngredients().stream()
                     .map(u -> {
+                        try {
                             supplierRepo.save(u.getSupplier());
                             log.info("supplier added - {} for ingredient- {}",u.getSupplier().getTitle(),ingredient.getTitle());
                         return new SupplierForIngredient().setIngredient(ingredient)
                                 .setSupplier(u.getSupplier());
-                    }).collect(Collectors.toList());
+                        }catch (Exception e) {
+                            log.warn("Exception in adding supplier {}",
+                                    e.getMessage());
+                            return null;
+                        }
+                    }).filter(u-> u!=null).collect(Collectors.toList());
+
         }
         return supplierForIngredients;
     }

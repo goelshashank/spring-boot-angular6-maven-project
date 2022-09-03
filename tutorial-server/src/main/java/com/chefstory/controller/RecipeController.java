@@ -12,6 +12,7 @@ import com.chefstory.model.GetConfigResponse;
 import com.chefstory.repository.*;
 import com.chefstory.service.FileServiceUtils;
 import com.chefstory.service.RecipeService;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -138,7 +139,7 @@ public class RecipeController {
     @PostMapping("/updateIngredients/{action}")
     public ResponseEntity updateIngredients(@Valid @RequestBody List<AddIngredient> addIngredients, @PathVariable(name = "action", required
             = true) String action) {
-
+       log.info(new Gson().toJson(addIngredients));
         if (ADD.equalsIgnoreCase(action) || UPDATE.equalsIgnoreCase(action))
             recipeService.updateIngredient(addIngredients);
         else if (REMOVE.equalsIgnoreCase(action)) {

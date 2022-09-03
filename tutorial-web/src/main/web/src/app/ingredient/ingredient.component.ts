@@ -86,54 +86,106 @@ export class IngredientComponent implements OnInit {
 
   setSuppliers(t: Supplier) {
 
-    if (!this.addIngredient.ingredient.supplierForIngredients.map((o) => o.supplier.title).includes(t.title)) {
-      let addSupplier: SupplierForIngredient = new SupplierForIngredient();
-      addSupplier.supplier = t;
-      addSupplier.supplier.title = t.label;
-      this.addIngredient.ingredient.supplierForIngredients.push(addSupplier);
-    }
+    let title=null;
+    if(t.title!=null)
+      title=t.title;
+    else if(t.label!=null)
+      title=t.label;
+    else
+       return;
 
+  if (!this.addIngredient.ingredient.supplierForIngredients.map((o) => o.supplier.title).includes(title)) {
+    let u: SupplierForIngredient = new SupplierForIngredient();
+    u.supplier = new Supplier();
+    u.supplier.title = title;
+    this.addIngredient.ingredient.supplierForIngredients.push(u);
+  }
     console.log('Added, Supplier  list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.supplierForIngredients)));
   }
 
   removeSuppliers(t: Supplier) {
-    this.addIngredient.ingredient.supplierForIngredients = this.addIngredient.ingredient.supplierForIngredients.filter(({ supplier }) => supplier.title !== t.title);
+    let title=null;
+    if(t.title!=null)
+      title=t.title;
+    else if(t.label!=null)
+      title=t.label;
+    else
+       return;
+    
+    this.addIngredient.ingredient.supplierForIngredients = this.addIngredient.ingredient.supplierForIngredients.filter(({ supplier }) => supplier.title != title);
+
     console.log('After Removal, Supplier  list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.supplierForIngredients)));
 
   }
 
   setCategories(t: Category) {
-    if (!this.addIngredient.ingredient.categoriesForIngredient.map((o) => o.category.title).includes(t.title)) {
-      let addCategory: CategoryFor = new CategoryFor();
-      addCategory.category = t;
-      addCategory.category.title = t.label;
-      addCategory.category.type = Constants.INGREDIENT;
-      this.addIngredient.ingredient.categoriesForIngredient.push(addCategory);
-    }
+   
+    let title=null;
+    if(t.title!=null)
+      title=t.title;
+    else if(t.label!=null)
+      title=t.label;
+    else
+       return;
+
+  if (!this.addIngredient.ingredient.categoriesForIngredient.map((o) => o.category.title).includes(title)) {
+    let u: CategoryFor = new CategoryFor();
+    u.category = new Category();
+    u.category.title = title;
+    u.category.type = Constants.INGREDIENT;
+    this.addIngredient.ingredient.categoriesForIngredient.push(u);
+  }
+
     console.log('Added: ingredient Categories  list' + JSON.stringify(Array.from(this.addIngredient.ingredient.categoriesForIngredient)));
   }
 
   removeCategories(t: Category) {
-    this.addIngredient.ingredient.categoriesForIngredient = this.addIngredient.ingredient.categoriesForIngredient.filter(({ category }) => category.title !== t.title);
+    let title=null;
+    if(t.title!=null)
+      title=t.title;
+    else if(t.label!=null)
+      title=t.label;
+    else
+       return;
+    
+    this.addIngredient.ingredient.categoriesForIngredient = this.addIngredient.ingredient.categoriesForIngredient.filter(({ category }) => category.title != title);
+    
     console.log('Removed: ingredient Categories  list' + JSON.stringify(Array.from(this.addIngredient.ingredient.categoriesForIngredient)));
   }
 
 
   setBrands(t: Brand) {
 
-    if (!this.addIngredient.ingredient.brandForIngredients.map((o) => o.brand.title).includes(t.title)) {
-      let addBrand: BrandForIngredient = new BrandForIngredient();
-      addBrand.brand = t;
-      addBrand.brand.title = t.label;
-      this.addIngredient.ingredient.brandForIngredients.push(addBrand);
+      let title=null;
+      if(t.title!=null)
+        title=t.title;
+      else if(t.label!=null)
+        title=t.label;
+      else
+         return;
+
+    if (!this.addIngredient.ingredient.brandForIngredients.map((o) => o.brand.title).includes(title)) {
+      let u: BrandForIngredient = new BrandForIngredient();
+      u.brand = new Brand();
+      u.brand.title = title;
+      this.addIngredient.ingredient.brandForIngredients.push(u);
     }
     console.log('Added: Brands list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
-
   }
 
 
   removeBrands(t: Brand) {
-    this.addIngredient.ingredient.brandForIngredients = this.addIngredient.ingredient.brandForIngredients.filter(({ brand }) => brand.title !== t.title);
+  
+    let title=null;
+    if(t.title!=null)
+      title=t.title;
+    else if(t.label!=null)
+      title=t.label;
+    else
+       return;
+    
+    this.addIngredient.ingredient.brandForIngredients = this.addIngredient.ingredient.brandForIngredients.filter(({ brand }) => brand.title != title);
+
     console.log('Removed:  Brands list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
   }
 
