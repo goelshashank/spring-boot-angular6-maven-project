@@ -3,3 +3,6 @@
 node_modules
 target
 logs
+tutorial-server/data/demo.mv.db
+tutorial-server/data/demo.trace.db
+tutorial-web/generated-ts-classes/chefstory.d.ts
