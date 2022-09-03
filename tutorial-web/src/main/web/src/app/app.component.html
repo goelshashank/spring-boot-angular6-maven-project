@@ -118,10 +118,18 @@
           <!--  <router-outlet name="sidewall"></router-outlet> -->
           <app-ingredient *ngIf="isShowAddIng"></app-ingredient>
           <app-recipe *ngIf="isShowAddRecipe"></app-recipe>
-          <div *ngIf="isDisplayAll">
-            <button (click)="showRecipeTab()">Add Recipe</button>
-
-            <button (click)="showIngredientTab()">Add Ingredient</button>
+          <div class="container-fluid w-50 p-3 bg-light shadow" *ngIf="isDisplayAll">
+            <h3 class="text-center" >Quick Links</h3>
+            <div class="row g-1 px-4 flex-nowrap">
+              <div class="col-4">
+            <button class="btn btn-primary"
+            type="button" (click)="showRecipeTab()">Add Recipe</button>
+             </div>
+             <div class="col-4">
+            <button class="btn btn-primary"
+            type="button" (click)="showIngredientTab()">Add Ingredient</button>
+          </div>
+            </div>
           </div>
         </div>
       </div>

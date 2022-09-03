@@ -1,5 +1,5 @@
-<div class="container-fluid ">
-  <div class="row my-4 ">
+<div class="container-fluid">
+  <div class="row my-4">
     <div class="col-2 bg-light shadow rounded">
       <div class="row gx-1">
         <div class="col-md-10">
@@ -42,124 +42,127 @@
       </div>
     </div>
 
-    <div *ngIf="showRecipe" class="col">
-      <div class="row px-1 bg-light shadow rounded mx-5">
-       
-        <div class="row">
-          <div class="col">
-            <h6 class="align-middle">Serving-Qty : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.servingQty }}</p>
+    <div class="col">
+      <div *ngIf="showRecipe">
+        <div class="row px-1 bg-light shadow rounded mx-5">
+          <div class="row">
+            <div class="col">
+              <h6 class="align-middle">Serving-Qty :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.servingQty }}</p>
+            </div>
+            <div class="col">
+              <h6 class="align-middle">Category :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.category }}</p>
+            </div>
+            <div class="col">
+              <h6 class="align-middle">Sub-Category :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.subCategory }}</p>
+            </div>
           </div>
-          <div class="col">
-            <h6 class="align-middle">Category : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.category }}</p>
-          </div>
-          <div class="col">
-            <h6 class="align-middle">Sub-Category : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.subCategory }}</p>
-          </div>
-        </div>
 
-        <div class="row ">
-          <div class="col">
-            <h6 class="align-middle">Shelf-Life : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.shelfLife }}</p>
+          <div class="row">
+            <div class="col">
+              <h6 class="align-middle">Shelf-Life :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.shelfLife }}</p>
+            </div>
+            <div class="col">
+              <h6 class="align-middle">Prep-Time :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.prepTime }}</p>
+            </div>
+            <div class="col">
+              <h6 class="align-middle">Instructions :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
+            </div>
           </div>
-          <div class="col">
-            <h6 class="align-middle">Prep-Time : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.prepTime }}</p>
-          </div>
-          <div class="col">
-            <h6 class="align-middle">Instructions : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
-          </div>
-        </div>
 
-        <div class="row ">
-          <div class="col">
-            <h6 class="align-middle">Rating : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.rating }}</p>
-          </div>
-          <div class="col">
-            <h6 class="align-middle">Remarks : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.remarks }}</p>
-          </div>
-          <!--  <div class="col-md">
+          <div class="row">
+            <div class="col">
+              <h6 class="align-middle">Rating :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.rating }}</p>
+            </div>
+            <div class="col">
+              <h6 class="align-middle">Remarks :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.remarks }}</p>
+            </div>
+            <!--  <div class="col-md">
               <h6 class="align-middle">unit</h6>
               <p class="align-middle">{{displayRecipeInfo.unitDetailed.unit}}</p>
             </div>-->
-          <div class="col">
-            <h6 class="align-middle">Sub-Category : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
+            <div class="col">
+              <h6 class="align-middle">Sub-Category :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col">
-            <h6 class="align-middle">Course : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.course }}</p>
-          </div>
-          <div class="col">
-            <h6 class="align-middle">Cook-Time : </h6>
-            <p class="align-middle">{{ displayRecipeInfo.cookTime }}</p>
-          </div>
-          <div class="col">
-            <!--   <h6 class="align-middle">cookTime</h6>
+          <div class="row">
+            <div class="col">
+              <h6 class="align-middle">Course :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.course }}</p>
+            </div>
+            <div class="col">
+              <h6 class="align-middle">Cook-Time :</h6>
+              <p class="align-middle">{{ displayRecipeInfo.cookTime }}</p>
+            </div>
+            <div class="col">
+              <!--   <h6 class="align-middle">cookTime</h6>
               <p class="align-middle">{{displayRecipeInfo.cookTime}}</p> -->
+            </div>
           </div>
         </div>
 
+        <div class="row my-3 bg-light shadow rounded mx-5">
+          <table class="table table-striped">
+            <thead class="px-2">
+              <tr>
+                <th scope="col">Ingredients</th>
+                <th scope="col">Quantity-Unit</th>
+                <th scope="col">Category</th>
+                <th scope="col">Per-Unit-Cost</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Supplier</th>
+                <th scope="col">Brand</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let ingredientInRecipe of displayRecipeInfo.ingredientInRecipe
+                "
+              >
+                <td class="text-center col">
+                  {{ ingredientInRecipe.ingredient.title }}
+                </td>
+                <td class="text-center col">
+                  {{ ingredientInRecipe.ingredient.quantityUnit }}
+                </td>
+                <td class="text-center col">
+                  {{
+                    ingredientInRecipe.ingredient.categoriesForIngredient[0]
+                      .category.title
+                  }}
+                </td>
+                <td class="text-center col">
+                  {{ ingredientInRecipe.ingredient.perUnitCost }}
+                </td>
+                <td class="text-center col">
+                  {{ ingredientInRecipe.ingredient.unit }}
+                </td>
+                <td class="text-center col">
+                  {{ ingredientInRecipe.supplier.title }}
+                </td>
+                <td class="text-center col">
+                  {{ ingredientInRecipe.brand.title }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="row my-3 bg-light shadow rounded mx-5">
-        <table class="table table-striped">
-          <thead class="px-2">
-            <tr >
-              <th  scope="col">Ingredients</th>
-              <th  scope="col">Quantity-Unit</th>
-              <th  scope="col">Category</th>
-              <th  scope="col">Per-Unit-Cost</th>
-              <th  scope="col">Unit</th>
-              <th  scope="col">Supplier</th>
-              <th  scope="col">Brand</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="
-                let ingredientInRecipe of displayRecipeInfo.ingredientInRecipe
-              "
-            >
-              <td class="text-center col">
-                {{ ingredientInRecipe.ingredient.title }}
-              </td>
-              <td class="text-center col">
-                {{ ingredientInRecipe.ingredient.quantityUnit }}
-              </td>
-              <td class="text-center col">
-                {{
-                  ingredientInRecipe.ingredient.categoriesForIngredient[0]
-                    .category.title
-                }}
-              </td>
-              <td class="text-center col">
-                {{ ingredientInRecipe.ingredient.perUnitCost }}
-              </td>
-              <td class="text-center col">
-                {{ ingredientInRecipe.ingredient.unit }}
-              </td>
-              <td class="text-center col">
-                {{ ingredientInRecipe.supplier.title }}
-              </td>
-              <td class="text-center col">
-                {{ ingredientInRecipe.brand.title }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div *ngIf="!showRecipe">
+      <div
+        class="container-fluid bg-light shadow rounded mx-3 my-1 p-3"
+        *ngIf="!showRecipe"
+      >
         <form
           #addRecipeForm="ngForm"
           (ngSubmit)="addRecipes(addRecipeForm)"
@@ -171,15 +174,15 @@
             #titleRecipe="ngModel"
             [(ngModel)]="recipe.title"
             appendTo="body"
-            class="form-control"
+            class="form-control input-sm w-25"
             id="titleRecipe"
             name="titleRecipe"
             placeholder="Title is required"
             required
             type="text"
           />
-
-          <label for="ingredientListForRecipe" id="ingredientListForRecipe"
+   
+          <label for="ingredientListForRecipe" id="ingredientListForRecipe" class="mt-2"
             >Ingredient:</label
           >
           <ng-select
@@ -198,15 +201,18 @@
             >
           </ng-select>
 
-          <table appendTo="body" class="my-table">
-            <tr class="thead-dark">
-              <th>Title</th>
-              <th>Quantity</th>
-              <th class="price">Price</th>
-              <th>Supplier</th>
-              <th>Brand</th>
-              <th>Category</th>
+          <table appendTo="body" class="table mt-2 table-hover table-bordered shadow-sm">
+            <thead>
+            <tr class="">
+              <th scope="col" class="text-center">Title</th>
+              <th scope="col"  class="text-center">Quantity</th>
+              <th scope="col"  class="text-center">Price</th>
+              <th scope="col"  class="text-center">Supplier</th>
+              <th scope="col"  class="text-center">Brand</th>
+              <th scope="col"  class="text-center">Category</th>
             </tr>
+            </thead>
+            <tbody>
             <tr
               *ngFor="let addIng of addIngMap | keyvalue; let i = index"
               appendTo="body"
@@ -296,20 +302,21 @@
                 </ng-select>
               </td>
             </tr>
+          </tbody>
           </table>
 
           <div>
             <b> Total Price - {{ totalCost }} </b>
           </div>
 
-          <label for="categoryForRecipe" id="categoryForRecipe">Category</label>
+          <label for="categoryForRecipe" id="categoryForRecipe" class=" mt-2">Category</label>
           <ng-select
             (change)="setCategories($event)"
             [addTag]="true"
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
-            class="form-control"
+            class="form-control w-50"
             id="categoryForRecipe1"
             name="categoryForRecipe"
           >
@@ -320,28 +327,28 @@
             >
           </ng-select>
 
-          <label for="subCatRecipe">Sub category</label>
+          <label for="subCatRecipe" class=" mt-2">Sub category</label>
           <input
             [(ngModel)]="recipe.subCategory"
-            class="form-control"
+            class="form-control w-50"
             id="subCatRecipe"
             name="subCatRecipe"
             placeholder="Enter sub category"
             type="text"
           />
-          <label for="courseRecipe">Course</label>
+          <label for="courseRecipe" class=" mt-2">Course</label>
           <input
             [(ngModel)]="recipe.course"
-            class="form-control"
+            class="form-control w-50"
             id="courseRecipe"
             name="courseRecipe"
             placeholder="Enter course"
             type="text"
           />
-          <label for="servingQty">Serving Qty</label>
+          <label for="servingQty" class=" mt-2">Serving Qty</label>
           <input
             [(ngModel)]="recipe.servingQty"
-            class="form-control"
+            class="form-control  w-25"
             id="servingQty"
             name="servingQty"
             placeholder="Enter servingQty"
@@ -358,16 +365,17 @@
              </select>-->
 
           <p></p>
+          <div class="d-flex align-items-end justify-content-end">
           <button
             [disabled]="!addRecipeForm.form.valid"
-            class="btn btn-primary"
-            type="submit"
+            class="btn btn-primary  float-right"
+            type="button"
           >
             Submit
           </button>
+        </div>
         </form>
       </div>
     </div>
   </div>
 </div>
- 

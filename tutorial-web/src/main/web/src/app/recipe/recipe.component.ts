@@ -155,7 +155,7 @@ export class RecipeComponent implements OnInit {
   toggleRecipeDiag(showRecipe: boolean, addARecipe: boolean) {
 
     this.ngOnInit();
-
+    console.log("show recipe value - "+showRecipe);
     this.showRecipe = showRecipe;
     this.addARecipe = addARecipe;
 
