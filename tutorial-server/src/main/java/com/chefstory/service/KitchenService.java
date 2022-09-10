@@ -24,12 +24,11 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class ChefService {
+public class KitchenService {
 
     @Autowired
     BrandForIngredientRepo brandForIngredientRepo;

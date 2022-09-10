@@ -26,12 +26,11 @@ export class RecipeComponent implements OnInit {
 
   addRecipe: AddRecipe = new AddRecipe();
   title = 'recipe';
-  recipe: Recipe = new Recipe();
   addIngMap: Map<number, IngredientInRecip> = new Map<number, IngredientInRecip>();
-  totalCost: number;
+  totalCost: number=0;
   displayRecipeInfo: Recipe = new Recipe();
   showRecipe = true;
-  addARecipe = false;
+ 
 
 
   constructor(private http: HttpClient, public appComponent: AppComponent,private router: Router, private route: ActivatedRoute) {
@@ -39,7 +38,6 @@ export class RecipeComponent implements OnInit {
 
   ngOnInit(): void {
     this.appComponent.refreshAppCache();
-    this.recipe = new Recipe();
     this.addIngMap= new Map<number, IngredientInRecip>();
     this.totalCost=0;
     this.displayRecipeInfo = new Recipe();
@@ -47,9 +45,8 @@ export class RecipeComponent implements OnInit {
 
 
   addRecipes(form: NgForm) {
-
+      console.log("test");
     this.addRecipe.recipe.ingredientInRecipe = Array.from(this.addIngMap.values());
-    this.addRecipe.recipe = this.recipe;
 
     let addRecipeList: AddRecipe[] = [];
     addRecipeList.push(this.addRecipe);
@@ -61,12 +58,15 @@ export class RecipeComponent implements OnInit {
     this.http.post(environment.baseUrl + ApiPaths.AddRecipes, addRecipeList).subscribe(
       (response) => {
         console.log('Add recipes response -' + JSON.stringify(response));
+        alert('Add recipes response -' + JSON.stringify(response));
       },
       (error) => {
         console.log('Error happened' + JSON.stringify(error));
+        alert('Error happened in add recipe' + JSON.stringify(error));
       },
       () => {
-        console.log(' %% add recipe call is completed successfully %%');
+        console.log(' %% add recipe is completed successfully %%');
+        alert('%% add recipe is completed successfully %%');
       });
 
 
@@ -137,7 +137,7 @@ export class RecipeComponent implements OnInit {
 
 
   getRecipe(recipe: Recipe) {
-    this.toggleRecipeDiag(true, false);
+    this.toggleRecipeDiag(true);
     this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).subscribe(
       (response) => {
         this.displayRecipeInfo = response[0];
@@ -152,13 +152,11 @@ export class RecipeComponent implements OnInit {
 
   }
 
-  toggleRecipeDiag(showRecipe: boolean, addARecipe: boolean) {
+  toggleRecipeDiag(showRecipe: boolean) {
 
     this.ngOnInit();
     console.log("show recipe value - "+showRecipe);
     this.showRecipe = showRecipe;
-    this.addARecipe = addARecipe;
-
   }
 
 }

@@ -9,6 +9,7 @@ import {Supplier} from './model/Supplier';
 import {Brand} from './model/Brand';
 import {Category} from './model/Category';
 import {Constants} from './config/Constants';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -160,6 +161,7 @@ export class AppComponent implements OnInit {
     this.getAllRecipes();
     this.getAllSuppliers();
     this.getAllBrands();
+    this.getAllCategories();
     console.log(' --------  App cache refreshed ---------');
   }
 

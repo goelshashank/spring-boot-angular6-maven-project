@@ -22,7 +22,7 @@
 
         <div class="col-md-1 mt-4">
           <button
-            (click)="toggleRecipeDiag(false, true)"
+            (click)="toggleRecipeDiag(false)"
             class="btn btn-primary"
             type="submit"
           >
@@ -146,7 +146,7 @@
                   }}
                 </td>
                 <td class="text-center col">
-                  {{ ingredientInRecipe.ingredient.perUnitCost }}
+                  {{ ingredientInRecipe.ingredient.brandForIngredients[0].perUnitCost }}
                 </td>
                 <td class="text-center col">
                   {{ ingredientInRecipe.ingredient.unit }}
@@ -171,13 +171,14 @@
           #addRecipeForm="ngForm"
           (ngSubmit)="addRecipes(addRecipeForm)"
           autocomplete="off"
+          class="form-group"
         >
           <label for="titleRecipe">*Title</label>
           <input
             #titleRecipe="ngModel"
-            [(ngModel)]="recipe.title"
+            [(ngModel)]="addRecipe.recipe.title"
             appendTo="body"
-            class="form-control input-sm w-25"
+            class="form-control  w-25"
             id="titleRecipe"
             name="titleRecipe"
             placeholder="Title is required"
@@ -236,8 +237,7 @@
               </td>
               <td class="price">
                 {{
-                  addIng.value.ingredient.perUnitCost *
-                    addIng.value.ingredient.quantityUnit
+                  totalCost
                 }}
               </td>
 
@@ -251,7 +251,6 @@
                   id="supplierForIng"
                   name="supplierForIng"
                 >
-                  <!-- [ngModel]="addIng.value.ingredient.supplierForIngredients[0]"-->
                   <ng-option
                     *ngFor="
                       let supplierForIngredient of addIng.value.ingredient
@@ -332,7 +331,7 @@
 
           <label for="subCatRecipe" class=" mt-2">Sub category</label>
           <input
-            [(ngModel)]="recipe.subCategory"
+            [(ngModel)]="addRecipe.recipe.subCategory"
             class="form-control w-50"
             id="subCatRecipe"
             name="subCatRecipe"
@@ -341,7 +340,7 @@
           />
           <label for="courseRecipe" class=" mt-2">Course</label>
           <input
-            [(ngModel)]="recipe.course"
+            [(ngModel)]="addRecipe.recipe.course"
             class="form-control w-50"
             id="courseRecipe"
             name="courseRecipe"
@@ -350,7 +349,7 @@
           />
           <label for="servingQty" class=" mt-2">Serving Qty</label>
           <input
-            [(ngModel)]="recipe.servingQty"
+            [(ngModel)]="addRecipe.recipe.servingQty"
             class="form-control  w-25"
             id="servingQty"
             name="servingQty"

@@ -31,11 +31,9 @@ export class IngredientComponent implements OnInit {
   isShowAddIng = true;
   imageSrc: string = null;
   file: File = null;
-  ingredient:Ingredient= new Ingredient();
+
   displayIngInfo: Ingredient = new Ingredient();
   showIng = true;
-  addIng = false;
-
 
   constructor(private http: HttpClient, public appComponent: AppComponent, private router: Router, private route: ActivatedRoute) {
   }
@@ -43,7 +41,6 @@ export class IngredientComponent implements OnInit {
   ngOnInit(): void {
     this.appComponent.refreshAppCache();
     this.appComponent.showIngredientTab();
-    this.ingredient=new Ingredient();
     this.displayIngInfo=new Ingredient();
   }
 
@@ -62,15 +59,18 @@ export class IngredientComponent implements OnInit {
     this.http.post(environment.baseUrl + ApiPaths.AddIngredients, addIngredients).subscribe(
       (response) => {
         console.log('Add ingredients response -' + JSON.stringify(response));
+        alert('Add ingredients response -' + JSON.stringify(response));
       },
       (error) => {
         console.log('Error happened in add ingredient' + JSON.stringify(error));
+        alert('Error happened in add ingredient' + JSON.stringify(error));
       },
       () => {
         console.log('%% add ingredient is completed successfully %%');
+        alert('%% add ingredient is completed successfully %%');
       });
 
-
+      
     this.appComponent.uploadImage(this.file);
 
     //-------------------------
@@ -221,7 +221,7 @@ export class IngredientComponent implements OnInit {
 
   
   getIngredient(ingredient: Ingredient) {
-    this.toggleIngredientDiag(true, false);
+    this.toggleIngredientDiag(true);
     this.http.post<Ingredient[]>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ingredient)).subscribe(
       (response) => {
         this.displayIngInfo = response[0];
@@ -236,12 +236,10 @@ export class IngredientComponent implements OnInit {
 
   }
 
-  toggleIngredientDiag(showIng: boolean, addIng: boolean) {
+  toggleIngredientDiag(showIng: boolean) {
     this.ngOnInit();
     console.log("show ing value - "+showIng);
     this.showIng = showIng;
-    this.addIng = addIng;
-
   }
 
 }

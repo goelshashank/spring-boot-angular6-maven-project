@@ -11,7 +11,7 @@ import com.chefstory.model.AddRecipe;
 import com.chefstory.model.GetConfigResponse;
 import com.chefstory.repository.*;
 import com.chefstory.utils.FileUtils;
-import com.chefstory.service.ChefService;
+import com.chefstory.service.KitchenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -42,7 +42,7 @@ public class RecipeController {
     @Autowired
     BrandRepo brandRepo;
     @Autowired
-    ChefService chefService;
+    KitchenService kitchenService;
     @Autowired
     CategoryRepo categoryRepo;
     @Autowired
@@ -163,11 +163,11 @@ public class RecipeController {
             = true) String action) {
 
         if (ADD.equalsIgnoreCase(action))
-            chefService.addRecipe(addRecipeList);
+            kitchenService.addRecipe(addRecipeList);
         else if (UPDATE.equalsIgnoreCase(action))
-            chefService.updateRecipe(addRecipeList);
+            kitchenService.updateRecipe(addRecipeList);
         else if (REMOVE.equalsIgnoreCase(action))
-            chefService.removeRecipe(addRecipeList);
+            kitchenService.removeRecipe(addRecipeList);
 
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -179,11 +179,11 @@ public class RecipeController {
             = true) String action) {
       // log.info(new Gson().toJson(addIngredients));
         if (ADD.equalsIgnoreCase(action))
-            chefService.addIngredient(addIngredients);
+            kitchenService.addIngredient(addIngredients);
         else if (UPDATE.equalsIgnoreCase(action))
-            chefService.updateIngredient(addIngredients);
+            kitchenService.updateIngredient(addIngredients);
         else if (REMOVE.equalsIgnoreCase(action))
-            chefService.removeIngredient(addIngredients);
+            kitchenService.removeIngredient(addIngredients);
 
 
         return new ResponseEntity<>(HttpStatus.OK);
