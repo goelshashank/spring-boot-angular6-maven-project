@@ -2,165 +2,306 @@
 <p>ingredient works!</p>
 -->
 
-<div>
-  <form
-    #addIngForm="ngForm"
-    (ngSubmit)="addIngredients(addIngForm)"
-    autocomplete="off"
-    class="form-group"
-  >
-    <label for="titleIng">*Title</label>
-    <input
-      #titleIng="ngModel"
-      [(ngModel)]="addIngredient.ingredient.title"
-      class="form-control"
-      id="titleIng"
-      name="titleIng"
-      placeholder="Title is required"
-      required
-      type="text"
-    />
-    <label for="categoryForIng" id="categoryForIng">Category</label>
-
-    <ng-select
-      (add)="setCategories($event)"
-      (remove)="removeCategories($event)"
-      [addTag]="true"
-      [multiple]="true"
-      [searchable]="true"
-      appendTo="body"
-      class="form-control"
-      id="categoryForIng1"
-      name="categoryForIng"
-    >
-      <ng-option
-        *ngFor="let cat of appComponent.categoriesIngredient"
-        [value]="cat"
-        >{{ cat.title }}</ng-option
-      >
-    </ng-select>
-
-    <label for="supplierForIng" id="supplierForIng">Supplier</label>
-    <ng-select
-      (add)="setSuppliers($event)"
-      (remove)="removeSuppliers($event)"
-      [addTag]="true"
-      [multiple]="true"
-      [searchable]="true"
-      appendTo="body"
-      class="form-control"
-      id="supplierForIng1"
-      name="supplierForIng"
-    >
-      <ng-option *ngFor="let sup of appComponent.suppliers" [value]="sup">{{
-        sup.title
-      }}</ng-option>
-    </ng-select>
-
-    <label for="brandForIng" id="brandForIng">Brand</label>
-    <ng-select
-      (add)="setBrands($event)"
-      (remove)="removeBrands($event)"
-      [addTag]="true"
-      [multiple]="true"
-      [searchable]="true"
-      appendTo="body"
-      class="form-control"
-      id="brandForIng1"
-      name="brandForIng"
-      #filterWith
-    >
-      <ng-option *ngFor="let brand of appComponent.brands" [value]="brand">{{
-        brand.title
-      }}</ng-option>
-    </ng-select>
-
-    <ul>
-      <li
-        *ngFor="
-          let addBrandForIng of this.addIngredient.ingredient
-            .brandForIngredients;
-          trackBy: trackByItems
-        "
-      >
-        {{ addBrandForIng.brand.title }}
-        <br />
-
-        <div class="input-group">
-          <span class="input-group-text">sku-cost</span>
-          <input
-            type="text"
+<div class="container-fluid">
+  <div class="row my-4">
+    <div class="col-2 bg-light shadow rounded">
+      <div class="row gx-1">
+        <div class="col-md-10">
+          <label for="searchIng" id="searchIng">Search Recipe</label>
+          <ng-select
+            (change)="getIngredient($event)"
+            [multiple]="false"
+            [searchable]="true"
+            appendTo="body"
             class="form-control"
-            placeholder="sku Cost"
-            aria-label="sku Cost"
-            (change)="calculatePerUnitCost(addBrandForIng)"
-            [(ngModel)]="addBrandForIng.skuCost"
-            class="form-control"
-            id="skuCostIng"
-            name="skuCostIng"
-          />
-          <span class="input-group-text">sku-qty</span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="sku Qty"
-            aria-label="sku Qty"
-            (change)="calculatePerUnitCost(addBrandForIng)"
-            [(ngModel)]="addBrandForIng.skuQty"
-            class="form-control"
-            id="skuQty"
-            name="skuQty"
-          />
+            id="searchIng"
+          >
+            <ng-option
+              *ngFor="let ing of appComponent.ingredients"
+              [value]="ing"
+              >{{ ing.title }}</ng-option
+            >
+          </ng-select>
         </div>
 
-        <!--   <label for="skuCostIng">sku Cost</label>
-              <input (change)="calculatePerUnitCost(addBrandForIng)" [(ngModel)]="addBrandForIng.skuCost" class="form-control" id="skuCostIng" name="skuCostIng"
-                placeholder="Enter sku cost" type="text">
-              <label for="skuQty">sku Qty</label>
-              <input (change)="calculatePerUnitCost(addBrandForIng)" [(ngModel)]="addBrandForIng.skuQty" class="form-control"
-                id="skuQty" name="skuQty" placeholder="Enter sku qty" type="text"> -->
-        <b> Per unit cost - {{ addBrandForIng.perUnitCost }} </b>
-      </li>
-    </ul>
+        <div class="col-md-1 mt-4">
+          <button
+            (click)="toggleIngredientDiag(false, true)"
+            class="btn btn-primary"
+            type="submit"
+          >
+            +
+          </button>
+        </div>
+      </div>
 
-    <label for="unitListIng">Units:</label>
-    <select
-      [(ngModel)]="addIngredient.ingredient.unit"
-      class="form-control"
-      id="unitListIng"
-      name="unitListIng"
-    >
-      <optgroup
-        *ngFor="
-          let group of appComponent.appConfiguration.unitsDetailed | keyvalue
-        "
-        [attr.label]="group.key"
-      >
-        <option
-          *ngFor="let unitDetailed of group.value"
-          value="{{ unitDetailed.unit }}"
+      <div class="row d-flex ps-3 mt-3 main">
+        <ui
+          *ngFor="let ing of appComponent.ingredients"
+          class="list-group w-75"
         >
-          {{ unitDetailed.unit }} ({{ unitDetailed.description }})
-        </option>
-      </optgroup>
-    </select>
+          <button
+            (click)="getIngredient(ing)"
+            class="list-group-item list-group-item-action"
+            type="button"
+          >
+            {{ ing.title }}
+          </button>
+        </ui>
+      </div>
+    </div>
 
-    <input (change)="onFileUpload($event)" type="file" />
-    <img
-      *ngIf="imageSrc"
-      [src]="imageSrc || 'http://placehold.it/180'"
-      alt="your image"
-      id="blah"
-      style="width: 45px; height: 45px"
-    />
+    <div class="col">
+      <div class="container" *ngIf="showIng">
+        <div class="row px-1 bg-light shadow rounded mx-5">
+          <div class="row">
+            <div class="col">
+              <h6 class="align-middle">Unit :</h6>
+              <p class="align-middle">{{ displayIngInfo.unit }}</p>
+            </div>
+            <div class="col">
+              <h6 class="align-middle">Unit-Detailed :</h6>
+              <p class="align-middle">{{ displayIngInfo.unitDetailed }}</p>
+            </div>
+            <div class="col">
+              <h6 class="align-middle">Qty-Unit :</h6>
+              <p class="align-middle">{{ displayIngInfo.quantityUnit }}</p>
+            </div>
+          </div>
+        </div>
 
-    <p></p>
-    <button
-      [disabled]="!addIngForm.form.valid"
-      class="btn btn-primary"
-      type="submit"
-    >
-      Submit
-    </button>
-  </form>
+        <div class="row my-3 bg-light shadow rounded mx-5">
+          <div class="col">
+            <table class="table table-striped">
+              <thead class="px-2">
+                <tr>
+                  <th scope="col">Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let categ of displayIngInfo.categoriesForIngredient"
+                >
+                  <td class="text-center col">
+                    {{ categ.category.title }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <table class="table table-striped">
+              <thead class="px-2">
+                <tr>
+                  <th scope="col">Supplier</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let supp of displayIngInfo.supplierForIngredients">
+                  <td class="text-center col">
+                    {{ supp.supplier.title }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <table class="table table-striped">
+              <thead class="px-2">
+                <tr>
+                  <th scope="col">Brand</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let brand of displayIngInfo.brandForIngredients">
+                  <td class="text-center col">
+                    {{ brand.brand.title }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+              <div
+                class="container bg-light shadow rounded mx-1 my-3 p-3"
+                *ngIf="!showIng"
+              >
+                <form
+                  #addIngForm="ngForm"
+                  (ngSubmit)="addIngredients(addIngForm)"
+                  autocomplete="off"
+                  class="form-group"
+                >
+                  <label for="titleIng">*Title</label>
+                  <input
+                    #titleIng="ngModel"
+                    [(ngModel)]="addIngredient.ingredient.title"
+                    class="form-control w-25"
+                    id="titleIng"
+                    name="titleIng"
+                    placeholder="Title is required"
+                    required
+                    type="text"
+                  />
+                  <label for="categoryForIng" id="categoryForIng" class="mt-2"
+                    >Category</label
+                  >
+                  <ng-select
+                    (add)="setCategories($event)"
+                    (remove)="removeCategories($event)"
+                    [addTag]="true"
+                    [multiple]="true"
+                    [searchable]="true"
+                    appendTo="body"
+                    class="form-control"
+                    id="categoryForIng1"
+                    name="categoryForIng"
+                  >
+                    <ng-option
+                      *ngFor="let cat of appComponent.categoriesIngredient"
+                      [value]="cat"
+                      >{{ cat.title }}</ng-option
+                    >
+                  </ng-select>
+
+                  <label for="supplierForIng" id="supplierForIng" class="mt-2"
+                    >Supplier</label
+                  >
+                  <ng-select
+                    (add)="setSuppliers($event)"
+                    (remove)="removeSuppliers($event)"
+                    [addTag]="true"
+                    [multiple]="true"
+                    [searchable]="true"
+                    appendTo="body"
+                    class="form-control"
+                    id="supplierForIng1"
+                    name="supplierForIng"
+                  >
+                    <ng-option
+                      *ngFor="let sup of appComponent.suppliers"
+                      [value]="sup"
+                      >{{ sup.title }}</ng-option
+                    >
+                  </ng-select>
+
+                  <label for="brandForIng" id="brandForIng" class="mt-2"
+                    >Brand</label
+                  >
+                  <ng-select
+                    (add)="setBrands($event)"
+                    (remove)="removeBrands($event)"
+                    [addTag]="true"
+                    [multiple]="true"
+                    [searchable]="true"
+                    appendTo="body"
+                    class="form-control"
+                    id="brandForIng1"
+                    name="brandForIng"
+                    #filterWith
+                  >
+                    <ng-option
+                      *ngFor="let brand of appComponent.brands"
+                      [value]="brand"
+                      >{{ brand.title }}</ng-option
+                    >
+                  </ng-select>
+
+                  <ul>
+                    <li
+                      *ngFor="
+                        let addBrandForIng of this.addIngredient.ingredient
+                          .brandForIngredients;
+                        trackBy: trackByItems
+                      "
+                    >
+                      {{ addBrandForIng.brand.title }}
+                      <br />
+
+                      <div class="input-group mt-2">
+                        <span class="input-group-text">sku-cost</span>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="sku Cost"
+                          aria-label="sku Cost"
+                          (change)="calculatePerUnitCost(addBrandForIng)"
+                          [(ngModel)]="addBrandForIng.skuCost"
+                          class="form-control"
+                          id="skuCostIng"
+                          name="skuCostIng"
+                        />
+                        <span class="input-group-text">sku-qty</span>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="sku Qty"
+                          aria-label="sku Qty"
+                          (change)="calculatePerUnitCost(addBrandForIng)"
+                          [(ngModel)]="addBrandForIng.skuQty"
+                          class="form-control"
+                          id="skuQty"
+                          name="skuQty"
+                        />
+                      </div>
+                      <b> Per unit cost - {{ addBrandForIng.perUnitCost }} </b>
+                    </li>
+                  </ul>
+
+                  <label for="unitListIng" class="">Units:</label>
+                  <select
+                    [(ngModel)]="addIngredient.ingredient.unit"
+                    class="form-control w-25"
+                    id="unitListIng"
+                    name="unitListIng"
+                  >
+                    <optgroup
+                      *ngFor="
+                        let group of appComponent.appConfiguration.unitsDetailed
+                          | keyvalue
+                      "
+                      [attr.label]="group.key"
+                    >
+                      <option
+                        *ngFor="let unitDetailed of group.value"
+                        value="{{ unitDetailed.unit }}"
+                      >
+                        {{ unitDetailed.unit }} ({{ unitDetailed.description }})
+                      </option>
+                    </optgroup>
+                  </select>
+
+                  <input
+                    (change)="onFileUpload($event)"
+                    type="file"
+                    class="mt-3"
+                  />
+                  <img
+                    *ngIf="imageSrc"
+                    [src]="imageSrc || 'http://placehold.it/180'"
+                    alt="your image"
+                    id="blah"
+                    style="width: 45px; height: 45px"
+                  />
+
+                  <p></p>
+                  <div class="d-flex align-items-end justify-content-end">
+                    <button
+                      [disabled]="!addIngForm.form.valid"
+                      class="btn btn-primary"
+                      type="submit"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+    
+
+    </div>
+  </div>
 </div>

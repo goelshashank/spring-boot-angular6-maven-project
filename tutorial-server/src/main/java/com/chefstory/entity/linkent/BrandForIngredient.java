@@ -21,7 +21,8 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Entity(name = "brand_for_ingredient")
 @Table(indexes = {@Index(columnList = "ingredient_id")},
-        uniqueConstraints = @UniqueConstraint(columnNames = {"ingredient_id", "brand_id"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"ingredient_id",
+                "brand_id","status"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BrandForIngredient extends BaseEntity {
 

@@ -17,4 +17,7 @@ public interface IngredientRepo extends JpaRepository<Ingredient, Integer> {
     public List<Ingredient> findByTitle(String title);
 
     public Ingredient findById(Long id);
+
+
+
 }

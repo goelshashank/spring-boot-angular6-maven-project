@@ -10,7 +10,7 @@
             [searchable]="true"
             appendTo="body"
             class="form-control"
-            id="searchRecipe1"
+            id="searchRecipe"
           >
             <ng-option
               *ngFor="let recipe of appComponent.recipes"
@@ -19,6 +19,7 @@
             >
           </ng-select>
         </div>
+
         <div class="col-md-1 mt-4">
           <button
             (click)="toggleRecipeDiag(false, true)"
@@ -28,7 +29,9 @@
             +
           </button>
         </div>
+
       </div>
+
       <div class="row d-flex ps-3 mt-3 main">
         <ui *ngFor="let recipe of appComponent.recipes" class="list-group w-75">
           <button
@@ -40,10 +43,11 @@
           </button>
         </ui>
       </div>
+
     </div>
 
     <div class="col">
-      <div *ngIf="showRecipe">
+      <div class="container" *ngIf="showRecipe">
         <div class="row px-1 bg-light shadow rounded mx-5">
           <div class="row">
             <div class="col">
@@ -160,14 +164,13 @@
       </div>
 
       <div
-        class="container-fluid bg-light shadow rounded mx-3 my-1 p-3"
+        class="container bg-light shadow rounded mx-3 my-1 p-3"
         *ngIf="!showRecipe"
       >
         <form
           #addRecipeForm="ngForm"
           (ngSubmit)="addRecipes(addRecipeForm)"
           autocomplete="off"
-          class="form-group"
         >
           <label for="titleRecipe">*Title</label>
           <input
@@ -377,5 +380,7 @@
         </form>
       </div>
     </div>
+ 
+ 
   </div>
 </div>

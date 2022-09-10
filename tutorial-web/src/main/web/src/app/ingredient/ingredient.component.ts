@@ -16,6 +16,7 @@ import { AddIngredient } from '../model/AddIngredient';
 import { SupplierForIngredient } from '../model/SupplierForIngredient';
 import { CategoryFor } from '../model/CategoryFor';
 import { BrandForIngredient } from '../model/BrandForIngredient';
+import { Ingredient } from '../model/Ingredient';
 
 @Component({
   selector: 'app-ingredient',
@@ -30,6 +31,11 @@ export class IngredientComponent implements OnInit {
   isShowAddIng = true;
   imageSrc: string = null;
   file: File = null;
+  ingredient:Ingredient= new Ingredient();
+  displayIngInfo: Ingredient = new Ingredient();
+  showIng = true;
+  addIng = false;
+
 
   constructor(private http: HttpClient, public appComponent: AppComponent, private router: Router, private route: ActivatedRoute) {
   }
@@ -37,6 +43,8 @@ export class IngredientComponent implements OnInit {
   ngOnInit(): void {
     this.appComponent.refreshAppCache();
     this.appComponent.showIngredientTab();
+    this.ingredient=new Ingredient();
+    this.displayIngInfo=new Ingredient();
   }
 
   toggleAddIng() {
@@ -70,6 +78,7 @@ export class IngredientComponent implements OnInit {
     //this.reloadCurrentRoute();
     this.refresh();
   }
+
 
   onFileUpload(event) {
     if (event.target.files && event.target.files[0]) {
@@ -208,6 +217,31 @@ export class IngredientComponent implements OnInit {
   refresh(): void {
     window.location.reload();
     this.appComponent.showIngredientTab();
+  }
+
+  
+  getIngredient(ingredient: Ingredient) {
+    this.toggleIngredientDiag(true, false);
+    this.http.post<Ingredient[]>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ingredient)).subscribe(
+      (response) => {
+        this.displayIngInfo = response[0];
+        console.log('Ingredient - ' + JSON.stringify(this.displayIngInfo));
+      },
+      (error) => {
+        console.log('Error happened in getting ing' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% get ing is completed successfully %%');
+      });
+
+  }
+
+  toggleIngredientDiag(showIng: boolean, addIng: boolean) {
+    this.ngOnInit();
+    console.log("show ing value - "+showIng);
+    this.showIng = showIng;
+    this.addIng = addIng;
+
   }
 
 }

@@ -18,7 +18,8 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Entity(name = "ingredient_in_recipe")
 @Table(indexes = {@Index(columnList = "recipe_id")},
-        uniqueConstraints = @UniqueConstraint(columnNames = {"ingredient_id", "recipe_id", "supplier_id", "brand_id", "category_id"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"ingredient_id",
+                "recipe_id", "supplier_id", "brand_id", "category_id","status"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientInRecipe extends BaseEntity {
 

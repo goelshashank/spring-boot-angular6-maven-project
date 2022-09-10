@@ -20,11 +20,13 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @Entity(name = "recipe")
-@Table(indexes = {@Index(columnList = "title")})
+@Table(indexes = {@Index(columnList = "title")},uniqueConstraints =
+        { @UniqueConstraint(name = "UniqueTitleAndStatus", columnNames = {
+                "title", "status" }) })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Recipe extends BaseEntity {
 
-    @Column(name = "title",unique = true, nullable = false)
+    @Column(name = "title", nullable = false)
     @NotBlank
     private String title;
     @Column(name = "sub_category")

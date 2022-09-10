@@ -39,7 +39,7 @@ export class RecipeComponent implements OnInit {
 
   ngOnInit(): void {
     this.appComponent.refreshAppCache();
-   this.recipe = new Recipe();
+    this.recipe = new Recipe();
     this.addIngMap= new Map<number, IngredientInRecip>();
     this.totalCost=0;
     this.displayRecipeInfo = new Recipe();

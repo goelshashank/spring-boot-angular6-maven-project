@@ -10,9 +10,8 @@ import com.chefstory.model.AddIngredient;
 import com.chefstory.model.AddRecipe;
 import com.chefstory.model.GetConfigResponse;
 import com.chefstory.repository.*;
-import com.chefstory.service.FileServiceUtils;
-import com.chefstory.service.RecipeService;
-import com.google.gson.Gson;
+import com.chefstory.utils.FileUtils;
+import com.chefstory.service.ChefService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,7 +42,7 @@ public class RecipeController {
     @Autowired
     BrandRepo brandRepo;
     @Autowired
-    RecipeService recipeService;
+    ChefService chefService;
     @Autowired
     CategoryRepo categoryRepo;
     @Autowired
@@ -52,64 +50,102 @@ public class RecipeController {
     @Autowired
     private IngredientRepo ingredientRepo;
     @Autowired
-    private FileServiceUtils fileServiceUtils;
+    private FileUtils fileUtils;
     @Autowired
     private SupplierRepo supplierRepo;
 
     @GetMapping("/getAllRecipes")
     public ResponseEntity<List<Recipe>> getAllRecipes() {
-        return new ResponseEntity<>(recipeRepo.findAll().stream().filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(recipeRepo.findAll().stream().
+                filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/getAllCategories")
     public ResponseEntity<List<Category>> getAllCategories() {
-        return new ResponseEntity<>(categoryRepo.findAll().stream().filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(categoryRepo.findAll().stream().
+                filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/getAllIngredients")
     public ResponseEntity<List<Ingredient>> getAllIngredients() {
-        return new ResponseEntity<>(ingredientRepo.findAll().stream().filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(ingredientRepo.findAll().stream().
+                filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/test")
+    public void testIt() {
+        log.info("start");
+
+/*        Ingredient ing1=ingredientRepo.findAll().stream().
+                filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()).get(0);
+        log.info("{}", ing1.getTitle());
+*//*        if(!CollectionUtils.isEmpty(ingredientRepo.findByTitle(ingredient.getTitle()))){
+            Ingredient ing=new Ingredient();
+            ing.setId(ingredient.getId());
+            ing.setTitle(ingredient.getTitle());
+            ing.setStatus(Status.INACTIVE);
+            ingredientRepo.save(ing);
+        }*//*
+      //  Ingredient ing1=SerializationUtils.clone(ingredient);
+        ing1.setStatus(Status.ACTIVE);
+        ing1.setTitle("testing_3");
+        ing1.setId(null);
+        if(!CollectionUtils.isEmpty(ing1.getBrandForIngredients()))
+        ing1.getBrandForIngredients().forEach(t-> t.setId(null));
+        if(!CollectionUtils.isEmpty(ing1.getSupplierForIngredients()))
+        ing1.getSupplierForIngredients().forEach(t-> t.setId(null));
+        if(!CollectionUtils.isEmpty(ing1.getCategoriesForIngredient()))
+        ing1.getCategoriesForIngredient().forEach(t-> t.setId(null));
+        updateIngredients(Arrays.asList(new AddIngredient().setIngredient(ing1)),
+                "add");
+
+        log.info("{}", ing1.getTitle());*/
+
+        log.info("stop");
     }
 
     @GetMapping("/getAllBrands")
     public ResponseEntity<List<Brand>> getAllBrands() {
-        return new ResponseEntity<>(brandRepo.findAll().stream().filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(brandRepo.findAll().stream().
+                filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/getAllSuppliers")
     public ResponseEntity<List<Supplier>> getAllSuppliers() {
-        return new ResponseEntity<>(supplierRepo.findAll().stream().filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(supplierRepo.findAll().stream().
+                filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @PostMapping("/getRecipes")
     public ResponseEntity<Collection<Recipe>> getRecipes(@RequestBody List<Recipe> recipes) {
         return new ResponseEntity<>(recipes.stream().collect(
-                Collectors.toMap(t -> t.getId(),t-> recipeRepo.findById(t.getId()))).values(), HttpStatus.OK);
+                Collectors.toMap(BaseEntity::getId, t-> recipeRepo.findById(t.getId()))).values(), HttpStatus.OK);
     }
 
     @PostMapping("/getIngredients")
     public ResponseEntity<Collection<Ingredient>> getIngredients(@RequestBody List<Ingredient> ingredients) {
         return new ResponseEntity<>(ingredients.stream().collect(
-                Collectors.toMap(t -> t.getId(),t-> ingredientRepo.findById(t.getId()))).values(), HttpStatus.OK);
+                Collectors.toMap(BaseEntity::getId, t-> ingredientRepo.findById(t.getId()))).values(), HttpStatus.OK);
     }
 
     @PostMapping("/getBrands")
     public ResponseEntity<Map<Long, Brand>> getBrands(@RequestBody List<Brand> brands) {
         return new ResponseEntity<>(brands.stream().collect(
-                Collectors.toMap(t -> t.getId(),t-> brandRepo.findById(t.getId()))), HttpStatus.OK);
+                Collectors.toMap(BaseEntity::getId, t-> brandRepo.findById(t.getId()))), HttpStatus.OK);
     }
 
     @PostMapping("/getCategories")
     public ResponseEntity<Map<String, List<Category>>> getCategories(@RequestBody List<Category> categories) {
         return new ResponseEntity<>(categories.stream().collect(
-                Collectors.toMap(t -> t.getType(),t-> categoryRepo.findByType(t.getType()))), HttpStatus.OK);
+                Collectors.toMap(Category::getType, t-> categoryRepo.findByType(t.getType()))), HttpStatus.OK);
     }
 
 
     @PostMapping("/getSuppliers")
     public ResponseEntity<Map<Long, Supplier>> getSuppliers(@RequestBody List<Supplier> suppliers) {
         return new ResponseEntity<>(suppliers.stream().collect(
-                Collectors.toMap(t -> t.getId(),t-> supplierRepo.findById(t.getId()))), HttpStatus.OK);
+                Collectors.toMap(BaseEntity::getId, t-> supplierRepo.findById(t.getId()))), HttpStatus.OK);
     }
 
     @GetMapping("/getConfig")
@@ -123,34 +159,38 @@ public class RecipeController {
     }
 
     @PostMapping("/updateRecipes/{action}")
-    public ResponseEntity updateRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList, @PathVariable(name = "action", required
+    public ResponseEntity<HttpStatus> updateRecipes(@Valid @RequestBody List<AddRecipe> addRecipeList, @PathVariable(name = "action", required
             = true) String action) {
 
-        if (ADD.equalsIgnoreCase(action) || UPDATE.equalsIgnoreCase(action)) {
-            recipeService.updateRecipe(addRecipeList);
-        }else if (REMOVE.equalsIgnoreCase(action)){
-            recipeService.removeRecipe(addRecipeList);
-        }
+        if (ADD.equalsIgnoreCase(action))
+            chefService.addRecipe(addRecipeList);
+        else if (UPDATE.equalsIgnoreCase(action))
+            chefService.updateRecipe(addRecipeList);
+        else if (REMOVE.equalsIgnoreCase(action))
+            chefService.removeRecipe(addRecipeList);
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @PostMapping("/updateIngredients/{action}")
-    public ResponseEntity updateIngredients(@Valid @RequestBody List<AddIngredient> addIngredients, @PathVariable(name = "action", required
+    public ResponseEntity<HttpStatus> updateIngredients(@Valid @RequestBody List<AddIngredient> addIngredients, @PathVariable(name = "action", required
             = true) String action) {
-       log.info(new Gson().toJson(addIngredients));
-        if (ADD.equalsIgnoreCase(action) || UPDATE.equalsIgnoreCase(action))
-            recipeService.updateIngredient(addIngredients);
-        else if (REMOVE.equalsIgnoreCase(action)) {
-            recipeService.removeIngredient(addIngredients);
-        }
+      // log.info(new Gson().toJson(addIngredients));
+        if (ADD.equalsIgnoreCase(action))
+            chefService.addIngredient(addIngredients);
+        else if (UPDATE.equalsIgnoreCase(action))
+            chefService.updateIngredient(addIngredients);
+        else if (REMOVE.equalsIgnoreCase(action))
+            chefService.removeIngredient(addIngredients);
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/updateSuppliers/{action}")
-    public ResponseEntity updateSuppliers(@Valid @RequestBody List<Supplier> suppliers, @PathVariable(name = "action", required
+    public ResponseEntity<HttpStatus> updateSuppliers(@Valid @RequestBody List<Supplier> suppliers, @PathVariable(name = "action", required
             = true) String action) {
 
         if (ADD.equalsIgnoreCase(action) || UPDATE.equalsIgnoreCase(action))
@@ -166,7 +206,7 @@ public class RecipeController {
     }
 
     @PostMapping("/updateBrands/{action}")
-    public ResponseEntity updateBrands(@Valid @RequestBody List<Brand> brands, @PathVariable(name = "action", required
+    public ResponseEntity<HttpStatus> updateBrands(@Valid @RequestBody List<Brand> brands, @PathVariable(name = "action", required
             = true) String action) {
 
         if (ADD.equalsIgnoreCase(action) || UPDATE.equalsIgnoreCase(action))
@@ -180,8 +220,8 @@ public class RecipeController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity uploadFile(@RequestParam("file") MultipartFile file) {
-        fileServiceUtils.save(file);
+    public ResponseEntity<HttpStatus> uploadFile(@RequestParam("file") MultipartFile file) {
+        fileUtils.save(file);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

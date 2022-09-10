@@ -1,5 +1,6 @@
-package com.chefstory.service;
+package com.chefstory.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,10 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
-public class FileServiceUtils {
+@Slf4j
+public class FileUtils {
 
-    private final Path root = Paths.get("C:\\IdeaProjects\\spring-boot-angular6-maven-project\\tutorial-server\\src\\main\\resources\\images");
+    private final Path root = Paths.get("./src/main/resources/images");
 
     @PostConstruct
     public void init() {
@@ -33,7 +35,7 @@ public class FileServiceUtils {
     public void save(MultipartFile file) {
         try {
             Files.copy(file.getInputStream(), this.root.resolve(UUID.randomUUID().toString() + ".jpg"));
-            System.out.println("File is saved successfully");
+           log.info("File is saved successfully");
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }

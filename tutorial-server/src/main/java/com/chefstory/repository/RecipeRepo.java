@@ -17,4 +17,5 @@ public interface RecipeRepo extends JpaRepository<Recipe, Integer> {
     public List<Recipe> findByTitle(String title);
 
     public Recipe findById(Long id);
+
 }
