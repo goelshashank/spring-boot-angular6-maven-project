@@ -9,7 +9,6 @@ import {Supplier} from './model/Supplier';
 import {Brand} from './model/Brand';
 import {Category} from './model/Category';
 import {Constants} from './config/Constants';
-import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -63,7 +62,7 @@ export class AppComponent implements OnInit {
     this.http.get<Recipe[]>(environment.baseUrl + ApiPaths.GetAllRecipes).subscribe(
       (response) => {
         this.recipes = response;
-        console.log('Recipes - ' + JSON.stringify(this.recipes));
+      //  console.log('Recipes - ' + JSON.stringify(this.recipes));
       },
       (error) => {
         console.log('Error happened in get all recipes' + JSON.stringify(error));
@@ -78,7 +77,7 @@ export class AppComponent implements OnInit {
     this.http.get<Ingredient[]>(environment.baseUrl + ApiPaths.GetAllIngredients).subscribe(
       (response) => {
         this.ingredients = response;
-        console.log('Ingredients - ' + JSON.stringify(this.ingredients));
+      //  console.log('Ingredients - ' + JSON.stringify(this.ingredients));
       },
       (error) => {
         console.log('Error happened  in get all ingredients' + JSON.stringify(error));
@@ -93,7 +92,7 @@ export class AppComponent implements OnInit {
     this.http.get<Supplier[]>(environment.baseUrl + ApiPaths.GetAllSuppliers).subscribe(
       (response) => {
         this.suppliers = response;
-        console.log('suppliers - ' + JSON.stringify(this.suppliers));
+       // console.log('suppliers - ' + JSON.stringify(this.suppliers));
       },
       (error) => {
         console.log('Error happened  in get all suppliers' + JSON.stringify(error));
@@ -109,7 +108,7 @@ export class AppComponent implements OnInit {
     this.http.get<Brand[]>(environment.baseUrl + ApiPaths.GetAllBrands).subscribe(
       (response) => {
         this.brands = response;
-        console.log('Brands - ' + JSON.stringify(this.brands));
+      //  console.log('Brands - ' + JSON.stringify(this.brands));
       },
       (error) => {
         console.log('Error happened  in get all brands' + JSON.stringify(error));
@@ -130,7 +129,7 @@ export class AppComponent implements OnInit {
         this.categoriesIngredient = this.categories.filter(t => {
           return t.type == Constants.INGREDIENT;
         });
-        console.log('categories - ' + JSON.stringify(this.categories));
+     //   console.log('categories - ' + JSON.stringify(this.categories));
       },
       (error) => {
         console.log('Error happened  in get all categories' + JSON.stringify(error));
@@ -145,7 +144,7 @@ export class AppComponent implements OnInit {
     this.http.get<AppConfiguration>(environment.baseUrl + ApiPaths.GetConfig).subscribe(
       (response) => {
         this.appConfiguration = response;
-        console.log('AppConfiguration - ' + JSON.stringify(this.appConfiguration));
+      //  console.log('AppConfiguration - ' + JSON.stringify(this.appConfiguration));
       },
       (error) => {
         console.log('Error happened in get configuration' + JSON.stringify(error));
@@ -157,11 +156,11 @@ export class AppComponent implements OnInit {
 
   refreshAppCache() {
     this.getConfiguration();
+    this.getAllCategories();
     this.getAllIngredients();
     this.getAllRecipes();
     this.getAllSuppliers();
     this.getAllBrands();
-    this.getAllCategories();
     console.log(' --------  App cache refreshed ---------');
   }
 
@@ -170,7 +169,7 @@ export class AppComponent implements OnInit {
     this.http.post<Map<number, Ingredient>>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ing)).subscribe(
       (response: Map<number, Ingredient>) => {
         this.displayIngredientInfo = response.get(ing.id);
-        console.log('Ingredient - ' + JSON.stringify(this.displayIngredientInfo));
+      //  console.log('Ingredient - ' + JSON.stringify(this.displayIngredientInfo));
       },
       (error) => {
         console.log('Error happened in getting Ingredient' + JSON.stringify(error));
@@ -187,7 +186,7 @@ export class AppComponent implements OnInit {
 
     this.http.post(environment.baseUrl + ApiPaths.Upload, formData).subscribe(
       (response) => {
-        console.log('Upload image response-' + JSON.stringify(response));
+     //   console.log('Upload image response-' + JSON.stringify(response));
       },
       (error) => {
         console.log('Error happened in uploading image' + JSON.stringify(error));

@@ -89,7 +89,7 @@ export class RecipeComponent implements OnInit {
       ingCompMap.set(t.id, addIngredient);
     });
     this.addIngMap = ingCompMap;
-    console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
+   // console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
     this.calculateCostTotal();
   }
 
@@ -131,7 +131,7 @@ export class RecipeComponent implements OnInit {
       this.addRecipe.recipe.categoriesForRecipe.push(addCategory);
     });
 
-    console.log('recipe Categories  list' + JSON.stringify(Array.from(this.addRecipe.recipe.categoriesForRecipe)));
+   // console.log('recipe Categories  list' + JSON.stringify(Array.from(this.addRecipe.recipe.categoriesForRecipe)));
 
   }
 
@@ -141,7 +141,7 @@ export class RecipeComponent implements OnInit {
     this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).subscribe(
       (response) => {
         this.displayRecipeInfo = response[0];
-        console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
+       // console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
       },
       (error) => {
         console.log('Error happened in getting recipe' + JSON.stringify(error));
@@ -153,7 +153,6 @@ export class RecipeComponent implements OnInit {
   }
 
   toggleRecipeDiag(showRecipe: boolean) {
-
     this.ngOnInit();
     console.log("show recipe value - "+showRecipe);
     this.showRecipe = showRecipe;

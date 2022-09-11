@@ -225,7 +225,7 @@ export class IngredientComponent implements OnInit {
     this.http.post<Ingredient[]>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ingredient)).subscribe(
       (response) => {
         this.displayIngInfo = response[0];
-        console.log('Ingredient - ' + JSON.stringify(this.displayIngInfo));
+      //  console.log('Ingredient - ' + JSON.stringify(this.displayIngInfo));
       },
       (error) => {
         console.log('Error happened in getting ing' + JSON.stringify(error));
