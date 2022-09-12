@@ -3,7 +3,7 @@
     <div class="col-2 bg-light shadow rounded">
       <div class="row gx-1">
         <div class="col-md-10">
-          <label for="searchRecipe" id="searchRecipe">Search Recipe</label>
+          <label for="searchRecipe" id="searchRecipe1">Search Recipe</label>
           <ng-select
             (change)="getRecipe($event)"
             [multiple]="false"
@@ -185,7 +185,7 @@
             required
             type="text"
           />
-   
+
           <label for="ingredientListForRecipe" id="ingredientListForRecipe" class="mt-2"
             >Ingredient:</label
           >
@@ -371,7 +371,7 @@
           <button
             [disabled]="!addRecipeForm.form.valid"
             class="btn btn-primary  float-right"
-            type="button"
+            type="submit"
           >
             Submit
           </button>
@@ -379,7 +379,7 @@
         </form>
       </div>
     </div>
- 
- 
+
+
   </div>
 </div>

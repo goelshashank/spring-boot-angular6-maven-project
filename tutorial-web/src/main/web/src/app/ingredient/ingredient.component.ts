@@ -70,7 +70,7 @@ export class IngredientComponent implements OnInit {
         alert('%% add ingredient is completed successfully %%');
       });
 
-      
+
     this.appComponent.uploadImage(this.file);
 
     //-------------------------
@@ -120,7 +120,7 @@ export class IngredientComponent implements OnInit {
       title=t.label;
     else
        return;
-    
+
     this.addIngredient.ingredient.supplierForIngredients = this.addIngredient.ingredient.supplierForIngredients.filter(({ supplier }) => supplier.title != title);
 
     console.log('After Removal, Supplier  list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.supplierForIngredients)));
@@ -128,7 +128,7 @@ export class IngredientComponent implements OnInit {
   }
 
   setCategories(t: Category) {
-   
+
     let title=null;
     if(t.title!=null)
       title=t.title;
@@ -156,9 +156,9 @@ export class IngredientComponent implements OnInit {
       title=t.label;
     else
        return;
-    
+
     this.addIngredient.ingredient.categoriesForIngredient = this.addIngredient.ingredient.categoriesForIngredient.filter(({ category }) => category.title != title);
-    
+
     console.log('Removed: ingredient Categories  list' + JSON.stringify(Array.from(this.addIngredient.ingredient.categoriesForIngredient)));
   }
 
@@ -184,7 +184,7 @@ export class IngredientComponent implements OnInit {
 
 
   removeBrands(t: Brand) {
-  
+
     let title=null;
     if(t.title!=null)
       title=t.title;
@@ -192,7 +192,7 @@ export class IngredientComponent implements OnInit {
       title=t.label;
     else
        return;
-    
+
     this.addIngredient.ingredient.brandForIngredients = this.addIngredient.ingredient.brandForIngredients.filter(({ brand }) => brand.title != title);
 
     console.log('Removed:  Brands list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
@@ -219,7 +219,7 @@ export class IngredientComponent implements OnInit {
     this.appComponent.showIngredientTab();
   }
 
-  
+
   getIngredient(ingredient: Ingredient) {
     this.toggleIngredientDiag(true);
     this.http.post<Ingredient[]>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ingredient)).subscribe(
@@ -240,6 +240,11 @@ export class IngredientComponent implements OnInit {
     this.ngOnInit();
     console.log("show ing value - "+showIng);
     this.showIng = showIng;
+  }
+
+  onUpdate(){
+    this.toggleIngredientDiag(false);
+
   }
 
 }
