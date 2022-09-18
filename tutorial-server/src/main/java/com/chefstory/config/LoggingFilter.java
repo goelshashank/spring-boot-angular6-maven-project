@@ -80,26 +80,27 @@ public class LoggingFilter extends OncePerRequestFilter {
         String queryString = request.getQueryString();
         if (queryString == null) {
             printLines(prefix,request.getMethod(),request.getRequestURI());
-            log.info("{} {} {}", prefix, request.getMethod(), request.getRequestURI());
+            //log.info("{} {} {}", prefix, request.getMethod(), request.getRequestURI());
         } else {
             printLines(prefix,request.getMethod(),request.getRequestURI(),queryString);
-            log.info("{} {} {}?{}", prefix, request.getMethod(), request.getRequestURI(), queryString);
+            //log.info("{} {} {}?{}", prefix, request.getMethod(), request.getRequestURI(), queryString);
         }
         Collections.list(request.getHeaderNames()).forEach(headerName ->
-                Collections.list(request.getHeaders(headerName)).forEach(headerValue ->
-                        log.info("{} {}: {}", prefix, headerName, headerValue)));
+                Collections.list(request.getHeaders(headerName)).forEach(headerValue -> {}
+                        //log.info("{} {}: {}", prefix, headerName, headerValue)
+                        ));
         printLines(prefix);
         printLines(RequestContextHolder.currentRequestAttributes().getSessionId());
-        log.info("{}", prefix);
+        //log.info("{}", prefix);
 
-        log.info(" Session ID: ", RequestContextHolder.currentRequestAttributes().getSessionId());
+        //log.info(" Session ID: ", RequestContextHolder.currentRequestAttributes().getSessionId());
     }
 
     private void printLines(String ...args) throws IOException {
 
         try {
             for(String varArgs:args) {
-                log.info(varArgs+"\n");
+                //log.info(varArgs+"\n");
                 writer.write(varArgs);
                 writer.newLine();
             }
@@ -119,12 +120,13 @@ public class LoggingFilter extends OncePerRequestFilter {
     private void logResponse(ContentCachingResponseWrapper response, String prefix) throws IOException {
         int status = response.getStatus();
         printLines(prefix, String.valueOf(status), HttpStatus.valueOf(status).getReasonPhrase());
-        log.info("{} {} {}", prefix, status, HttpStatus.valueOf(status).getReasonPhrase());
+        //log.info("{} {} {}", prefix, status, HttpStatus.valueOf(status).getReasonPhrase());
         response.getHeaderNames().forEach(headerName ->
-                response.getHeaders(headerName).forEach(headerValue ->
-                        log.info("{} {}: {}", prefix, headerName, headerValue)));
+                response.getHeaders(headerName).forEach(headerValue -> {}
+                        //log.info("{} {}: {}", prefix, headerName, headerValue)
+                        ));
         printLines(prefix);
-        log.info("{}", prefix);
+        //log.info("{}", prefix);
         byte[] content = response.getContentAsByteArray();
         if (content.length > 0) {
             logContent(content, response.getContentType(), response.getCharacterEncoding(), prefix);
@@ -145,13 +147,13 @@ public class LoggingFilter extends OncePerRequestFilter {
                         e.printStackTrace();
                     }
                 });
-//              log.info("{} {}", prefix, line));
+//              //log.info("{} {}", prefix, line));
             } catch (UnsupportedEncodingException e) {
-                log.info("{} [{} bytes content]", prefix, content.length);
+                //log.info("{} [{} bytes content]", prefix, content.length);
             }
         } else {
 
-            log.info("{} [{} bytes content]", prefix, content.length);
+            //log.info("{} [{} bytes content]", prefix, content.length);
         }
     }
 
