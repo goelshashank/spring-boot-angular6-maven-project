@@ -13,18 +13,15 @@ import javax.sql.DataSource;
  * @since 09/05/21
  */
 
-@Configuration
-public class DBConfig {
+@Configuration public class DBConfig {
 
-    /**
-     * Primary data source.
-     *
-     * @return the data source
-     */
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
-    }
+	/**
+	 * Primary data source.
+	 *
+	 * @return the data source
+	 */
+	@Bean @ConfigurationProperties(prefix = "spring.datasource") public DataSource dataSource() {
+		return DataSourceBuilder.create().build();
+	}
 
 }

@@ -11,15 +11,14 @@ import java.util.List;
  * @version 1.0
  * @since 09/05/21
  */
-@Repository
-public interface CategoryRepo extends JpaRepository<Category, Integer> {
+@Repository public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
-    public List<Category> findByTitle(String title);
+	List<Category> findByTitle(String title);
 
-    public Category findById(Long id);
+	Category findById(Long id);
 
-    public List<Category> findByType(String type);
+	List<Category> findByType(String type);
 
-    public List<Category> findByTitleAndType(String title, String type);
+	List<Category> findByTitleAndType(String title, String type);
 
 }

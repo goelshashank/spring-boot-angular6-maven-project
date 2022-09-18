@@ -10,11 +10,8 @@ import lombok.experimental.Accessors;
  * @version 1.0
  * @since 04/07/21
  */
-@Data
-@Accessors(chain = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class AddCategory {
+@Data @Accessors(chain = true) @JsonInclude(JsonInclude.Include.NON_NULL) public class AddCategory {
 
-    private Category category;
+	private Category category;
 
 }

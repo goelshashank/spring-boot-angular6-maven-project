@@ -7,5 +7,5 @@ package com.chefstory.entity.pojo;
  */
 public enum Status {
 
-    ACTIVE, INACTIVE
+	ACTIVE, INACTIVE
 }

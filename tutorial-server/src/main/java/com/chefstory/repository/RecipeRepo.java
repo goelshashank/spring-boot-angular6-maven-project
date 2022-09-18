@@ -11,11 +11,10 @@ import java.util.List;
  * @version 1.0
  * @since 09/05/21
  */
-@Repository
-public interface RecipeRepo extends JpaRepository<Recipe, Integer> {
+@Repository public interface RecipeRepo extends JpaRepository<Recipe, Integer> {
 
-    public List<Recipe> findByTitle(String title);
+	List<Recipe> findByTitle(String title);
 
-    public Recipe findById(Long id);
+	Recipe findById(Long id);
 
 }

@@ -10,10 +10,7 @@ import lombok.experimental.Accessors;
  * @version 1.0
  * @since 04/07/21
  */
-@Data
-@Accessors(chain = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class AddSupplier {
+@Data @Accessors(chain = true) @JsonInclude(JsonInclude.Include.NON_NULL) public class AddSupplier {
 
-    private Supplier supplier;
+	private Supplier supplier;
 }

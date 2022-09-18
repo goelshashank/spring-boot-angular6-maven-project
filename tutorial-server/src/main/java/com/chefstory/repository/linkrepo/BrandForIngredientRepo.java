@@ -11,10 +11,10 @@ import java.util.List;
  * @version 1.0
  * @since 09/05/21
  */
-@Repository
-public interface BrandForIngredientRepo extends JpaRepository<BrandForIngredient, Integer> {
+@Repository public interface BrandForIngredientRepo extends JpaRepository<BrandForIngredient, Integer> {
 
+	void deleteById(Long id);
 
-    public List<BrandForIngredientRepo> findByIngredientIdAndBrandId(Long ingId, Long brandId);
+	List<BrandForIngredientRepo> findByIngredientIdAndBrandId(Long ingId, Long brandId);
 
 }

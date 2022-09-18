@@ -12,13 +12,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * @version 1.0
  * @since 30/05/21
  */
-@ControllerAdvice
-@Slf4j
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+@ControllerAdvice @Slf4j public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public void runTimeException(RuntimeException e) {
-        log.error("Run time error ", e);
-    }
+	@ExceptionHandler(RuntimeException.class) @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) public void runTimeException(
+			RuntimeException e) {
+		log.error("Run time error ", e);
+	}
 }
