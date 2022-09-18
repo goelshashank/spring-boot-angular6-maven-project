@@ -48,14 +48,15 @@ import java.util.stream.Collectors;
 	@Autowired private SupplierRepo supplierRepo;
 	@Autowired private SupplierForIngredientRepo supplierForIngredientRepo;
 	@Autowired private Utils utils;
+	@Autowired private KitchenServiceHelper helper;
 
 	@PostConstruct public void init() {
 	}
 
 	public void addIngredient(List<AddIngredient> addIngredients) {
 		ingredientRepo.saveAll(addIngredients.stream().map(t -> {
-			t.getIngredient().setCategoriesForIngredient(addCategories(t)).setBrandForIngredients(addBrands(t))
-					.setSupplierForIngredients(addSupplier(t));
+			t.getIngredient().setCategoriesForIngredient(helper.addCategories(t)).setBrandForIngredients(helper.addBrands(t))
+					.setSupplierForIngredients(helper.addSupplier(t));
 			return t.getIngredient();
 		}).collect(Collectors.toList()));
 	}
@@ -78,9 +79,9 @@ import java.util.stream.Collectors;
 			});
 
 			ingredient.setCategoriesForIngredient(
-					addCategories(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
-			ingredient.setBrandForIngredients(addBrands(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
-			ingredient.setSupplierForIngredients(addSupplier(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
+					helper.addCategories(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
+			ingredient.setBrandForIngredients(helper.addBrands(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
+			ingredient.setSupplierForIngredients(helper.addSupplier(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
 
 			ingredientRepo.save(ingredient);
 		});
@@ -109,7 +110,7 @@ import java.util.stream.Collectors;
 						.setCategory(u.getCategory()).setSupplier(u.getSupplier()).setBrand(u.getBrand());
 				return ingredientInRecipe;
 			}).collect(Collectors.toList());
-			recipe.setIngredientInRecipe(ingredientInRecipes).setCategoriesForRecipe(addCategories(t));
+			recipe.setIngredientInRecipe(ingredientInRecipes).setCategoriesForRecipe(helper.addCategories(t));
 
 			recipes.add(recipe);
 		});
@@ -121,25 +122,21 @@ import java.util.stream.Collectors;
 
 			Recipe recipe = u.getRecipe();
 
-			List<Long> newIngredientInRecipeList = recipe.getIngredientInRecipe().stream().map(t -> t.getId()).filter(t -> t != null)
-					.collect(Collectors.toList());
-
-			List<Long> newCategoryFors = recipe.getCategoriesForRecipe().stream().map(t -> t.getId()).filter(t -> t != null)
-					.collect(Collectors.toList());
-
 			Recipe oldRecipe = recipeRepo.findById(recipe.getId());
-			oldRecipe.getIngredientInRecipe().forEach(t -> {
-				if (!newIngredientInRecipeList.contains(t.getId())) {
-					ingredientInRecipeRepo.delete(t);
-				}
+
+			utils.subtract(oldRecipe.getIngredientIds(), recipe.getIngredientIds()).forEach(t -> {
+				ingredientInRecipeRepo.deleteById((Long) t);
 			});
-			oldRecipe.getCategoriesForRecipe().forEach(t -> {
-				if (!newCategoryFors.contains(t.getId())) {
-					categoryForRepo.delete(t);
-				}
+			utils.subtract(oldRecipe.getCategoryForIds(), recipe.getCategoryForIds()).forEach(t -> {
+				categoryForRepo.deleteById((Long) t);
 			});
 
-			addRecipe(Collections.singletonList(new AddRecipe().setRecipe(recipe)));
+			recipe.setCategoriesForRecipe(
+					helper.addCategories(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
+			recipe.setIngredientInRecipe(recipe.getIngredientInRecipe().stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
+
+			recipeRepo.save(recipe);
+
 		});
 	}
 
@@ -150,89 +147,6 @@ import java.util.stream.Collectors;
 		}).collect(Collectors.toList()));
 	}
 
-	private List<CategoryFor> addCategories(AddRecipe t) {
-		Recipe recipe = t.getRecipe();
-		List<CategoryFor> categoryFors;
-		if (CollectionUtils.isEmpty(t.getRecipe().getCategoriesForRecipe())) {
-			return null;
-		} else {
-			categoryFors = t.getRecipe().getCategoriesForRecipe().stream().map(u -> {
-				categoryRepo.save(u.getCategory());
-				log.info("category added - {} for recipe- {}", u.getCategory().getTitle(), recipe.getTitle());
-				return new CategoryFor().setRecipe(recipe).setCategory(u.getCategory());
-			}).collect(Collectors.toList());
-		}
-		return categoryFors;
-	}
-
-	private List<CategoryFor> addCategories(AddIngredient t) {
-		Ingredient ingredient = t.getIngredient();
-		List<CategoryFor> categoryFors;
-		if (CollectionUtils.isEmpty(t.getIngredient().getCategoriesForIngredient())) {
-			return new ArrayList<>();
-		} else {
-			categoryFors = t.getIngredient().getCategoriesForIngredient().stream().map(u -> {
-				List<Category> categories = categoryRepo.findByTitle(u.getCategory().getTitle());
-				if (CollectionUtils.isEmpty(categories)) {
-					categoryRepo.save(u.getCategory());
-				} else {
-					u.setCategory(categories.get(0));
-				}
-				log.info("category added - {} for ingredient- {}", u.getCategory().getTitle(), ingredient.getTitle());
-				CategoryFor categoryFor = new CategoryFor().setIngredient(ingredient).setCategory(u.getCategory());
-				categoryFor.setId(u.getId());
-				return categoryFor;
-			}).collect(Collectors.toList());
-		}
-		return categoryFors;
-	}
-
-	private List<BrandForIngredient> addBrands(AddIngredient t) {
-		Ingredient ingredient = t.getIngredient();
-		List<BrandForIngredient> brandForIngredients;
-		if (CollectionUtils.isEmpty(t.getIngredient().getBrandForIngredients())) {
-			return new ArrayList<>();
-		} else {
-			brandForIngredients = t.getIngredient().getBrandForIngredients().stream().map(u -> {
-				List<Brand> brands = brandRepo.findByTitle(u.getBrand().getTitle());
-				if (CollectionUtils.isEmpty(brands)) {
-					brandRepo.save(u.getBrand());
-				} else {
-					u.setBrand(brands.get(0));
-				}
-				log.info("brand added - {} for ingredient- {}", u.getBrand().getTitle(), ingredient.getTitle());
-				BrandForIngredient brandForIngredient = new BrandForIngredient().setIngredient(ingredient).setBrand(u.getBrand());
-				brandForIngredient.setId(u.getId());
-				return brandForIngredient;
-			}).collect(Collectors.toList());
-		}
-		return brandForIngredients;
-	}
-
-	private List<SupplierForIngredient> addSupplier(AddIngredient t) {
-		Ingredient ingredient = t.getIngredient();
-		List<SupplierForIngredient> supplierForIngredients;
-		if (CollectionUtils.isEmpty(t.getIngredient().getSupplierForIngredients())) {
-			return new ArrayList<>();
-		} else {
-			supplierForIngredients = t.getIngredient().getSupplierForIngredients().stream().map(u -> {
-				List<Supplier> suppliers = supplierRepo.findByTitle(u.getSupplier().getTitle());
-				if (CollectionUtils.isEmpty(suppliers)) {
-					supplierRepo.save(u.getSupplier());
-				} else {
-					u.setSupplier(suppliers.get(0));
-				}
-				log.info("supplier added - {} for ingredient- {}", u.getSupplier().getTitle(), ingredient.getTitle());
-				SupplierForIngredient supplierForIngredient = new SupplierForIngredient().setIngredient(ingredient)
-						.setSupplier(u.getSupplier());
-				supplierForIngredient.setId(u.getId());
-				return supplierForIngredient;
-
-			}).collect(Collectors.toList());
-
-		}
-		return supplierForIngredients;
-	}
 
 }
 

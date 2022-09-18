@@ -13,8 +13,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.zalando.logbook.Logbook;
 
 import java.util.concurrent.TimeUnit;
+
+import static com.google.common.collect.Sets.newHashSet;
+import static org.zalando.logbook.Conditions.contentType;
+import static org.zalando.logbook.Conditions.exclude;
+import static org.zalando.logbook.Conditions.header;
+import static org.zalando.logbook.Conditions.requestTo;
 
 /**
  * @author Shashank Goel
@@ -39,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 		loggingFilter.setIncludeQueryString(true);
 		loggingFilter.setIncludePayload(true);
 		loggingFilter.setIncludeHeaders(false);
+		loggingFilter.setAfterMessagePrefix("REQUEST DATA : ");
 		return loggingFilter;
 	}
 
@@ -50,5 +58,17 @@ import java.util.concurrent.TimeUnit;
 		CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
 		caffeineCacheManager.setCaffeine(caffeine);
 		return caffeineCacheManager;
+	}
+
+	@Bean
+	public Logbook logbook() {
+		Logbook logbook = Logbook.builder()
+				.condition(exclude(
+						requestTo("/health"),
+						requestTo("/admin/**"),
+						contentType("application/octet-stream"),
+						header("X-Secret", newHashSet("1", "true")::contains)))
+				.build();
+		return logbook;
 	}
 }

@@ -2,6 +2,7 @@ package com.chefstory.entity;
 
 import com.chefstory.entity.linkent.CategoryFor;
 import com.chefstory.entity.linkent.IngredientInRecipe;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Shashank Goel
@@ -44,5 +46,13 @@ import java.util.List;
 	@Column(name = "remarks") private String remarks;
 	@Column(name = "photo_id") private String photoId;
 	@Column(name = "video_id") private String videoId;
+
+	@JsonIgnore public List<Long> getIngredientIds() {
+		return this.getIngredientInRecipe().stream().map(t -> t.getId()).filter(t -> t != null).collect(Collectors.toList());
+	}
+
+	@JsonIgnore public List<Long> getCategoryForIds() {
+		return this.getCategoriesForRecipe().stream().map(t -> t.getId()).filter(t -> t != null).collect(Collectors.toList());
+	}
 
 }

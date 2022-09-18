@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
  * @version 1.0
  * @since 09/05/21
  */
-@Data @Accessors(chain = true) @Entity(name = "category_for_ingredient") @Table(indexes = { @Index(columnList = "ingredient_id"),
+@Data @Accessors(chain = true) @Entity(name = "category_for") @Table(indexes = { @Index(columnList = "ingredient_id"),
 		@Index(columnList = "recipe_id") }, uniqueConstraints = { @UniqueConstraint(columnNames = { "ingredient_id", "category_id" }),
 		@UniqueConstraint(columnNames = { "recipe_id",
 				"category_id" }) }) @JsonInclude(JsonInclude.Include.NON_NULL) public class CategoryFor extends BaseEntity {

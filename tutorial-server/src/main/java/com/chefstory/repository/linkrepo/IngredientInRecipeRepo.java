@@ -2,6 +2,8 @@ package com.chefstory.repository.linkrepo;
 
 import com.chefstory.entity.linkent.IngredientInRecipe;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Repository;
 	int insert(@Param("recipe_id") Long recipeId, @Param("ingredient_id") Long ingredientCompId,
 			@Param("recipe_id") Long recipeCompId);*/
 
-	void deleteById(Long id);
+	@Modifying @Query(value = "delete from ingredient_in_recipe iir where iir.id=?1", nativeQuery = true) void deleteById(
+			Long id);
 
 }
