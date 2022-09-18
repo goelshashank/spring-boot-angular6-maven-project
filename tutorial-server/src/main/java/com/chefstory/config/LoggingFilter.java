@@ -1,4 +1,3 @@
-/*
 package com.chefstory.config;
 
 import lombok.extern.slf4j.Slf4j;
@@ -173,4 +172,4 @@ public class LoggingFilter extends OncePerRequestFilter {
             return new ContentCachingResponseWrapper(response);
         }
     }
-}*/
+}
