@@ -86,21 +86,6 @@ import java.util.stream.Collectors;
 		});
 	}
 
-	private void createNewIngOnUpdate(Ingredient ingredient) {
-		markIngredientInActive(ingredient);
-
-		ingredient.setId(null);
-		ingredient.setStatus(Status.ACTIVE);
-		if (!CollectionUtils.isEmpty(ingredient.getBrandForIngredients()))
-			ingredient.getBrandForIngredients().forEach(t -> t.setId(null));
-		if (!CollectionUtils.isEmpty(ingredient.getSupplierForIngredients()))
-			ingredient.getSupplierForIngredients().forEach(t -> t.setId(null));
-		if (!CollectionUtils.isEmpty(ingredient.getCategoriesForIngredient()))
-			ingredient.getCategoriesForIngredient().forEach(t -> t.setId(null));
-
-		addIngredient(Collections.singletonList(new AddIngredient().setIngredient(ingredient)));
-	}
-
 	public void removeIngredient(List<AddIngredient> addIngredients) {
 		ingredientRepo.saveAll(addIngredients.stream().map(t -> {
 			t.getIngredient().setStatus(Status.INACTIVE);
@@ -247,28 +232,6 @@ import java.util.stream.Collectors;
 
 		}
 		return supplierForIngredients;
-	}
-
-	private void markIngredientInActive(Ingredient ingredient) {
-		if (CollectionUtils.isEmpty(ingredientRepo.findByTitle(ingredient.getTitle())))
-			return;
-
-		Ingredient t = new Ingredient();
-		t.setId(ingredient.getId());
-		t.setTitle(ingredient.getTitle());
-		t.setStatus(Status.INACTIVE);
-		ingredientRepo.save(t);
-	}
-
-	private void markRecipeInActive(Recipe recipe) {
-		if (CollectionUtils.isEmpty(recipeRepo.findByTitle(recipe.getTitle())))
-			return;
-
-		Recipe t = new Recipe();
-		t.setId(recipe.getId());
-		t.setTitle(recipe.getTitle());
-		t.setStatus(Status.INACTIVE);
-		recipeRepo.save(t);
 	}
 
 }
