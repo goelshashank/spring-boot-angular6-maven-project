@@ -1,6 +1,11 @@
 import {IngredientInRecip} from './IngredientInRecip';
 import {CategoryFor} from './CategoryFor';
 import {UnitDetailed} from './UnitDetailed';
+import { jsonIgnore } from 'json-ignore';
+import { Category } from './Category';
+import { Brand } from './Brand';
+import { Supplier } from './Supplier';
+import { Ingredient } from './Ingredient';
 
 export class Recipe {
   id: number;
@@ -22,4 +27,8 @@ export class Recipe {
   categoriesForRecipe: CategoryFor[]=[];
   unitDetailed: UnitDetailed=new UnitDetailed("");
   unit: string;
+
+  @jsonIgnore() catList:Category[]=[];
+  @jsonIgnore() ingList:Ingredient[]=[];
+
 }

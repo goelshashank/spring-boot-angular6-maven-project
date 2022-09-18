@@ -161,6 +161,12 @@
             </tbody>
           </table>
         </div>
+
+        <div class="d-flex align-items-end justify-content-end mx-5">
+          <button class="btn btn-primary" type="button" (click)="onUpdate()">
+            Update
+          </button>
+        </div>
       </div>
 
       <div
@@ -186,16 +192,17 @@
             type="text"
           />
 
-          <label for="ingredientListForRecipe" id="ingredientListForRecipe" class="mt-2"
+          <label for="ingredientListForRecipe" id="ingredientListForRecipe1" class="mt-2"
             >Ingredient:</label
           >
           <ng-select
             (change)="setIngredients($event)"
+            [(ngModel)]="addRecipe.recipe.ingList"
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
             class="form-control"
-            id="ingredientListForRecipe1"
+            id="ingredientListForRecipe"
             name="ingredientListForRecipe"
           >
             <ng-option
@@ -311,15 +318,17 @@
             <b> Total Price - {{ totalCost }} </b>
           </div>
 
-          <label for="categoryForRecipe" id="categoryForRecipe" class=" mt-2">Category</label>
+          <label for="categoryForRecipe" id="categoryForRecipe1" class=" mt-2">Category</label>
           <ng-select
             (change)="setCategories($event)"
+            (remove)="removeCategories($event)"
+            [(ngModel)]="addRecipe.recipe.catList"
             [addTag]="true"
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
             class="form-control w-50"
-            id="categoryForRecipe1"
+            id="categoryForRecipe"
             name="categoryForRecipe"
           >
             <ng-option

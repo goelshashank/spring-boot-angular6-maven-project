@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import { Component, Injectable, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {ApiPaths} from '../config/ApiPaths';
 import {environment} from '../../environments/environment';
 import {AddRecipe} from '../model/AddRecipe';
@@ -22,7 +22,7 @@ import { IngredientInRecip } from '../model/IngredientInRecip';
   styleUrls: ['./recipe.component.css']
 })
 @Injectable()
-export class RecipeComponent implements OnInit {
+export class RecipeComponent implements OnInit , OnDestroy {
 
   addRecipe: AddRecipe = new AddRecipe();
   title = 'recipe';
@@ -30,10 +30,14 @@ export class RecipeComponent implements OnInit {
   totalCost: number=0;
   displayRecipeInfo: Recipe = new Recipe();
   showRecipe = true;
- 
+  toUpdate: boolean = false;
 
 
   constructor(private http: HttpClient, public appComponent: AppComponent,private router: Router, private route: ActivatedRoute) {
+  }
+
+  ngOnDestroy(): void {
+    // this.addIngForm.reset();
   }
 
   ngOnInit(): void {
@@ -41,7 +45,10 @@ export class RecipeComponent implements OnInit {
     this.addIngMap= new Map<number, IngredientInRecip>();
     this.totalCost=0;
     this.displayRecipeInfo = new Recipe();
+    this.toUpdate=false;
   }
+
+  @ViewChild ('addRecipeForm') addRecipeForm: NgForm;
 
 
   addRecipes(form: NgForm) {
@@ -54,6 +61,13 @@ export class RecipeComponent implements OnInit {
     if (form.valid) {
       console.log('Add recipe list: ' + JSON.stringify(addRecipeList));
     }
+
+    let api:string=null;
+
+    if(!this.toUpdate)
+      api=ApiPaths.AddRecipes;
+    else
+      api=ApiPaths.UpdateRecipes;
 
     this.http.post(environment.baseUrl + ApiPaths.AddRecipes, addRecipeList).subscribe(
       (response) => {
@@ -121,18 +135,39 @@ export class RecipeComponent implements OnInit {
     this.addIngMap.get(ing.id).ingredient.categoriesForIngredient.push(addCategory);
   }
 
+  setCategories(t: Category) {
 
-  setCategories(categories: Category[]) {
-    categories.forEach(t => {
-      let addCategory: CategoryFor = new CategoryFor();
-      addCategory.category = t;
-      addCategory.category.title = t.label;
-      addCategory.category.type = Constants.RECIPE;
-      this.addRecipe.recipe.categoriesForRecipe.push(addCategory);
-    });
+    let title=null;
+    if(t.title!=null)
+      title=t.title;
+    else if(t.label!=null)
+      title=t.label;
+    else
+      return;
 
-   // console.log('recipe Categories  list' + JSON.stringify(Array.from(this.addRecipe.recipe.categoriesForRecipe)));
+    if (!this.addRecipe.recipe.categoriesForRecipe.map((o) => o.category.title).includes(title)) {
+      let u: CategoryFor = new CategoryFor();
+      u.category = new Category();
+      u.category.title = title;
+      u.category.type = Constants.INGREDIENT;
+      this.addRecipe.recipe.categoriesForRecipe.push(u);
+    }
 
+    console.log('Added: recipe Categories  list' + JSON.stringify(Array.from(this.addRecipe.recipe.categoriesForRecipe)));
+  }
+
+  removeCategories(t: Category) {
+    let title=null;
+    if(t.title!=null)
+      title=t.title;
+    else if(t.label!=null)
+      title=t.label;
+    else
+      return;
+
+    this.addRecipe.recipe.categoriesForRecipe = this.addRecipe.recipe.categoriesForRecipe.filter(({ category }) => category.title != title);
+
+    console.log('Removed: recipe categories  list' + JSON.stringify(Array.from(this.addRecipe.recipe.categoriesForRecipe)));
   }
 
 
@@ -153,9 +188,25 @@ export class RecipeComponent implements OnInit {
   }
 
   toggleRecipeDiag(showRecipe: boolean) {
+    this.addRecipeForm.reset();
     this.ngOnInit();
     console.log("show recipe value - "+showRecipe);
     this.showRecipe = showRecipe;
+  }
+
+  onUpdate(){
+
+    this.showRecipe=!this.showRecipe;
+    this.addRecipe=new AddRecipe();
+    this.addRecipe.recipe=this.displayRecipeInfo;
+    this.toUpdate=true;
+
+    //  this.addIngForm.form.get("titleIng").setValue(this.displayIngInfo.title);
+    this.addRecipeForm.form.get("categoryForRecipe").
+    setValue(this.displayRecipeInfo.categoriesForRecipe.map((t)=> t.category.title));
+    this.addRecipeForm.form.get("ingredientListForRecipe").
+    setValue(this.displayRecipeInfo.ingredientInRecipe.map((t)=> t.ingredient.title));
+
   }
 
 }
