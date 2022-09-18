@@ -1,3 +1,4 @@
+/*
 package com.chefstory.config;
 
 import lombok.extern.slf4j.Slf4j;
@@ -105,7 +106,8 @@ public class LoggingFilter extends OncePerRequestFilter {
                 writer.newLine();
             }
         }catch(IOException ex){
-            ex.printStackTrace();
+            if(log.isDebugEnabled())
+                  log.warn("Could not print {}", ex.getMessage());
         }
 
     }
@@ -143,13 +145,12 @@ public class LoggingFilter extends OncePerRequestFilter {
                     try {
                         printLines(line);
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                        log.warn("Could not log  {}", e.getMessage());
                     }
                 });
-//              //log.info("{} {}", prefix, line));
+              //log.info("{} {}", prefix, line));
             } catch (UnsupportedEncodingException e) {
-                //log.info("{} [{} bytes content]", prefix, content.length);
+                log.warn("{} [{} bytes content]", prefix, content.length);
             }
         } else {
 
@@ -172,4 +173,4 @@ public class LoggingFilter extends OncePerRequestFilter {
             return new ContentCachingResponseWrapper(response);
         }
     }
-}
+}*/

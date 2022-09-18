@@ -171,7 +171,7 @@
 
       <div
         class="container bg-light shadow rounded mx-3 my-1 p-3"
-        *ngIf="!showRecipe"
+        [style.display]="!showRecipe ? 'block' : 'none'"
       >
         <form
           #addRecipeForm="ngForm"

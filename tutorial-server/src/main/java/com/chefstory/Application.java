@@ -40,7 +40,9 @@ import static org.zalando.logbook.Conditions.requestTo;
 		};
 	}
 
-/*	@Bean public CommonsRequestLoggingFilter requestLoggingFilter() {
+/*
+
+	@Bean public CommonsRequestLoggingFilter requestLoggingFilter() {
 		CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
 		loggingFilter.setIncludeClientInfo(true);
 		loggingFilter.setIncludeQueryString(true);
@@ -55,7 +57,8 @@ import static org.zalando.logbook.Conditions.requestTo;
 	public Logbook logbook() {
 		Logbook logbook = Logbook.create();
 		return logbook;
-	}*/
+	}
+*/
 
 	@Bean public Caffeine caffeineConfig() {
 		return Caffeine.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES);

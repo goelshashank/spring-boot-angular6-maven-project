@@ -119,6 +119,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     addSupplier.supplier = supplierForIngredient.supplier;
     this.addIngMap.get(ing.id).ingredient.supplierForIngredients = [];
     this.addIngMap.get(ing.id).ingredient.supplierForIngredients.push(addSupplier);
+    this.addIngMap.get(ing.id).supplier=addSupplier.supplier;
   }
 
   addBrand(brandForIngredient: BrandForIngredient, ing: Ingredient) {
@@ -126,6 +127,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     addBrand.brand = brandForIngredient.brand;
     this.addIngMap.get(ing.id).ingredient.brandForIngredients = [];
     this.addIngMap.get(ing.id).ingredient.brandForIngredients.push(addBrand);
+    this.addIngMap.get(ing.id).brand=addBrand.brand;
   }
 
   addCategory(categoryFor: CategoryFor, ing: Ingredient) {
@@ -133,6 +135,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     addCategory.category = categoryFor.category;
     this.addIngMap.get(ing.id).ingredient.categoriesForIngredient = new Array(0);
     this.addIngMap.get(ing.id).ingredient.categoriesForIngredient.push(addCategory);
+    this.addIngMap.get(ing.id).category=addCategory.category;
   }
 
   setCategories(t: Category) {

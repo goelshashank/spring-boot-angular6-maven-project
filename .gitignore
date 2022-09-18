@@ -1,8 +1,7 @@
-*.iml
 .idea
-node_modules
-target
-logs
-tutorial-server/data/demo.mv.db
-tutorial-server/data/demo.trace.db
+tutorial-web/src/main/web/node_modules
+tutorial-server/target
+tutorial-server/logs
+tutorial-server/data
 tutorial-web/generated-ts-classes/chefstory.d.ts
+tutorial-server/access-logs

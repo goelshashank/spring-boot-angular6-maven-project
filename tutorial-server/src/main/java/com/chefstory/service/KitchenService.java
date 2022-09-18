@@ -101,10 +101,12 @@ import java.util.stream.Collectors;
 				return;
 
 			Recipe recipe = t.getRecipe();
-			//  updateIngredient(t.getRecipe().getIngredientInRecipe().stream().map
-			//  (i -> new AddIngredient().setIngredient(i.getIngredient())).collect(Collectors.toList()));
+			 // updateIngredient(t.getRecipe().getIngredientInRecipe().stream().map
+			 // (i -> new AddIngredient().setIngredient(i.getIngredient()))
+			// .collect(Collectors.toList()));
 
-			List<IngredientInRecipe> ingredientInRecipes = t.getRecipe().getIngredientInRecipe().stream().map(u -> {
+			List<IngredientInRecipe> ingredientInRecipes =
+					recipe.getIngredientInRecipe().stream().map(u -> {
 
 				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe().setRecipe(recipe).setIngredient(u.getIngredient())
 						.setCategory(u.getCategory()).setSupplier(u.getSupplier()).setBrand(u.getBrand());

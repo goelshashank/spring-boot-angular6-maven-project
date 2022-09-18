@@ -76,37 +76,6 @@ import static com.chefstory.utils.Constants.UPDATE;
 				HttpStatus.OK);
 	}
 
-	@GetMapping("/test") public void testIt() {
-		log.info("start");
-
-/*        Ingredient ing1=ingredientRepo.findAll().stream().
-                filter(t->t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()).get(0);
-        log.info("{}", ing1.getTitle());
-*//*        if(!CollectionUtils.isEmpty(ingredientRepo.findByTitle(ingredient.getTitle()))){
-            Ingredient ing=new Ingredient();
-            ing.setId(ingredient.getId());
-            ing.setTitle(ingredient.getTitle());
-            ing.setStatus(Status.INACTIVE);
-            ingredientRepo.save(ing);
-        }*//*
-      //  Ingredient ing1=SerializationUtils.clone(ingredient);
-        ing1.setStatus(Status.ACTIVE);
-        ing1.setTitle("testing_3");
-        ing1.setId(null);
-        if(!CollectionUtils.isEmpty(ing1.getBrandForIngredients()))
-        ing1.getBrandForIngredients().forEach(t-> t.setId(null));
-        if(!CollectionUtils.isEmpty(ing1.getSupplierForIngredients()))
-        ing1.getSupplierForIngredients().forEach(t-> t.setId(null));
-        if(!CollectionUtils.isEmpty(ing1.getCategoriesForIngredient()))
-        ing1.getCategoriesForIngredient().forEach(t-> t.setId(null));
-        updateIngredients(Arrays.asList(new AddIngredient().setIngredient(ing1)),
-                "add");
-
-        log.info("{}", ing1.getTitle());*/
-
-		log.info("stop");
-	}
-
 	@GetMapping("/getAllBrands") public ResponseEntity<List<Brand>> getAllBrands() {
 		return new ResponseEntity<>(
 				brandRepo.findAll().stream().filter(t -> t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()),
@@ -156,7 +125,7 @@ import static com.chefstory.utils.Constants.UPDATE;
 		return new ResponseEntity<>(getConfigResponse, HttpStatus.OK);
 	}
 
-	@PostMapping("/updateRecipes/{action}") public ResponseEntity<HttpStatus> updateRecipes(
+	@PostMapping("/updateRecipes/{action}")  @Transactional public ResponseEntity<HttpStatus> updateRecipes(
 			@Valid @RequestBody List<AddRecipe> addRecipeList, @PathVariable(name = "action", required = true) String action) {
 
 		if (ADD.equalsIgnoreCase(action))
@@ -171,7 +140,6 @@ import static com.chefstory.utils.Constants.UPDATE;
 
 	@PostMapping("/updateIngredients/{action}") @Transactional public ResponseEntity<HttpStatus> updateIngredients(
 			@Valid @RequestBody List<AddIngredient> addIngredients, @PathVariable(name = "action", required = true) String action) {
-		// log.info(new Gson().toJson(addIngredients));
 		if (ADD.equalsIgnoreCase(action))
 			kitchenService.addIngredient(addIngredients);
 		else if (UPDATE.equalsIgnoreCase(action))
@@ -215,5 +183,13 @@ import static com.chefstory.utils.Constants.UPDATE;
 		fileUtils.save(file);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
+
+
+	@GetMapping("/test") public void testIt() {
+		log.info("start");
+
+		log.info("stop");
+	}
+
 
 }
