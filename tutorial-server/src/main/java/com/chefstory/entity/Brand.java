@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -20,14 +19,12 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Accessors(chain = true)
 @Entity(name = "brand")
-@Table(uniqueConstraints =
-        { @UniqueConstraint(name = "UniqueTitleAndStatus", columnNames = {
-                "title", "status" }) })
+@Table
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class Brand extends BaseEntity {
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title",unique = true, nullable = false)
     @NotBlank
     private String title;
 

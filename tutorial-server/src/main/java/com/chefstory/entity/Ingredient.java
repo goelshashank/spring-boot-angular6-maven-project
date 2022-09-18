@@ -22,14 +22,12 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @Entity(name = "ingredient")
-@Table(indexes = {@Index(columnList = "title")},uniqueConstraints =
-        { @UniqueConstraint(name = "UniqueTitleAndStatus", columnNames = {
-                "title", "status" }) })
+@Table(indexes = {@Index(columnList = "title")})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class Ingredient extends BaseEntity {
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title",unique = true, nullable = false)
     @NotBlank
     private String title;
 

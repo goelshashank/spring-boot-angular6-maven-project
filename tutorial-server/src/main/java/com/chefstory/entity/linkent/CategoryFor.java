@@ -22,10 +22,8 @@ import javax.persistence.*;
 @Entity(name = "category_for_ingredient")
 @Table(indexes = {@Index(columnList = "ingredient_id"), @Index(columnList = "recipe_id")},
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"ingredient_id", "category_id",
-                        "status"}),
-                @UniqueConstraint(columnNames = {"recipe_id", "category_id",
-                        "status"})
+                @UniqueConstraint(columnNames = {"ingredient_id", "category_id"}),
+                @UniqueConstraint(columnNames = {"recipe_id", "category_id"})
         })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryFor extends BaseEntity {

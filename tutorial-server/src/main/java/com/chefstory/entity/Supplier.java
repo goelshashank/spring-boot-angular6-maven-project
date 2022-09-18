@@ -20,14 +20,12 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Accessors(chain = true)
 @Entity(name = "supplier")
-@Table(uniqueConstraints =
-        { @UniqueConstraint(name = "UniqueTitleAndStatus", columnNames = {
-                "title", "status" }) })
+@Table
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class Supplier extends BaseEntity {
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title",unique = true,  nullable = false)
     @NotBlank
     private String title;
 

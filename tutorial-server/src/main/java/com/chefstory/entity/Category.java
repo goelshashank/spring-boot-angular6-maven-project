@@ -19,13 +19,12 @@ import javax.validation.constraints.NotBlank;
 @Accessors(chain = true)
 @Entity(name = "category")
 @Table(indexes = {@Index(columnList = "title,type")},
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"title", "type",
-                "status"})})
+        uniqueConstraints = @UniqueConstraint(columnNames = {"title", "type"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class Category extends BaseEntity {
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title",unique = true, nullable = false)
     @NotBlank
     private String title;
 

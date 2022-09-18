@@ -132,13 +132,14 @@
 
       <div
         class="container bg-light shadow rounded mx-1 my-3 p-3"
-        *ngIf="!showIng"
+        [style.display]="!showIng ? 'block' : 'none'"
       >
         <form
           #addIngForm="ngForm"
           (ngSubmit)="addIngredients(addIngForm)"
           autocomplete="off"
           class="form-group"
+          id="addIngForm"
         >
           <label for="titleIng">*Title</label>
           <input
@@ -157,6 +158,7 @@
           <ng-select
             (add)="setCategories($event)"
             (remove)="removeCategories($event)"
+            [(ngModel)]="addIngredient.ingredient.catList"
             [addTag]="true"
             [multiple]="true"
             [searchable]="true"
@@ -172,18 +174,19 @@
             >
           </ng-select>
 
-          <label for="supplierForIng" id="supplierForIng" class="mt-2"
+          <label for="supplierForIng" id="supplierForIng1" class="mt-2"
             >Supplier</label
           >
           <ng-select
             (add)="setSuppliers($event)"
             (remove)="removeSuppliers($event)"
+            [(ngModel)]="addIngredient.ingredient.supplierList"
             [addTag]="true"
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
             class="form-control"
-            id="supplierForIng1"
+            id="supplierForIng"
             name="supplierForIng"
           >
             <ng-option
@@ -193,16 +196,17 @@
             >
           </ng-select>
 
-          <label for="brandForIng" id="brandForIng" class="mt-2">Brand</label>
+          <label for="brandForIng" id="brandForIng1" class="mt-2">Brand</label>
           <ng-select
             (add)="setBrands($event)"
             (remove)="removeBrands($event)"
+            [(ngModel)]="addIngredient.ingredient.brandList"
             [addTag]="true"
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
             class="form-control"
-            id="brandForIng1"
+            id="brandForIng"
             name="brandForIng"
             #filterWith
           >

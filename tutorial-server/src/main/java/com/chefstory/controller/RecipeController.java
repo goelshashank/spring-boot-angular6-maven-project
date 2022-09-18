@@ -12,6 +12,7 @@ import com.chefstory.model.GetConfigResponse;
 import com.chefstory.repository.*;
 import com.chefstory.utils.FileUtils;
 import com.chefstory.service.KitchenService;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
@@ -175,6 +177,7 @@ public class RecipeController {
 
 
     @PostMapping("/updateIngredients/{action}")
+    @Transactional
     public ResponseEntity<HttpStatus> updateIngredients(@Valid @RequestBody List<AddIngredient> addIngredients, @PathVariable(name = "action", required
             = true) String action) {
       // log.info(new Gson().toJson(addIngredients));

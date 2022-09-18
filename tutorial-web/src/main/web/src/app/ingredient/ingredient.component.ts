@@ -1,5 +1,5 @@
-import { Component, Injectable, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import {AfterViewInit, Component, Injectable, OnDestroy, OnInit, ViewChild, ViewChildren} from '@angular/core';
+import {FormGroup, NgForm, NgModel} from '@angular/forms';
 import { environment } from '../../environments/environment';
 import { ApiPaths } from '../config/ApiPaths';
 import { HttpClient } from '@angular/common/http';
@@ -24,25 +24,32 @@ import { Ingredient } from '../model/Ingredient';
   styleUrls: ['./ingredient.component.css']
 })
 @Injectable()
-export class IngredientComponent implements OnInit {
+export class IngredientComponent implements OnInit , OnDestroy{
 
   title = 'ingredient';
   addIngredient: AddIngredient = new AddIngredient();
   isShowAddIng = true;
   imageSrc: string = null;
   file: File = null;
-
   displayIngInfo: Ingredient = new Ingredient();
   showIng = true;
+  toUpdate: boolean = false;
 
   constructor(private http: HttpClient, public appComponent: AppComponent, private router: Router, private route: ActivatedRoute) {
   }
+
+  ngOnDestroy(): void {
+   // this.addIngForm.reset();
+    }
 
   ngOnInit(): void {
     this.appComponent.refreshAppCache();
     this.appComponent.showIngredientTab();
     this.displayIngInfo=new Ingredient();
+    this.toUpdate=false;
   }
+
+  @ViewChild ('addIngForm') addIngForm: NgForm;
 
   toggleAddIng() {
     this.isShowAddIng = !this.isShowAddIng;
@@ -56,7 +63,14 @@ export class IngredientComponent implements OnInit {
       console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
     }
 
-    this.http.post(environment.baseUrl + ApiPaths.AddIngredients, addIngredients).subscribe(
+    let api:string=null;
+
+      if(!this.toUpdate)
+        api=ApiPaths.AddIngredients;
+      else
+        api=ApiPaths.UpdateIngredients;
+
+    this.http.post(environment.baseUrl + api, addIngredients).subscribe(
       (response) => {
         console.log('Add ingredients response -' + JSON.stringify(response));
         alert('Add ingredients response -' + JSON.stringify(response));
@@ -236,15 +250,32 @@ export class IngredientComponent implements OnInit {
 
   }
 
+
+
   toggleIngredientDiag(showIng: boolean) {
+    this.addIngForm.reset();
     this.ngOnInit();
     console.log("show ing value - "+showIng);
     this.showIng = showIng;
   }
 
   onUpdate(){
-    this.toggleIngredientDiag(false);
+
+      this.showIng=!this.showIng;
+      this.addIngredient=new AddIngredient();
+      this.addIngredient.ingredient=this.displayIngInfo;
+      this.toUpdate=true;
+
+    //  this.addIngForm.form.get("titleIng").setValue(this.displayIngInfo.title);
+    this.addIngForm.form.get("categoryForIng").
+    setValue(this.displayIngInfo.categoriesForIngredient.map((t)=> t.category.title));
+    this.addIngForm.form.get("supplierForIng").
+    setValue(this.displayIngInfo.supplierForIngredients.map((t)=> t.supplier.title));
+    this.addIngredient.ingredient.brandForIngredients=this.displayIngInfo.brandForIngredients
+    this.addIngForm.form.get("brandForIng").
+    setValue(this.displayIngInfo.brandForIngredients.map((t)=> t.brand.title));
 
   }
+
 
 }

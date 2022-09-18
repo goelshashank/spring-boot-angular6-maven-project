@@ -8,4 +8,6 @@ export class Category {
   get label(): string {
     return this._label;
   }
+
+
 }

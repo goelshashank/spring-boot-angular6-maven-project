@@ -1,7 +1,6 @@
 package com.chefstory.service;
 
-import com.chefstory.entity.Ingredient;
-import com.chefstory.entity.Recipe;
+import com.chefstory.entity.*;
 import com.chefstory.entity.linkent.BrandForIngredient;
 import com.chefstory.entity.linkent.CategoryFor;
 import com.chefstory.entity.linkent.IngredientInRecipe;
@@ -15,6 +14,7 @@ import com.chefstory.repository.linkrepo.CategoryForRepo;
 import com.chefstory.repository.linkrepo.IngredientInRecipeRepo;
 import com.chefstory.repository.linkrepo.SupplierForIngredientRepo;
 import com.chefstory.utils.FileUtils;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,30 +84,29 @@ public class KitchenService {
                 addIngredient(Arrays.asList(new AddIngredient().setIngredient(ingredient)));
             }else{
 
-                List<Long> newSupplierForIngredientsIds=
-                        ingredient.getSupplierForIngredients().stream().map(t->t.getId()).filter(t-> t!=null).collect(Collectors.toList());
-                List<Long> newBrandForIngredients=
-                        ingredient.getBrandForIngredients().stream().map(t->t.getId()).filter(t-> t!=null).collect(Collectors.toList());
-                List<Long> newCategoryFors=
-                        ingredient.getCategoriesForIngredient().stream().map(t->t.getId()).filter(t-> t!=null).collect(Collectors.toList());
 
                 Ingredient oldIng=ingredientRepo.findById(ingredient.getId());
                 oldIng.getSupplierForIngredients().forEach(t-> {
-                            if(!newSupplierForIngredientsIds.contains(t.getId())) {
+                            if(!(ingredient.getSupplierForIngredients().stream().map(r->r.getId()).filter(r-> r!=null).collect(Collectors.toList()))
+                                    .contains(t.getId())) {
+                                log.info("To delete supplier  - {}",t.getId());
                                 supplierForIngredientRepo.delete(t);
                             }
                         });
                 oldIng.getBrandForIngredients().forEach(t-> {
-                    if(!newBrandForIngredients.contains(t.getId())) {
+                    if(!( ingredient.getBrandForIngredients().stream().map(r->r.getId()).filter(r-> r!=null).collect(Collectors.toList()))
+                            .contains(t.getId())) {
+                        log.info("To delete brand  - {}",t.getId());
                         brandForIngredientRepo.delete(t);
                     }
                 });
                 oldIng.getCategoriesForIngredient().forEach(t-> {
-                    if(!newCategoryFors.contains(t.getId())) {
+                    if(!(ingredient.getCategoriesForIngredient().stream().map(r->r.getId()).filter(r-> r!=null).collect(Collectors.toList()))
+                            .contains(t.getId())) {
+                        log.info("To delete category  - {}",t.getId());
                         categoryForRepo.delete(t);
                     }
                 });
-
                 addIngredient(Arrays.asList(new AddIngredient().setIngredient(ingredient)));
             }
         });
@@ -221,16 +220,17 @@ public class KitchenService {
             categoryFors = t.getIngredient().getCategoriesForIngredient().stream()
                     .map(u ->
                     {
-                        try {
+                        List<Category> categories=
+                                categoryRepo.findByTitle(u.getCategory().getTitle());
+                        if(CollectionUtils.isEmpty(categories)) {
                             categoryRepo.save(u.getCategory());
-                            log.info("category added - {} for ingredient- {}", u.getCategory().getTitle(), ingredient.getTitle());
-                            return new CategoryFor().setIngredient(ingredient)
-                                    .setCategory(u.getCategory());
-                        } catch (Exception e) {
-                            log.warn("Exception in adding category {}", e.getMessage());
-                            return null;
+                        }else{
+                            u.setCategory(categories.get(0));
                         }
-                    }).filter(u -> u != null).collect(Collectors.toList());
+                        log.info("category added - {} for ingredient- {}", u.getCategory().getTitle(), ingredient.getTitle());
+                        return new CategoryFor().setIngredient(ingredient)
+                                .setCategory(u.getCategory());
+                    }).collect(Collectors.toList());
         }
         return categoryFors;
     }
@@ -245,16 +245,18 @@ public class KitchenService {
             brandForIngredients = t.getIngredient().getBrandForIngredients().stream()
                     .map(u ->
                     {
-                        try {
+                        List<Brand> brands=
+                                brandRepo.findByTitle(u.getBrand().getTitle());
+                        if(CollectionUtils.isEmpty(brands)) {
                             brandRepo.save(u.getBrand());
+                        }else{
+                            u.setBrand(brands.get(0));
+                        }
                             log.info("brand added - {} for ingredient- {}", u.getBrand().getTitle(), ingredient.getTitle());
                             return new BrandForIngredient().setIngredient(ingredient)
                                     .setBrand(u.getBrand());
-                        } catch (Exception e) {
-                            log.warn("Exception in adding brand {}", e.getMessage());
-                            return null;
-                        }
-                    }).filter(u -> u != null).collect(Collectors.toList());
+
+                    }).collect(Collectors.toList());
         }
         return brandForIngredients;
     }
@@ -268,17 +270,18 @@ public class KitchenService {
         } else {
             supplierForIngredients = t.getIngredient().getSupplierForIngredients().stream()
                     .map(u -> {
-                        try {
+                        List<Supplier> suppliers=
+                                supplierRepo.findByTitle(u.getSupplier().getTitle());
+                        if(CollectionUtils.isEmpty(suppliers)) {
                             supplierRepo.save(u.getSupplier());
+                        }else{
+                            u.setSupplier(suppliers.get(0));
+                        }
                             log.info("supplier added - {} for ingredient- {}", u.getSupplier().getTitle(), ingredient.getTitle());
                             return new SupplierForIngredient().setIngredient(ingredient)
                                     .setSupplier(u.getSupplier());
-                        } catch (Exception e) {
-                            log.warn("Exception in adding supplier {}",
-                                    e.getMessage());
-                            return null;
-                        }
-                    }).filter(u -> u != null).collect(Collectors.toList());
+
+                    }).collect(Collectors.toList());
 
         }
         return supplierForIngredients;

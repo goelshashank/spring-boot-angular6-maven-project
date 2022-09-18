@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -21,9 +22,9 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Entity(name = "brand_for_ingredient")
 @Table(indexes = {@Index(columnList = "ingredient_id")},
-        uniqueConstraints = @UniqueConstraint(columnNames = {"ingredient_id",
-                "brand_id","status"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"ingredient_id", "brand_id"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@DynamicUpdate
 public class BrandForIngredient extends BaseEntity {
 
     @JsonBackReference(value = "brandForIngredients")
