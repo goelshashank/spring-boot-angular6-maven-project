@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,7 +46,6 @@ import java.util.stream.Collectors;
 
 	@JsonManagedReference(value = "categoriesForIngredient") @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL) private List<CategoryFor> categoriesForIngredient;
 
-	@Transient @JsonProperty("quantityUnit") private Double quantityUnit;
 
 	@JsonIgnore public List<Long> getSupplierIds() {
 		return this.getSupplierForIngredients().stream().map(t -> t.getId()).filter(t -> t != null).collect(Collectors.toList());

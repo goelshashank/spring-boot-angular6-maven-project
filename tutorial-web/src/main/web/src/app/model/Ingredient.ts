@@ -20,7 +20,7 @@ export class Ingredient {
   brandForIngredients: BrandForIngredient[]=[];
   categoriesForIngredient: CategoryFor[]=[];
 
- @jsonIgnore() catList:Category[]=[];
+  @jsonIgnore() catList:Category[]=[];
   @jsonIgnore() brandList: Brand[]=[];
   @jsonIgnore() supplierList: Supplier[]=[];
 

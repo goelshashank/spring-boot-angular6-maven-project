@@ -264,10 +264,9 @@ export class IngredientComponent implements OnInit , OnDestroy{
       this.showIng=!this.showIng;
       this.addIngredient=new AddIngredient();
       this.addIngredient.ingredient=this.displayIngInfo;
+      console.log(JSON.stringify(this.addIngredient.ingredient.brandForIngredients))
       this.toUpdate=true;
-
-    //  this.addIngForm.form.get("titleIng").setValue(this.displayIngInfo.title);
-    this.addIngForm.form.get("categoryForIng").
+     this.addIngForm.form.get("categoryForIng").
     setValue(this.displayIngInfo.categoriesForIngredient.map((t)=> t.category.title));
     this.addIngForm.form.get("supplierForIng").
     setValue(this.displayIngInfo.supplierForIngredients.map((t)=> t.supplier.title));

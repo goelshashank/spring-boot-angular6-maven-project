@@ -37,18 +37,18 @@ import java.util.stream.Collectors;
 
 @Service @Slf4j public class KitchenService {
 
-	@Autowired BrandForIngredientRepo brandForIngredientRepo;
-	@Autowired BrandRepo brandRepo;
-	@Autowired CategoryRepo categoryRepo;
-	@Autowired CategoryForRepo categoryForRepo;
-	@Autowired private RecipeRepo recipeRepo;
-	@Autowired private IngredientInRecipeRepo ingredientInRecipeRepo;
-	@Autowired private IngredientRepo ingredientRepo;
-	@Autowired private FileUtils fileUtils;
-	@Autowired private SupplierRepo supplierRepo;
-	@Autowired private SupplierForIngredientRepo supplierForIngredientRepo;
-	@Autowired private Utils utils;
-	@Autowired private KitchenServiceHelper helper;
+	@Autowired public BrandForIngredientRepo brandForIngredientRepo;
+	@Autowired public BrandRepo brandRepo;
+	@Autowired public CategoryRepo categoryRepo;
+	@Autowired public CategoryForRepo categoryForRepo;
+	@Autowired  public RecipeRepo recipeRepo;
+	@Autowired public  IngredientInRecipeRepo ingredientInRecipeRepo;
+	@Autowired  public IngredientRepo ingredientRepo;
+	@Autowired public  FileUtils fileUtils;
+	@Autowired public  SupplierRepo supplierRepo;
+	@Autowired public  SupplierForIngredientRepo supplierForIngredientRepo;
+	@Autowired  public Utils utils;
+	@Autowired  public KitchenServiceHelper helper;
 
 	@PostConstruct public void init() {
 	}

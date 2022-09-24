@@ -63,7 +63,7 @@ import java.util.stream.Collectors;
 			categoryFors = t.getRecipe().getCategoriesForRecipe().stream().map(u -> {
 				categoryRepo.save(u.getCategory());
 				log.info("category added - {} for recipe- {}", u.getCategory().getTitle(), recipe.getTitle());
-				return new CategoryFor().setRecipe(recipe).setCategory(u.getCategory());
+				return u.setRecipe(recipe).setCategory(u.getCategory());
 			}).collect(Collectors.toList());
 		}
 		return categoryFors;
@@ -83,9 +83,9 @@ import java.util.stream.Collectors;
 					u.setCategory(categories.get(0));
 				}
 				log.info("category added - {} for ingredient- {}", u.getCategory().getTitle(), ingredient.getTitle());
-				CategoryFor categoryFor = new CategoryFor().setIngredient(ingredient).setCategory(u.getCategory());
-				categoryFor.setId(u.getId());
-				return categoryFor;
+				u.setIngredient(ingredient).setCategory(u.getCategory());
+				u.setId(u.getId());
+				return u;
 			}).collect(Collectors.toList());
 		}
 		return categoryFors;
@@ -105,9 +105,9 @@ import java.util.stream.Collectors;
 					u.setBrand(brands.get(0));
 				}
 				log.info("brand added - {} for ingredient- {}", u.getBrand().getTitle(), ingredient.getTitle());
-				BrandForIngredient brandForIngredient = new BrandForIngredient().setIngredient(ingredient).setBrand(u.getBrand());
-				brandForIngredient.setId(u.getId());
-				return brandForIngredient;
+				u.setIngredient(ingredient).setBrand(u.getBrand());
+				u.setId(u.getId());
+				return u;
 			}).collect(Collectors.toList());
 		}
 		return brandForIngredients;
@@ -127,10 +127,10 @@ import java.util.stream.Collectors;
 					u.setSupplier(suppliers.get(0));
 				}
 				log.info("supplier added - {} for ingredient- {}", u.getSupplier().getTitle(), ingredient.getTitle());
-				SupplierForIngredient supplierForIngredient = new SupplierForIngredient().setIngredient(ingredient)
+				u.setIngredient(ingredient)
 						.setSupplier(u.getSupplier());
-				supplierForIngredient.setId(u.getId());
-				return supplierForIngredient;
+				u.setId(u.getId());
+				return u;
 
 			}).collect(Collectors.toList());
 

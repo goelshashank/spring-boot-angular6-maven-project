@@ -32,7 +32,8 @@ import javax.persistence.UniqueConstraint;
 
 	@ManyToOne @JoinColumn(name = "brand_id") private Brand brand;
 
-	@Column(name = "sku_cost") private Double skuCost;
+	@Column(name = "sku_cost")
+	private Double skuCost;
 
 	@Column(name = "sku_qty") private Double skuQty;
 
