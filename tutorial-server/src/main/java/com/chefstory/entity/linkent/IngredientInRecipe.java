@@ -45,31 +45,31 @@ import javax.persistence.UniqueConstraint;
 	@Column(name = "unit") private String unit;
 
 	public IngredientInRecipe setRecipe(Recipe recipe) {
-		if (StringUtils.isNotBlank(recipe.getTitle()))
+		if (recipe!=null && StringUtils.isNotBlank(recipe.getTitle()))
 			this.recipe = recipe;
 		return this;
 	}
 
 	public IngredientInRecipe setIngredient(Ingredient ingredient) {
-		if (StringUtils.isNotBlank(ingredient.getTitle()))
+		if (ingredient!=null && StringUtils.isNotBlank(ingredient.getTitle()))
 			this.ingredient = ingredient;
 		return this;
 	}
 
 	public IngredientInRecipe setSupplier(Supplier supplier) {
-		if (StringUtils.isNotBlank(supplier.getTitle()))
+		if (supplier!=null && StringUtils.isNotBlank(supplier.getTitle()))
 			this.supplier = supplier;
 		return this;
 	}
 
 	public IngredientInRecipe setBrand(Brand brand) {
-		if (StringUtils.isNotBlank(brand.getTitle()))
+		if (brand!=null && StringUtils.isNotBlank(brand.getTitle()))
 			this.brand = brand;
 		return this;
 	}
 
 	public IngredientInRecipe setCategory(Category category) {
-		if (StringUtils.isNotBlank(category.getTitle()))
+		if (category!=null && StringUtils.isNotBlank(category.getTitle()))
 			this.category = category;
 		return this;
 	}
