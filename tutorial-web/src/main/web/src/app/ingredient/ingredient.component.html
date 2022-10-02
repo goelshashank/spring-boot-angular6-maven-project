@@ -212,10 +212,10 @@
             <li
               *ngFor="
                 let addBrandForIng of this.addIngredient.ingredient
-                  .brandForIngredients;
-                trackBy: trackByItems
+                  .brandForIngredients;  let i=index;
+                trackBy: trackByIndex
               "
-            >
+              >
               {{ addBrandForIng.brand.title }}
               <br />
 
@@ -228,10 +228,9 @@
                   aria-label="sku Cost"
                   (change)="calculatePerUnitCost(addBrandForIng)"
                   [(ngModel)]="addBrandForIng.skuCost"
-                  id="skuCostIng"
-                  name="skuCostIng"
+                  id="skuCostIng{{i}}"
+                  name="skuCostIng{{i}}"
                 />
-                {{addBrandForIng.skuCost}}
                 <span class="input-group-text">sku-qty</span>
                 <input
                   type="text"
@@ -241,11 +240,12 @@
                   (change)="calculatePerUnitCost(addBrandForIng)"
                   [(ngModel)]="addBrandForIng.skuQty"
                   class="form-control"
-                  id="skuQty"
-                  name="skuQty"
+                  id="skuQty{{i}}"
+                  name="skuQty{{i}}"
                 />
               </div>
               <b> Per unit cost - {{ addBrandForIng.perUnitCost }} </b>
+
             </li>
           </ul>
 

@@ -6,10 +6,9 @@ import { Category } from './Category';
 import { Brand } from './Brand';
 import { Supplier } from './Supplier';
 import { Ingredient } from './Ingredient';
+import {BaseModel} from "./BaseModel";
 
-export class Recipe {
-  id: number;
-  title: string;
+export class Recipe extends  BaseModel{
   category: string;
   subCategory: string;
   course: string;
@@ -25,10 +24,10 @@ export class Recipe {
   status: string;
   ingredientInRecipe: IngredientInRecip[]=[];
   categoriesForRecipe: CategoryFor[]=[];
-  unitDetailed: UnitDetailed=new UnitDetailed("");
+  unitDetailed: UnitDetailed=new UnitDetailed();
   unit: string;
 
-  @jsonIgnore() catList:Category[]=[];
-  @jsonIgnore() ingList:Ingredient[]=[];
+  @jsonIgnore() catList:String[]=[];
+  @jsonIgnore() ingList:String[]=[];
 
 }

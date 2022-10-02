@@ -9,6 +9,7 @@ import {Supplier} from './model/Supplier';
 import {Brand} from './model/Brand';
 import {Category} from './model/Category';
 import {Constants} from './config/Constants';
+import {BaseModel} from "./model/BaseModel";
 
 
 @Component({
@@ -77,7 +78,7 @@ export class AppComponent implements OnInit {
     this.http.get<Ingredient[]>(environment.baseUrl + ApiPaths.GetAllIngredients).subscribe(
       (response) => {
         this.ingredients = response;
-      //  console.log('Ingredients - ' + JSON.stringify(this.ingredients));
+        console.log('Ingredients - ' + JSON.stringify(this.ingredients));
       },
       (error) => {
         console.log('Error happened  in get all ingredients' + JSON.stringify(error));
@@ -194,6 +195,18 @@ export class AppComponent implements OnInit {
       () => {
         console.log('%% uploading image is completed successfully %%');
       });
+  }
+
+
+   getTitle(t:BaseModel):string{
+    let title=null;
+    if(t.title!=null)
+      title=t.title;
+    else if(t.label!=null)
+      title=t.label;
+    else title=t;
+
+    return title;
   }
 
 }

@@ -6,27 +6,21 @@ import {Category} from "./Category";
 import {Brand} from "./Brand";
 import {Supplier} from "./Supplier";
 import {jsonIgnore} from "json-ignore";
+import {BaseModel} from "./BaseModel";
 
-export class Ingredient {
-  id: number;
-  title: string;
+export class Ingredient extends BaseModel{
   unitDetailed: UnitDetailed;
   unit: String;
   photoId: string;
   videoId: string;
   status: string;
-  quantityUnit: number;
+  quantityUnit: number=1;
   supplierForIngredients: SupplierForIngredient[]=[];
   brandForIngredients: BrandForIngredient[]=[];
   categoriesForIngredient: CategoryFor[]=[];
 
-  @jsonIgnore() catList:Category[]=[];
-  @jsonIgnore() brandList: Brand[]=[];
-  @jsonIgnore() supplierList: Supplier[]=[];
-
-
-
-
-
+  @jsonIgnore() catList:String[]=[];
+  @jsonIgnore() brandList: String[]=[];
+  @jsonIgnore() supplierList: String[]=[];
 
 }

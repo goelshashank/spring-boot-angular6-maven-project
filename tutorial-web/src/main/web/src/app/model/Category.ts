@@ -1,13 +1,9 @@
-export class Category {
-  id: number;
-  title: string;
+import {BaseModel} from "./BaseModel";
+
+export class Category extends BaseModel{
+
   type: string;
 
-  private _label: string;
-
-  get label(): string {
-    return this._label;
-  }
 
 
 }

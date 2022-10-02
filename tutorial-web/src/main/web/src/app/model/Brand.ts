@@ -1,9 +1,5 @@
-export class Brand {
-  id: number;
-  title: string;
-  private _label: string;
+import {BaseModel} from "./BaseModel";
 
-  get label(): string {
-    return this._label;
-  }
+export class Brand extends BaseModel{
+
 }

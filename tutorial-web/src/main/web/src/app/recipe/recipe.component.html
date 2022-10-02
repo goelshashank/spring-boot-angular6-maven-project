@@ -56,7 +56,7 @@
             </div>
             <div class="col">
               <h6 class="align-middle">Category :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.category }}</p>
+              <p class="align-middle">{{ displayRecipeInfo.categoriesForRecipe }}</p>
             </div>
             <div class="col">
               <h6 class="align-middle">Sub-Category :</h6>
@@ -192,18 +192,20 @@
             type="text"
           />
 
-          <label for="ingredientListForRecipe" id="ingredientListForRecipe1" class="mt-2"
+          <label for="ingredientForRecipe" id="ingredientForRecipe1" class="mt-2"
             >Ingredient:</label
           >
           <ng-select
-            (change)="setIngredients($event)"
+            (add)="addIngredients($event)"
+            (remove)="removeIngredients($event)"
             [(ngModel)]="addRecipe.recipe.ingList"
+            [addTag]="true"
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
             class="form-control"
-            id="ingredientListForRecipe"
-            name="ingredientListForRecipe"
+            id="ingredientForRecipe"
+            name="ingredientForRecipe"
           >
             <ng-option
               *ngFor="let ing of appComponent.ingredients"
@@ -320,7 +322,7 @@
 
           <label for="categoryForRecipe" id="categoryForRecipe1" class=" mt-2">Category</label>
           <ng-select
-            (change)="setCategories($event)"
+            (add)="setCategories($event)"
             (remove)="removeCategories($event)"
             [(ngModel)]="addRecipe.recipe.catList"
             [addTag]="true"

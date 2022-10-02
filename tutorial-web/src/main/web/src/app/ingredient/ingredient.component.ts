@@ -17,6 +17,7 @@ import { SupplierForIngredient } from '../model/SupplierForIngredient';
 import { CategoryFor } from '../model/CategoryFor';
 import { BrandForIngredient } from '../model/BrandForIngredient';
 import { Ingredient } from '../model/Ingredient';
+import {BaseModel} from "../model/BaseModel";
 
 @Component({
   selector: 'app-ingredient',
@@ -26,7 +27,7 @@ import { Ingredient } from '../model/Ingredient';
 @Injectable()
 export class IngredientComponent implements OnInit , OnDestroy{
 
-  title = 'ingredient';
+  name = 'ingredient';
   addIngredient: AddIngredient = new AddIngredient();
   isShowAddIng = true;
   imageSrc: string = null;
@@ -109,13 +110,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
 
   setSuppliers(t: Supplier) {
 
-    let title=null;
-    if(t.title!=null)
-      title=t.title;
-    else if(t.label!=null)
-      title=t.label;
-    else
-       return;
+    let title=this.appComponent.getTitle(t);
 
   if (!this.addIngredient.ingredient.supplierForIngredients.map((o) => o.supplier.title).includes(title)) {
     let u: SupplierForIngredient = new SupplierForIngredient();
@@ -127,13 +122,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
   }
 
   removeSuppliers(t: Supplier) {
-    let title=null;
-    if(t.title!=null)
-      title=t.title;
-    else if(t.label!=null)
-      title=t.label;
-    else
-       return;
+    let title=this.appComponent.getTitle(t);
 
     this.addIngredient.ingredient.supplierForIngredients = this.addIngredient.ingredient.supplierForIngredients.filter(({ supplier }) => supplier.title != title);
 
@@ -142,14 +131,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
   }
 
   setCategories(t: Category) {
-
-    let title=null;
-    if(t.title!=null)
-      title=t.title;
-    else if(t.label!=null)
-      title=t.label;
-    else
-       return;
+    let title=this.appComponent.getTitle(t);
 
   if (!this.addIngredient.ingredient.categoriesForIngredient.map((o) => o.category.title).includes(title)) {
     let u: CategoryFor = new CategoryFor();
@@ -163,13 +145,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
   }
 
   removeCategories(t: Category) {
-    let title=null;
-    if(t.title!=null)
-      title=t.title;
-    else if(t.label!=null)
-      title=t.label;
-    else
-       return;
+    let title=this.appComponent.getTitle(t);
 
     this.addIngredient.ingredient.categoriesForIngredient = this.addIngredient.ingredient.categoriesForIngredient.filter(({ category }) => category.title != title);
 
@@ -179,13 +155,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
 
   setBrands(t: Brand) {
 
-      let title=null;
-      if(t.title!=null)
-        title=t.title;
-      else if(t.label!=null)
-        title=t.label;
-      else
-         return;
+    let title=this.appComponent.getTitle(t);
 
     if (!this.addIngredient.ingredient.brandForIngredients.map((o) => o.brand.title).includes(title)) {
       let u: BrandForIngredient = new BrandForIngredient();
@@ -199,13 +169,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
 
   removeBrands(t: Brand) {
 
-    let title=null;
-    if(t.title!=null)
-      title=t.title;
-    else if(t.label!=null)
-      title=t.label;
-    else
-       return;
+    let title=this.appComponent.getTitle(t);
 
     this.addIngredient.ingredient.brandForIngredients = this.addIngredient.ingredient.brandForIngredients.filter(({ brand }) => brand.title != title);
 
@@ -217,8 +181,8 @@ export class IngredientComponent implements OnInit , OnDestroy{
   }
 
 
-  trackByItems(index: number, item: BrandForIngredient): string {
-    return item.brand.title;
+  trackByIndex(index: number, obj: any): any {
+    return index;
   }
 
   reloadCurrentRoute() {
@@ -262,18 +226,14 @@ export class IngredientComponent implements OnInit , OnDestroy{
   onUpdate(){
 
       this.showIng=!this.showIng;
+      this.toUpdate=true;
+
       this.addIngredient=new AddIngredient();
       this.addIngredient.ingredient=this.displayIngInfo;
-      console.log(JSON.stringify(this.addIngredient.ingredient.brandForIngredients))
-      this.toUpdate=true;
-     this.addIngForm.form.get("categoryForIng").
-    setValue(this.displayIngInfo.categoriesForIngredient.map((t)=> t.category.title));
-    this.addIngForm.form.get("supplierForIng").
-    setValue(this.displayIngInfo.supplierForIngredients.map((t)=> t.supplier.title));
-    this.addIngredient.ingredient.brandForIngredients=this.displayIngInfo.brandForIngredients
-    this.addIngForm.form.get("brandForIng").
-    setValue(this.displayIngInfo.brandForIngredients.map((t)=> t.brand.title));
 
+    this.addIngredient.ingredient.catList=this.displayIngInfo.categoriesForIngredient.map((t)=> t.category.title);
+    this.addIngredient.ingredient.supplierList=this.displayIngInfo.supplierForIngredients.map((t)=> t.supplier.title);
+    this.addIngredient.ingredient.brandList=this.displayIngInfo.brandForIngredients.map((t)=> t.brand.title)
   }
 
 
