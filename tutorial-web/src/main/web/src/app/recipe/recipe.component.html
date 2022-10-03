@@ -359,14 +359,19 @@
             type="text"
           />
           <label for="servingQty" class=" mt-2">Serving Qty</label>
+          <div class="input-group w-25">
           <input
             [(ngModel)]="addRecipe.recipe.servingQty"
-            class="form-control  w-25"
+            class="form-control"
             id="servingQty"
             name="servingQty"
             placeholder="Enter servingQty"
             type="text"
           />
+            <div  *ngIf="!toUpdate" class="input-group-append mx-2">
+              <button class="btn btn-outline-secondary" (click)="adjustIng(addRecipe.recipe.servingQty)" type="button">Adjust</button>
+            </div>
+          </div>
 
           <!--   <label for="unitListRec">Units:</label>
              <select [(ngModel)]="addRecipe.recipe.unit" class="form-control" id="unitListRec"

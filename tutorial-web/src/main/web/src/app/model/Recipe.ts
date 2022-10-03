@@ -14,7 +14,7 @@ export class Recipe extends  BaseModel{
   course: string;
   collections: string;
   source: string;
-  servingQty: string;
+  servingQty: number;
   cookTime: string;
   prepTime: string;
   rating: number;

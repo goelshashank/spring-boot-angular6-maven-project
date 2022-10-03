@@ -206,9 +206,15 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
     this.addRecipe.recipe.catList=this.displayRecipeInfo.categoriesForRecipe.map((t)=> t.category.title);
     this.addRecipe.recipe.ingList=this.displayRecipeInfo.ingredientInRecipe.map((t)=> t.ingredient.title);
+    this.addIngMap=new Map<number, IngredientInRecip>();
+    console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
     this.displayRecipeInfo.ingredientInRecipe.forEach((o)=>{
       this.addIngMap.set(o.ingredient.id,o);
     });
+
+  }
+
+  adjustIng(t:number){
 
   }
 
