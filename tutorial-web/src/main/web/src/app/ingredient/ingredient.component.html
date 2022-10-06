@@ -226,7 +226,7 @@
                   class="form-control"
                   placeholder="sku Cost"
                   aria-label="sku Cost"
-                  (change)="calculatePerUnitCost(addBrandForIng)"
+                  (input)="calculatePerUnitCost(addBrandForIng)"
                   [(ngModel)]="addBrandForIng.skuCost"
                   id="skuCostIng{{i}}"
                   name="skuCostIng{{i}}"
@@ -237,7 +237,7 @@
                   class="form-control"
                   placeholder="sku Qty"
                   aria-label="sku Qty"
-                  (change)="calculatePerUnitCost(addBrandForIng)"
+                  (input)="calculatePerUnitCost(addBrandForIng)"
                   [(ngModel)]="addBrandForIng.skuQty"
                   class="form-control"
                   id="skuQty{{i}}"
@@ -245,7 +245,6 @@
                 />
               </div>
               <b> Per unit cost - {{ addBrandForIng.perUnitCost }} </b>
-
             </li>
           </ul>
 

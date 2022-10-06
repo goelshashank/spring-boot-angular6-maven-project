@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" xmlns:trackBy="http://www.w3.org/1999/xhtml">
   <div class="row my-4">
     <div class="col-2 bg-light shadow rounded">
       <div class="row gx-1">
@@ -137,7 +137,7 @@
                   {{ ingredientInRecipe.ingredient.title }}
                 </td>
                 <td class="text-center col">
-                  {{ ingredientInRecipe.ingredient.quantityUnit }}
+                  {{ ingredientInRecipe.qty }}
                 </td>
                 <td class="text-center col">
                   {{
@@ -206,6 +206,7 @@
             class="form-control"
             id="ingredientForRecipe"
             name="ingredientForRecipe"
+            (clear)="resetIngSelects();"
           >
             <ng-option
               *ngFor="let ing of appComponent.ingredients"
@@ -227,14 +228,14 @@
             </thead>
             <tbody>
             <tr
-              *ngFor="let addIng of addIngMap | keyvalue; let i = index"
+              *ngFor="let addIng of addIngMap | keyvalue; let i = index; trackBy: trackByIndex"
               appendTo="body"
             >
               <td>{{ addIng.value.ingredient.title }}</td>
               <td>
                 <input
-                  (change)="calculateCostTotal()"
-                  [(ngModel)]="addIng.value.ingredient.quantityUnit"
+                  (input)="calculateIngCostForRecipe($event, addIng.value)"
+                  [(ngModel)]="addIng.value.qty"
                   appendTo="body"
                   class="form-control"
                   id="ingCont"
@@ -246,19 +247,20 @@
               </td>
               <td class="price">
                 {{
-                  totalCost
+                  addIng.value.costTotal
                 }}
               </td>
 
               <td>
                 <ng-select
-                  (change)="addSupplier($event, addIng.value.ingredient)"
-                  [multiple]="false"
+                  (change)="setSupplier($event, addIng.value.ingredient)"
+                   [multiple]="false"
                   [searchable]="true"
                   appendTo="body"
                   class="form-control"
-                  id="supplierForIng"
-                  name="supplierForIng"
+                  id="supplierForIng{{i}}"
+                  name="supplierForIng{{i}}"
+                  [(ngModel)]="addIng.value.ingredient.supplierList[0]"
                 >
                   <ng-option
                     *ngFor="
@@ -272,13 +274,15 @@
               </td>
               <td>
                 <ng-select
-                  (change)="addBrand($event, addIng.value.ingredient)"
+                  (change)="setBrand($event, addIng.value)"
                   [multiple]="false"
                   [searchable]="true"
                   appendTo="body"
                   class="form-control"
-                  id="brandForIng"
-                  name="brandForIng"
+                  id="brandForIng{{i}}"
+                  name="brandForIng{{i}}"
+                  [(ngModel)]="addIng.value.ingredient
+                        .brandList[0]"
                 >
                   <!-- [ngModel]="addIng.value.ingredient.brandForIngredients[0]"-->
                   <ng-option
@@ -293,13 +297,15 @@
               </td>
               <td>
                 <ng-select
-                  (change)="addCategory($event, addIng.value.ingredient)"
+                  (change)="setCategory($event, addIng.value.ingredient)"
                   [multiple]="false"
                   [searchable]="true"
                   appendTo="body"
                   class="form-control"
-                  id="categoriesForIng"
-                  name="categoryForIng"
+                  id="categoriesForIng{{i}}"
+                  name="categoryForIng{{i}}"
+                  [(ngModel)]="addIng.value.ingredient
+                        .catList[0]"
                 >
                   <!-- [ngModel]="addIng.value.ingredient.categoriesForIngredient[0]"-->
                   <ng-option
@@ -359,19 +365,21 @@
             type="text"
           />
           <label for="servingQty" class=" mt-2">Serving Qty</label>
-          <div class="input-group w-25">
+          <div class="input-group w-25" >
           <input
             [(ngModel)]="addRecipe.recipe.servingQty"
-            class="form-control"
+            class="form-control w-70"
             id="servingQty"
             name="servingQty"
             placeholder="Enter servingQty"
             type="text"
+            (input)="setAdjust(true)"
           />
-            <div  *ngIf="!toUpdate" class="input-group-append mx-2">
+            <div  [style.visibility]="(!toUpdate && enableAdj) ? 'visible' : 'hidden'"  class="mx-1 w-20 input-group-append">
               <button class="btn btn-outline-secondary" (click)="adjustIng(addRecipe.recipe.servingQty)" type="button">Adjust</button>
             </div>
           </div>
+
 
           <!--   <label for="unitListRec">Units:</label>
              <select [(ngModel)]="addRecipe.recipe.unit" class="form-control" id="unitListRec"

@@ -176,7 +176,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
     console.log('Removed:  Brands list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
   }
 
-  calculatePerUnitCost(brandForIngredient: BrandForIngredient) {
+ async calculatePerUnitCost(brandForIngredient: BrandForIngredient) {
     brandForIngredient.perUnitCost = brandForIngredient.skuCost / brandForIngredient.skuQty;
   }
 

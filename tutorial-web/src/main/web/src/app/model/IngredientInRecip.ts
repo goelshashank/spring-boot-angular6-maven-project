@@ -3,6 +3,7 @@ import {Recipe} from './Recipe';
 import {Supplier} from './Supplier';
 import {Brand} from './Brand';
 import {Category} from "./Category";
+import { jsonIgnore } from 'json-ignore';
 
 
 export class IngredientInRecip {
@@ -11,4 +12,9 @@ export class IngredientInRecip {
   supplier: Supplier=new Supplier();
   brand: Brand=new Brand();
   category: Category =new Category();
+
+  qty: number=0;
+
+  @jsonIgnore() costTotal:number=0;
+
 }

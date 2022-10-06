@@ -32,7 +32,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   displayRecipeInfo: Recipe = new Recipe();
   showRecipe = true;
   toUpdate: boolean = false;
-
+  enableAdj=true;
 
   constructor(private http: HttpClient, public appComponent: AppComponent,private router: Router, private route: ActivatedRoute) {
   }
@@ -94,7 +94,6 @@ export class RecipeComponent implements OnInit , OnDestroy {
     let title=this.appComponent.getTitle(ing);
     let t:Ingredient=this.appComponent.getAllIngredients().filter(u=> u.title==title)[0];
 
-    let ingCompMap: Map<number, IngredientInRecip> = new Map<number, IngredientInRecip>();
 
     let addIngredient: IngredientInRecip = new IngredientInRecip();
     if (this.addIngMap.get(t.id) != null) {
@@ -102,12 +101,19 @@ export class RecipeComponent implements OnInit , OnDestroy {
     } else {
       addIngredient.ingredient = t;
     }
-    addIngredient.ingredient.quantityUnit = 1;
-    ingCompMap.set(t.id, addIngredient);
 
-    this.addIngMap = ingCompMap;
+     addIngredient.qty = 1;
+     addIngredient.ingredient.supplierList=[addIngredient.ingredient.supplierForIngredients[0].supplier.title];
+     addIngredient.ingredient.brandList=[addIngredient.ingredient.brandForIngredients[0].brand.title];
+     addIngredient.ingredient.catList=[addIngredient.ingredient.categoriesForIngredient[0].category.title];
+
+     this.addIngMap.set(t.id, addIngredient);
+
+     this.setSupplier(addIngredient.ingredient.supplierForIngredients[0],addIngredient.ingredient);
+     this.setBrand(addIngredient.ingredient.brandForIngredients[0],addIngredient);
+     this.setCategory(addIngredient.ingredient.categoriesForIngredient[0],addIngredient.ingredient);
+
     // console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
-    this.calculateCostTotal();
   }
 
   removeIngredients(ing:Ingredient){
@@ -122,32 +128,47 @@ export class RecipeComponent implements OnInit , OnDestroy {
   async calculateCostTotal() {
     this.totalCost = 0;
     this.addIngMap.forEach((value, key) => {
-      this.totalCost = this.totalCost + (value.ingredient.brandForIngredients[0].perUnitCost * value.ingredient.quantityUnit);
+      this.totalCost = this.totalCost + value.costTotal;
     });
    }
 
-  addSupplier(supplierForIngredient: SupplierForIngredient, ing: Ingredient) {
-    let addSupplier: SupplierForIngredient = new SupplierForIngredient();
-    addSupplier.supplier = supplierForIngredient.supplier;
-    this.addIngMap.get(ing.id).ingredient.supplierForIngredients = [];
-    this.addIngMap.get(ing.id).ingredient.supplierForIngredients.push(addSupplier);
-    this.addIngMap.get(ing.id).supplier=addSupplier.supplier;
+  setSupplier(supplierForIngredient: SupplierForIngredient, ing: Ingredient) {
+   if(supplierForIngredient==null) {
+     this.addIngMap.get(ing.id).supplier = null;
+    // console.log('Ing supplier removed - ' + JSON.stringify(Array.from(this.addIngMap.values())));
+     return;
+   }
+
+    this.addIngMap.get(ing.id).supplier=supplierForIngredient.supplier;
+   //  console.log('Ing supplier added - ' + JSON.stringify(Array.from(this.addIngMap.values())));
   }
 
-  addBrand(brandForIngredient: BrandForIngredient, ing: Ingredient) {
-    let addBrand: BrandForIngredient = new BrandForIngredient();
-    addBrand.brand = brandForIngredient.brand;
-    this.addIngMap.get(ing.id).ingredient.brandForIngredients = [];
-    this.addIngMap.get(ing.id).ingredient.brandForIngredients.push(addBrand);
-    this.addIngMap.get(ing.id).brand=addBrand.brand;
+
+  setBrand(brandForIngredient: BrandForIngredient, ingInRecipe: IngredientInRecip) {
+    if (brandForIngredient == null) {
+      this.addIngMap.get(ingInRecipe.ingredient.id).brand = null;
+      return;
+    }
+    this.addIngMap.get(ingInRecipe.ingredient.id).brand = brandForIngredient.brand;
+
+    this.calculateIngCostForRecipe(ingInRecipe.qty,ingInRecipe);
   }
 
-  addCategory(categoryFor: CategoryFor, ing: Ingredient) {
-    let addCategory: CategoryFor = new CategoryFor();
-    addCategory.category = categoryFor.category;
-    this.addIngMap.get(ing.id).ingredient.categoriesForIngredient = new Array(0);
-    this.addIngMap.get(ing.id).ingredient.categoriesForIngredient.push(addCategory);
-    this.addIngMap.get(ing.id).category=addCategory.category;
+  calculateIngCostForRecipe(t:any,ingInRecipe:IngredientInRecip){
+   //todo: fix logic for getting cost for selected brand
+    let qty=t as number;
+    ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients[0].perUnitCost * ingInRecipe.qty);
+
+    this.calculateCostTotal();
+  }
+
+  setCategory(categoryFor: CategoryFor, ing: Ingredient) {
+    if(categoryFor==null) {
+      this.addIngMap.get(ing.id).category = null;
+      return;
+    }
+
+    this.addIngMap.get(ing.id).category=categoryFor.category;
   }
 
   setCategories(t: Category) {
@@ -215,8 +236,20 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   adjustIng(t:number){
-
+    this.setAdjust(false);
+    //todo: logic add
   }
 
+  setAdjust(t:boolean){
+    this.enableAdj=t;
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
+  resetIngSelects(){
+    this.addIngMap.clear();
+  }
 
 }

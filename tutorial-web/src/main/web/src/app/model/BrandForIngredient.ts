@@ -5,4 +5,6 @@ export class BrandForIngredient {
   skuCost: number = 0;
   skuQty: number = 0;
   perUnitCost: number = this.skuCost / this.skuQty;
+
+
 }

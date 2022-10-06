@@ -14,7 +14,7 @@ export class Ingredient extends BaseModel{
   photoId: string;
   videoId: string;
   status: string;
-  quantityUnit: number=1;
+
   supplierForIngredients: SupplierForIngredient[]=[];
   brandForIngredients: BrandForIngredient[]=[];
   categoriesForIngredient: CategoryFor[]=[];
