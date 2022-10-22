@@ -108,9 +108,9 @@ import java.util.stream.Collectors;
 			List<IngredientInRecipe> ingredientInRecipes =
 					recipe.getIngredientInRecipe().stream().map(u -> {
 
-				IngredientInRecipe ingredientInRecipe = new IngredientInRecipe().setRecipe(recipe).setIngredient(u.getIngredient())
+				u.setRecipe(recipe).setIngredient(u.getIngredient())
 						.setCategory(u.getCategory()).setSupplier(u.getSupplier()).setBrand(u.getBrand());
-				return ingredientInRecipe;
+				return u;
 			}).collect(Collectors.toList());
 			recipe.setIngredientInRecipe(ingredientInRecipes).setCategoriesForRecipe(helper.addCategories(t));
 

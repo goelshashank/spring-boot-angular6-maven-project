@@ -58,12 +58,19 @@ import java.util.stream.Collectors;
 		Recipe recipe = t.getRecipe();
 		List<CategoryFor> categoryFors;
 		if (CollectionUtils.isEmpty(t.getRecipe().getCategoriesForRecipe())) {
-			return null;
+			return new ArrayList<>();
 		} else {
-			categoryFors = t.getRecipe().getCategoriesForRecipe().stream().map(u -> {
-				categoryRepo.save(u.getCategory());
-				log.info("category added - {} for recipe- {}", u.getCategory().getTitle(), recipe.getTitle());
-				return u.setRecipe(recipe).setCategory(u.getCategory());
+				categoryFors = t.getRecipe().getCategoriesForRecipe().stream().map(u -> {
+					List<Category> categories = categoryRepo.findByTitleAndType(u.getCategory().getTitle(),u.getCategory().getType());
+					if (CollectionUtils.isEmpty(categories)) {
+						categoryRepo.save(u.getCategory());
+						log.info("Category added - {} for recipe- {}", u.getCategory().getTitle(), recipe.getTitle());
+					} else {
+						u.setCategory(categories.get(0));
+					}
+					u.setRecipe(recipe).setCategory(u.getCategory());
+					u.setId(u.getId());
+					return u;
 			}).collect(Collectors.toList());
 		}
 		return categoryFors;
@@ -76,13 +83,13 @@ import java.util.stream.Collectors;
 			return new ArrayList<>();
 		} else {
 			categoryFors = t.getIngredient().getCategoriesForIngredient().stream().map(u -> {
-				List<Category> categories = categoryRepo.findByTitle(u.getCategory().getTitle());
+				List<Category> categories = categoryRepo.findByTitleAndType(u.getCategory().getTitle(),u.getCategory().getType());
 				if (CollectionUtils.isEmpty(categories)) {
 					categoryRepo.save(u.getCategory());
+					log.info("Category added - {} for ingredient- {}", u.getCategory().getTitle(), ingredient.getTitle());
 				} else {
 					u.setCategory(categories.get(0));
 				}
-				log.info("category added - {} for ingredient- {}", u.getCategory().getTitle(), ingredient.getTitle());
 				u.setIngredient(ingredient).setCategory(u.getCategory());
 				u.setId(u.getId());
 				return u;
@@ -101,10 +108,11 @@ import java.util.stream.Collectors;
 				List<Brand> brands = brandRepo.findByTitle(u.getBrand().getTitle());
 				if (CollectionUtils.isEmpty(brands)) {
 					brandRepo.save(u.getBrand());
+					log.info("brand added - {} for ingredient- {}", u.getBrand().getTitle(), ingredient.getTitle());
 				} else {
 					u.setBrand(brands.get(0));
 				}
-				log.info("brand added - {} for ingredient- {}", u.getBrand().getTitle(), ingredient.getTitle());
+
 				u.setIngredient(ingredient).setBrand(u.getBrand());
 				u.setId(u.getId());
 				return u;
@@ -123,10 +131,11 @@ import java.util.stream.Collectors;
 				List<Supplier> suppliers = supplierRepo.findByTitle(u.getSupplier().getTitle());
 				if (CollectionUtils.isEmpty(suppliers)) {
 					supplierRepo.save(u.getSupplier());
+					log.info("supplier added - {} for ingredient- {}", u.getSupplier().getTitle(), ingredient.getTitle());
 				} else {
 					u.setSupplier(suppliers.get(0));
 				}
-				log.info("supplier added - {} for ingredient- {}", u.getSupplier().getTitle(), ingredient.getTitle());
+
 				u.setIngredient(ingredient)
 						.setSupplier(u.getSupplier());
 				u.setId(u.getId());
