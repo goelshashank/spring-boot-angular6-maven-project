@@ -30,4 +30,6 @@ export class Recipe extends  BaseModel{
   @jsonIgnore() catList:String[]=[];
   @jsonIgnore() ingList:String[]=[];
 
+  @jsonIgnore() refServingQty:number;
+
 }

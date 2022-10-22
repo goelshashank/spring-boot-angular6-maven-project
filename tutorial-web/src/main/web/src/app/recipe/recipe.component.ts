@@ -32,7 +32,9 @@ export class RecipeComponent implements OnInit , OnDestroy {
   displayRecipeInfo: Recipe = new Recipe();
   showRecipe = true;
   toUpdate: boolean = false;
-  enableAdj=true;
+  enableAdj=false;
+  enableUpdateTotal=true;
+
 
   constructor(private http: HttpClient, public appComponent: AppComponent,private router: Router, private route: ActivatedRoute) {
   }
@@ -125,7 +127,10 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.calculateCostTotal();
   }
 
-  async calculateCostTotal() {
+   calculateCostTotal() {
+     if(!this.enableUpdateTotal)
+       return;
+
     this.totalCost = 0;
     this.addIngMap.forEach((value, key) => {
       this.totalCost = this.totalCost + value.costTotal;
@@ -148,10 +153,10 @@ export class RecipeComponent implements OnInit , OnDestroy {
       return;
     }
     ingInRecipe.brand = brandForIngredient.brand;
-    this.calculateIngCostForRecipe(brandForIngredient,ingInRecipe);
+    this.calculateIngCostForRecipe(ingInRecipe);
   }
 
-  calculateIngCostForRecipe(brandForIngredient: any,ingInRecipe:IngredientInRecip){
+  calculateIngCostForRecipe(ingInRecipe:IngredientInRecip){
     ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0].perUnitCost * ingInRecipe.qty);
     this.calculateCostTotal();
   }
@@ -225,23 +230,48 @@ export class RecipeComponent implements OnInit , OnDestroy {
     console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
     this.displayRecipeInfo.ingredientInRecipe.forEach((o)=>{
       this.addIngMap.set(o.ingredient.id,o);
-      this.calculateIngCostForRecipe(o.brand,o);
+      this.calculateIngCostForRecipe(o);
 
       o.ingredient.catList=o.ingredient.categoriesForIngredient.map((t)=> t.category.title);
       o.ingredient.supplierList= o.ingredient.supplierForIngredients.map((t)=> t.supplier.title);
       o.ingredient.brandList= o.ingredient.brandForIngredients.map((t)=> t.brand.title)
 
     });
+    this.enableAdj=false;
+    this.enableUpdateTotal=true;
     console.log("test");
   }
 
-  adjustIng(t:number){
-    this.setAdjust(false);
-    //todo: logic add
+
+
+  fixAndEnableAdjusting(u:any){
+    this.enableAdj=u.target.checked;
+    this.changeRef(null);
   }
 
-  setAdjust(t:boolean){
-    this.enableAdj=t;
+  private changeRef(t:any) {
+    if (t == null) {
+      this.addRecipe.recipe.refServingQty = this.addRecipe.recipe.servingQty;
+
+      this.addIngMap.forEach((value, key) => {
+        value.refQty = value.qty;
+      });
+    }
+  }
+
+  adjustIng(){
+    if(!this.enableAdj)
+      return;
+
+    this.enableUpdateTotal=false;
+    this.addIngMap.forEach((value, key) => {
+      value.qty=value.refQty*( this.addRecipe.recipe.servingQty/this.addRecipe.recipe.refServingQty)
+      this.calculateIngCostForRecipe(value);
+    });
+
+    this.enableUpdateTotal=true;
+    this.calculateCostTotal();
+
   }
 
   trackByIndex(index: number, obj: any): any {

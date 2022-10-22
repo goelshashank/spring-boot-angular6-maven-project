@@ -15,6 +15,7 @@ export class IngredientInRecip {
 
   qty: number=0;
 
+  @jsonIgnore() refQty;
   @jsonIgnore() costTotal:number=0;
 
 }
