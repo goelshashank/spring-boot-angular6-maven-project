@@ -231,9 +231,9 @@ export class IngredientComponent implements OnInit , OnDestroy{
       this.addIngredient=new AddIngredient();
       this.addIngredient.ingredient=this.displayIngInfo;
 
-    this.addIngredient.ingredient.catList=this.displayIngInfo.categoriesForIngredient.map((t)=> t.category.title);
-    this.addIngredient.ingredient.supplierList=this.displayIngInfo.supplierForIngredients.map((t)=> t.supplier.title);
-    this.addIngredient.ingredient.brandList=this.displayIngInfo.brandForIngredients.map((t)=> t.brand.title)
+      this.addIngredient.ingredient.catList=this.displayIngInfo.categoriesForIngredient.map((t)=> t.category.title);
+      this.addIngredient.ingredient.supplierList=this.displayIngInfo.supplierForIngredients.map((t)=> t.supplier.title);
+      this.addIngredient.ingredient.brandList=this.displayIngInfo.brandForIngredients.map((t)=> t.brand.title)
   }
 
 

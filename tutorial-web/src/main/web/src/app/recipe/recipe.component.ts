@@ -116,7 +116,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     // console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
   }
 
-  removeIngredients(ing:Ingredient){
+  removeIngredients(ing:Ingredient) {
     let title=this.appComponent.getTitle(ing);
     let t:Ingredient=this.appComponent.getAllIngredients().filter(u=> u.title==title)[0];
 
@@ -138,27 +138,21 @@ export class RecipeComponent implements OnInit , OnDestroy {
     // console.log('Ing supplier removed - ' + JSON.stringify(Array.from(this.addIngMap.values())));
      return;
    }
-
     this.addIngMap.get(ing.id).supplier=supplierForIngredient.supplier;
    //  console.log('Ing supplier added - ' + JSON.stringify(Array.from(this.addIngMap.values())));
   }
-
 
   setBrand(brandForIngredient: BrandForIngredient, ingInRecipe: IngredientInRecip) {
     if (brandForIngredient == null) {
       this.addIngMap.get(ingInRecipe.ingredient.id).brand = null;
       return;
     }
-    this.addIngMap.get(ingInRecipe.ingredient.id).brand = brandForIngredient.brand;
-
-    this.calculateIngCostForRecipe(ingInRecipe.qty,ingInRecipe);
+    ingInRecipe.brand = brandForIngredient.brand;
+    this.calculateIngCostForRecipe(brandForIngredient,ingInRecipe);
   }
 
-  calculateIngCostForRecipe(t:any,ingInRecipe:IngredientInRecip){
-   //todo: fix logic for getting cost for selected brand
-    let qty=t as number;
-    ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients[0].perUnitCost * ingInRecipe.qty);
-
+  calculateIngCostForRecipe(brandForIngredient: any,ingInRecipe:IngredientInRecip){
+    ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0].perUnitCost * ingInRecipe.qty);
     this.calculateCostTotal();
   }
 
@@ -199,7 +193,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).subscribe(
       (response) => {
         this.displayRecipeInfo = response[0];
-       // console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
+        console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
       },
       (error) => {
         console.log('Error happened in getting recipe' + JSON.stringify(error));
@@ -231,8 +225,14 @@ export class RecipeComponent implements OnInit , OnDestroy {
     console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
     this.displayRecipeInfo.ingredientInRecipe.forEach((o)=>{
       this.addIngMap.set(o.ingredient.id,o);
-    });
+      this.calculateIngCostForRecipe(o.brand,o);
 
+      o.ingredient.catList=o.ingredient.categoriesForIngredient.map((t)=> t.category.title);
+      o.ingredient.supplierList= o.ingredient.supplierForIngredients.map((t)=> t.supplier.title);
+      o.ingredient.brandList= o.ingredient.brandForIngredients.map((t)=> t.brand.title)
+
+    });
+    console.log("test");
   }
 
   adjustIng(t:number){

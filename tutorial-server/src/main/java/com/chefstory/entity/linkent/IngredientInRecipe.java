@@ -40,9 +40,7 @@ import javax.persistence.UniqueConstraint;
 
 	@ManyToOne @JoinColumn(name = "category_id") private Category category;
 
-	@Column(name = "quantity_unit") private Double quantityUnit;
-
-	@Column(name = "unit") private String unit;
+	@Column(name = "qty") private Double qty=0.0;
 
 	public IngredientInRecipe setRecipe(Recipe recipe) {
 		if (recipe!=null && StringUtils.isNotBlank(recipe.getTitle()))
