@@ -249,7 +249,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.changeRef(null);
   }
 
-  private changeRef(t:any) {
+   changeRef(t:any) {
     if (t == null) {
       this.addRecipe.recipe.refServingQty = this.addRecipe.recipe.servingQty;
 
