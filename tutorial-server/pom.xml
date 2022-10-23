@@ -139,7 +139,7 @@
         <cz.habarta.typescript-generator.version>2.35.1025</cz.habarta.typescript-generator.version>
         <!--    <typescript-output-dir>/Users/b0218850/IdeaProjects/spring-boot-angular6-maven-project/tutorial-web/generated-ts-classes</typescript-output-dir>-->
         <typescript-output-dir>
-            ..\tutorial-web\src\main\web\generated-ts-classes
+            ..\tutorial-web\generated-ts-classes
         </typescript-output-dir>
     </properties>
 
