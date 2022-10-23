@@ -11,7 +11,6 @@ import {BrandComponent} from './brand/brand.component';
 import {SupplierComponent} from './supplier/supplier.component';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -27,17 +26,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     FormsModule,
     NgSelectModule,
-    AppRoutingModule,
-    NgbModule
+    AppRoutingModule
   ],
-  
+
   providers: [],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA
   ]
-  
+
 })
 export class AppModule {
 }
