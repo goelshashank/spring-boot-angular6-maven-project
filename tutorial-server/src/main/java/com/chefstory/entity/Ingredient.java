@@ -40,6 +40,8 @@ import java.util.stream.Collectors;
 
 	@Column(name = "video_id") private String videoId;
 
+	@Column(name = "gst") private Double gst;
+
 	@JsonManagedReference(value = "supplierForIngredients") @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL) private List<SupplierForIngredient> supplierForIngredients;
 
 	@JsonManagedReference(value = "brandForIngredients") @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL) private List<BrandForIngredient> brandForIngredients;

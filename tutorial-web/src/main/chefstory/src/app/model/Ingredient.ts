@@ -9,11 +9,11 @@ import {jsonIgnore} from "json-ignore";
 import {BaseModel} from "./BaseModel";
 
 export class Ingredient extends BaseModel{
-  unitDetailed: UnitDetailed;
   unit: String;
   photoId: string;
   videoId: string;
   status: string;
+  gst:number;
 
   supplierForIngredients: SupplierForIngredient[]=[];
   brandForIngredients: BrandForIngredient[]=[];

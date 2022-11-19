@@ -16,6 +16,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { AddIngredient } from '../model/AddIngredient';
 import { IngredientInRecip } from '../model/IngredientInRecip';
 import {BaseModel} from "../model/BaseModel";
+import { Editor } from "ngx-editor";
 
 @Component({
   selector: 'app-recipe',
@@ -35,12 +36,15 @@ export class RecipeComponent implements OnInit , OnDestroy {
   enableAdj=false;
   enableUpdateTotal=true;
 
+  editor: Editor;
+  html: '';
 
   constructor(private http: HttpClient, public appComponent: AppComponent,private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
     // this.addIngForm.reset();
+    this.editor.destroy();
   }
 
   ngOnInit(): void {
@@ -49,6 +53,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.totalCost=0;
     this.displayRecipeInfo = new Recipe();
     this.toUpdate=false;
+    this.editor = new Editor();
   }
 
   @ViewChild ('addRecipeForm') addRecipeForm: NgForm;

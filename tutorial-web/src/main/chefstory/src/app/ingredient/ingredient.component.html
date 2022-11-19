@@ -271,6 +271,16 @@
             </optgroup>
           </select>
 
+          <label for="gstIng">GST</label>
+          <input
+            #titleIng="ngModel"
+            [(ngModel)]="addIngredient.ingredient.gst"
+            class="form-control w-25"
+            id="gstIng"
+            name="gstIng"
+            type="text"
+          />
+
           <input (change)="onFileUpload($event)" type="file" class="mt-3" />
           <img
             *ngIf="imageSrc"
