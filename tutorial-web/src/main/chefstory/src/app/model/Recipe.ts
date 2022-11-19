@@ -9,10 +9,9 @@ import { Ingredient } from './Ingredient';
 import {BaseModel} from "./BaseModel";
 
 export class Recipe extends  BaseModel{
-  category: string;
+  collection: string;
   subCategory: string;
   course: string;
-  collections: string;
   source: string;
   servingQty: number;
   cookTime: string;

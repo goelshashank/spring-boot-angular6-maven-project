@@ -347,6 +347,16 @@
             >
           </ng-select>
 
+          <label for="collectionRecipe" class=" mt-2">Collection</label>
+          <input
+            [(ngModel)]="addRecipe.recipe.collection"
+            class="form-control w-50"
+            id="collectionRecipe"
+            name="collectionRecipe"
+            placeholder="Enter collection"
+            type="text"
+          />
+
           <label for="subCatRecipe" class=" mt-2">Sub category</label>
           <input
             [(ngModel)]="addRecipe.recipe.subCategory"
@@ -365,6 +375,37 @@
             placeholder="Enter course"
             type="text"
           />
+
+          <label for="sourceRecipe" class=" mt-2">Source</label>
+          <input
+            [(ngModel)]="addRecipe.recipe.source"
+            class="form-control w-50"
+            id="sourceRecipe"
+            name="sourceRecipe"
+            placeholder="Enter source"
+            type="text"
+          />
+
+          <div class="NgxEditor__Wrapper" id="richTextEdit">
+            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+            <ngx-editor
+              [editor]="editor"
+              [ngModel]="html"
+              [disabled]="false"
+              [placeholder]="'Type here...'"
+            ></ngx-editor>
+          </div>
+
+          <div class="NgxEditor__Wrapper" id="richTextEdit1">
+            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+            <ngx-editor
+              [editor]="editor"
+              [ngModel]="html"
+              [disabled]="false"
+              [placeholder]="'Type here...'"
+            ></ngx-editor>
+          </div>
+
           <label for="servingQty" class=" mt-2">Serving Qty</label>
           <div class="input-group w-25" >
           <input
@@ -388,7 +429,6 @@
 
 
           </div>
-
 
           <!--   <label for="unitListRec">Units:</label>
              <select [(ngModel)]="addRecipe.recipe.unit" class="form-control" id="unitListRec"

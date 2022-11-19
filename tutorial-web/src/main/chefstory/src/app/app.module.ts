@@ -11,6 +11,7 @@ import {BrandComponent} from './brand/brand.component';
 import {SupplierComponent} from './supplier/supplier.component';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
+import { NgxEditorModule } from "ngx-editor";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {AppRoutingModule} from './app-routing.module';
     CommonModule,
     FormsModule,
     NgSelectModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxEditorModule
   ],
 
   providers: [],
