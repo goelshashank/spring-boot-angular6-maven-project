@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 	@Column(name = "title", unique = true, nullable = false) @NotBlank private String title;
 	@Column(name = "sub_category") private String subCategory;
 	@Column(name = "course") private String course;
-	@Column(name = "collections") private String collections;
+	@Column(name = "collection") private String collection;
 	@Column(name = "source") private String source;
 	@Column(name = "serving_qty") private Double servingQty;
 	@Column(name = "cook_time") private String cookTime;
