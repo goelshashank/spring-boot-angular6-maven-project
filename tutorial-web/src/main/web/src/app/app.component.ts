@@ -10,6 +10,7 @@ import {Brand} from './model/Brand';
 import {Category} from './model/Category';
 import {Constants} from './config/Constants';
 import {BaseModel} from "./model/BaseModel";
+import {ExcelService} from "./service/excel.service";
 
 
 @Component({
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit {
   isDisplayAll = true;
   displayIngredientInfo: Ingredient = new Ingredient();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private excelService: ExcelService) {
   }
 
   ngOnInit(): void {
@@ -207,6 +208,12 @@ export class AppComponent implements OnInit {
     else title=t;
 
     return title;
+  }
+
+  generateExcel() {
+
+    // console.log('called');
+    this.excelService.generateExcel();
   }
 
 }
