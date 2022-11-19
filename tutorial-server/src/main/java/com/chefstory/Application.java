@@ -6,6 +6,7 @@ package com.chefstory;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -32,13 +33,13 @@ import static org.zalando.logbook.Conditions.requestTo;
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Bean public WebMvcConfigurer corsConfigurer() {
+/*	@Bean public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*").allowedHeaders("*");
 			}
 		};
-	}
+	}*/
 
 /*
 
@@ -68,6 +69,11 @@ import static org.zalando.logbook.Conditions.requestTo;
 		CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
 		caffeineCacheManager.setCaffeine(caffeine);
 		return caffeineCacheManager;
+	}
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(Application.class);
 	}
 
 }
