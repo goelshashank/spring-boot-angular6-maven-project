@@ -187,6 +187,9 @@ import static com.chefstory.utils.Constants.UPDATE;
 	}
 
 
+	//------------------------
+
+	//todo: remove below
 	@GetMapping("/test") public void testIt() {
 		log.info("start");
 

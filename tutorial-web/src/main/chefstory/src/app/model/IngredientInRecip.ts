@@ -9,6 +9,7 @@ import { jsonIgnore } from 'json-ignore';
 export class IngredientInRecip {
   ingredient: Ingredient=new Ingredient();
   recipe: Recipe;
+  subRecipe : Recipe;
   supplier: Supplier=new Supplier();
   brand: Brand=new Brand();
   category: Category =new Category();

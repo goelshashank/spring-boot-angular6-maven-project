@@ -32,6 +32,8 @@ import javax.persistence.UniqueConstraint;
 
 	@JsonBackReference(value = "ingredientInRecipe") @ManyToOne @JoinColumn(name = "recipe_id", nullable = false) private Recipe recipe;
 
+	@ManyToOne @JoinColumn(name = "sub_recipe_id") private Recipe subRecipe;
+
 	@ManyToOne @JoinColumn(name = "ingredient_id") private Ingredient ingredient;
 
 	@ManyToOne @JoinColumn(name = "supplier_id") private Supplier supplier;
@@ -41,6 +43,16 @@ import javax.persistence.UniqueConstraint;
 	@ManyToOne @JoinColumn(name = "category_id") private Category category;
 
 	@Column(name = "qty") private Double qty=0.0;
+
+	public IngredientInRecipe setIngRecipe(Recipe subRecipe) {
+		if(subRecipe!=null && StringUtils.isNotBlank(subRecipe.getTitle()))
+			this.subRecipe = subRecipe;
+
+		if(this.subRecipe.getTitle().equals(recipe.getTitle()))
+			throw new RuntimeException("Sub recipe can't be same as recipe "+ this.subRecipe.getTitle());
+
+		return this;
+	}
 
 	public IngredientInRecipe setRecipe(Recipe recipe) {
 		if (recipe!=null && StringUtils.isNotBlank(recipe.getTitle()))
