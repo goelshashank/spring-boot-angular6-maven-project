@@ -28,6 +28,7 @@ export class Recipe extends  BaseModel{
 
   @jsonIgnore() catList:String[]=[];
   @jsonIgnore() ingList:String[]=[];
+  @jsonIgnore() subRecipeList:String[]=[];
 
   @jsonIgnore() refServingQty:number;
 

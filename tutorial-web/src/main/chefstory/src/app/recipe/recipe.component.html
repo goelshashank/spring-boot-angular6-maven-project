@@ -179,6 +179,8 @@
           autocomplete="off"
           class="form-group"
         >
+
+          <div title="Block of title">
           <label for="titleRecipe">*Title</label>
           <input
             #titleRecipe="ngModel"
@@ -191,6 +193,9 @@
             required
             type="text"
           />
+          </div>
+
+          <div title="Block of Ingredients">
 
           <label for="ingredientForRecipe" id="ingredientForRecipe1" class="mt-2"
             >Ingredient:</label
@@ -323,10 +328,77 @@
           </tbody>
           </table>
 
-          <div>
+          </div>
+
+          <div title="Block of Sub Recipes">
+
+          <label for="subRecipeForRecipe" id="subRecipeForRecipe1" class="mt-2"
+          >Recipe:</label
+          >
+          <ng-select
+            (add)="addSubRecipes($event)"
+            (remove)="removeSubRecipes($event)"
+            [(ngModel)]="addRecipe.recipe.subRecipeList"
+            [addTag]="true"
+            [multiple]="true"
+            [searchable]="true"
+            appendTo="body"
+            class="form-control"
+            id="subRecipeForRecipe"
+            name="subRecipeForRecipe"
+            (clear)="resetSubRecipeSelects();"
+          >
+            <ng-option
+              *ngFor="let recipe of appComponent.recipes"
+              [value]="recipe"
+            >{{ recipe.title }}</ng-option
+            >
+          </ng-select>
+          <table appendTo="body" class="table mt-2 table-hover table-bordered shadow-sm">
+            <thead>
+            <tr class="">
+              <th scope="col" class="text-center">Title</th>
+              <th scope="col"  class="text-center">Quantity</th>
+              <th scope="col"  class="text-center">Price</th>
+              <th scope="col"  class="text-center">Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+              *ngFor="let addRecipe of addSubRecipeMap | keyvalue; let i = index; trackBy: trackByIndex"
+              appendTo="body"
+            >
+              <td>{{ addRecipe.value.subRecipe.title }}</td>
+              <td>
+                <input
+                  (input)="calculateSubRecipeCostForRecipe(addRecipe.value)"
+                  [(ngModel)]="addRecipe.value.qty"
+                  appendTo="body"
+                  class="form-control"
+                  id="addRecipeCont{{i}}"
+                  name="addRecipeCont{{i}}"
+                  placeholder="Quantity"
+                  required
+                  type="text"
+                />
+              </td>
+              <td class="price">
+                {{
+                addRecipe.value.costTotal
+                }}
+              </td>
+              <td>{{ addRecipe.value.subRecipe.categoriesForRecipe[0] }}</td>
+            </tr>
+            </tbody>
+          </table>
+
+          </div>
+
+          <div title="Block of total Cost">
             <b> Total Price - {{ totalCost }} </b>
           </div>
 
+          <div title="Block of categoryForRecipe">
           <label for="categoryForRecipe" id="categoryForRecipe1" class=" mt-2">Category</label>
           <ng-select
             (add)="setCategories($event)"
@@ -346,7 +418,9 @@
               >{{ cat.title }}</ng-option
             >
           </ng-select>
+          </div>
 
+          <div title="Block of collectionRecipe">
           <label for="collectionRecipe" class=" mt-2">Collection</label>
           <input
             [(ngModel)]="addRecipe.recipe.collection"
@@ -356,7 +430,9 @@
             placeholder="Enter collection"
             type="text"
           />
+          </div>
 
+          <div title="Block of subCatRecipe">
           <label for="subCatRecipe" class=" mt-2">Sub category</label>
           <input
             [(ngModel)]="addRecipe.recipe.subCategory"
@@ -366,6 +442,9 @@
             placeholder="Enter sub category"
             type="text"
           />
+          </div>
+
+          <div title="Block of courseRecipe">
           <label for="courseRecipe" class=" mt-2">Course</label>
           <input
             [(ngModel)]="addRecipe.recipe.course"
@@ -375,7 +454,9 @@
             placeholder="Enter course"
             type="text"
           />
+          </div>
 
+          <div title="Block of sourceRecipe">
           <label for="sourceRecipe" class=" mt-2">Source</label>
           <input
             [(ngModel)]="addRecipe.recipe.source"
@@ -385,7 +466,9 @@
             placeholder="Enter source"
             type="text"
           />
+          </div>
 
+          <div title="Block of description">
           <div class="NgxEditor__Wrapper" id="richTextEdit">
             <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
             <ngx-editor
@@ -405,7 +488,9 @@
               [placeholder]="'Type here...'"
             ></ngx-editor>
           </div>
+          </div>
 
+          <div title="Block of servingQty">
           <label for="servingQty" class=" mt-2">Serving Qty</label>
           <div class="input-group w-25" >
           <input
@@ -418,6 +503,7 @@
             (input)="adjustIng()"
           />
 
+
             <div  class="mx-1 w-20 form-check">
               <input  class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
                      [checked]="enableAdj"
@@ -426,8 +512,7 @@
                 Allow Adjusting with base <i>{{this.addRecipe.recipe.refServingQty}} </i>
               </label>
             </div>
-
-
+          </div>
           </div>
 
           <!--   <label for="unitListRec">Units:</label>
@@ -440,6 +525,8 @@
              </select>-->
 
           <p></p>
+
+          <div title="Block of submit button">
           <div class="d-flex align-items-end justify-content-end">
           <button
             [disabled]="!addRecipeForm.form.valid"
@@ -449,6 +536,8 @@
             Submit
           </button>
         </div>
+          </div>
+
         </form>
       </div>
     </div>

@@ -29,6 +29,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   addRecipe: AddRecipe = new AddRecipe();
   name = 'recipe';
   addIngMap: Map<number, IngredientInRecip> = new Map<number, IngredientInRecip>();
+  addSubRecipeMap: Map<number, IngredientInRecip> = new Map<number, IngredientInRecip>();
   totalCost: number=0;
   displayRecipeInfo: Recipe = new Recipe();
   showRecipe = true;
@@ -50,6 +51,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   ngOnInit(): void {
     this.appComponent.refreshAppCache();
     this.addIngMap= new Map<number, IngredientInRecip>();
+    this.addSubRecipeMap= new Map<number, IngredientInRecip>();
     this.totalCost=0;
     this.displayRecipeInfo = new Recipe();
     this.toUpdate=false;
@@ -60,8 +62,9 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
 
   addRecipes(form: NgForm) {
-      console.log("test");
+
     this.addRecipe.recipe.ingredientInRecipe = Array.from(this.addIngMap.values());
+    Array.from( this.addSubRecipeMap.values()).forEach((value)=> this.addRecipe.recipe.ingredientInRecipe.push(value));
 
     let addRecipeList: AddRecipe[] = [];
     addRecipeList.push(this.addRecipe);
@@ -132,7 +135,37 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.calculateCostTotal();
   }
 
-   calculateCostTotal() {
+  addSubRecipes(recipe:Recipe){
+    let title=this.appComponent.getTitle(recipe);
+    let t:Recipe=this.appComponent.getAllRecipes().filter(u=> u.title==title)[0];
+
+
+    let addSubRecipe: IngredientInRecip = new IngredientInRecip();
+    if (this.addSubRecipeMap.get(t.id) != null) {
+      addSubRecipe = this.addSubRecipeMap.get(t.id);
+    } else {
+      addSubRecipe.recipe = t;
+    }
+
+    addSubRecipe.qty = 1;
+    addSubRecipe.recipe.catList=[addSubRecipe.recipe.categoriesForRecipe[0].category.title];
+
+    this.addSubRecipeMap.set(t.id, addSubRecipe);
+    this.setRecipeCategory(addSubRecipe.recipe.categoriesForRecipe[0],addSubRecipe.recipe);
+
+    // console.log('Sub Recipe comp list' + JSON.stringify(Array.from(this.addSubRecipeMap.values())));
+  }
+
+  removeSubRecipes(recipe:Recipe) {
+    let title=this.appComponent.getTitle(recipe);
+    let t:Recipe=this.appComponent.getAllRecipes().filter(u=> u.title==title)[0];
+
+    this.addIngMap.delete(t.id);
+    // console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
+    this.calculateCostTotal();
+  }
+
+  calculateCostTotal() {
      if(!this.enableUpdateTotal)
        return;
 
@@ -140,6 +173,9 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.addIngMap.forEach((value, key) => {
       this.totalCost = this.totalCost + value.costTotal;
     });
+     this.addSubRecipeMap.forEach((value, key) => {
+       this.totalCost = this.totalCost + value.costTotal;
+     });
    }
 
   setSupplier(supplierForIngredient: SupplierForIngredient, ing: Ingredient) {
@@ -166,6 +202,20 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.calculateCostTotal();
   }
 
+  calculateSubRecipeCostForRecipe(ingInRecipe:IngredientInRecip){
+
+    let totalIngCost:number=0;
+
+    //todo: to optimize this, either pre store during adding ingredient or calculate once while adding recipe.
+   ingInRecipe.subRecipe.ingredientInRecipe.forEach((u)=> {
+       totalIngCost =totalIngCost + (u.ingredient
+      .brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0].perUnitCost * ingInRecipe.qty)
+    }
+   )
+    ingInRecipe.costTotal=(totalIngCost/ingInRecipe.subRecipe.servingQty)*ingInRecipe.qty;
+    this.calculateCostTotal();
+  }
+
   setCategory(categoryFor: CategoryFor, ing: Ingredient) {
     if(categoryFor==null) {
       this.addIngMap.get(ing.id).category = null;
@@ -173,6 +223,15 @@ export class RecipeComponent implements OnInit , OnDestroy {
     }
 
     this.addIngMap.get(ing.id).category=categoryFor.category;
+  }
+
+  setRecipeCategory(categoryFor: CategoryFor, recipe: Recipe) {
+    if(categoryFor==null) {
+      this.addSubRecipeMap.get(recipe.id).category = null;
+      return;
+    }
+
+    this.addSubRecipeMap.get(recipe.id).category=categoryFor.category;
   }
 
   setCategories(t: Category) {
@@ -285,6 +344,10 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   resetIngSelects(){
     this.addIngMap.clear();
+  }
+
+  resetSubRecipeSelects(){
+    this.addSubRecipeMap.clear();
   }
 
 }
