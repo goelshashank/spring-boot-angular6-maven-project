@@ -21,12 +21,12 @@ import java.util.stream.Stream;
 	private final Path root = Paths.get("./src/main/resources/images");
 
 	@PostConstruct public void init() {
-		try {
+		/*try {
 			if (!Files.exists(root))
 				Files.createDirectory(root);
 		} catch (IOException e) {
 			throw new RuntimeException("Could not initialize folder for upload!");
-		}
+		}*/
 	}
 
 	public void save(MultipartFile file) {
