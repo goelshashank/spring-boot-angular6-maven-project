@@ -144,14 +144,16 @@ export class RecipeComponent implements OnInit , OnDestroy {
     if (this.addSubRecipeMap.get(t.id) != null) {
       addSubRecipe = this.addSubRecipeMap.get(t.id);
     } else {
-      addSubRecipe.recipe = t;
+      addSubRecipe.subRecipe = t;
     }
 
     addSubRecipe.qty = 1;
-    addSubRecipe.recipe.catList=[addSubRecipe.recipe.categoriesForRecipe[0].category.title];
+    addSubRecipe.subRecipe.catList=[addSubRecipe.subRecipe.categoriesForRecipe[0].category.title];
 
     this.addSubRecipeMap.set(t.id, addSubRecipe);
-    this.setRecipeCategory(addSubRecipe.recipe.categoriesForRecipe[0],addSubRecipe.recipe);
+/*
+    this.setRecipeCategory(addSubRecipe.subRecipe.categoriesForRecipe[0],addSubRecipe.subRecipe);
+*/
 
     // console.log('Sub Recipe comp list' + JSON.stringify(Array.from(this.addSubRecipeMap.values())));
   }
@@ -225,7 +227,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.addIngMap.get(ing.id).category=categoryFor.category;
   }
 
-  setRecipeCategory(categoryFor: CategoryFor, recipe: Recipe) {
+ /* setRecipeCategory(categoryFor: CategoryFor, recipe: Recipe) {
     if(categoryFor==null) {
       this.addSubRecipeMap.get(recipe.id).category = null;
       return;
@@ -233,7 +235,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
     this.addSubRecipeMap.get(recipe.id).category=categoryFor.category;
   }
-
+*/
   setCategories(t: Category) {
 
     let title=this.appComponent.getTitle(t);
