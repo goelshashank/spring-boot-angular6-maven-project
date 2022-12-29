@@ -291,16 +291,27 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.addRecipe.recipe=this.displayRecipeInfo;
 
     this.addRecipe.recipe.catList=this.displayRecipeInfo.categoriesForRecipe.map((t)=> t.category.title);
-    this.addRecipe.recipe.ingList=this.displayRecipeInfo.ingredientInRecipe.map((t)=> t.ingredient.title);
+    this.addRecipe.recipe.ingList=this.displayRecipeInfo.ingredientInRecipe.filter((u)=>u.ingredient!=null)
+      .map((t)=> t.ingredient.title);
+    this.addRecipe.recipe.subRecipeList=this.displayRecipeInfo.ingredientInRecipe.filter((u)=> u.subRecipe!=null)
+      .map((t)=> t.subRecipe.title);
     this.addIngMap=new Map<number, IngredientInRecip>();
     console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
     this.displayRecipeInfo.ingredientInRecipe.forEach((o)=>{
-      this.addIngMap.set(o.ingredient.id,o);
-      this.calculateIngCostForRecipe(o);
+      if(o.ingredient==null) {
 
-      o.ingredient.catList=o.ingredient.categoriesForIngredient.map((t)=> t.category.title);
-      o.ingredient.supplierList= o.ingredient.supplierForIngredients.map((t)=> t.supplier.title);
-      o.ingredient.brandList= o.ingredient.brandForIngredients.map((t)=> t.brand.title)
+        this.addIngMap.set(o.ingredient.id, o);
+        this.calculateIngCostForRecipe(o);
+
+        o.ingredient.catList = o.ingredient.categoriesForIngredient.map((t) => t.category.title);
+        o.ingredient.supplierList = o.ingredient.supplierForIngredients.map((t) => t.supplier.title);
+        o.ingredient.brandList = o.ingredient.brandForIngredients.map((t) => t.brand.title)
+      }else if(o.subRecipe!=null){
+        this.addSubRecipeMap.set(o.subRecipe.id,o);
+        this.calculateSubRecipeCostForRecipe(o);
+
+        o.subRecipe.catList = o.subRecipe.categoriesForRecipe.map((t) => t.category.title);
+      }
 
     });
     this.enableAdj=false;

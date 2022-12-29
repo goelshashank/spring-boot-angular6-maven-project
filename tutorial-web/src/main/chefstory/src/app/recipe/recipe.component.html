@@ -1,5 +1,6 @@
 <div class="container-fluid" xmlns:trackBy="http://www.w3.org/1999/xhtml">
   <div class="row my-4">
+
     <div title="Block of left section"
          class="col-2 bg-light shadow rounded">
       <div class="row gx-1">
@@ -174,7 +175,8 @@
         </div>
         </div>
 
-        <div class="d-flex align-items-end justify-content-end mx-5">
+        <div title="Block of update button"
+             class="d-flex align-items-end justify-content-end mx-5">
           <button class="btn btn-primary" type="button" (click)="onUpdate()">
             Update
           </button>
@@ -399,7 +401,7 @@
                 addRecipe.value.costTotal
                 }}
               </td>
-              <td>{{addRecipe.value.subRecipe.categoriesForRecipe[0].category.title }}</td>
+              <td>{{addRecipe.value.subRecipe.categoriesForRecipe[0].category.title}}</td>
             </tr>
             </tbody>
           </table>
@@ -553,7 +555,6 @@
         </form>
       </div>
     </div>
-
 
   </div>
 </div>
