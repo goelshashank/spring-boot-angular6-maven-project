@@ -345,11 +345,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   resetIngSelects(){
-    this.addIngMap.clear();
+    this.addIngMap.forEach((value, key) => this.removeIngredients(value.ingredient));
   }
 
   resetSubRecipeSelects(){
-    this.addSubRecipeMap.clear();
+    this.addSubRecipeMap.forEach((value, key) => this.removeSubRecipes(value.subRecipe));
   }
 
 }

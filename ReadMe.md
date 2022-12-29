@@ -1,2 +1,2 @@
-1. add sku
-SKU size  SKU price
+CREATE USER 'chef'@'localhost' IDENTIFIED BY 'chef';
+GRANT ALL PRIVILEGES ON * . * TO 'chef'@'localhost';

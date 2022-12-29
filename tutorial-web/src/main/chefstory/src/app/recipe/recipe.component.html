@@ -1,6 +1,7 @@
 <div class="container-fluid" xmlns:trackBy="http://www.w3.org/1999/xhtml">
   <div class="row my-4">
-    <div class="col-2 bg-light shadow rounded">
+    <div title="Block of left section"
+         class="col-2 bg-light shadow rounded">
       <div class="row gx-1">
         <div class="col-md-10">
           <label for="searchRecipe" id="searchRecipe1">Search Recipe</label>
@@ -46,8 +47,11 @@
 
     </div>
 
-    <div class="col">
+    <div title="Block of right section"
+         class="col">
       <div class="container" *ngIf="showRecipe">
+
+        <div title="Block of display recipe attributes">
         <div class="row px-1 bg-light shadow rounded mx-5">
           <div class="row">
             <div class="col">
@@ -113,7 +117,9 @@
             </div>
           </div>
         </div>
+        </div>
 
+        <div title="Block of recipe's ingredients">
         <div class="row my-3 bg-light shadow rounded mx-5">
           <table class="table table-striped">
             <thead class="px-2">
@@ -134,32 +140,38 @@
                 "
               >
                 <td class="text-center col">
-                  {{ ingredientInRecipe.ingredient.title }}
+                  <div *ngIf="ingredientInRecipe.ingredient!=null"> {{ ingredientInRecipe.ingredient.title }} </div>
+                  <div *ngIf="ingredientInRecipe.subRecipe!=null">  (SR) {{ ingredientInRecipe.subRecipe.title }} </div>
                 </td>
                 <td class="text-center col">
                   {{ ingredientInRecipe.qty }}
                 </td>
                 <td class="text-center col">
-                  {{
-                    ingredientInRecipe.ingredient.categoriesForIngredient[0]
-                      .category.title
-                  }}
+                  <div *ngIf="ingredientInRecipe.ingredient!=null"> {{ingredientInRecipe.
+                    ingredient.categoriesForIngredient[0].category.title}}</div>
+                  <div *ngIf="ingredientInRecipe.subRecipe!=null"> {{ingredientInRecipe.
+                    subRecipe.categoriesForRecipe[0].category.title}}</div>
                 </td>
                 <td class="text-center col">
-                  {{ ingredientInRecipe.ingredient.brandForIngredients[0].perUnitCost }}
+                  <div *ngIf="ingredientInRecipe.ingredient!=null">  {{ ingredientInRecipe.ingredient.
+                    brandForIngredients[0].perUnitCost }}</div>
                 </td>
                 <td class="text-center col">
-                  {{ ingredientInRecipe.ingredient.unit }}
+                  <div *ngIf="ingredientInRecipe.ingredient!=null"> {{ ingredientInRecipe.ingredient.unit }}</div>
+                  <div *ngIf="ingredientInRecipe.subRecipe!=null"> {{ ingredientInRecipe.subRecipe.unit }}</div>
                 </td>
                 <td class="text-center col">
-                  {{ ingredientInRecipe.supplier.title }}
+                  <div *ngIf="ingredientInRecipe.ingredient!=null">
+                  {{ ingredientInRecipe.supplier.title }}</div>
                 </td>
                 <td class="text-center col">
-                  {{ ingredientInRecipe.brand.title }}
+                  <div *ngIf="ingredientInRecipe.ingredient!=null">
+                    {{ ingredientInRecipe.brand.title }} </div>
                 </td>
               </tr>
             </tbody>
           </table>
+        </div>
         </div>
 
         <div class="d-flex align-items-end justify-content-end mx-5">
@@ -169,7 +181,7 @@
         </div>
       </div>
 
-      <div
+      <div title="Block of add or update recipe"
         class="container bg-light shadow rounded mx-3 my-1 p-3"
         [style.display]="!showRecipe ? 'block' : 'none'"
       >
