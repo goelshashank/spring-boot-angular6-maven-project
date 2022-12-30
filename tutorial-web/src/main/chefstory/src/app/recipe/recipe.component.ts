@@ -200,21 +200,28 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   calculateIngCostForRecipe(ingInRecipe:IngredientInRecip){
-    ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0].perUnitCost * ingInRecipe.qty);
-    this.calculateCostTotal();
-  }
 
-  calculateSubRecipeCostForRecipe(ingInRecipe:IngredientInRecip){
+   if(ingInRecipe.ingredient!=null){
+     ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0]
+       .perUnitCost * ingInRecipe.qty);
+   }else {
 
-    let totalIngCost:number=0;
+     let totalIngCost:number=0;
 
-    //todo: to optimize this, either pre store during adding ingredient or calculate once while adding recipe.
-   ingInRecipe.subRecipe.ingredientInRecipe.forEach((u)=> {
-       totalIngCost =totalIngCost + (u.ingredient
-      .brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0].perUnitCost * ingInRecipe.qty)
-    }
-   )
-    ingInRecipe.costTotal=(totalIngCost/ingInRecipe.subRecipe.servingQty)*ingInRecipe.qty;
+     //todo: to optimize this, either pre store during adding ingredient or calculate once while adding recipe.
+     ingInRecipe.subRecipe.ingredientInRecipe.forEach((u)=> {
+
+         if(u.ingredient!=null)
+           totalIngCost =totalIngCost +  (u.ingredient
+             .brandForIngredients.filter(t=> t.brand.id==u.brand.id)[0].perUnitCost * ingInRecipe.qty)
+         else {
+           u.subRecipe.ingredientInRecipe.forEach((t)=>this.calculateIngCostForRecipe(t));
+         }
+       }
+     )
+     ingInRecipe.costTotal=(totalIngCost/ingInRecipe.subRecipe.servingQty)*ingInRecipe.qty;
+   }
+
     this.calculateCostTotal();
   }
 
@@ -298,7 +305,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.addIngMap=new Map<number, IngredientInRecip>();
     console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
     this.displayRecipeInfo.ingredientInRecipe.forEach((o)=>{
-      if(o.ingredient==null) {
+      if(o.ingredient!=null) {
 
         this.addIngMap.set(o.ingredient.id, o);
         this.calculateIngCostForRecipe(o);
@@ -308,7 +315,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
         o.ingredient.brandList = o.ingredient.brandForIngredients.map((t) => t.brand.title)
       }else if(o.subRecipe!=null){
         this.addSubRecipeMap.set(o.subRecipe.id,o);
-        this.calculateSubRecipeCostForRecipe(o);
+        this.calculateIngCostForRecipe(o);
 
         o.subRecipe.catList = o.subRecipe.categoriesForRecipe.map((t) => t.category.title);
       }
@@ -316,7 +323,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     });
     this.enableAdj=false;
     this.enableUpdateTotal=true;
-    console.log("test");
+    console.log("-- update button action completed");
   }
 
 

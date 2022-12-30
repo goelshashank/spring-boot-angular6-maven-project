@@ -385,7 +385,7 @@
               <td>{{ addRecipe.value.subRecipe.title }}</td>
               <td>
                 <input
-                  (input)="calculateSubRecipeCostForRecipe(addRecipe.value)"
+                  (input)="calculateIngCostForRecipe(addRecipe.value)"
                   [(ngModel)]="addRecipe.value.qty"
                   appendTo="body"
                   class="form-control"
@@ -519,7 +519,7 @@
 
 
             <div  class="mx-1 w-20 form-check">
-              <input  class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+              <input  class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="adjustinput"
                      [checked]="enableAdj"
                      (change)="fixAndEnableAdjusting($event)">
               <label class="form-check-label" for="flexCheckDefault">
