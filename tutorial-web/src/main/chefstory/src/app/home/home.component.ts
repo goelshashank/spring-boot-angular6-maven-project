@@ -14,6 +14,12 @@ export class HomeComponent implements OnInit , OnDestroy{
   constructor(public appComponent: AppComponent, public routerService:RouterService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.refresh(true,false,true);
+    console.log("++++ Initialized Home +++");
+  }
+
+  refresh(showRecipe:boolean,toUpdate:boolean,refreshCache:boolean): void {
+    if(refreshCache) this.appComponent.refreshAppCache();
   }
 
   ngOnDestroy(): void {
