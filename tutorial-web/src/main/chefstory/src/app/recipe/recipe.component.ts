@@ -12,16 +12,18 @@ import {Constants} from '../config/Constants';
 import {SupplierForIngredient} from '../model/SupplierForIngredient';
 import {BrandForIngredient} from '../model/BrandForIngredient';
 import {CategoryFor} from '../model/CategoryFor';
-import {ActivatedRoute, Router} from '@angular/router';
 import { AddIngredient } from '../model/AddIngredient';
 import { IngredientInRecip } from '../model/IngredientInRecip';
 import {BaseModel} from "../model/BaseModel";
 import { Editor } from "ngx-editor";
+import {RouterService} from "../service/router.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
-  styleUrls: ['./recipe.component.css']
+  styleUrls: ['./recipe.component.css'],
+  providers: [RouterService]
 })
 @Injectable()
 export class RecipeComponent implements OnInit , OnDestroy {
@@ -40,7 +42,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   editor: Editor;
   html: '';
 
-  constructor(private http: HttpClient, public appComponent: AppComponent,private router: Router, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, public appComponent: AppComponent,private routerService:RouterService, private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
@@ -358,10 +360,6 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   }
 
-  trackByIndex(index: number, obj: any): any {
-    return index;
-  }
-
   resetIngSelects(){
     this.addIngMap.forEach((value, key) => this.removeIngredients(value.ingredient));
   }
@@ -369,5 +367,13 @@ export class RecipeComponent implements OnInit , OnDestroy {
   resetSubRecipeSelects(){
     this.addSubRecipeMap.forEach((value, key) => this.removeSubRecipes(value.subRecipe));
   }
+
+  skipCurrentRecipeFilter(recipes:Recipe[]){
+   if(this.displayRecipeInfo==null)
+     return recipes;
+
+   return recipes.filter((t)=> t.title!=this.displayRecipeInfo.title);
+  }
+
 
 }

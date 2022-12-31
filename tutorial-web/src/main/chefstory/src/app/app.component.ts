@@ -41,22 +41,10 @@ export class AppComponent implements OnInit {
     this.refreshAppCache();
   }
 
-  showRecipeTab() {
+  showTab(isDisplayAll:boolean,isShowAddIng:boolean,isShowAddRecipe:boolean) {
     this.isShowAddRecipe = true;
     this.isShowAddIng = false;
     this.isDisplayAll = false;
-  }
-
-  showIngredientTab() {
-    this.isShowAddIng = true;
-    this.isShowAddRecipe = false;
-    this.isDisplayAll = false;
-  }
-
-  showDisplayAllTab() {
-    this.isDisplayAll = true;
-    this.isShowAddRecipe = false;
-    this.isShowAddIng = false;
   }
 
   getAllRecipes() {
@@ -78,7 +66,7 @@ export class AppComponent implements OnInit {
     this.http.get<Ingredient[]>(environment.baseUrl + ApiPaths.GetAllIngredients).subscribe(
       (response) => {
         this.ingredients = response;
-        console.log('Ingredients - ' + JSON.stringify(this.ingredients));
+    //    console.log('Ingredients - ' + JSON.stringify(this.ingredients));
       },
       (error) => {
         console.log('Error happened  in get all ingredients' + JSON.stringify(error));
@@ -208,5 +196,11 @@ export class AppComponent implements OnInit {
 
     return title;
   }
+
+
+   trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
 
 }

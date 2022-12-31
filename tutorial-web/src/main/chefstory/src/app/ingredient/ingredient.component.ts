@@ -11,56 +11,55 @@ import { Supplier } from '../model/Supplier';
 import { Category } from '../model/Category';
 
 import { Constants } from '../config/Constants';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AddIngredient } from '../model/AddIngredient';
 import { SupplierForIngredient } from '../model/SupplierForIngredient';
 import { CategoryFor } from '../model/CategoryFor';
 import { BrandForIngredient } from '../model/BrandForIngredient';
 import { Ingredient } from '../model/Ingredient';
-import {BaseModel} from "../model/BaseModel";
+import {RouterService} from "../service/router.service";
 
 @Component({
   selector: 'app-ingredient',
   templateUrl: './ingredient.component.html',
-  styleUrls: ['./ingredient.component.css']
+  styleUrls: ['./ingredient.component.css'],
+  providers: [RouterService]
 })
 @Injectable()
 export class IngredientComponent implements OnInit , OnDestroy{
 
   name = 'ingredient';
   addIngredient: AddIngredient = new AddIngredient();
-  isShowAddIng = true;
   imageSrc: string = null;
   file: File = null;
   displayIngInfo: Ingredient = new Ingredient();
   showIng = true;
   toUpdate: boolean = false;
+  @ViewChild ('addIngForm') addIngForm: NgForm;
 
-  constructor(private http: HttpClient, public appComponent: AppComponent, private router: Router, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, public appComponent: AppComponent, public routerService:RouterService) {
   }
 
   ngOnDestroy(): void {
-   // this.addIngForm.reset();
     }
 
   ngOnInit(): void {
+    this.refresh(true,false);
+    console.log("++++ Initialized Ingredients +++");
+  }
+
+  refresh(showIng:boolean,toUpdate:boolean): void {
+    if(this.addIngForm!=null) this.addIngForm.reset();
     this.appComponent.refreshAppCache();
-    this.appComponent.showIngredientTab();
     this.displayIngInfo=new Ingredient();
-    this.toUpdate=false;
+    this.showIng = showIng;
+    this.toUpdate= toUpdate;
   }
 
-  @ViewChild ('addIngForm') addIngForm: NgForm;
-
-  toggleAddIng() {
-    this.isShowAddIng = !this.isShowAddIng;
-  }
-
-  addIngredients(form: NgForm) {
+  addIngredients() {
     let addIngredients: AddIngredient[] = [];
     addIngredients.push(this.addIngredient);
 
-    if (form.valid) {
+    if (this.addIngForm.valid) {
       console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
     }
 
@@ -89,9 +88,8 @@ export class IngredientComponent implements OnInit , OnDestroy{
     this.appComponent.uploadImage(this.file);
 
     //-------------------------
-    form.reset();
-    //this.reloadCurrentRoute();
-    this.refresh();
+    this.routerService.redirectTo("ingredient");
+
   }
 
 
@@ -176,30 +174,12 @@ export class IngredientComponent implements OnInit , OnDestroy{
     console.log('Removed:  Brands list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
   }
 
- async calculatePerUnitCost(brandForIngredient: BrandForIngredient) {
+  calculatePerUnitCost(brandForIngredient: BrandForIngredient) {
     brandForIngredient.perUnitCost = brandForIngredient.skuCost / brandForIngredient.skuQty;
   }
 
-
-  trackByIndex(index: number, obj: any): any {
-    return index;
-  }
-
-  reloadCurrentRoute() {
-    let currentUrl = "ingredient-editor";
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentUrl]);
-    });
-  }
-
-  refresh(): void {
-    window.location.reload();
-    this.appComponent.showIngredientTab();
-  }
-
-
   getIngredient(ingredient: Ingredient) {
-    this.toggleIngredientDiag(true);
+    this.refresh(true,false);
     this.http.post<Ingredient[]>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ingredient)).subscribe(
       (response) => {
         this.displayIngInfo = response[0];
@@ -214,18 +194,9 @@ export class IngredientComponent implements OnInit , OnDestroy{
 
   }
 
-
-
-  toggleIngredientDiag(showIng: boolean) {
-    this.addIngForm.reset();
-    this.ngOnInit();
-    console.log("show ing value - "+showIng);
-    this.showIng = showIng;
-  }
-
   onUpdate(){
 
-      this.showIng=!this.showIng;
+      this.showIng=false;
       this.toUpdate=true;
 
       this.addIngredient=new AddIngredient();

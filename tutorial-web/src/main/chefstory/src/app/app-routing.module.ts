@@ -4,13 +4,16 @@ import {RecipeComponent} from './recipe/recipe.component';
 import {IngredientComponent} from './ingredient/ingredient.component';
 import {AppComponent} from './app.component';
 
-const routes: Routes = [    { path: 'recipe-editor', component: RecipeComponent,outlet:'right-wall' },
-  { path: 'ingredient-editor', component: IngredientComponent , outlet:'right-wall' },
-  { path: '**', component: AppComponent }];
+const routes: Routes = [
+  { path: 'home', component: AppComponent,outlet:'right-wall' },
+  { path: 'ingredient', component: IngredientComponent },
+  { path: 'recipe', component: RecipeComponent },
+  { path: '**', redirectTo: 'home' }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [],
 })
 export class AppRoutingModule {
 

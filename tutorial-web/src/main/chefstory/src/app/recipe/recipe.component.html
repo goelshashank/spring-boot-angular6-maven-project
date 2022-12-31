@@ -247,7 +247,7 @@
             </thead>
             <tbody>
             <tr
-              *ngFor="let addIng of addIngMap | keyvalue; let i = index; trackBy: trackByIndex"
+              *ngFor="let addIng of addIngMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
               appendTo="body"
             >
               <td>{{ addIng.value.ingredient.title }}</td>
@@ -270,7 +270,6 @@
                   addIng.value.costTotal
                 }}
               </td>
-
               <td>
                 <ng-select
                   (change)="setSupplier($event, addIng.value.ingredient)"
@@ -363,10 +362,8 @@
             (clear)="resetSubRecipeSelects();"
           >
             <ng-option
-              *ngFor="let recipe of appComponent.recipes"
-              [value]="recipe"
-            >{{ recipe.title }}</ng-option
-            >
+              *ngFor="let recipe of skipCurrentRecipeFilter(appComponent.recipes)" [value]="recipe">
+              {{ recipe.title }}</ng-option>
           </ng-select>
           <table appendTo="body" class="table mt-2 table-hover table-bordered shadow-sm">
             <thead>
@@ -379,7 +376,7 @@
             </thead>
             <tbody>
             <tr
-              *ngFor="let addRecipe of addSubRecipeMap | keyvalue; let i = index; trackBy: trackByIndex"
+              *ngFor="let addRecipe of addSubRecipeMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
               appendTo="body"
             >
               <td>{{ addRecipe.value.subRecipe.title }}</td>

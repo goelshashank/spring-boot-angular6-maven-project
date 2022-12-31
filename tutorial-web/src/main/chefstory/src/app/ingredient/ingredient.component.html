@@ -25,7 +25,7 @@
 
         <div class="col-md-1 mt-4">
           <button
-            (click)="toggleIngredientDiag(false)"
+            (click)="refresh(false,false)"
             class="btn btn-primary"
             type="submit"
           >
@@ -127,7 +127,7 @@
       >
         <form
           #addIngForm="ngForm"
-          (ngSubmit)="addIngredients(addIngForm)"
+          (ngSubmit)="addIngredients()"
           autocomplete="off"
           class="form-group"
           id="addIngForm"
@@ -213,7 +213,7 @@
               *ngFor="
                 let addBrandForIng of this.addIngredient.ingredient
                   .brandForIngredients;  let i=index;
-                trackBy: trackByIndex
+                trackBy: this.appComponent.trackByIndex
               "
               >
               {{ addBrandForIng.brand.title }}
