@@ -24,7 +24,7 @@
 
         <div class="col-md-1 mt-4">
           <button
-            (click)="toggleRecipeDiag(false)"
+            (click)="this.refresh(false,false,false)"
             class="btn btn-primary"
             type="submit"
           >
@@ -189,7 +189,7 @@
       >
         <form
           #addRecipeForm="ngForm"
-          (ngSubmit)="addRecipes(addRecipeForm)"
+          (ngSubmit)="addRecipes()"
           autocomplete="off"
           class="form-group"
         >

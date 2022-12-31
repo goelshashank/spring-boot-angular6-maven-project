@@ -26,7 +26,7 @@ import {ActivatedRoute} from "@angular/router";
   providers: [RouterService]
 })
 @Injectable()
-export class IngredientComponent implements OnInit , OnDestroy{
+export class IngredientComponent implements OnInit , OnDestroy {
 
   name = 'ingredient';
   addIngredient: AddIngredient = new AddIngredient();
@@ -37,20 +37,21 @@ export class IngredientComponent implements OnInit , OnDestroy{
   toUpdate: boolean = false;
   @ViewChild ('addIngForm') addIngForm: NgForm;
 
-  constructor(private http: HttpClient, public appComponent: AppComponent, public routerService:RouterService, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, public appComponent: AppComponent, public routerService:RouterService,
+              private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
     }
 
   ngOnInit(): void {
-    this.refresh(true,false);
+    this.refresh(true,false,true);
     console.log("++++ Initialized Ingredients +++");
   }
 
-  refresh(showIng:boolean,toUpdate:boolean): void {
-    if(this.addIngForm!=null) this.addIngForm.reset();
+  refresh(showIng:boolean,toUpdate:boolean,refreshCache:boolean): void {
     this.appComponent.refreshAppCache();
+    if(this.addIngForm!=null) this.addIngForm.reset();
     this.displayIngInfo=new Ingredient();
     this.showIng = showIng;
     this.toUpdate= toUpdate;
@@ -61,7 +62,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
     addIngredients.push(this.addIngredient);
 
     if (this.addIngForm.valid) {
-      console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
+     // console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
     }
 
     let api:string=null;
@@ -74,7 +75,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
     this.http.post(environment.baseUrl + api, addIngredients).subscribe(
       (response) => {
         console.log('Add ingredients response -' + JSON.stringify(response));
-        alert('Add ingredients response -' + JSON.stringify(response));
+       // alert('Add ingredients response -' + JSON.stringify(response));
       },
       (error) => {
         console.log('Error happened in add ingredient' + JSON.stringify(error));
@@ -82,15 +83,11 @@ export class IngredientComponent implements OnInit , OnDestroy{
       },
       () => {
         console.log('%% add ingredient is completed successfully %%');
-        alert('%% add ingredient is completed successfully %%');
+      //  alert('%% add ingredient is completed successfully %%');
       });
-
-
     this.appComponent.uploadImage(this.file);
 
-    //-------------------------
-    this.routerService.redirectTo("ingredient");
-
+    this.reload();
   }
 
 
@@ -180,7 +177,6 @@ export class IngredientComponent implements OnInit , OnDestroy{
   }
 
   getIngredient(ingredient: Ingredient) {
-    this.refresh(true,false);
     this.http.post<Ingredient[]>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ingredient)).subscribe(
       (response) => {
         this.displayIngInfo = response[0];
@@ -192,7 +188,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
       () => {
         console.log('%% get ing is completed successfully %%');
       });
-
+    this.refresh(true,false,false);
   }
 
   onUpdate(){
@@ -206,6 +202,11 @@ export class IngredientComponent implements OnInit , OnDestroy{
       this.addIngredient.ingredient.catList=this.displayIngInfo.categoriesForIngredient.map((t)=> t.category.title);
       this.addIngredient.ingredient.supplierList=this.displayIngInfo.supplierForIngredients.map((t)=> t.supplier.title);
       this.addIngredient.ingredient.brandList=this.displayIngInfo.brandForIngredients.map((t)=> t.brand.title)
+  }
+
+
+  reload(){
+    window.location.reload()
   }
 
 

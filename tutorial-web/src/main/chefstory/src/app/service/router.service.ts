@@ -6,7 +6,7 @@ export class RouterService {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) { }
 
   redirectTo(url: string): void {

@@ -19,5 +19,8 @@ export class HomeComponent implements OnInit , OnDestroy{
   ngOnDestroy(): void {
   }
 
+  reload(){
+    window.location.reload()
+  }
 
 }

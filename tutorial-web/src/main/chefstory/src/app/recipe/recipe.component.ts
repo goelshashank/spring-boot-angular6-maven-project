@@ -41,31 +41,33 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   editor: Editor;
   html: '';
+  @ViewChild ('addRecipeForm') addRecipeForm: NgForm;
 
   constructor(private http: HttpClient, public appComponent: AppComponent
               ,private routerService:RouterService, private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
-    // this.addIngForm.reset();
     this.editor.destroy();
   }
 
   ngOnInit(): void {
-    console.log("++++ Initialized Recipe +++");
-    this.appComponent.refreshAppCache();
+    this.refresh(true,false,true);
+    console.log("++++ Initialized Recipes +++");
+  }
+
+  refresh(showRecipe:boolean,toUpdate:boolean,refreshCache:boolean): void {
+    if(refreshCache) this.appComponent.refreshAppCache();
     this.addIngMap= new Map<number, IngredientInRecip>();
     this.addSubRecipeMap= new Map<number, IngredientInRecip>();
     this.totalCost=0;
     this.displayRecipeInfo = new Recipe();
-    this.toUpdate=false;
+    this.showRecipe=showRecipe;
+    this.toUpdate=toUpdate;
     this.editor = new Editor();
   }
 
-  @ViewChild ('addRecipeForm') addRecipeForm: NgForm;
-
-
-  addRecipes(form: NgForm) {
+  addRecipes() {
 
     this.addRecipe.recipe.ingredientInRecipe = Array.from(this.addIngMap.values());
     Array.from( this.addSubRecipeMap.values()).forEach((value)=> this.addRecipe.recipe.ingredientInRecipe.push(value));
@@ -73,8 +75,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
     let addRecipeList: AddRecipe[] = [];
     addRecipeList.push(this.addRecipe);
 
-    if (form.valid) {
-      console.log('Add recipe list: ' + JSON.stringify(addRecipeList));
+    if (this.addRecipeForm.valid) {
+     // console.log('Add recipe list: ' + JSON.stringify(addRecipeList));
     }
 
     let api:string=null;
@@ -87,7 +89,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.http.post(environment.baseUrl + ApiPaths.AddRecipes, addRecipeList).subscribe(
       (response) => {
         console.log('Add recipes response -' + JSON.stringify(response));
-        alert('Add recipes response -' + JSON.stringify(response));
+       // alert('Add recipes response -' + JSON.stringify(response));
       },
       (error) => {
         console.log('Error happened' + JSON.stringify(error));
@@ -95,13 +97,10 @@ export class RecipeComponent implements OnInit , OnDestroy {
       },
       () => {
         console.log(' %% add recipe is completed successfully %%');
-        alert('%% add recipe is completed successfully %%');
+       // alert('%% add recipe is completed successfully %%');
       });
 
-
-    //------------------------
-    form.reset();
-    this.ngOnInit();
+    this.reload();
   }
 
   addIngredients(ing:Ingredient){
@@ -271,11 +270,10 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   getRecipe(recipe: Recipe) {
-    this.toggleRecipeDiag(true);
     this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).subscribe(
       (response) => {
         this.displayRecipeInfo = response[0];
-        console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
+       // console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
       },
       (error) => {
         console.log('Error happened in getting recipe' + JSON.stringify(error));
@@ -283,14 +281,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
       () => {
         console.log('%% get recipe is completed successfully %%');
       });
-
-  }
-
-  toggleRecipeDiag(showRecipe: boolean) {
-    this.addRecipeForm.reset();
-    this.ngOnInit();
-    console.log("show recipe value - "+showRecipe);
-    this.showRecipe = showRecipe;
+    this.refresh(true,false,false);
   }
 
   onUpdate(){
@@ -377,5 +368,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
    return recipes.filter((t)=> t.title!=this.displayRecipeInfo.title);
   }
 
+  reload(){
+    window.location.reload()
+  }
 
 }
