@@ -17,6 +17,7 @@ import { CategoryFor } from '../model/CategoryFor';
 import { BrandForIngredient } from '../model/BrandForIngredient';
 import { Ingredient } from '../model/Ingredient';
 import {RouterService} from "../service/router.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-ingredient',
@@ -36,7 +37,7 @@ export class IngredientComponent implements OnInit , OnDestroy{
   toUpdate: boolean = false;
   @ViewChild ('addIngForm') addIngForm: NgForm;
 
-  constructor(private http: HttpClient, public appComponent: AppComponent, public routerService:RouterService) {
+  constructor(private http: HttpClient, public appComponent: AppComponent, public routerService:RouterService, private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {

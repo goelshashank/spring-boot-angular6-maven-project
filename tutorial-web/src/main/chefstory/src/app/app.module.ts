@@ -12,6 +12,7 @@ import {SupplierComponent} from './supplier/supplier.component';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import { NgxEditorModule } from "ngx-editor";
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NgxEditorModule } from "ngx-editor";
     IngredientComponent,
     RecipeComponent,
     BrandComponent,
-    SupplierComponent
+    SupplierComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

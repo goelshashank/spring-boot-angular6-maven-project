@@ -42,7 +42,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
   editor: Editor;
   html: '';
 
-  constructor(private http: HttpClient, public appComponent: AppComponent,private routerService:RouterService, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, public appComponent: AppComponent
+              ,private routerService:RouterService, private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
@@ -51,6 +52,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log("++++ Initialized Recipe +++");
     this.appComponent.refreshAppCache();
     this.addIngMap= new Map<number, IngredientInRecip>();
     this.addSubRecipeMap= new Map<number, IngredientInRecip>();

@@ -58,9 +58,9 @@
             >
               <li class="nav-item">
                 <a
-                  (click)="showTab(true,false,false)"
                   class="nav-link align-middle px-0"
                   href="#"
+                  [routerLink]="'/home'"
                 >
                   <i class="fs-4 bi-house"></i>
                   <span class="ms-1 d-none d-sm-inline">Home</span>
@@ -68,7 +68,6 @@
               </li>
               <li>
                 <a
-                  (click)="showTab(false, true, false)"
                   class="nav-link px-0 align-middle"
                   data-bs-toggle="collapse"
                   href="#submenu1"
@@ -80,7 +79,6 @@
               </li>
               <li>
                 <a
-                  (click)="showTab(false, false, true)"
                   class="nav-link px-0 align-middle"
                   data-bs-toggle="collapse"
                   href="#submenu1"
@@ -117,23 +115,7 @@
         </div>
 
         <div class="col">
-          <!--  <router-outlet name="sidewall"></router-outlet> -->
-         <!-- <app-ingredient *ngIf="isShowAddIng"></app-ingredient>-->
-          <!--<app-recipe *ngIf="isShowAddRecipe"></app-recipe>-->
           <router-outlet></router-outlet>
-          <div class="container-fluid w-50 p-3 bg-light shadow" *ngIf="isDisplayAll">
-            <h3 class="text-center" >Quick Links</h3>
-            <div class="row g-1 px-4 flex-nowrap">
-              <div class="col-4">
-            <button class="btn btn-primary"
-            type="button" (click)="showTab(false,false, true)">Add Recipe</button>
-             </div>
-             <div class="col-4">
-            <button class="btn btn-primary"
-            type="button" (click)="showTab(false, true, false)">Add Ingredient</button>
-          </div>
-            </div>
-          </div>
         </div>
       </div>
   </div>

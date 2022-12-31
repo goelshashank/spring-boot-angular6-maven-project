@@ -10,12 +10,15 @@ import {Brand} from './model/Brand';
 import {Category} from './model/Category';
 import {Constants} from './config/Constants';
 import {BaseModel} from "./model/BaseModel";
+import {RouterService} from "./service/router.service";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [RouterService]
 })
 @Injectable()
 export class AppComponent implements OnInit {
@@ -34,17 +37,11 @@ export class AppComponent implements OnInit {
   isDisplayAll = true;
   displayIngredientInfo: Ingredient = new Ingredient();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,public routerService:RouterService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.refreshAppCache();
-  }
-
-  showTab(isDisplayAll:boolean,isShowAddIng:boolean,isShowAddRecipe:boolean) {
-    this.isShowAddRecipe = true;
-    this.isShowAddIng = false;
-    this.isDisplayAll = false;
   }
 
   getAllRecipes() {

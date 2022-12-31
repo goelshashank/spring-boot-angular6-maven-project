@@ -1,0 +1,13 @@
+<div class="container-fluid w-50 p-3 bg-light shadow">
+  <h3 class="text-center" >Quick Links</h3>
+  <div class="row g-1 px-4 flex-nowrap">
+    <div class="col-4">
+      <button class="btn btn-primary"
+              type="button" (click)="this.routerService.redirectTo('recipe')">Add Recipe</button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary"
+              type="button" (click)="this.routerService.redirectTo('ingredient')">Add Ingredient</button>
+    </div>
+  </div>
+</div>

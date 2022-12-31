@@ -11,8 +11,7 @@ export class RouterService {
 
   redirectTo(url: string): void {
     console.log("++++++ loading route  ==> " +url)
-    // When skipLocationChange true, navigates without pushing a new state into history.
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+    this.router.navigateByUrl('/', {skipLocationChange: false}).then(() => {
       this.router.navigate([url]);
     });
   }
