@@ -32,9 +32,6 @@ export class AppComponent implements OnInit {
   categoriesRecipe: Category[] = [];
   categoriesIngredient: Category[] = [];
   appConfiguration: AppConfiguration = new AppConfiguration();
-  isShowAddIng = false;
-  isShowAddRecipe = false;
-  isDisplayAll = true;
   displayIngredientInfo: Ingredient = new Ingredient();
 
   constructor(private http: HttpClient,public routerService:RouterService, private route: ActivatedRoute) {

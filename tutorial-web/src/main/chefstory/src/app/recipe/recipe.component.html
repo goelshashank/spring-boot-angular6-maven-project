@@ -175,7 +175,7 @@
         </div>
         </div>
 
-        <div title="Block of update button"
+        <div *ngIf="displayRecipeInfo.title!=null" title="Block of update button"
              class="d-flex align-items-end justify-content-end mx-5">
           <button class="btn btn-primary" type="button" (click)="onUpdate()">
             Update
