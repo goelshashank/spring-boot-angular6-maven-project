@@ -29,11 +29,10 @@ import {CommonModule} from "@angular/common";
     BoardUserComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     AuthRoutingModule,
     FormsModule,
-    HttpClientModule,
-    CommonModule
+    HttpClientModule
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AuthComponent]
