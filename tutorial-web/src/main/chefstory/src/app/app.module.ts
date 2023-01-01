@@ -13,6 +13,7 @@ import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import { NgxEditorModule } from "ngx-editor";
 import { HomeComponent } from './home/home.component';
+import {AuthModule} from "./auth/auth.module";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     NgSelectModule,
     AppRoutingModule,
-    NgxEditorModule
+    NgxEditorModule,
+    AuthModule
   ],
 
   providers: [],
