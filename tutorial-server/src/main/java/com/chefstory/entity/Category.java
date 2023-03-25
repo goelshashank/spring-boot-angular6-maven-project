@@ -22,7 +22,7 @@ import javax.validation.constraints.NotBlank;
 		@Index(columnList = "title,type") }, uniqueConstraints = @UniqueConstraint(columnNames = { "title",
 		"type" })) @JsonInclude(JsonInclude.Include.NON_NULL) @ToString public class Category extends BaseEntity {
 
-	@Column(name = "title", unique = true, nullable = false) @NotBlank private String title;
+	@Column(name = "title",  nullable = false) @NotBlank private String title;
 
 	@Column(name = "type", nullable = false) @NotBlank private String type;
 
