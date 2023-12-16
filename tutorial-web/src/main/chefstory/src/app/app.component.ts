@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   categoriesIngredient: Category[] = [];
   appConfiguration: AppConfiguration = new AppConfiguration();
   displayIngredientInfo: Ingredient = new Ingredient();
+  sidebarExpanded: boolean = false;
 
   constructor(private http: HttpClient,public routerService:RouterService, private route: ActivatedRoute) {
   }
@@ -196,5 +197,17 @@ export class AppComponent implements OnInit {
     return index;
   }
 
+
+  expandSidebar() {
+    this.sidebarExpanded = true;
+  }
+
+  collapseSidebar() {
+    this.sidebarExpanded = false;
+  }
+
+  toggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
+  }
 
 }

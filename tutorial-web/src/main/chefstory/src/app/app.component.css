@@ -1,0 +1,20 @@
+
+.sidebar-collapsed {
+  width: 50px;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  text-decoration: none;
+  color: #ddd;
+}
+
+.nav-link i {
+  font-size: 1.25rem;
+}
