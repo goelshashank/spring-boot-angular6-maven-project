@@ -8,27 +8,81 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Your Logo</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon">sdfdsa</span>
+        </button>-->
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
+          <ul
+            class="navbar-nav ms-auto"
+          >
             <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
+              <a
+                class="nav-link align-middle px-0"
+                href="#"
+                [routerLink]="'/home'"
+              >
+               <!-- <i class="fs-4 bi-house" ></i>-->
+                <span class="ms-1 d-none d-sm-inline text-secondary">Home</span>
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+            <li>
+              <a
+                class="nav-link px-0 align-middle"
+                data-bs-toggle="collapse"
+                href="#submenu1"
+                [routerLink]="'/ingredient'"
+              >
+             <!--   <i class="fs-4 bi-speedometer2" ></i>-->
+                <span class="ms-1 d-none d-sm-inline text-secondary">Add Ingredient</span>
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
+            <li>
+              <a
+                class="nav-link px-0 align-middle bg-dark"
+                data-bs-toggle="collapse"
+                href="#submenu1"
+                [routerLink]="'/recipe'"
+              >
+                <!--<i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>-->
+                <span class="ms-1 d-none d-sm-inline text-secondary">Add Recipe</span>
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+            <li>
+              <a
+                class="nav-link px-0 align-middle"
+                data-bs-toggle="collapse"
+                href="#submenu1"
+                [routerLink]="'/auth'"
+              >
+               <!-- <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>-->
+                <span class="ms-1 d-none d-sm-inline text-secondary">Authenticate</span>
+              </a>
             </li>
           </ul>
+
+
         </div>
       </div>
     </nav>
+
+
+    <div class="container-fluid">
+      <div class="position-relative">
+        <div class="position-absolute top-0 end-0 p-2 bg-dark text-white d-none d-lg-block"
+             (mouseenter)="showOffcanvas()" (mouseleave)="hideOffcanvas()">
+          <i class="bi bi-menu-button" style="font-size: 1.5rem;"></i>
+        </div>
+      </div>
+      <div class="offcanvas  offcanvas-end" tabindex="-1" id="offcanvas" [ngClass]="{'show': isOffcanvasOpen}">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Offcanvas Menu</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+        </div>
+      </div>
+    </div>
+
 </div>
 </header>
 
@@ -52,7 +106,7 @@
                     href="#"
                     [routerLink]="'/home'"
                   >
-                    <i class="fs-4 bi-house" ></i>
+                    <i class="fs-4 bi-house"  ></i>
                     <span class="ms-1 d-none d-sm-inline">Home</span>
                   </a>
                 </li>
@@ -63,7 +117,7 @@
                     href="#submenu1"
                     [routerLink]="'/ingredient'"
                   >
-                    <i class="fs-4 bi-speedometer2" ></i>
+                    <i class="fs-4 bi-speedometer2 " ></i>
                     <span class="ms-1 d-none d-sm-inline">Add Ingredient</span>
                   </a>
                 </li>
@@ -83,6 +137,105 @@
                     class="nav-link px-0 align-middle"
                     data-bs-toggle="collapse"
                     href="#submenu1"
+                    [routerLink]="'/raw-material-inventory'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Raw Material Inventory</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
+                    [routerLink]="'/stock-at-hand'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Stock At Hand</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
+                    [routerLink]="'/packaging-items'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Packaging Items</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
+                    [routerLink]="'/supplier'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Supplier</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
+                    [routerLink]="'/planner'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Planner</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
+                    [routerLink]="'/prep-list'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Prep List</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
+                    [routerLink]="'/order-list'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Order List</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
+                    [routerLink]="'/settings'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Settings</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
+                    [routerLink]="'/sign-out'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Sign Out</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
                     [routerLink]="'/auth'"
                   >
                     <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
@@ -90,7 +243,7 @@
                   </a>
                 </li>
               </ul>
-              <hr/>
+            <!--  <hr/>
               <div class="dropdown pb-4">
                 <a
                   aria-expanded="false"
@@ -110,14 +263,17 @@
                   </li>
                   <li><a class="dropdown-item" href="#">Sign out</a></li>
                 </ul>
-              </div>
+              </div>-->
+
             </div>
           </div>
+
 
           <div class="col">
             <router-outlet></router-outlet>
           </div>
         </div>
   </div>
+
 
 </main>

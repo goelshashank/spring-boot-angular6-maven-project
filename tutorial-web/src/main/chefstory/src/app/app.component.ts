@@ -210,4 +210,15 @@ export class AppComponent implements OnInit {
     this.sidebarExpanded = !this.sidebarExpanded;
   }
 
+  isOffcanvasOpen = false;
+
+  showOffcanvas() {
+    this.isOffcanvasOpen = true;
+   // new bootstrap.Offcanvas('#offcanvas').show();
+  }
+
+  hideOffcanvas() {
+    this.isOffcanvasOpen = false;
+  //  new bootstrap.Offcanvas('#offcanvas').hide();
+  }
 }
