@@ -14,6 +14,14 @@ import {AppRoutingModule} from './app-routing.module';
 import { NgxEditorModule } from "ngx-editor";
 import { HomeComponent } from './home/home.component';
 import {AuthModule} from "./auth/auth.module";
+import { InventoryComponent } from './inventory/inventory.component';
+import { KitchenPlannerComponent } from './kitchen-planner/kitchen-planner.component';
+import { PrepListComponent } from './prep-list/prep-list.component';
+import { OrderListComponent } from './order-list/order-list.component';
+import { PackagingComponent } from './packaging/packaging.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { StockAtHandComponent } from './stock-at-hand/stock-at-hand.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +30,15 @@ import {AuthModule} from "./auth/auth.module";
     RecipeComponent,
     BrandComponent,
     SupplierComponent,
-    HomeComponent
+    HomeComponent,
+    InventoryComponent,
+    KitchenPlannerComponent,
+    PrepListComponent,
+    OrderListComponent,
+    PackagingComponent,
+    CategoriesComponent,
+    StockAtHandComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

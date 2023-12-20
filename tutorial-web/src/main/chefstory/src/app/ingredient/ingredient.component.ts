@@ -18,6 +18,7 @@ import { BrandForIngredient } from '../model/BrandForIngredient';
 import { Ingredient } from '../model/Ingredient';
 import {RouterService} from "../service/router.service";
 import {ActivatedRoute} from "@angular/router";
+import {RouterPaths} from "../config/RouterPaths";
 
 @Component({
   selector: 'app-ingredient',
@@ -42,6 +43,8 @@ export class IngredientComponent implements OnInit , OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.appComponent.currentRoute='Nil';
+    console.log("++++ Destroyed Ingredient +++");
     }
 
   ngOnInit(): void {
@@ -210,4 +213,5 @@ export class IngredientComponent implements OnInit , OnDestroy {
   }
 
 
+  protected readonly RouterPaths = RouterPaths;
 }

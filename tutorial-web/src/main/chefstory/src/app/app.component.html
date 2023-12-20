@@ -5,7 +5,7 @@
 <header>
   <div class="container-fluid">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="this.currentRoute == RouterPaths.HOME">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Your Logo</a>
     <!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,7 +19,7 @@
               <a
                 class="nav-link align-middle px-0"
                 href="#"
-                [routerLink]="'/home'"
+                [routerLink]="RouterPaths.HOME"
               >
                <!-- <i class="fs-4 bi-house" ></i>-->
                 <span class="ms-1 d-none d-sm-inline text-secondary">Home</span>

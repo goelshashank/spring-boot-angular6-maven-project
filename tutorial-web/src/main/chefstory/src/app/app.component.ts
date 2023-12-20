@@ -11,7 +11,9 @@ import {Category} from './model/Category';
 import {Constants} from './config/Constants';
 import {BaseModel} from "./model/BaseModel";
 import {RouterService} from "./service/router.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {filter} from "rxjs";
+import {RouterPaths} from "./config/RouterPaths";
 
 
 @Component({
@@ -34,8 +36,11 @@ export class AppComponent implements OnInit {
   appConfiguration: AppConfiguration = new AppConfiguration();
   displayIngredientInfo: Ingredient = new Ingredient();
   sidebarExpanded: boolean = false;
+  currentRoute:string;
 
-  constructor(private http: HttpClient,public routerService:RouterService, private route: ActivatedRoute) {
+  constructor(private http: HttpClient,public routerService:RouterService, public route: ActivatedRoute,private router:Router) {
+
+   // const currentRoute = this.route.snapshot.routeConfig.path;
   }
 
   ngOnInit(): void {
@@ -221,4 +226,6 @@ export class AppComponent implements OnInit {
     this.isOffcanvasOpen = false;
   //  new bootstrap.Offcanvas('#offcanvas').hide();
   }
+
+  protected readonly RouterPaths = RouterPaths;
 }

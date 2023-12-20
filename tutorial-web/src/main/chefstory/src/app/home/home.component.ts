@@ -1,7 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RouterService} from "../service/router.service";
 import {AppComponent} from "../app.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {filter} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -11,9 +12,13 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class HomeComponent implements OnInit , OnDestroy{
 
-  constructor(public appComponent: AppComponent, public routerService:RouterService, private route: ActivatedRoute) { }
+  constructor(public appComponent: AppComponent, public routerService:RouterService, private route: ActivatedRoute,private router:Router) {
+  }
 
   ngOnInit(): void {
+    this.appComponent.currentRoute ='/'+this.route.snapshot.routeConfig.path;
+   // alert(this.appComponent.currentRoute);
+
     this.refresh(true,false,true);
     console.log("++++ Initialized Home +++");
   }
@@ -23,6 +28,8 @@ export class HomeComponent implements OnInit , OnDestroy{
   }
 
   ngOnDestroy(): void {
+    this.appComponent.currentRoute='Nil';
+    console.log("++++ Destroyed Home +++");
   }
 
   reload(){

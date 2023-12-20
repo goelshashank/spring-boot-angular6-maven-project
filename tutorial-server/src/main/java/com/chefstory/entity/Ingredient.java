@@ -42,6 +42,8 @@ import java.util.stream.Collectors;
 
 	@Column(name = "gst") private Double gst;
 
+	@Column(name = "minimumInventory") private Double minimumInventory;
+
 	@JsonManagedReference(value = "supplierForIngredients") @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL) private List<SupplierForIngredient> supplierForIngredients;
 
 	@JsonManagedReference(value = "brandForIngredients") @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL) private List<BrandForIngredient> brandForIngredients;

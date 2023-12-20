@@ -1,0 +1,13 @@
+.comma-separated {
+  display: inline-flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comma-separated li:after {
+  content: "  |  ";
+}
+.comma-separated li:last-child:after {
+  content: "";
+}

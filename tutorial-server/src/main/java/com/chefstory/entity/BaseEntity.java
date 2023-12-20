@@ -27,7 +27,7 @@ import java.util.Date;
 
 	@CreationTimestamp @Temporal(value = TemporalType.TIMESTAMP) @Column(name = "created_ts", updatable = false) @JsonIgnore private Date createdTs;
 
-	@UpdateTimestamp @Column(name = "modified_ts") @Temporal(value = TemporalType.TIMESTAMP) @JsonIgnore private Date modifiedTs;
+	@UpdateTimestamp @Column(name = "modified_ts") @Temporal(value = TemporalType.TIMESTAMP) private Date modifiedTs;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
