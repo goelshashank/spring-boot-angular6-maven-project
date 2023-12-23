@@ -37,6 +37,7 @@ export class IngredientComponent implements OnInit , OnDestroy {
   showIng = true;
   toUpdate: boolean = false;
   @ViewChild ('addIngForm') addIngForm: NgForm;
+  protected readonly RouterPaths = RouterPaths;
 
   constructor(private http: HttpClient, public appComponent: AppComponent, public routerService:RouterService,
               private route: ActivatedRoute) {
@@ -213,5 +214,4 @@ export class IngredientComponent implements OnInit , OnDestroy {
   }
 
 
-  protected readonly RouterPaths = RouterPaths;
 }

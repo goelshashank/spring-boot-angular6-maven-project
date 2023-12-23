@@ -11,3 +11,8 @@
 .comma-separated li:last-child:after {
   content: "";
 }
+
+.disabled {
+  pointer-events:none;
+opacity:0.6;
+}

@@ -79,11 +79,12 @@
                 :
               </button>
               <ul class="dropdown-menu">
-                <li *ngIf="displayIngInfo.title!=null"><a class="dropdown-item" href="#" (click)="onUpdate()">Update</a></li>
+                <li
+                  [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item" (click)="onUpdate()">Update</a></li>
                <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Group by Alphabetically</a></li>
                <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#">Group by Category</a></li>
               </ul>
             </div>
           </div>
