@@ -66,15 +66,25 @@
       <div class="row gx-1">
         <div class="col-md-10">
           <div class="row">
-            <label class="col" for="searchIng" id="searchIng1">Search Ingredient</label>
-            <div class="col ">
-              <button
+            <label class="col-6 small" for="searchIng" id="searchIng1">Search Ingredient</label>
+            <button
                 (click)="refresh(false,false,false)"
-                class="btn btn-primary"
+                class="col-2 btn btn-primary m-2"
                 type="submit"
-              >
+            >
                 +
+            </button>
+            <div class=" col-2 btn-group dropstart p-2">
+              <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                :
               </button>
+              <ul class="dropdown-menu">
+                <li *ngIf="displayIngInfo.title!=null"><a class="dropdown-item" href="#" (click)="onUpdate()">Update</a></li>
+               <!-- <li><hr class="dropdown-divider"></li>-->
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+               <!-- <li><hr class="dropdown-divider"></li>-->
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
             </div>
           </div>
 

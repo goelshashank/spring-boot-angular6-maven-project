@@ -195,7 +195,7 @@ export class IngredientComponent implements OnInit , OnDestroy {
   }
 
   onUpdate(){
-
+  //alert('test');
       this.showIng=false;
       this.toUpdate=true;
 
