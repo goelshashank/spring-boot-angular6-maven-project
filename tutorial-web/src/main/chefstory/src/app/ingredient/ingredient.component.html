@@ -85,11 +85,19 @@
                   (select any ingredient)</a></li>
                 <li
                   *ngIf="displayIngInfo.title!=null"><a class="dropdown-item" (click)="onUpdate()">Update</a></li>
+                <li *ngIf="displayIngInfo.title==null"
+                    [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
+                  (select any ingredient)</a></li>
+                <li
+                  *ngIf="displayIngInfo.title!=null"><a class="dropdown-item" (click)="remove()">Remove</a></li>
                 <!-- <li><hr class="dropdown-divider"></li>-->
                 <li><a class="dropdown-item" (click)="sortIngredients('alphabetically')">Group by Alphabetically</a>
                 </li>
                 <!-- <li><hr class="dropdown-divider"></li>-->
                 <li><a class="dropdown-item" (click)="sortIngredients('category')">Group by Category</a></li>
+                <li><a class="dropdown-item" (click)="exportIngs()">Export</a></li>
+                <li><a class="dropdown-item" (click)="importIngs()">Import</a></li>
+
               </ul>
             </div>
           </div>
