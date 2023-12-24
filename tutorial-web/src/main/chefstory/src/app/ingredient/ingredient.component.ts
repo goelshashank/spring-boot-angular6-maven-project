@@ -36,7 +36,7 @@ export class IngredientComponent implements OnInit , OnDestroy {
   displayIngInfo: Ingredient = new Ingredient();
   showIng = true;
   toUpdate: boolean = false;
-  sortIngredientsBy:string='category';
+  sortIngredientsBy:string=null;
   @ViewChild ('addIngForm') addIngForm: NgForm;
   protected readonly RouterPaths = RouterPaths;
 
@@ -51,6 +51,7 @@ export class IngredientComponent implements OnInit , OnDestroy {
 
   ngOnInit(): void {
     this.refresh(true,false,true);
+    this.sortIngredients('category');
     console.log("++++ Initialized Ingredients +++");
   }
 
@@ -211,6 +212,13 @@ export class IngredientComponent implements OnInit , OnDestroy {
 
   reload(){
     window.location.reload()
+  }
+
+  sortIngredients(type:string){
+    this.sortIngredientsBy=type;
+    if(type=='category'){
+      this.appComponent.sortIngredientsByCategory(this.appComponent.ingredients)
+    }
   }
 
 

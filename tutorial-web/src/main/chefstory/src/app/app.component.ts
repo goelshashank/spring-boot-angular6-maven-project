@@ -14,6 +14,8 @@ import {RouterService} from "./service/router.service";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {filter} from "rxjs";
 import {RouterPaths} from "./config/RouterPaths";
+import {CategoryFor} from "./model/CategoryFor";
+import {SortByOrderPipe} from "./utils/sort-by-order.pipe";
 
 
 @Component({
@@ -37,6 +39,7 @@ export class AppComponent implements OnInit {
   displayIngredientInfo: Ingredient = new Ingredient();
   sidebarExpanded: boolean = false;
   currentRoute:string;
+  categoryIngredientMap: Map<String,Ingredient[]>=new Map();
 
   constructor(private http: HttpClient,public routerService:RouterService, public route: ActivatedRoute,private router:Router) {
 
@@ -75,6 +78,26 @@ export class AppComponent implements OnInit {
         console.log('%% get all ingredients is completed successfully %%');
       });
     return this.ingredients;
+  }
+
+   sortIngredientsByCategory(ingredients: Ingredient []){
+
+    this.categoryIngredientMap=new Map();
+    ingredients.forEach(t => {
+      t.categoriesForIngredient.forEach(u =>{
+        if(!this.categoryIngredientMap.has(u.category.title)){
+          this.categoryIngredientMap.set(u.category.title,[])
+        }
+        this.categoryIngredientMap.get(u.category.title).push(t)
+      })
+    });
+
+    const sortByOrderPipe: SortByOrderPipe = new SortByOrderPipe();
+    this.categoryIngredientMap.forEach((value, key) => {
+     value= sortByOrderPipe.transform(value,'title');
+    });
+
+  //  console.log('test')
   }
 
   getAllSuppliers() {

@@ -68,25 +68,28 @@
           <div class="row">
             <label class="col-6 small" for="searchIng" id="searchIng1">Search Ingredient</label>
             <button
-                (click)="refresh(false,false,false)"
-                class="col-2 btn btn-primary m-2"
-                type="submit"
+              (click)="refresh(false,false,false)"
+              class="col-2 btn btn-primary m-2"
+              type="submit"
             >
-                +
+              +
             </button>
             <div class=" col-2 btn-group dropstart p-2">
-              <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                      aria-expanded="false">
                 :
               </button>
               <ul class="dropdown-menu">
                 <li *ngIf="displayIngInfo.title==null"
-                  [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Update (select any ingredient)</a></li>
+                    [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Update
+                  (select any ingredient)</a></li>
                 <li
                   *ngIf="displayIngInfo.title!=null"><a class="dropdown-item" (click)="onUpdate()">Update</a></li>
-               <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a class="dropdown-item" (click)="sortIngredientsBy='alphabetically'">Group by Alphabetically</a></li>
-               <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a class="dropdown-item" (click)="sortIngredientsBy='category'">Group by Category</a></li>
+                <!-- <li><hr class="dropdown-divider"></li>-->
+                <li><a class="dropdown-item" (click)="sortIngredients('alphabetically')">Group by Alphabetically</a>
+                </li>
+                <!-- <li><hr class="dropdown-divider"></li>-->
+                <li><a class="dropdown-item" (click)="sortIngredients('category')">Group by Category</a></li>
               </ul>
             </div>
           </div>
@@ -111,20 +114,30 @@
       </div>
 
       <!--by category-->
-      <div *ngIf = "sortIngredientsBy=='category'" class="row ps-4 mt-4 w-75 overflow-auto h-50 " >
-          <ul
-          *ngFor="let ing of appComponent.ingredients |  sortByOrder:'title'"
+      <div *ngIf="sortIngredientsBy=='category'" class="row ps-4 mt-4 w-75 overflow-auto h-50 ">
+        <ul
+          *ngFor="let mapCategFoIng of appComponent.categoryIngredientMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
           class="container-fluid list-group list-group-flush  "
         >
-          <li class="list-group-item list-group-item-action" style="cursor: pointer;"  (click)="getIngredient(ing)" >
-            {{ ing.title }}
-          </li>
-             <li class="dropdown-divider"></li>
+          <div >
+            {{ mapCategFoIng.key}}
+            <ul
+              *ngFor="let ing of mapCategFoIng.value"
+              class="container-fluid list-group list-group-flush  "
+            >
+              <li class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="getIngredient(ing)">
+                {{ing.title}}
+              </li>
+            </ul>
+          </div>
+          <li class="dropdown-divider"></li>
+
+
         </ul>
       </div>
 
       <!--by alphabetically-->
-      <div *ngIf = "sortIngredientsBy=='alphabetically'" class="row  ps-3 mt-3 w-75">
+      <div *ngIf="sortIngredientsBy=='alphabetically'" class="row  ps-3 mt-3 w-75">
         <ul
           *ngFor="let ing of appComponent.ingredients |  sortByOrder:'title'"
           class="list-group list-group-flush "
@@ -132,14 +145,11 @@
           <li
             (click)="getIngredient(ing)"
             class="list-group-item list-group-item-action cursor-pointer"
-
           >
             {{ ing.title }}
           </li>
         </ul>
       </div>
-
-
 
     </div>
 
