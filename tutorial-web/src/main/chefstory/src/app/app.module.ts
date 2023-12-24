@@ -22,6 +22,7 @@ import { PackagingComponent } from './packaging/packaging.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { StockAtHandComponent } from './stock-at-hand/stock-at-hand.component';
 import { SettingsComponent } from './settings/settings.component';
+import { SortByOrderPipe } from './utils/sort-by-order.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SettingsComponent } from './settings/settings.component';
     PackagingComponent,
     CategoriesComponent,
     StockAtHandComponent,
-    SettingsComponent
+    SettingsComponent,
+    SortByOrderPipe
   ],
   imports: [
     BrowserModule,

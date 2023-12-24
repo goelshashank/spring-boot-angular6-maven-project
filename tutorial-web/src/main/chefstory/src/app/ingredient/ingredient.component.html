@@ -62,8 +62,8 @@
 
 
   <div class="row my-4">
-    <div class="col-2 bg-light shadow rounded">
-      <div class="row gx-1">
+    <div class=" col-2  bg-light shadow rounded">
+      <div class="row gx-1 ">
         <div class="col-md-10">
           <div class="row">
             <label class="col-6 small" for="searchIng" id="searchIng1">Search Ingredient</label>
@@ -79,12 +79,14 @@
                 :
               </button>
               <ul class="dropdown-menu">
+                <li *ngIf="displayIngInfo.title==null"
+                  [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Update (select any ingredient)</a></li>
                 <li
-                  [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item" (click)="onUpdate()">Update</a></li>
+                  *ngIf="displayIngInfo.title!=null"><a class="dropdown-item" (click)="onUpdate()">Update</a></li>
                <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a class="dropdown-item" href="#">Group by Alphabetically</a></li>
+                <li><a class="dropdown-item" (click)="sortIngredientsBy='alphabetically'">Group by Alphabetically</a></li>
                <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a class="dropdown-item" href="#">Group by Category</a></li>
+                <li><a class="dropdown-item" (click)="sortIngredientsBy='category'">Group by Category</a></li>
               </ul>
             </div>
           </div>
@@ -108,20 +110,37 @@
 
       </div>
 
-      <div class="row d-flex ps-3 mt-3 main">
-        <ui
-          *ngFor="let ing of appComponent.ingredients"
-          class="list-group w-75"
+      <!--by category-->
+      <div *ngIf = "sortIngredientsBy=='category'" class="row ps-4 mt-4 w-75 overflow-auto h-50 " >
+          <ul
+          *ngFor="let ing of appComponent.ingredients |  sortByOrder:'title'"
+          class="container-fluid list-group list-group-flush  "
         >
-          <button
+          <li class="list-group-item list-group-item-action" style="cursor: pointer;"  (click)="getIngredient(ing)" >
+            {{ ing.title }}
+          </li>
+             <li class="dropdown-divider"></li>
+        </ul>
+      </div>
+
+      <!--by alphabetically-->
+      <div *ngIf = "sortIngredientsBy=='alphabetically'" class="row  ps-3 mt-3 w-75">
+        <ul
+          *ngFor="let ing of appComponent.ingredients |  sortByOrder:'title'"
+          class="list-group list-group-flush "
+        >
+          <li
             (click)="getIngredient(ing)"
-            class="list-group-item list-group-item-action"
-            type="button"
+            class="list-group-item list-group-item-action cursor-pointer"
+
           >
             {{ ing.title }}
-          </button>
-        </ui>
+          </li>
+        </ul>
       </div>
+
+
+
     </div>
 
     <div class="col mx-3 my-1">

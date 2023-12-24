@@ -36,6 +36,7 @@ export class IngredientComponent implements OnInit , OnDestroy {
   displayIngInfo: Ingredient = new Ingredient();
   showIng = true;
   toUpdate: boolean = false;
+  sortIngredientsBy:string='category';
   @ViewChild ('addIngForm') addIngForm: NgForm;
   protected readonly RouterPaths = RouterPaths;
 
@@ -207,7 +208,6 @@ export class IngredientComponent implements OnInit , OnDestroy {
       this.addIngredient.ingredient.supplierList=this.displayIngInfo.supplierForIngredients.map((t)=> t.supplier.title);
       this.addIngredient.ingredient.brandList=this.displayIngInfo.brandForIngredients.map((t)=> t.brand.title)
   }
-
 
   reload(){
     window.location.reload()
