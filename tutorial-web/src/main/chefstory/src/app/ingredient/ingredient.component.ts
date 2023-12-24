@@ -87,7 +87,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log('Error happened in' + api + 'ingredient' + JSON.stringify(error));
-        alert('Error happened in add ingredient' + JSON.stringify(error));
+       // alert('Error happened in add ingredient' + JSON.stringify(error));
       },
       () => {
         console.log('%%' + api + 'ingredient is completed successfully %%');
@@ -235,7 +235,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log('Error happened in remove ingredient' + JSON.stringify(error));
-        alert('Error happened in remove ingredient' + JSON.stringify(error));
+       // alert('Error happened in remove ingredient' + JSON.stringify(error));
       },
       () => {
         console.log('%% remove ingredient is completed successfully %%');
@@ -246,19 +246,18 @@ export class IngredientComponent implements OnInit, OnDestroy {
 
   exportIngs(): void {
     const pojoList: Ingredient[] = this.appComponent.ingredients;
-    // Create a new workbook
     const workbook = XLSX.utils.book_new();
 
-
     const data: any[][] = [];
-    // Get header row from the first POJO
-    const headerRow = ['S.No.', 'Title', 'Category', 'Supplier', 'Brand'];
+    const headerRow = ['S.No.', 'Title', 'Category', 'Supplier', 'Brand [SKU Cost|SKU Qty]','GST%','Minimum Inventory','Unit'];
     let i = 0;
     data[i] = headerRow;
     pojoList.forEach((t) => {
       i++;
+      const brandStr=t.brandForIngredients[0].brand.title +' '+ '['+t.brandForIngredients[0].skuCost+'|'+
+        t.brandForIngredients[0].skuQty+']';
       const values = [i, t.title, t.categoriesForIngredient[0].category.title, t.supplierForIngredients[0].title,
-        t.brandForIngredients[0].brand.title];
+        brandStr,t.gst,t.minimumInventory,t.unit];
       data[i] = values;
     });
 
@@ -266,7 +265,6 @@ export class IngredientComponent implements OnInit, OnDestroy {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
     const excelBuffer = XLSX.write(workbook, {type: 'buffer', bookType: 'xlsx'});
-
     const blob = new Blob([excelBuffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
 
     FileSaver.saveAs(blob, 'IngredientsList.xlsx');
