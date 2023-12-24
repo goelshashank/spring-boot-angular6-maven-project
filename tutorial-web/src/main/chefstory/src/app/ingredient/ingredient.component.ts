@@ -254,9 +254,27 @@ export class IngredientComponent implements OnInit, OnDestroy {
     data[i] = headerRow;
     pojoList.forEach((t) => {
       i++;
-      const brandStr=t.brandForIngredients[0].brand.title +' '+ '['+t.brandForIngredients[0].skuCost+'|'+
-        t.brandForIngredients[0].skuQty+']';
-      const values = [i, t.title, t.categoriesForIngredient[0].category.title, t.supplierForIngredients[0].title,
+      let brandStr='';
+      t.brandForIngredients.forEach((u,index)=>{
+        const s=t.brandForIngredients[index].brand.title + '['+t.brandForIngredients[index].skuCost+'|'+
+          t.brandForIngredients[index].skuQty+']';
+        if(index==0){
+          brandStr=s;
+        }else{
+          brandStr=brandStr +','+ s;
+        }
+      });
+      let suppStr='';
+      t.supplierForIngredients.forEach((u,index)=>{
+        const s=t.supplierForIngredients[index].supplier.title;
+        if(index==0){
+          suppStr=s;
+        }else{
+          suppStr=suppStr +','+ s;
+        }
+      });
+
+      const values = [i, t.title, t.categoriesForIngredient[0].category.title, suppStr,
         brandStr,t.gst,t.minimumInventory,t.unit];
       data[i] = values;
     });
