@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
   sidebarExpanded: boolean = false;
   currentRoute:string;
   categoryIngredientMap: Map<String,Ingredient[]>=new Map();
+  categoryRecipeMap: Map<String,Recipe[]>=new Map();
 
   constructor(private http: HttpClient,public routerService:RouterService, public route: ActivatedRoute,private router:Router) {
 
@@ -98,6 +99,27 @@ export class AppComponent implements OnInit {
     });
 
   //  console.log('test')
+  }
+
+
+  sortRecipesByCategory(recipes: Recipe []){
+
+    this.categoryRecipeMap=new Map();
+    recipes.forEach(t => {
+      t.categoriesForRecipe.forEach(u =>{
+        if(!this.categoryRecipeMap.has(u.category.title)){
+          this.categoryRecipeMap.set(u.category.title,[])
+        }
+        this.categoryRecipeMap.get(u.category.title).push(t)
+      })
+    });
+
+    const sortByOrderPipe: SortByOrderPipe = new SortByOrderPipe();
+    this.categoryRecipeMap.forEach((value, key) => {
+      value= sortByOrderPipe.transform(value,'title');
+    });
+
+    //  console.log('test')
   }
 
   getAllSuppliers() {

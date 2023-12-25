@@ -18,6 +18,9 @@ import {BaseModel} from "../model/BaseModel";
 import {Editor, Toolbar} from "ngx-editor";
 import {RouterService} from "../service/router.service";
 import {ActivatedRoute} from "@angular/router";
+import {RouterPaths} from "../config/RouterPaths";
+import * as XLSX from "xlsx";
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-recipe',
@@ -36,8 +39,10 @@ export class RecipeComponent implements OnInit , OnDestroy {
   displayRecipeInfo: Recipe = new Recipe();
   showRecipe = true;
   toUpdate: boolean = false;
+  sortRecipesBy: string = null;
   enableAdj=false;
   enableUpdateTotal=true;
+  protected readonly RouterPaths = RouterPaths;
 
   editor: Editor;
   editor1: Editor;
@@ -67,6 +72,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   ngOnInit(): void {
     this.refresh(true,false,true);
+    this.sortRecipes('category');
     console.log("++++ Initialized Recipes +++");
   }
 
@@ -302,7 +308,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   onUpdate(){
 
-    this.showRecipe=!this.showRecipe;
+    this.showRecipe=false;
     this.toUpdate=true;
 
     this.addRecipe=new AddRecipe();
@@ -384,8 +390,84 @@ export class RecipeComponent implements OnInit , OnDestroy {
    return recipes.filter((t)=> t.title!=this.displayRecipeInfo.title);
   }
 
+
+  sortRecipes(type: string) {
+    this.sortRecipesBy = type;
+    if (type == 'category') {
+      this.appComponent.sortRecipesByCategory(this.appComponent.recipes)
+    }
+  }
+
+
+  remove() {
+    let addRecipe: AddRecipe = new AddRecipe();
+    addRecipe.recipe = this.displayRecipeInfo;
+
+    this.http.post(environment.baseUrl + ApiPaths.RemoveIngredients, [addRecipe]).subscribe(
+      (response) => {
+        console.log('remove recipes response -' + JSON.stringify(response));
+        // alert('Add recipes response -' + JSON.stringify(response));
+      },
+      (error) => {
+        console.log('Error happened in remove recipe' + JSON.stringify(error));
+        // alert('Error happened in remove recipe' + JSON.stringify(error));
+      },
+      () => {
+        console.log('%% remove recipe is completed successfully %%');
+        //  alert('%% add recipe is completed successfully %%');
+      });
+    this.reload();
+  }
+
+  exportRecipes(): void {
+    const pojoList: Ingredient[] = this.appComponent.ingredients;
+    const workbook = XLSX.utils.book_new();
+
+    const data: any[][] = [];
+    const headerRow = ['S.No.', 'Title', 'Category', 'Supplier', 'Brand [SKU Cost|SKU Qty]','GST%','Minimum Inventory','Unit'];
+    let i = 0;
+    data[i] = headerRow;
+    pojoList.forEach((t) => {
+      i++;
+      let brandStr='';
+      t.brandForIngredients.forEach((u,index)=>{
+        const s=t.brandForIngredients[index].brand.title + '['+t.brandForIngredients[index].skuCost+'|'+
+          t.brandForIngredients[index].skuQty+']';
+        if(index==0){
+          brandStr=s;
+        }else{
+          brandStr=brandStr +','+ s;
+        }
+      });
+      let suppStr='';
+      t.supplierForIngredients.forEach((u,index)=>{
+        const s=t.supplierForIngredients[index].supplier.title;
+        if(index==0){
+          suppStr=s;
+        }else{
+          suppStr=suppStr +','+ s;
+        }
+      });
+
+      const values = [i, t.title, t.categoriesForIngredient[0].category.title, suppStr,
+        brandStr,t.gst,t.minimumInventory,t.unit];
+      data[i] = values;
+    });
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    const excelBuffer = XLSX.write(workbook, {type: 'buffer', bookType: 'xlsx'});
+    const blob = new Blob([excelBuffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
+
+    FileSaver.saveAs(blob, 'IngredientsList.xlsx');
+  }
+
+  importRecipes(): void {
+
+  }
+
   reload(){
     window.location.reload()
   }
-
 }

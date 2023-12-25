@@ -1,11 +1,106 @@
 <div class="container-fluid" xmlns:trackBy="http://www.w3.org/1999/xhtml">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Your Logo</a>
+      <!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">sdfdsa</span>
+          </button>-->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul
+          class="navbar-nav ms-auto"
+        >
+          <li class="nav-item">
+            <a
+              class="nav-link align-middle px-0"
+              href="#"
+              [routerLink]="RouterPaths.HOME"
+            >
+              <!-- <i class="fs-4 bi-house" ></i>-->
+              <span class="ms-1 d-none d-sm-inline text-secondary">Home</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="nav-link px-0 align-middle"
+              data-bs-toggle="collapse"
+              href="#submenu1"
+              [routerLink]="'/ingredient'"
+            >
+              <!--   <i class="fs-4 bi-speedometer2" ></i>-->
+              <span class="ms-1 d-none d-sm-inline text-secondary">Add Ingredient</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="nav-link px-0 align-middle bg-dark"
+              data-bs-toggle="collapse"
+              href="#submenu1"
+              [routerLink]="'/recipe'"
+            >
+              <!--<i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>-->
+              <span class="ms-1 d-none d-sm-inline text-secondary">Add Recipe</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="nav-link px-0 align-middle"
+              data-bs-toggle="collapse"
+              href="#submenu1"
+              [routerLink]="'/auth'"
+            >
+              <!-- <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>-->
+              <span class="ms-1 d-none d-sm-inline text-secondary">Authenticate</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
   <div class="row my-4">
 
     <div title="Block of left section"
          class="col-2 bg-light shadow rounded">
       <div class="row gx-1">
         <div class="col-md-10">
-          <label for="searchRecipe" id="searchRecipe1">Search Recipe</label>
+          <div class="row">
+          <label class="col-6 small" for="searchRecipe" id="searchRecipe1">Search Recipe</label>
+            <button
+              (click)="refresh(false,false,false)"
+              class="col-2 btn btn-primary m-2"
+              type="submit"
+            >
+              +
+            </button>
+            <div class=" col-2 btn-group dropstart p-2">
+              <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                :
+              </button>
+              <ul class="dropdown-menu">
+                <li *ngIf="displayRecipeInfo.title==null"
+                    [ngClass]="displayRecipeInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Update
+                  (select any recipe)</a></li>
+                <li
+                  *ngIf="displayRecipeInfo.title!=null"><a class="dropdown-item" (click)="onUpdate()">Update</a></li>
+                <li *ngIf="displayRecipeInfo.title==null"
+                    [ngClass]="displayRecipeInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
+                  (select any recipe)</a></li>
+                <li
+                  *ngIf="displayRecipeInfo.title!=null"><a class="dropdown-item" (click)="remove()">Remove</a></li>
+                <!-- <li><hr class="dropdown-divider"></li>-->
+                <li><a class="dropdown-item" (click)="sortRecipes('alphabetically')">Group by Alphabetically</a>
+                </li>
+                <!-- <li><hr class="dropdown-divider"></li>-->
+                <li><a class="dropdown-item" (click)="sortRecipes('category')">Group by Category</a></li>
+                <li><a class="dropdown-item" (click)="exportRecipes()">Export</a></li>
+                <li><a class="dropdown-item" (click)="importRecipes()">Import</a></li>
+
+              </ul>
+            </div>
+          </div>
+
           <ng-select
             (change)="getRecipe($event)"
             [multiple]="false"
@@ -22,39 +117,54 @@
           </ng-select>
         </div>
 
-        <div class="col-md-1 mt-4">
-          <button
-            (click)="this.refresh(false,false,false)"
-            class="btn btn-primary"
-            type="submit"
-          >
-            +
-          </button>
-        </div>
-
       </div>
 
-      <div class="row d-flex ps-3 mt-3 main">
-        <ui *ngFor="let recipe of appComponent.recipes" class="list-group w-75">
-          <button
+      <!--by category-->
+      <div *ngIf="sortRecipesBy=='category'" class="row ps-4 mt-4 w-75 overflow-auto h-50 ">
+        <ul
+          *ngFor="let mapCategFoRecip of appComponent.categoryRecipeMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
+          class="container-fluid list-group list-group-flush  "
+        >
+          <div >
+            {{ mapCategFoRecip.key}}
+            <ul
+              *ngFor="let recip of mapCategFoRecip.value"
+              class="container-fluid list-group list-group-flush  "
+            >
+              <li class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="getRecipe(recip)">
+                {{recip.title}}
+              </li>
+            </ul>
+          </div>
+          <li class="dropdown-divider"></li>
+
+
+        </ul>
+      </div>
+
+      <!--by alphabetically-->
+      <div *ngIf="sortRecipesBy=='alphabetically'" class="row  ps-3 mt-3 w-75">
+        <ul
+          *ngFor="let recipe of appComponent.recipes |  sortByOrder:'title'"
+          class="list-group list-group-flush "
+        >
+          <li
             (click)="getRecipe(recipe)"
-            class="list-group-item list-group-item-action"
-            type="button"
+            class="list-group-item list-group-item-action cursor-pointer"
           >
             {{ recipe.title }}
-          </button>
-        </ui>
+          </li>
+        </ul>
       </div>
 
-    </div>
+  </div>
 
-    <div title="Block of right section"
-         class="col">
+    <div title="Block of right section" class="col  mx-3 my-1 ">
       <div class="container" *ngIf="showRecipe">
 
         <div title="Block of display recipe attributes">
-        <div class="row px-1 bg-light shadow rounded mx-5">
-          <div class="row">
+        <div class="row bg-light shadow rounded p-3">
+          <div class="row d-flex">
             <div class="col">
               <h6 class="align-middle">Serving-Qty :</h6>
               <p class="align-middle">{{ displayRecipeInfo.servingQty }}</p>
@@ -117,7 +227,7 @@
               <p class="align-middle">{{displayRecipeInfo.cookTime}}</p> -->
             </div>
           </div>
-        </div>
+          </div>
         </div>
 
         <div title="Block of recipe's ingredients">
@@ -184,14 +294,15 @@
       </div>
 
       <div title="Block of add or update recipe"
-        class="container bg-light shadow rounded mx-3 my-1 p-3"
-        [style.display]="!showRecipe ? 'block' : 'none'"
+        class=" bg-light shadow rounded p-3"
+           *ngIf="!showRecipe"
       >
         <form
           #addRecipeForm="ngForm"
           (ngSubmit)="addRecipes()"
           autocomplete="off"
           class="form-group"
+          id="addRecipeForm"
         >
 
           <div title="Block of title">

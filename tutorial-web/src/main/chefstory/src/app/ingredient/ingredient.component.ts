@@ -214,10 +214,6 @@ export class IngredientComponent implements OnInit, OnDestroy {
     this.addIngredient.ingredient.brandList = this.displayIngInfo.brandForIngredients.map((t) => t.brand.title)
   }
 
-  reload() {
-    window.location.reload()
-  }
-
   sortIngredients(type: string) {
     this.sortIngredientsBy = type;
     if (type == 'category') {
@@ -292,6 +288,10 @@ export class IngredientComponent implements OnInit, OnDestroy {
 
   importIngs(): void {
 
+  }
+
+  reload() {
+    window.location.reload()
   }
 
 }
