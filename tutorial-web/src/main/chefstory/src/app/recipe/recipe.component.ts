@@ -15,7 +15,7 @@ import {CategoryFor} from '../model/CategoryFor';
 import { AddIngredient } from '../model/AddIngredient';
 import { IngredientInRecip } from '../model/IngredientInRecip';
 import {BaseModel} from "../model/BaseModel";
-import { Editor } from "ngx-editor";
+import {Editor, Toolbar} from "ngx-editor";
 import {RouterService} from "../service/router.service";
 import {ActivatedRoute} from "@angular/router";
 
@@ -40,6 +40,18 @@ export class RecipeComponent implements OnInit , OnDestroy {
   enableUpdateTotal=true;
 
   editor: Editor;
+  editor1: Editor;
+  editor2: Editor;
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
   html: '';
   @ViewChild ('addRecipeForm') addRecipeForm: NgForm;
 
@@ -49,6 +61,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   ngOnDestroy(): void {
     this.editor.destroy();
+    this.editor1.destroy();
+    this.editor2.destroy();
   }
 
   ngOnInit(): void {
@@ -65,6 +79,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.showRecipe=showRecipe;
     this.toUpdate=toUpdate;
     this.editor = new Editor();
+    this.editor1=new Editor();
+    this.editor2=new Editor();
   }
 
   addRecipes() {

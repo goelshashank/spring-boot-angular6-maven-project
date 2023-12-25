@@ -13,6 +13,9 @@ export class Recipe extends  BaseModel{
   subCategory: string;
   course: string;
   source: string;
+  sourceURL: string;
+  method: string;
+  notes: string;
   servingQty: number;
   cookTime: string;
   prepTime: string;

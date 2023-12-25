@@ -409,7 +409,8 @@
             <b> Total Price - {{ totalCost }} </b>
           </div>
 
-          <div title="Block of categoryForRecipe">
+          <div class="row">
+          <div class="col" title="Block of categoryForRecipe">
           <label for="categoryForRecipe" id="categoryForRecipe1" class=" mt-2">Category</label>
           <ng-select
             (add)="setCategories($event)"
@@ -431,7 +432,23 @@
           </ng-select>
           </div>
 
-          <div title="Block of collectionRecipe">
+
+          <div class="col" title="Block of subCatRecipe">
+            <label for="subCatRecipe" class=" mt-2">Sub category</label>
+            <input
+              [(ngModel)]="addRecipe.recipe.subCategory"
+              class="form-control w-50"
+              id="subCatRecipe"
+              name="subCatRecipe"
+              placeholder="Enter sub category"
+              type="text"
+            />
+          </div>
+          </div>
+
+
+          <div class="row">
+          <div class="col" title="Block of collectionRecipe">
           <label for="collectionRecipe" class=" mt-2">Collection</label>
           <input
             [(ngModel)]="addRecipe.recipe.collection"
@@ -443,19 +460,7 @@
           />
           </div>
 
-          <div title="Block of subCatRecipe">
-          <label for="subCatRecipe" class=" mt-2">Sub category</label>
-          <input
-            [(ngModel)]="addRecipe.recipe.subCategory"
-            class="form-control w-50"
-            id="subCatRecipe"
-            name="subCatRecipe"
-            placeholder="Enter sub category"
-            type="text"
-          />
-          </div>
-
-          <div title="Block of courseRecipe">
+          <div class="col" title="Block of courseRecipe">
           <label for="courseRecipe" class=" mt-2">Course</label>
           <input
             [(ngModel)]="addRecipe.recipe.course"
@@ -466,39 +471,58 @@
             type="text"
           />
           </div>
+          </div>
 
-          <div title="Block of sourceRecipe">
+          <div class="row">
+          <div  class="col" title="Block of sourceRecipe">
           <label for="sourceRecipe" class=" mt-2">Source</label>
-          <input
-            [(ngModel)]="addRecipe.recipe.source"
-            class="form-control w-50"
-            id="sourceRecipe"
-            name="sourceRecipe"
-            placeholder="Enter source"
-            type="text"
-          />
-          </div>
-
-          <div title="Block of description">
-          <div class="NgxEditor__Wrapper" id="richTextEdit">
-            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+            </ngx-editor-menu>
             <ngx-editor
+              id="sourceRecipe"
               [editor]="editor"
-              [ngModel]="html"
+              [(ngModel)]="addRecipe.recipe.source"
               [disabled]="false"
-              [placeholder]="'Type here...'"
             ></ngx-editor>
           </div>
 
-          <div class="NgxEditor__Wrapper" id="richTextEdit1">
-            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
-            <ngx-editor
-              [editor]="editor"
-              [ngModel]="html"
-              [disabled]="false"
-              [placeholder]="'Type here...'"
-            ></ngx-editor>
+          <div class="col" title="Block of sourceURLRecipe">
+            <label for="sourceURLRecipe" class=" mt-2">Source URL</label>
+            <input
+              [(ngModel)]="addRecipe.recipe.sourceURL"
+              class="form-control w-50"
+              id="sourceURLRecipe"
+              name="sourceURLRecipe"
+              placeholder="Enter source URL"
+              type="text"
+            />
           </div>
+          </div>
+
+          <div class="row">
+            <div  class="col" title="Block of methodRecipe">
+              <label for="methodRecipe" class=" mt-2">Method</label>
+              <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar">
+              </ngx-editor-menu>
+              <ngx-editor
+                id="methodRecipe"
+                [editor]="editor1"
+                [(ngModel)]="addRecipe.recipe.method"
+                [disabled]="false"
+              ></ngx-editor>
+            </div>
+
+            <div  class="col" title="Block of notesRecipe">
+              <label for="notesRecipe" class=" mt-2">Notes</label>
+              <ngx-editor-menu [editor]="editor2" [toolbar]="toolbar">
+              </ngx-editor-menu>
+              <ngx-editor
+                id="notesRecipe"
+                [editor]="editor2"
+                [(ngModel)]="addRecipe.recipe.notes"
+                [disabled]="false"
+              ></ngx-editor>
+            </div>
           </div>
 
           <div title="Block of servingQty">
