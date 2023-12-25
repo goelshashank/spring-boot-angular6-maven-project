@@ -62,7 +62,7 @@
 
 
   <div class="row my-4">
-    <div class=" col-2  bg-light shadow rounded">
+    <div class=" col-2  bg-light shadow rounded" >
       <div class="row gx-1 ">
         <div class="col-md-10">
           <div class="row">
@@ -161,9 +161,10 @@
 
     </div>
 
-    <div class="col mx-3 my-1">
+    <div class="col mx-3 my-1 " >
       <div class="" *ngIf="showIng">
 
+    <!--    <div class="row bg-light shadow rounded p-3 bg-image" style="background-image: url('assets/img/border.jpeg');">-->
         <div class="row bg-light shadow rounded p-3">
           <div class="row d-flex">
             <h6 class="align-middle col-auto">Unit :</h6>
@@ -183,7 +184,18 @@
             <h6 class="align-middle">Categories :</h6>
             <ul class="inline-list comma-separated mx-4">
               <li
-                *ngFor="let categ of displayIngInfo.categoriesForIngredient" class="comma-separated"
+                *ngFor="let categ of appComponent.getMainCategoriesFor(displayIngInfo.categoriesForIngredient)" class="comma-separated"
+              >
+                {{ categ.category.title }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="container">
+            <h6 class="align-middle">Sub-Categories :</h6>
+            <ul class="inline-list comma-separated mx-4">
+              <li
+                *ngFor="let categ of appComponent.getSubCategoriesFor(displayIngInfo.categoriesForIngredient)" class="comma-separated"
               >
                 {{ categ.category.title }}
               </li>
@@ -273,8 +285,8 @@
           <label for="categoryForIng" id="categoryForIng1" class="mt-2"
           >Category</label>
           <ng-select
-            (add)="setCategories($event)"
-            (remove)="removeCategories($event)"
+            (add)="setCategories($event,false)"
+            (remove)="removeCategories($event,false)"
             [(ngModel)]="addIngredient.ingredient.catList"
             [addTag]="true"
             [multiple]="true"
@@ -286,6 +298,27 @@
           >
             <ng-option
               *ngFor="let cat of appComponent.categoriesIngredient"
+              [value]="cat"
+            >{{ cat.title }}
+            </ng-option
+            >
+          </ng-select>
+          <label for="subCategoryForIng" id="subCategoryForIng1" class="mt-2"
+          >Sub-Category</label>
+          <ng-select
+            (add)="setCategories($event,true)"
+            (remove)="removeCategories($event,true)"
+            [(ngModel)]="addIngredient.ingredient.subCatList"
+            [addTag]="true"
+            [multiple]="true"
+            [searchable]="true"
+            appendTo="body"
+            class="form-control"
+            id="subCategoryForIng"
+            name="subCategoryForIng"
+          >
+            <ng-option
+              *ngFor="let cat of appComponent.getSubCategories(appComponent.categoriesIngredient)"
               [value]="cat"
             >{{ cat.title }}
             </ng-option

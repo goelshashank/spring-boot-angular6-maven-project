@@ -22,6 +22,7 @@ export class Ingredient extends BaseModel{
   categoriesForIngredient: CategoryFor[]=[];
 
   @jsonIgnore() catList:String[]=[];
+  @jsonIgnore() subCatList:String[]=[];
   @jsonIgnore() brandList: String[]=[];
   @jsonIgnore() supplierList: String[]=[];
 

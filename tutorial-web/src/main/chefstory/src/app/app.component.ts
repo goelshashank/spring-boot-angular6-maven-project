@@ -251,4 +251,22 @@ export class AppComponent implements OnInit {
   }
 
   protected readonly RouterPaths = RouterPaths;
+
+
+  getSubCategories(categoryList:Category[]):Category[]{
+    return  categoryList.filter(t=> (t.isSub!=null && t.isSub));
+  }
+
+  getSubCategoriesFor(categoryForList:CategoryFor[]):CategoryFor[]{
+    return  categoryForList.filter(t=> (t.category.isSub!=null && t.category.isSub));
+  }
+
+  getMainCategories(categoryList:Category[]):Category[]{
+    return  categoryList.filter(t=> !(t.isSub!=null && t.isSub));
+  }
+
+  getMainCategoriesFor(categoryForList:CategoryFor[]):CategoryFor[]{
+    return  categoryForList.filter(t=> !(t.category.isSub!=null && t.category.isSub));
+  }
+
 }
