@@ -78,6 +78,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   refresh(showRecipe:boolean,toUpdate:boolean,refreshCache:boolean): void {
     if(refreshCache) this.appComponent.refreshAppCache();
+    if (this.addRecipeForm != null) this.addRecipeForm.reset();
     this.addIngMap= new Map<number, IngredientInRecip>();
     this.addSubRecipeMap= new Map<number, IngredientInRecip>();
     this.totalCost=0;

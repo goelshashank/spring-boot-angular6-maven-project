@@ -59,15 +59,13 @@
 
 
   <div class="row my-4">
-
-    <div title="Block of left section"
-         class="col-2 bg-light shadow rounded">
+    <div title="Block of left section" class="col-2 bg-light shadow rounded">
       <div class="row gx-1">
         <div class="col-md-10">
           <div class="row">
           <label class="col-6 small" for="searchRecipe" id="searchRecipe1">Search Recipe</label>
             <button
-              (click)="refresh(false,false,false)"
+              (click)="refresh(false,false,true)"
               class="col-2 btn btn-primary m-2"
               type="submit"
             >
@@ -137,8 +135,6 @@
             </ul>
           </div>
           <li class="dropdown-divider"></li>
-
-
         </ul>
       </div>
 
@@ -160,10 +156,10 @@
   </div>
 
     <div title="Block of right section" class="col  mx-3 my-1 ">
-      <div class="container" *ngIf="showRecipe">
+      <div class="" *ngIf="showRecipe">
 
-        <div title="Block of display recipe attributes">
-        <div class="row bg-light shadow rounded p-3">
+        <!--    <div class="row bg-light shadow rounded p-3 bg-image" style="background-image: url('assets/img/border.jpeg');">-->
+        <div title="Block of display recipe attributes" class="row bg-light shadow rounded p-3">
           <div class="row d-flex">
             <div class="col">
               <h6 class="align-middle">Serving-Qty :</h6>
@@ -228,10 +224,8 @@
             </div>
           </div>
           </div>
-        </div>
 
-        <div title="Block of recipe's ingredients">
-        <div class="row my-3 bg-light shadow rounded mx-5">
+        <div title="Block of recipe's ingredients" class="row my-3 bg-light shadow rounded mx-5">
           <table class="table table-striped">
             <thead class="px-2">
               <tr>
@@ -283,10 +277,9 @@
             </tbody>
           </table>
         </div>
-        </div>
 
-        <div *ngIf="displayRecipeInfo.title!=null" title="Block of update button"
-             class="d-flex align-items-end justify-content-end mx-5">
+
+        <div *ngIf="displayRecipeInfo.title!=null" title="Block of update button" class="d-flex align-items-end justify-content-end mx-5">
           <button class="btn btn-primary" type="button" (click)="onUpdate()">
             Update
           </button>
@@ -321,7 +314,6 @@
           </div>
 
           <div title="Block of Ingredients">
-
           <label for="ingredientForRecipe" id="ingredientForRecipe1" class="mt-2"
             >Ingredient:</label
           >
@@ -455,7 +447,6 @@
           </div>
 
           <div title="Block of Sub Recipes">
-
           <label for="subRecipeForRecipe" id="subRecipeForRecipe1" class="mt-2"
           >Recipe:</label
           >
@@ -694,8 +685,7 @@
 
           <p></p>
 
-          <div title="Block of submit button">
-          <div class="d-flex align-items-end justify-content-end">
+          <div title="Block of submit button" class="d-flex align-items-end justify-content-end">
           <button
             [disabled]="!addRecipeForm.form.valid"
             class="btn btn-primary  float-right"
@@ -704,7 +694,6 @@
             Submit
           </button>
         </div>
-          </div>
 
         </form>
       </div>
