@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 		@Index(columnList = "title") }) @JsonInclude(JsonInclude.Include.NON_NULL) public class Recipe extends BaseEntity {
 
 	@Column(name = "title", unique = true, nullable = false) @NotBlank private String title;
-	@Column(name = "sub_category") private String subCategory;
 	@Column(name = "course") private String course;
 	@Column(name = "collection") private String collection;
 	@Column(name = "source") private String source;

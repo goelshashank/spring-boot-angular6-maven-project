@@ -137,13 +137,25 @@
                     class="nav-link px-0 align-middle"
                     data-bs-toggle="collapse"
                     href="#submenu1"
+                    [routerLink]="'/supplier'"
+                  >
+                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
+                    <span class="ms-1 d-none d-sm-inline">Supplier</span>
+                  </a>
+                </li>
+               <!--
+                      <li>
+                  <a
+                    class="nav-link px-0 align-middle"
+                    data-bs-toggle="collapse"
+                    href="#submenu1"
                     [routerLink]="'/raw-material-inventory'"
                   >
                     <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
                     <span class="ms-1 d-none d-sm-inline">Raw Material Inventory</span>
                   </a>
                 </li>
-                <li>
+               <li>
                   <a
                     class="nav-link px-0 align-middle"
                     data-bs-toggle="collapse"
@@ -165,17 +177,7 @@
                     <span class="ms-1 d-none d-sm-inline">Packaging Items</span>
                   </a>
                 </li>
-                <li>
-                  <a
-                    class="nav-link px-0 align-middle"
-                    data-bs-toggle="collapse"
-                    href="#submenu1"
-                    [routerLink]="'/supplier'"
-                  >
-                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
-                    <span class="ms-1 d-none d-sm-inline">Supplier</span>
-                  </a>
-                </li>
+
                 <li>
                   <a
                     class="nav-link px-0 align-middle"
@@ -208,7 +210,7 @@
                     <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
                     <span class="ms-1 d-none d-sm-inline">Order List</span>
                   </a>
-                </li>
+                </li>-->
                 <li>
                   <a
                     class="nav-link px-0 align-middle"

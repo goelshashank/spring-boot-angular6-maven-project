@@ -166,12 +166,24 @@
               <p class="align-middle">{{ displayRecipeInfo.servingQty }}</p>
             </div>
             <div class="col">
-              <h6 class="align-middle">Category :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.categoriesForRecipe }}</p>
+              <h6 class="align-middle">Categories :</h6>
+              <ul class="inline-list comma-separated mx-4">
+                <li
+                  *ngFor="let categ of appComponent.getMainCategoriesFor(displayRecipeInfo.categoriesForRecipe)" class="comma-separated"
+                >
+                  {{ categ.category.title }}
+                </li>
+              </ul>
             </div>
             <div class="col">
-              <h6 class="align-middle">Sub-Category :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.subCategory }}</p>
+              <h6 class="align-middle">Sub-Categories :</h6>
+              <ul class="inline-list comma-separated mx-4">
+                <li
+                  *ngFor="let categ of appComponent.getSubCategoriesFor(displayRecipeInfo.categoriesForRecipe)" class="comma-separated"
+                >
+                  {{ categ.category.title }}
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -204,7 +216,7 @@
               <p class="align-middle">{{displayRecipeInfo.unitDetailed.unit}}</p>
             </div>-->
             <div class="col">
-              <h6 class="align-middle">Sub-Category :</h6>
+              <h6 class="align-middle">Instructions :</h6>
               <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
             </div>
           </div>
@@ -287,8 +299,8 @@
       </div>
 
       <div title="Block of add or update recipe"
-        class=" bg-light shadow rounded p-3"
-           *ngIf="!showRecipe"
+        class="bg-light shadow rounded p-3"
+           [style.display]="!showRecipe ? 'block' : 'none'"
       >
         <form
           #addRecipeForm="ngForm"
@@ -515,8 +527,8 @@
           <div class="col" title="Block of categoryForRecipe">
           <label for="categoryForRecipe" id="categoryForRecipe1" class=" mt-2">Category</label>
           <ng-select
-            (add)="setCategories($event)"
-            (remove)="removeCategories($event)"
+            (add)="setCategories($event,false)"
+            (remove)="removeCategories($event,false)"
             [(ngModel)]="addRecipe.recipe.catList"
             [addTag]="true"
             [multiple]="true"
@@ -535,17 +547,28 @@
           </div>
 
 
-          <div class="col" title="Block of subCatRecipe">
-            <label for="subCatRecipe" class=" mt-2">Sub category</label>
-            <input
-              [(ngModel)]="addRecipe.recipe.subCategory"
-              class="form-control w-50"
-              id="subCatRecipe"
-              name="subCatRecipe"
-              placeholder="Enter sub category"
-              type="text"
-            />
-          </div>
+            <div class="col" title="Block of subCategoryForRecipe">
+              <label for="subCategoryForRecipe" id="subCategoryForRecipe1" class=" mt-2">Sub Category</label>
+              <ng-select
+                (add)="setCategories($event,true)"
+                (remove)="removeCategories($event,true)"
+                [(ngModel)]="addRecipe.recipe.subCatList"
+                [addTag]="true"
+                [multiple]="true"
+                [searchable]="true"
+                appendTo="body"
+                class="form-control w-50"
+                id="subCategoryForRecipe"
+                name="subCategoryForRecipe"
+              >
+                <ng-option
+                  *ngFor="let cat of appComponent.getSubCategories(appComponent.categoriesRecipe)"
+                  [value]="cat"
+                >{{ cat.title }}</ng-option
+                >
+              </ng-select>
+            </div>
+
           </div>
 
 
@@ -697,6 +720,7 @@
 
         </form>
       </div>
+
     </div>
 
   </div>

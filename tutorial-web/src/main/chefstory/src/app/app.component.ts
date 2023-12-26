@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
 
     this.categoryIngredientMap=new Map();
     ingredients.forEach(t => {
-      t.categoriesForIngredient.forEach(u =>{
+      this.getMainCategoriesFor(t.categoriesForIngredient).forEach(u =>{
         if(!this.categoryIngredientMap.has(u.category.title)){
           this.categoryIngredientMap.set(u.category.title,[])
         }
@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
 
     this.categoryRecipeMap=new Map();
     recipes.forEach(t => {
-      t.categoriesForRecipe.forEach(u =>{
+      this.getMainCategoriesFor(t.categoriesForRecipe).forEach(u =>{
         if(!this.categoryRecipeMap.has(u.category.title)){
           this.categoryRecipeMap.set(u.category.title,[])
         }

@@ -16,7 +16,6 @@ export class Ingredient extends BaseModel{
   gst:number;
   minimumInventory:number;
 
-
   supplierForIngredients: SupplierForIngredient[]=[];
   brandForIngredients: BrandForIngredient[]=[];
   categoriesForIngredient: CategoryFor[]=[];
@@ -25,5 +24,6 @@ export class Ingredient extends BaseModel{
   @jsonIgnore() subCatList:String[]=[];
   @jsonIgnore() brandList: String[]=[];
   @jsonIgnore() supplierList: String[]=[];
+
 
 }

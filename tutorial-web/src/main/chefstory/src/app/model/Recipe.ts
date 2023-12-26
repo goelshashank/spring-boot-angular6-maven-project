@@ -10,7 +10,6 @@ import {BaseModel} from "./BaseModel";
 
 export class Recipe extends  BaseModel{
   collection: string;
-  subCategory: string;
   course: string;
   source: string;
   sourceURL: string;
@@ -30,9 +29,11 @@ export class Recipe extends  BaseModel{
   unit: string;
 
   @jsonIgnore() catList:String[]=[];
+  @jsonIgnore() subCatList:String[]=[];
   @jsonIgnore() ingList:String[]=[];
   @jsonIgnore() subRecipeList:String[]=[];
 
   @jsonIgnore() refServingQty:number;
+
 
 }
