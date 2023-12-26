@@ -426,47 +426,63 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   exportRecipes(): void {
-    const pojoList: Ingredient[] = this.appComponent.ingredients;
     const workbook = XLSX.utils.book_new();
 
+    const recipes: Recipe []=  this.appComponent.recipes;
+
     const data: any[][] = [];
-    const headerRow = ['S.No.', 'Title', 'Category', 'Supplier', 'Brand [SKU Cost|SKU Qty]','GST%','Minimum Inventory','Unit'];
     let i = 0;
-    data[i] = headerRow;
-    pojoList.forEach((t) => {
-      i++;
-      let brandStr='';
-      t.brandForIngredients.forEach((u,index)=>{
-        const s=t.brandForIngredients[index].brand.title + '['+t.brandForIngredients[index].skuCost+'|'+
-          t.brandForIngredients[index].skuQty+']';
-        if(index==0){
-          brandStr=s;
-        }else{
-          brandStr=brandStr +','+ s;
-        }
-      });
-      let suppStr='';
-      t.supplierForIngredients.forEach((u,index)=>{
-        const s=t.supplierForIngredients[index].supplier.title;
-        if(index==0){
-          suppStr=s;
-        }else{
-          suppStr=suppStr +','+ s;
-        }
+    recipes.forEach(rcp=>{
+      const headerRow = ['Title', 'Category', 'Source','Source URL','Method','Notes','Prep Time','Rating','Unit',
+      'Cook Time','Course','Instructions','Shelf Life','Serving Qty','Unit Detailed'];
+       data[++i] = headerRow;
+      const values = [ rcp.title, rcp.categoriesForRecipe[0].category.title,rcp.source,rcp.sourceURL,rcp.method,rcp.notes,
+      rcp.prepTime,rcp.rating,rcp.unit,rcp.cookTime,rcp.course,rcp.instructions,rcp.shelfLife,rcp.servingQty,rcp.unitDetailed];
+      data[++i] = values;
+      const headerRow2 = ['INGREDIENTS'];
+      data[++i] = headerRow2;
+      const headerRow3 = ['S.No.', 'Title', 'Category', 'Supplier', 'Brand [SKU Cost|SKU Qty]','GST%','Minimum Inventory','Unit'];
+      data[++i] = headerRow3;
+
+      const pojoList: IngredientInRecip[] = rcp.ingredientInRecipe;
+      pojoList.forEach((k,index) => {
+        let t=k.ingredient;
+        let brandStr='';
+        t.brandForIngredients.forEach((u,index)=>{
+          const s=t.brandForIngredients[index].brand.title + '['+t.brandForIngredients[index].skuCost+'|'+
+            t.brandForIngredients[index].skuQty+']';
+          if(index==0){
+            brandStr=s;
+          }else{
+            brandStr=brandStr +','+ s;
+          }
+        });
+        let suppStr='';
+        t.supplierForIngredients.forEach((u,index)=>{
+          const s=t.supplierForIngredients[index].supplier.title;
+          if(index==0){
+            suppStr=s;
+          }else{
+            suppStr=suppStr +','+ s;
+          }
+        });
+
+        const values = [++index, t.title, t.categoriesForIngredient[0].category.title, suppStr,
+          brandStr,t.gst,t.minimumInventory,t.unit];
+        data[++i] = values;
       });
 
-      const values = [i, t.title, t.categoriesForIngredient[0].category.title, suppStr,
-        brandStr,t.gst,t.minimumInventory,t.unit];
-      data[i] = values;
-    });
+      data[++i]=[];
+
+    })
 
     const worksheet = XLSX.utils.aoa_to_sheet(data);
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
     const excelBuffer = XLSX.write(workbook, {type: 'buffer', bookType: 'xlsx'});
     const blob = new Blob([excelBuffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
 
-    FileSaver.saveAs(blob, 'IngredientsList.xlsx');
+    FileSaver.saveAs(blob, 'RecipesList.xlsx');
   }
 
   importRecipes(): void {
