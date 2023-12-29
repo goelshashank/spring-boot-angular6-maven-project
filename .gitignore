@@ -1,7 +1,8 @@
 .idea
-tutorial-web/src/main/web/node_modules
 tutorial-server/target
 tutorial-server/logs
 tutorial-server/data
-tutorial-web/generated-ts-classes/chefstory.d.ts
 tutorial-server/access-logs
+/tutorial-web/target/
+/tutorial-web/src/main/chefstory/.angular/
+/tutorial-web/src/main/chefstory/node_modules/
