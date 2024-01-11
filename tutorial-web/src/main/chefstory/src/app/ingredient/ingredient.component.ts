@@ -181,6 +181,19 @@ export class IngredientComponent implements OnInit, OnDestroy {
     console.log('Removed:  Brands list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
   }
 
+  clearAllBrands() {
+    this.addIngredient.ingredient.brandForIngredients=null;
+    this.addIngredient.ingredient.brandList=null;
+  }
+
+  onDeselectChange(event) {
+    if (event.newSelectedOption === null || event.newSelectedOption === undefined) {
+      // Clear your list elements here
+      // You can access the list elements using your preferred method,
+      // such as by querying for them using ViewChild or referencing them directly
+    }
+  }
+
   calculatePerUnitCost(brandForIngredient: BrandForIngredient) {
     brandForIngredient.perUnitCost = brandForIngredient.skuCost / brandForIngredient.skuQty;
   }

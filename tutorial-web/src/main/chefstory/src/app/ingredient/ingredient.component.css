@@ -22,3 +22,8 @@ opacity:0.6;
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
+
+
+.nav-item + .nav-link:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Adjust shadow properties as desired */
+}
