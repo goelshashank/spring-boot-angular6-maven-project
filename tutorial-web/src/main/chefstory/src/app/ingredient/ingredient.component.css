@@ -1,3 +1,4 @@
+
 .comma-separated {
   display: inline-flex;
   list-style: none;
@@ -26,4 +27,18 @@ opacity:0.6;
 
 .nav-item + .nav-link:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Adjust shadow properties as desired */
+}
+
+
+#sidebar {
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-100%); /* Initial hidden position */
+}
+
+#sidebar.show {
+  transform: translateX(0); /* Slide in when shown */
+}
+
+.btn-primary .bi-three-dots-vertical {
+  color: #007bff; /* Adjust color as desired */
 }

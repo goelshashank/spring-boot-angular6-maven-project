@@ -1,4 +1,7 @@
-@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+@import "aprycot.css";
+
+
 
 /* You can add global styles to this file, and also import other style files */
 .ng-invalid.ng-touched:not(form) {
@@ -7,16 +10,5 @@
 
 .sortable tr {
   cursor: pointer;
-}
-
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
-  color: #fff;
-  background-color: #a2e4b5;
-  border-color: #285e8e; /*set the color you want here*/
-}
-
-.form-control::-webkit-input-placeholder { /* WebKit browsers */
-  font-size: 90%; /* 1em -> input font-size * 1 -> 40px * 1 = 40px */
 }
 

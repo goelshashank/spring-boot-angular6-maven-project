@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.35.1025 on 2022-11-19 15:59:24.
+// Generated using typescript-generator version 2.35.1025 on 2024-01-14 00:46:44.
 
 export interface BaseEntity extends Serializable, Cloneable {
+    modifiedTs: Date;
     id: number;
     status: Status;
 }
@@ -14,6 +15,7 @@ export interface Brand extends BaseEntity {
 export interface Category extends BaseEntity {
     title: string;
     type: string;
+    isSub: boolean;
 }
 
 export interface Ingredient extends BaseEntity {
@@ -22,6 +24,7 @@ export interface Ingredient extends BaseEntity {
     photoId: string;
     videoId: string;
     gst: number;
+    minimumInventory: number;
     supplierForIngredients: SupplierForIngredient[];
     brandForIngredients: BrandForIngredient[];
     categoriesForIngredient: CategoryFor[];
@@ -29,10 +32,12 @@ export interface Ingredient extends BaseEntity {
 
 export interface Recipe extends BaseEntity {
     title: string;
-    subCategory: string;
     course: string;
     collection: string;
     source: string;
+    sourceURL: string;
+    method: string;
+    notes: string;
     servingQty: number;
     cookTime: string;
     prepTime: string;
@@ -107,12 +112,14 @@ export interface CategoryFor extends BaseEntity {
 }
 
 export interface IngredientInRecipe extends BaseEntity {
+    subRecipe: Recipe;
     ingredient: Ingredient;
     supplier: Supplier;
     brand: Brand;
     category: Category;
     qty: number;
     recipe: Recipe;
+    ingRecipe: Recipe;
 }
 
 export interface Unit {
