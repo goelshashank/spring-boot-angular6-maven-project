@@ -86,8 +86,8 @@
 </div>
 </header>
 
-<main>
-  <div class="container-fluid">
+<main class="main-content">
+  <div class="content-inner mt-5 py-0">
         <div class="row flex-nowrap">
           <aside class=" sidebar sidebar-default sidebar-hover sidebar-mini navs-pill-all ">
             <div class="sidebar-header d-flex align-items-center justify-content-start"
@@ -557,7 +557,7 @@
                   </svg>
                 </i>
               </div>
-              </div>
+            </div>
 
   <!--        <div class="col-md-3 col-xl-2 px-sm-2 px-0 bg-dark"
                [ngClass]="{'sidebar-collapsed': !sidebarExpanded}"
@@ -584,8 +584,6 @@
                   </a>
                 </li>
                 <li class="nav-item">
-
-
                   <a
                     class="nav-link"
 
@@ -603,26 +601,40 @@
                     <span class="item-name">Ingredient</span>
                   </a>
                 </li>
-                <li>
+                <li class="nav-item">
                   <a
-                    class="nav-link px-0 align-middle"
+                    class="nav-link "
                     data-bs-toggle="collapse"
                     href="#submenu1"
                     [routerLink]="'/recipe'"
                   >
-                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
-                    <span class="ms-1 d-none d-sm-inline">Add Recipe</span>
+                    <i class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> R </i>
+                    <span class="item-name">Recipe</span>
                   </a>
                 </li>
-                <li>
+                <li class="nav-item">
                   <a
-                    class="nav-link px-0 align-middle"
+                    class="nav-link "
                     data-bs-toggle="collapse"
                     href="#submenu1"
                     [routerLink]="'/supplier'"
                   >
-                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
-                    <span class="ms-1 d-none d-sm-inline">Supplier</span>
+                    <i class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> S </i>
+                    <span class="item-name">Supplier</span>
                   </a>
                 </li>
                <!--
@@ -693,37 +705,58 @@
                     <span class="ms-1 d-none d-sm-inline">Order List</span>
                   </a>
                 </li>-->
-                <li>
+                <li class="nav-item">
                   <a
-                    class="nav-link px-0 align-middle"
+                    class="nav-link "
                     data-bs-toggle="collapse"
                     href="#submenu1"
                     [routerLink]="'/settings'"
                   >
-                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
-                    <span class="ms-1 d-none d-sm-inline">Settings</span>
+                    <i class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> Se </i>
+                    <span class="item-name">Settings</span>
                   </a>
                 </li>
-                <li>
+                <li class="nav-item">
                   <a
-                    class="nav-link px-0 align-middle"
+                    class="nav-link "
                     data-bs-toggle="collapse"
                     href="#submenu1"
                     [routerLink]="'/sign-out'"
                   >
-                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
-                    <span class="ms-1 d-none d-sm-inline">Sign Out</span>
+                    <i class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> SO </i>
+                    <span class="item-name">Sign Out</span>
                   </a>
                 </li>
-                <li>
+                <li class="nav-item">
                   <a
-                    class="nav-link px-0 align-middle"
+                    class="nav-link "
                     data-bs-toggle="collapse"
                     href="#submenu1"
                     [routerLink]="'/auth'"
                   >
-                    <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>
-                    <span class="ms-1 d-none d-sm-inline">Authenticate</span>
+                    <i class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> A </i>
+                    <span class="item-name">Authenticate</span>
                   </a>
                 </li>
               </ul>

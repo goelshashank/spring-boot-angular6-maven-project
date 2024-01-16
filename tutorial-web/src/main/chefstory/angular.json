@@ -28,6 +28,7 @@
               "./node_modules/font-awesome/css/font-awesome.min.css"
             ],
             "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js",
             "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"]
           },
@@ -54,6 +55,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "buildOptimizer": false,
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -96,7 +98,17 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/charts/dashboard.js",
+              "src/assets/js/core/external.min.js",
+              "src/assets/js/core/libs.min.js",
+              "src/assets/js/charts/dashboard.js",
+              "src/assets/js/app.js",
+              "src/assets/js/countdown.js",
+              "src/assets/js/fslightbox.js",
+              "src/assets/js/prism.mini.js",
+              "src/assets/js/slider-tabs.js"
+            ]
           }
         }
       }
