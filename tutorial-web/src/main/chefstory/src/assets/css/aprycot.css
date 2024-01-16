@@ -13352,6 +13352,8 @@ th {
   display: none; }
 .sidebar-mini .sub-nav .nav-item .nav-link .icon {
   display: none; }
+.sidebar-mini .navbar-collapse .navbar-nav .nav-item .nav-link .icon {
+  display: none; }
 
 .sidebar.sidebar-mini.sidebar-boxed + .main-content {
   margin-left: -webkit-calc(4.8rem + 2rem);
