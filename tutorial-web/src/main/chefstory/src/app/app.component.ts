@@ -15,8 +15,15 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {RouterPaths} from "./config/RouterPaths";
 import {CategoryFor} from "./model/CategoryFor";
 import {SortByOrderPipe} from "./utils/sort-by-order.pipe";
+/*import '../assets/js/charts/dashboard.js';
+import '../assets/js/core/external.min.js';
+import '../assets/js/core/libs.min.js';
+import '../assets/js/charts/dashboard.js';
 import '../assets/js/app.js';
-
+import '../assets/js/countdown.js';
+import '../assets/js/fslightbox.js';
+import '../assets/js/prism.mini.js';
+import '../assets/js/slider-tabs.js';*/
 
 @Component({
   selector: 'app-root',

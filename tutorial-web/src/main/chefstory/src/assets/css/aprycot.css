@@ -1447,6 +1447,18 @@ progress {
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     width: 25%; }
+  .col-xl-35 {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 27%; }
+  .col-xl-85 {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 73%; }
   .col-xl-4 {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
@@ -11010,7 +11022,12 @@ textarea.form-control-lg {
           backdrop-filter: blur(42px); }
   .card .card-header {
     border-bottom: 1px solid #E3E1E1;
-    margin: 0 1.5rem; }
+    margin: 0 2rem; }
+.card .card-header-no-border-bottom {
+  margin: 0 2rem; }
+.card .card-header-no-border-bottom .bottom-border {
+  border-bottom: 1px solid #E3E1E1;
+}
     .card .card-header .header-title .card-title {
       margin-bottom: 0; }
   .card.card-white {
