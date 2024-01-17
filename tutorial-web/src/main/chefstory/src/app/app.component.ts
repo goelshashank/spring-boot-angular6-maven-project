@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, ElementRef, Injectable, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {ApiPaths} from './config/ApiPaths';
@@ -12,10 +12,10 @@ import {Constants} from './config/Constants';
 import {BaseModel} from "./model/BaseModel";
 import {RouterService} from "./service/router.service";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {filter} from "rxjs";
 import {RouterPaths} from "./config/RouterPaths";
 import {CategoryFor} from "./model/CategoryFor";
 import {SortByOrderPipe} from "./utils/sort-by-order.pipe";
+import '../assets/js/app.js';
 
 
 @Component({
@@ -41,8 +41,12 @@ export class AppComponent implements OnInit {
   currentRoute:string;
   categoryIngredientMap: Map<String,Ingredient[]>=new Map();
   categoryRecipeMap: Map<String,Recipe[]>=new Map();
+  isIngActive=false;
+  isRecipeActive=false;
+  @ViewChild('ingNavLink') ingNavLink: ElementRef;
 
-  constructor(private http: HttpClient,public routerService:RouterService, public route: ActivatedRoute,private router:Router) {
+  constructor(private http: HttpClient,public routerService:RouterService, public route: ActivatedRoute,
+              private router:Router,private elementRef: ElementRef,private renderer: Renderer2) {
 
    // const currentRoute = this.route.snapshot.routeConfig.path;
   }
@@ -290,5 +294,12 @@ export class AppComponent implements OnInit {
   getMainCategoriesFor(categoryForList:CategoryFor[]):CategoryFor[]{
     return  categoryForList.filter(t=> !(t.category.isSub!=null && t.category.isSub));
   }
+
+
+  handleClick(){
+
+  }
+
+
 
 }

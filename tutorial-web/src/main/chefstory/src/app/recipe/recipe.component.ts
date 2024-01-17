@@ -65,6 +65,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.appComponent.isRecipeActive=false;
     this.editor.destroy();
     this.editor1.destroy();
     this.editor2.destroy();
@@ -73,6 +74,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   ngOnInit(): void {
     this.refresh(true,false,true);
     this.sortRecipes('category');
+    this.appComponent.isRecipeActive=true;
     console.log("++++ Initialized Recipes +++");
   }
 

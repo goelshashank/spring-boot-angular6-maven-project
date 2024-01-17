@@ -48,12 +48,14 @@ export class IngredientComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.appComponent.currentRoute = 'Nil';
+    this.appComponent.isIngActive=false;
     console.log("++++ Destroyed Ingredient +++");
   }
 
   ngOnInit(): void {
     this.refresh(true, false, true);
     this.sortIngredients('category');
+    this.appComponent.isIngActive=true;
     console.log("++++ Initialized Ingredients +++");
   }
 

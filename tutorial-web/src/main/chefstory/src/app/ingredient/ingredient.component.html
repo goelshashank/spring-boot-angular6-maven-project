@@ -1,179 +1,194 @@
-<!--
-<p>ingredient works!</p>
--->
-<div class="container-fluid pt-1">
-  <nav class="row navbar navbar-expand bg-light ">
-    <div class="container-fluid ">
-      <a class="navbar-brand" href="#">Your Logo</a>
-      <!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon">sdfdsa</span>
-          </button>-->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul
-          class="navbar-nav nav-tabs ms-auto pe-1 "
-        >
-          <li class="nav-item">
-            <a
-              [routerLink]="RouterPaths.HOME"
-              class="nav-link align-middle px-0"
-              href="#"
-            >
-              <!-- <i class="fs-4 bi-house" ></i>-->
-              <span class="ms-1 d-none d-sm-inline text-secondary  border-end pe-1">Home</span>
-            </a>
-          </li>
+<div>
+  <div class="row">
+    <div class=" col-xl-4 col-lg-4 " style="width: 35%">
+      <div class="card">
 
-          <li>
-            <a
-              [routerLink]="'/ingredient'"
-              class="nav-link px-0 align-middle"
-              data-bs-toggle="collapse"
-              href="#submenu1"
-            >
-              <!--   <i class="fs-4 bi-speedometer2" ></i>-->
-              <span class="ms-1 d-none d-sm-inline text-secondary border-end pe-1">Add Ingredient</span>
-            </a>
-          </li>
-          <li>
-            <a
-              [routerLink]="'/recipe'"
-              class="nav-link px-0 align-middle "
-              data-bs-toggle="collapse"
-              href="#submenu1"
-            >
-              <!--<i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>-->
-              <span class="ms-1 d-none d-sm-inline text-secondary ">Add Recipe</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              [routerLink]="'/auth'"
-              class="nav-link px-0 align-middle  "
-              data-bs-toggle="collapse"
-              href="#submenu1"
-            >
-              <!-- <i class="fs-4 bi-speedometer2" *ngIf="!sidebarExpanded"></i>-->
-              <span class="ms-1 d-none d-sm-inline text-secondary border-start ps-1 shadow-none">Authenticate</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+    <!--    <div class="card-header d-flex justify-content-between">
+          <div class="header-title">
+          &lt;!&ndash;  <h4 class="card-title">Search Ingredients</h4>
+&ndash;&gt;
+            <div class="row mt-3 ps-1 me-1">
+
+              <div class="col-8 ">
+                <h5  class="card-title" for="searchIng" id="searchIng1">Search Ingredient</h5>
+              </div>
+              <div class="col-4 ">
+
+                <div class="btn-group">
+
+                  <button
+                    (click)="refresh(false,false,false)"
+                    class="btn btn-primary"
+                    type="submit"
+                  >
+                    +
+                  </button>
+                  <div class="ms-auto btn-group dropstart">
+                    <button aria-expanded="false" class="btn dropdown-toggle border-0 bg-transparent shadow-none" data-bs-toggle="dropdown"
+                            type="button">
+                      &lt;!&ndash;<i class="fa fa-ellipsis-v"  aria-hidden="true"></i>&ndash;&gt;
+                      <i class="bi bi-three-dots-vertical " aria-hidden="true"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li *ngIf="displayIngInfo.title==null"
+                          [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Update
+                        (select any ingredient)</a></li>
+                      <li
+                        *ngIf="displayIngInfo.title!=null"><a (click)="onUpdate()" class="dropdown-item">Update</a></li>
+                      <li *ngIf="displayIngInfo.title==null"
+                          [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
+                        (select any ingredient)</a></li>
+                      <li
+                        *ngIf="displayIngInfo.title!=null"><a (click)="remove()" class="dropdown-item">Remove</a></li>
+                      &lt;!&ndash; <li><hr class="dropdown-divider"></li>&ndash;&gt;
+                      <li><a (click)="sortIngredients('alphabetically')" class="dropdown-item">Group by Alphabetically</a>
+                      </li>
+                      &lt;!&ndash; <li><hr class="dropdown-divider"></li>&ndash;&gt;
+                      <li><a (click)="sortIngredients('category')" class="dropdown-item">Group by Category</a></li>
+                      <li><a (click)="exportIngs()" class="dropdown-item">Export</a></li>
+                      <li><a (click)="importIngs()" class="dropdown-item">Import</a></li>
+
+                    </ul>
+                  </div>
+
+                </div>
+
+              </div>
 
 
-  <div class="row my-3 mx-1">
-    <div class=" col-2  bg-light rounded">
-      <div class="row ms-1">
+            </div>
 
-          <div class="row mt-3">
+          </div>
+        </div>-->
 
-            <label class="col d-flex justify-content-start small" for="searchIng" id="searchIng1">Search Ingredient</label>
 
-            <div class="col d-flex justify-content-end">
+            <div class="card-header">
+                <div class="row align-items-center list-user-action">
+                  <div class="col-9 header-title">
+                  <h5  for="searchIng" id="searchIng1">Search Ingredient</h5>
+                  </div>
+                  <div class="col-3 ps-1">
+                      <div class="d-inline-flex align-items-center list-user-action ">
+                    <a class="btn">
+                          <span
+                          (click)="refresh(false,false,false)"
+                          class="btn-inner"
+                          type="submit"
+                        >
+                          +
+                        </span>
+                    </a>
 
-            <button
-              (click)="refresh(false,false,false)"
-              class="ms-auto btn btn-primary"
-              type="submit"
-            >
-              +
-            </button>
-            <div class=" ms-auto btn-group dropstart">
-              <button aria-expanded="false" class="btn dropdown-toggle border-0 bg-transparent shadow-none" data-bs-toggle="dropdown"
-                      type="button">
-                <!--<i class="fa fa-ellipsis-v"  aria-hidden="true"></i>-->
-                <i class="bi bi-three-dots-vertical " aria-hidden="true"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li *ngIf="displayIngInfo.title==null"
-                    [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Update
-                  (select any ingredient)</a></li>
-                <li
-                  *ngIf="displayIngInfo.title!=null"><a (click)="onUpdate()" class="dropdown-item">Update</a></li>
-                <li *ngIf="displayIngInfo.title==null"
-                    [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
-                  (select any ingredient)</a></li>
-                <li
-                  *ngIf="displayIngInfo.title!=null"><a (click)="remove()" class="dropdown-item">Remove</a></li>
-                <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a (click)="sortIngredients('alphabetically')" class="dropdown-item">Group by Alphabetically</a>
-                </li>
-                <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a (click)="sortIngredients('category')" class="dropdown-item">Group by Category</a></li>
-                <li><a (click)="exportIngs()" class="dropdown-item">Export</a></li>
-                <li><a (click)="importIngs()" class="dropdown-item">Import</a></li>
+                       <a class="btn  btn-sm ">
+                         <span class=" btn-inner ">
+                           <div class="dropdown">
+                      <small id="dropdownMenuButton8" data-bs-toggle="dropdown" aria-expanded="false" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                        </svg> </small>
 
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton7">
+                      <li *ngIf="displayIngInfo.title==null"
+                          [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Update
+                        (select any ingredient)</a></li>
+                      <li
+                        *ngIf="displayIngInfo.title!=null"><a (click)="onUpdate()" class="dropdown-item">Update</a></li>
+                      <li *ngIf="displayIngInfo.title==null"
+                          [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
+                        (select any ingredient)</a></li>
+                      <li
+                        *ngIf="displayIngInfo.title!=null"><a (click)="remove()" class="dropdown-item">Remove</a></li>
+                      <!-- <li><hr class="dropdown-divider"></li>-->
+                      <li><a (click)="sortIngredients('alphabetically')" class="dropdown-item">Group by Alphabetically</a>
+                      </li>
+                      <!-- <li><hr class="dropdown-divider"></li>-->
+                      <li><a (click)="sortIngredients('category')" class="dropdown-item">Group by Category</a></li>
+                      <li><a (click)="exportIngs()" class="dropdown-item">Export</a></li>
+                      <li><a (click)="importIngs()" class="dropdown-item">Import</a></li>
+
+                    </ul>
+                           </div>
+
+                         </span>
+                  </a>
+
+
+                    </div>
+                  </div>
+
+
+                </div>
+                <div class="row align-items-center list-user-action mx-2 ps-1 pt-1">
+                <ng-select
+                  (change)="getIngredient($event)"
+                  [multiple]="false"
+                  [searchable]="true"
+                  appendTo="body"
+                  class="form-control"
+                  id="searchIng"
+                >
+                  <ng-option
+                    *ngFor="let ing of appComponent.ingredients"
+                    [value]="ing"
+                  >{{ ing.title }}
+                  </ng-option
+                  >
+                </ng-select>
+                </div>
+
+            </div>
+
+
+        <div class="card-body">
+          <div class="row ms-1">
+            <!--by category-->
+            <div *ngIf="sortIngredientsBy=='category'" class="row ps-4 mt-4 w-75 overflow-auto h-50 ">
+              <ul
+                *ngFor="let mapCategFoIng of appComponent.categoryIngredientMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
+                class="container-fluid list-group list-group-flush  "
+              >
+                <div>
+                  {{ mapCategFoIng.key }}
+                  <ul
+                    *ngFor="let ing of mapCategFoIng.value"
+                    class="container-fluid list-group list-group-flush  "
+                  >
+                    <li (click)="getIngredient(ing)" class="list-group-item list-group-item-action" style="cursor: pointer;">
+                      {{ ing.title }}
+                    </li>
+                  </ul>
+                </div>
+                <li class="dropdown-divider"></li>
               </ul>
             </div>
 
+            <!--by alphabetically-->
+            <div *ngIf="sortIngredientsBy=='alphabetically'" class="row  ps-3 mt-3 w-75">
+              <ul
+                *ngFor="let ing of appComponent.ingredients |  sortByOrder:'title'"
+                class="list-group list-group-flush "
+              >
+                <li
+                  (click)="getIngredient(ing)"
+                  class="list-group-item list-group-item-action cursor-pointer"
+                >
+                  {{ ing.title }}
+                </li>
+              </ul>
             </div>
+
           </div>
-
-        <div class="row mt-3">
-          <ng-select
-            (change)="getIngredient($event)"
-            [multiple]="false"
-            [searchable]="true"
-            appendTo="body"
-            class="form-control"
-            id="searchIng"
-          >
-            <ng-option
-              *ngFor="let ing of appComponent.ingredients"
-              [value]="ing"
-            >{{ ing.title }}
-            </ng-option
-            >
-          </ng-select>
-          </div>
-
-
+        </div>
 
       </div>
-
-      <!--by category-->
-      <div *ngIf="sortIngredientsBy=='category'" class="row ps-4 mt-4 w-75 overflow-auto h-50 ">
-        <ul
-          *ngFor="let mapCategFoIng of appComponent.categoryIngredientMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
-          class="container-fluid list-group list-group-flush  "
-        >
-          <div>
-            {{ mapCategFoIng.key }}
-            <ul
-              *ngFor="let ing of mapCategFoIng.value"
-              class="container-fluid list-group list-group-flush  "
-            >
-              <li (click)="getIngredient(ing)" class="list-group-item list-group-item-action" style="cursor: pointer;">
-                {{ ing.title }}
-              </li>
-            </ul>
-          </div>
-          <li class="dropdown-divider"></li>
-        </ul>
-      </div>
-
-      <!--by alphabetically-->
-      <div *ngIf="sortIngredientsBy=='alphabetically'" class="row  ps-3 mt-3 w-75">
-        <ul
-          *ngFor="let ing of appComponent.ingredients |  sortByOrder:'title'"
-          class="list-group list-group-flush "
-        >
-          <li
-            (click)="getIngredient(ing)"
-            class="list-group-item list-group-item-action cursor-pointer"
-          >
-            {{ ing.title }}
-          </li>
-        </ul>
-      </div>
-
     </div>
 
-    <div class="col mx-3 my-1 ">
-      <div *ngIf="showIng" class="">
 
-        <div class="row bg-light rounded p-3">
+    <div class="col-xl-8 col-lg-8">
+
+      <div *ngIf="showIng" class="card">
+
+        <div class="row  p-3">
           <div class="row d-flex">
             <h6 class="align-middle col-auto">Unit :</h6>
             <p class="align-middle col-auto">{{ displayIngInfo.unit }}</p>
@@ -270,11 +285,17 @@
         </div>
 
       </div>
-
       <div
         *ngIf="!showIng"
-        class="bg-light rounded p-3"
+        class="card"
       >
+        <div class="card-header d-flex justify-content-between">
+          <div class="header-title">
+            <h4 class="card-title">Add New Ingredient</h4>
+          </div>
+        </div>
+
+        <div class="card-body">
         <form
           #addIngForm="ngForm"
           (ngSubmit)="addIngredients()"
@@ -509,9 +530,10 @@
           </div>
           <p class="text-center small">Last updated on : {{ addIngredient.ingredient.modifiedTs }}</p>
         </form>
+          </div>
       </div>
-
     </div>
+
   </div>
 </div>
 

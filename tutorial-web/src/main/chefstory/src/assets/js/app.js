@@ -70,7 +70,7 @@ const progressBarInit = (elem) => {
   elem.style.transition = 'width 2s'
   new Waypoint( {
     element: elem,
-    handler: function() { 
+    handler: function() {
       setTimeout(() => {
         elem.style.width = currentValue + '%'
       }, 100);
@@ -304,7 +304,7 @@ $('#back-to-top').fadeOut();
   $(window).on("scroll", function() {
     if ($(this).scrollTop() > 250) {
       $('#back-to-top').fadeIn(1400);
-    } 
+    }
     else {
       $('#back-to-top').fadeOut(400);
     }
@@ -343,14 +343,14 @@ function darken_screen(yesno){
     if (document.querySelector('.screen-darken') !== null) {
       document.querySelector('.screen-darken').classList.add('active');
     }
-  }
+    }
   else if(yesno == false){
     if (document.querySelector('.screen-darken') !== null) {
       document.querySelector('.screen-darken').classList.remove('active');
     }
   }
 }
-	
+
 function close_offcanvas(){
   darken_screen(false);
   if (document.querySelector('.mobile-offcanvas.show') !== null) {
@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function(){
   });
   if(document.querySelectorAll('.btn-close')) {
     document.querySelectorAll('.btn-close').forEach(function(everybutton){
-      everybutton.addEventListener('click', function (e) { 
+      everybutton.addEventListener('click', function (e) {
             close_offcanvas();
         });
     });
@@ -413,3 +413,8 @@ window.addEventListener('load', function() {
         }, false);
       });
 }, false);
+
+
+function f(){
+  //alert('hi');
+}

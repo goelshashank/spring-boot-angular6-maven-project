@@ -13,6 +13,8 @@
   content: "";
 }
 
+
+/*
 .disabled {
   pointer-events:none;
 opacity:0.6;
@@ -20,25 +22,25 @@ opacity:0.6;
 
 
 .overflow-auto {
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: auto; !* Enable vertical scrolling *!
 }
 
 
-
 .nav-item + .nav-link:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Adjust shadow properties as desired */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); !* Adjust shadow properties as desired *!
 }
 
 
 #sidebar {
   transition: transform 0.5s ease-in-out;
-  transform: translateX(-100%); /* Initial hidden position */
+  transform: translateX(-100%); !* Initial hidden position *!
 }
 
 #sidebar.show {
-  transform: translateX(0); /* Slide in when shown */
+  transform: translateX(0); !* Slide in when shown *!
 }
 
 .btn-primary .bi-three-dots-vertical {
-  color: #007bff; /* Adjust color as desired */
+  color: #007bff; !* Adjust color as desired *!
 }
+*/

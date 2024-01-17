@@ -12,6 +12,7 @@
   content: "";
 }
 
+/*
 .disabled {
   pointer-events:none;
   opacity:0.6;
@@ -19,6 +20,7 @@
 
 
 .overflow-auto {
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: auto; !* Enable vertical scrolling *!
 }
+*/
 
