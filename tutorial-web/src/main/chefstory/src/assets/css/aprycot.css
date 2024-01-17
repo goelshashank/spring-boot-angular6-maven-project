@@ -1266,6 +1266,18 @@ progress {
         -ms-flex: 0 0 auto;
             flex: 0 0 auto;
     width: 33.33333%; }
+  .col-lg-45 {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 35%; }
+  .col-lg-75 {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 65%; }
   .col-lg-5 {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
@@ -1452,13 +1464,13 @@ progress {
     -webkit-flex: 0 0 auto;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
-    width: 27%; }
+    width: 30%; }
   .col-xl-85 {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
-    width: 73%; }
+    width: 70%; }
   .col-xl-4 {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
@@ -3703,7 +3715,8 @@ textarea.form-control-lg {
   background: none;
   border: 0;
   -webkit-border-radius: 50rem;
-          border-radius: 50rem; }
+          border-radius: 50rem;
+}
 
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
@@ -4953,7 +4966,7 @@ textarea.form-control-lg {
   color: #212529;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125); }
-  .list-group-item:first-child {
+  . list-group-item:first-child {
     -webkit-border-top-left-radius: inherit;
             border-top-left-radius: inherit;
     -webkit-border-top-right-radius: inherit;
