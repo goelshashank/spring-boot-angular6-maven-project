@@ -1,7 +1,7 @@
 <div>
-  <div class="row h-100">
-    <div class=" col-xl-35 col-lg-4 d-flex  h-100">
-      <div class="card pt-2 d-flex  h-100">
+  <div class="row ">
+    <div class=" col-xl-35 col-lg-4 h-100">
+      <div class="card pt-2 ">
 
     <!--    <div class="card-header d-flex justify-content-between">
           <div class="header-title">
@@ -61,7 +61,7 @@
           </div>
         </div>-->
 
-            <div class="card-header-no-border-bottom h-25">
+            <div class="card-header-no-border-bottom ">
                 <div class="row align-items-center">
                   <div class="col-7 header-title align-items-center">
                     <h5  for="searchIng" id="searchIng1">Search Ingredient</h5>
@@ -147,40 +147,41 @@
 
 
 
-        <div class="card-body  h-75">
+        <div class=" card-body ">
 
-          <div *ngIf="sortIngredientsBy=='category'" class="container-fluid overflow-auto h-50 ">
+          <div *ngIf="sortIngredientsBy=='category'" class="">
             <ul
               *ngFor="let mapCategFoIng of appComponent.categoryIngredientMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
-              class="navbar-nav h-100"
+              class="list-group overflow-auto list-group-flush"
             >
-              <div>
+              <li class=" list-group-item  ">
                 {{ mapCategFoIng.key }}
                 <ul
                   *ngFor="let ing of mapCategFoIng.value"
-                  class="list-group h-25"
+                  class="list-group list-group-flush overflow-auto"
                 >
 
-                  <li (click)="getIngredient(ing)" class="list-group-item rounded-pill d-flex justify-content-start align-items-center" style="height:2rem;">
+                  <li (click)="getIngredient(ing)" class="list-group-item list-group-item-action list-group-item-action  d-flex justify-content-start align-items-center rounded-3 ps-5" style="height:2rem;" >
 
 
-                    <div  class=" d-flex justify-content-start align-items-center" style="height:1rem;" >
+                <!--    <div  class=" d-flex justify-content-start align-items-center" style="height:1rem;" >
                       <img src="../assets/images/layouts/13.png" class="img-fluid rounded-pill avatar-115 blur-shadow position-end " alt="img">
                       <img src="../assets/images/layouts/13.png" class="img-fluid rounded-pill avatar-115" alt="img">
-                    </div>
+                    </div>-->
                     <div class="d-flex align-items-center profile-content">
                             <h6 class="mb-1 heading-title fw-bolder"> {{ ing.title }}</h6>
                     </div>
 
                   </li>
                 </ul>
+
  <!--               <ul  *ngFor="let ing of mapCategFoIng.value" class="list-group">
                   <li class="list-group-item rounded-pill d-flex justify-content-start align-items-center "  >
                     <img src="image.jpg" class="rounded-pill me-3" alt="Image description">
                     <span>{{ ing.title }}</span>
                   </li>
                 </ul>-->
-              </div>
+              </li>
               <li class="dropdown-divider"></li>
             </ul>
           </div>
@@ -203,6 +204,7 @@
 
 
         </div>
+
 
       </div>
     </div>
