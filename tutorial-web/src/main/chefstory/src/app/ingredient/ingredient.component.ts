@@ -21,6 +21,7 @@ import {ActivatedRoute} from "@angular/router";
 import {RouterPaths} from "../config/RouterPaths";
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import {Recipe} from "../model/Recipe";
 
 @Component({
   selector: 'app-ingredient',
@@ -60,19 +61,21 @@ export class IngredientComponent implements OnInit, OnDestroy {
   }
 
   refresh(showIng: boolean, toUpdate: boolean, refreshCache: boolean): void {
-    this.appComponent.refreshAppCache();
+    if(refreshCache)  this.appComponent.refreshAppCache();
     if (this.addIngForm != null) {
       this.addIngForm.reset();
       this.addIngForm=null;
     }
     this.displayIngInfo = new Ingredient();
-    this.showIng = showIng;
     this.toUpdate = toUpdate;
+
+    this.showIng = showIng;
   }
 
   addIngredients() {
     let addIngredients: AddIngredient[] = [];
     addIngredients.push(this.addIngredient);
+    let id=this.addIngredient.ingredient.id;
 
     if (this.addIngForm.valid) {
       // console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
@@ -88,6 +91,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
     this.http.post(environment.baseUrl + api, addIngredients).subscribe(
       (response) => {
         console.log(api + 'ingredients response -' + JSON.stringify(response));
+
         // alert('Add ingredients response -' + JSON.stringify(response));
       },
       (error) => {
@@ -96,11 +100,16 @@ export class IngredientComponent implements OnInit, OnDestroy {
       },
       () => {
         console.log('%%' + api + 'ingredient is completed successfully %%');
+
+        this.reload();
+        let ing:Ingredient=new Ingredient();
+        ing.id=id;
+        this.getIngredient(ing);
         //  alert('%% add ingredient is completed successfully %%');
       });
     this.appComponent.uploadImage(this.file);
 
-    this.reload();
+
   }
 
 
@@ -207,6 +216,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
     this.http.post<Ingredient[]>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ingredient)).subscribe(
       (response) => {
         this.displayIngInfo = response[0];
+        // alert(response[0].gst)
         //  console.log('Ingredient - ' + JSON.stringify(this.displayIngInfo));
       },
       (error) => {
@@ -215,6 +225,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
       () => {
         console.log('%% get ing is completed successfully %%');
       });
+    //alert(this.displayIngInfo.gst);
     this.refresh(true, false, false);
   }
 
@@ -309,8 +320,8 @@ export class IngredientComponent implements OnInit, OnDestroy {
   }
 
   reload() {
-    this.refresh(true,false,true);
-    window.location.reload()
+   // window.location.reload();
+     this.refresh(true,false,true);
   }
 
 }

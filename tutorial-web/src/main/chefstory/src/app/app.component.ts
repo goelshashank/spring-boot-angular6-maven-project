@@ -199,7 +199,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  refreshAppCache() {
+ async refreshAppCache() {
     this.getConfiguration();
     this.getAllCategories();
     this.getAllIngredients();

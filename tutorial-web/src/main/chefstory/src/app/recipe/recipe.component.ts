@@ -84,15 +84,19 @@ export class RecipeComponent implements OnInit , OnDestroy {
       this.addRecipeForm.reset();
       this.addRecipeForm=null;
     }
-    this.addIngMap= new Map<number, IngredientInRecip>();
-    this.addSubRecipeMap= new Map<number, IngredientInRecip>();
-    this.totalCost=0;
-    this.displayRecipeInfo = new Recipe();
-    this.showRecipe=showRecipe;
+
+      this.addIngMap = new Map<number, IngredientInRecip>();
+      this.addSubRecipeMap = new Map<number, IngredientInRecip>();
+      this.totalCost = 0;
+      this.displayRecipeInfo = new Recipe();
+
+
     this.toUpdate=toUpdate;
     this.editor = new Editor();
     this.editor1=new Editor();
     this.editor2=new Editor();
+
+    this.showRecipe=showRecipe;
   }
 
   addRecipes() {
@@ -102,6 +106,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
     let addRecipeList: AddRecipe[] = [];
     addRecipeList.push(this.addRecipe);
+    let id=this.addRecipe.recipe.id;
 
     if (this.addRecipeForm.valid) {
      // console.log('Add recipe list: ' + JSON.stringify(addRecipeList));
@@ -125,10 +130,13 @@ export class RecipeComponent implements OnInit , OnDestroy {
       },
       () => {
         console.log(' %% add recipe is completed successfully %%');
-       // alert('%% add recipe is completed successfully %%');
+        let recipe:Recipe=new Recipe();
+        recipe.id=id;
+        this.getRecipe(recipe);
+        // alert('%% add recipe is completed successfully %%');
       });
 
-    this.reload();
+   // this.reload();
   }
 
   addIngredients(ing:Ingredient){
@@ -350,6 +358,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     });
     this.enableAdj=false;
     this.enableUpdateTotal=true;
+
     console.log("-- update button action completed");
   }
 
@@ -494,7 +503,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   reload(){
+    //window.location.reload();
     this.refresh(true,false,true);
-    window.location.reload()
   }
 }
