@@ -2,7 +2,6 @@
   <div class="row ">
     <div class=" col-xl-35 col-lg-4 h-100">
       <div class="card pt-2 ">
-
         <div class="card-header-no-border-bottom ">
           <div class="row align-items-center">
             <div class="col-7 header-title align-items-center">
@@ -20,9 +19,7 @@
                           +
                         </span>
                 </a>
-
                 <a class=" dropdown">
-
                            <span class="btn btn-icon btn-sm btn-inner btn-link1 ">
                       <small aria-expanded="true" class="" data-bs-toggle="dropdown" id="dropdownMenuButton8"
                              role="button">
@@ -46,11 +43,9 @@
                         (select any ingredient)</a></li>
                       <li
                         *ngIf="displayIngInfo.title!=null"><a (click)="remove()" class="dropdown-item">Remove</a></li>
-                      <!-- <li><hr class="dropdown-divider"></li>-->
                       <li><a (click)="sortIngredients('alphabetically')"
                              class="dropdown-item">Group by Alphabetically</a>
                       </li>
-                      <!-- <li><hr class="dropdown-divider"></li>-->
                       <li><a (click)="sortIngredients('category')" class="dropdown-item">Group by Category</a></li>
                       <li><a (click)="exportIngs()" class="dropdown-item">Export</a></li>
                       <li><a (click)="importIngs()" class="dropdown-item">Import</a></li>
@@ -88,42 +83,30 @@
 
           </div>
           <div class="border-bottom border-1 mx-3 py-2  ms-2">
-
           </div>
         </div>
 
 
         <div class=" card-body ">
-
           <div *ngIf="sortIngredientsBy=='category'" class="">
             <ul
               *ngFor="let mapCategFoIng of appComponent.categoryIngredientMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
               class="bd-example list-group overflow-auto list-group-flush"
             >
               <li class="list-group-item ">
-
                 <span class="badge bg-secondary">{{ mapCategFoIng.key }}</span>
-
                 <ul
                   *ngFor="let ing of mapCategFoIng.value"
-                  class="list-group list-group-flush "
-                >
-
+                  class="list-group list-group-flush ">
                   <li (click)="getIngredient(ing)"
                       class="list-group-item list-group-item-action  d-flex align-items-center rounded-pill ms-3 h-2">
-
-
                     <h6 class="btn btn-link1 d-flex align-items-center  h-2  ">{{ ing.title }}</h6>
-
-
                   </li>
                 </ul>
-
               </li>
               <li class="dropdown-divider"></li>
             </ul>
           </div>
-
 
           <!--by alphabetically-->
           <div *ngIf="sortIngredientsBy=='alphabetically'" class="row  ps-3 mt-3 w-75 overflow-auto">
@@ -139,17 +122,11 @@
               </li>
             </ul>
           </div>
-
-
         </div>
-
-
       </div>
     </div>
 
-
     <div class="col-xl-85 col-lg-8">
-
       <div *ngIf="showIng" class="card">
 
         <div class="card-header d-flex justify-content-between">
@@ -160,8 +137,6 @@
 
 
         <div class="card-body ms-3">
-
-
           <div class="row">
             <div class="col-5">
             <p class=" d-flex align-middle ">Unit :
@@ -182,7 +157,7 @@
               <ul class="d-flex align-middle  text-warning inline-list comma-separated mx-3">
               <li
                 *ngFor="let categ of appComponent.getMainCategoriesFor(displayIngInfo.categoriesForIngredient)"
-                class=" comma-separated"
+                class="comma-separated"
               >
                 {{ categ.category.title }}
               </li>

@@ -12,3 +12,21 @@
   cursor: pointer;
 }
 
+
+.comma-separated {
+  display: inline-flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comma-separated li:after {
+  content: "\00a0,\00a0";
+}
+.comma-separated li:last-child:after {
+  content: "";
+}
+
+.overflow-auto {
+  overflow-y: auto;
+}

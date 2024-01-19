@@ -1,51 +1,76 @@
-<div class="container-fluid" xmlns:trackBy="http://www.w3.org/1999/xhtml">
-  <div class="row my-4">
-    <div title="Block of left section" class="col-2 bg-light shadow rounded">
-      <div class="row gx-1">
-        <div class="col-md-10">
-          <div class="row">
-          <label class="col-6 small" for="searchRecipe" id="searchRecipe1">Search Recipe</label>
-            <button
-              (click)="refresh(false,false,true)"
-              class="col-2 btn btn-primary m-2"
-              type="submit"
-            >
-              +
-            </button>
-            <div class=" col-2 btn-group dropstart p-2">
-              <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
-                      aria-expanded="false">
-                :
-              </button>
-              <ul class="dropdown-menu">
+<div>
+  <div class="row ">
+    <div class=" col-xl-35 col-lg-4 h-100">
+      <div class="card pt-2 ">
+        <div class="card-header-no-border-bottom ">
+          <div class="row align-items-center">
+            <div class="col-7 header-title align-items-center">
+                <h5  for="searchRecipe" id="searchRecipe1" class="card-title text-dark">Search Recipe</h5>
+            </div>
+            <div class="col-5 align-items-center">
+
+              <div class="container align-items-center me-n5">
+                <a class="btn btn-icon btn-link1">
+                   <span
+                     (click)="refresh(false,false,true)"
+                     class="btn-inner btn-link1"
+                     type="submit"
+                   >
+                          +
+                        </span>
+                </a>
+                <a class=" dropdown">
+                      <span class="btn btn-icon btn-sm btn-inner btn-link1 ">
+                      <small aria-expanded="true" class="" data-bs-toggle="dropdown" id="dropdownMenuButton8"
+                             role="button">
+                        <svg class="bi bi-three-dots-vertical" fill="currentColor" height="16" viewBox="0 0 16 16"
+                             width="16" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                        </svg>
+                      </small>
+
+                    <ul aria-labelledby="dropdownMenuButton7" class="dropdown-menu dropdown-menu-end ">
+
                 <li *ngIf="displayRecipeInfo.title==null"
-                    [ngClass]="displayRecipeInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Update
-                  (select any recipe)</a></li>
+                    [ngClass]="displayRecipeInfo.title!=null ? 'enabled' : 'disabled'" class="dropdown-item">Update
+                  (select any recipe)</li>
                 <li
-                  *ngIf="displayRecipeInfo.title!=null"><a class="dropdown-item" (click)="onUpdate()">Update</a></li>
+                  *ngIf="displayRecipeInfo.title!=null"><a class="dropdown-item" (click)="onUpdate()">
+                  Update</a></li>
                 <li *ngIf="displayRecipeInfo.title==null"
                     [ngClass]="displayRecipeInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
                   (select any recipe)</a></li>
                 <li
                   *ngIf="displayRecipeInfo.title!=null"><a class="dropdown-item" (click)="remove()">Remove</a></li>
-                <!-- <li><hr class="dropdown-divider"></li>-->
-                <li><a class="dropdown-item" (click)="sortRecipes('alphabetically')">Group by Alphabetically</a>
+                <li><a class="dropdown-item" (click)="sortRecipes('alphabetically')">
+                  Group by Alphabetically</a>
                 </li>
-                <!-- <li><hr class="dropdown-divider"></li>-->
                 <li><a class="dropdown-item" (click)="sortRecipes('category')">Group by Category</a></li>
                 <li><a class="dropdown-item" (click)="exportRecipes()">Export</a></li>
                 <li><a class="dropdown-item" (click)="importRecipes()">Import</a></li>
 
-              </ul>
+                    </ul>
+                           </span>
+
+
+                </a>
+
+              </div>
+
             </div>
+
+
           </div>
+
+          <div class="row align-items-center  mx-1 pe-3 pt-3">
 
           <ng-select
             (change)="getRecipe($event)"
             [multiple]="false"
             [searchable]="true"
             appendTo="body"
-            class="form-control"
+            class=" form-control"
             id="searchRecipe"
           >
             <ng-option
@@ -54,141 +79,158 @@
               >{{ recipe.title }}</ng-option
             >
           </ng-select>
-        </div>
 
+        </div>
+          <div class="border-bottom border-1 mx-3 py-2  ms-2">
+          </div>
       </div>
 
-      <!--by category-->
-      <div *ngIf="sortRecipesBy=='category'" class="row ps-4 mt-4 w-75 overflow-auto h-50 ">
+
+        <div class=" card-body ">
+        <div *ngIf="sortRecipesBy=='category'" class="">
         <ul
           *ngFor="let mapCategFoRecip of appComponent.categoryRecipeMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
-          class="container-fluid list-group list-group-flush  "
+          class="bd-example list-group overflow-auto list-group-flush"
         >
-          <div >
-            {{ mapCategFoRecip.key}}
+          <li class="list-group-item ">
+            <span class="badge bg-secondary">{{ mapCategFoRecip.key }}</span>
             <ul
               *ngFor="let recip of mapCategFoRecip.value"
-              class="container-fluid list-group list-group-flush  "
-            >
-              <li class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="getRecipe(recip)">
-                {{recip.title}}
+              class="list-group list-group-flush ">
+              <li  (click)="getRecipe(recip)"
+                   class="list-group-item list-group-item-action  d-flex align-items-center rounded-pill ms-3 h-2">
+                <h6 class="btn btn-link1 d-flex align-items-center  h-2  ">{{recip.title}}</h6>
               </li>
             </ul>
-          </div>
+          </li>
           <li class="dropdown-divider"></li>
         </ul>
       </div>
 
       <!--by alphabetically-->
-      <div *ngIf="sortRecipesBy=='alphabetically'" class="row  ps-3 mt-3 w-75">
+      <div *ngIf="sortRecipesBy=='alphabetically'" class="row  ps-3 mt-3 w-75 overflow-auto">
         <ul
           *ngFor="let recipe of appComponent.recipes |  sortByOrder:'title'"
-          class="list-group list-group-flush "
+          class="bd-example list-group list-group-flush "
         >
           <li
             (click)="getRecipe(recipe)"
-            class="list-group-item list-group-item-action cursor-pointer"
+            class="list-group-item list-group-item-action d-flex align-items-center rounded-pill ms-3 h-2"
           >
-            {{ recipe.title }}
+            <h6 class="btn btn-link1 d-flex align-items-center  h-2  ">{{ recipe.title }}</h6>
           </li>
         </ul>
       </div>
-
+      </div>
+    </div>
   </div>
 
-    <div title="Block of right section" class="col  mx-3 my-1 ">
-      <div class="" *ngIf="showRecipe">
+  <div class="col-xl-85 col-lg-8">
+    <div *ngIf="showRecipe" class="card">
 
-        <!--    <div class="row bg-light shadow rounded p-3 bg-image" style="background-image: url('assets/img/border.jpeg');">-->
-        <div title="Block of display recipe attributes" class="row bg-light shadow rounded p-3">
-          <div class="row d-flex">
+      <div class="card-header d-flex justify-content-between">
+        <div class="header-title">
+          <h4 class="card-title">{{displayRecipeInfo.title}}</h4>
+        </div>
+      </div>
+
+
+      <div class="card-body ms-3">
+          <div class="row">
             <div class="col">
-              <h6 class="align-middle">Serving-Qty :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.servingQty }}</p>
+              <p class="d-flex align-middle">Serving-Qty :
+                <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.servingQty }}</span></p>
             </div>
             <div class="col">
-              <h6 class="align-middle">Categories :</h6>
-              <ul class="inline-list comma-separated mx-4">
+
+              <p class="d-flex align-middle">Categories :
+                <span>
+              <ul class="d-flex align-middle  text-warning inline-list comma-separated  text-warning mx-3">
                 <li
                   *ngFor="let categ of appComponent.getMainCategoriesFor(displayRecipeInfo.categoriesForRecipe)" class="comma-separated"
                 >
                   {{ categ.category.title }}
                 </li>
               </ul>
+              </span>
+              </p>
             </div>
             <div class="col">
-              <h6 class="align-middle">Sub-Categories :</h6>
-              <ul class="inline-list comma-separated mx-4">
+              <p class="d-flex align-middle">Sub-Categories :
+              <span>
+              <ul class="d-flex inline-list text-warning comma-separated text-warning  mx-3">
                 <li
                   *ngFor="let categ of appComponent.getSubCategoriesFor(displayRecipeInfo.categoriesForRecipe)" class="comma-separated"
                 >
                   {{ categ.category.title }}
                 </li>
               </ul>
+              </span>
+              </p>
             </div>
           </div>
 
           <div class="row">
             <div class="col">
-              <h6 class="align-middle">Shelf-Life :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.shelfLife }}</p>
+              <p class="d-flex align-middle">Shelf-Life :
+              <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.shelfLife }}</span></p>
             </div>
             <div class="col">
-              <h6 class="align-middle">Prep-Time :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.prepTime }}</p>
+              <p class="d-flexa lign-middle">Prep-Time :
+              <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.prepTime }}</span></p>
             </div>
             <div class="col">
-              <h6 class="align-middle">Instructions :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
+              <p class="d-flex align-middle">Instructions :
+              <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.instructions }}</span></p>
             </div>
           </div>
 
           <div class="row">
             <div class="col">
-              <h6 class="align-middle">Rating :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.rating }}</p>
+              <p class="d-flex align-middle">Rating :
+              <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.rating }}</span></p>
             </div>
             <div class="col">
-              <h6 class="align-middle">Remarks :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.remarks }}</p>
+              <p class="d-flex align-middle">Remarks :
+              <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.remarks }}</span></p>
             </div>
             <!--  <div class="col-md">
               <h6 class="align-middle">unit</h6>
               <p class="align-middle">{{displayRecipeInfo.unitDetailed.unit}}</p>
             </div>-->
             <div class="col">
-              <h6 class="align-middle">Instructions :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.instructions }}</p>
+              <p class="d-flex align-middle">Unit :
+              <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.unit }}</span></p>
             </div>
           </div>
 
           <div class="row">
             <div class="col">
-              <h6 class="align-middle">Course :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.course }}</p>
+              <p class="d-flex align-middle">Course :
+              <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.course }}</span></p>
             </div>
             <div class="col">
-              <h6 class="align-middle">Cook-Time :</h6>
-              <p class="align-middle">{{ displayRecipeInfo.cookTime }}</p>
+              <p class="d-flex align-middle">Cook-Time :
+              <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.cookTime }}</span></p>
             </div>
             <div class="col">
               <!--   <h6 class="align-middle">cookTime</h6>
               <p class="align-middle">{{displayRecipeInfo.cookTime}}</p> -->
             </div>
           </div>
-          </div>
 
-        <div title="Block of recipe's ingredients" class="row my-3 bg-light shadow rounded mx-5">
-          <table class="table table-striped">
-            <thead class="px-2">
+
+          <div class="bd-example table-responsive mt-2 mx-1 pe-1">
+          <table class="table table-bordered">
+            <thead class="">
               <tr>
-                <th scope="col">Ingredients</th>
-                <th scope="col">Quantity-Unit</th>
-                <th scope="col">Category</th>
-                <th scope="col">Per-Unit-Cost</th>
-                <th scope="col">Unit</th>
-                <th scope="col">Supplier</th>
-                <th scope="col">Brand</th>
+                <th scope="col" class="text-secondary align-middle">Ingredients</th>
+                <th scope="col" class="text-secondary align-middle">Quantity-Unit</th>
+                <th scope="col" class="text-secondary align-middle">Category</th>
+                <th scope="col" class="text-secondary align-middle">Per-Unit-Cost</th>
+                <th scope="col" class="text-secondary align-middle">Unit</th>
+                <th scope="col" class="text-secondary align-middle">Supplier</th>
+                <th scope="col" class="text-secondary align-middle">Brand</th>
               </tr>
             </thead>
             <tbody>
@@ -197,32 +239,32 @@
                   let ingredientInRecipe of displayRecipeInfo.ingredientInRecipe
                 "
               >
-                <td class="text-center col">
+                <th scope="row" class="text-warning">
                   <div *ngIf="ingredientInRecipe.ingredient!=null"> {{ ingredientInRecipe.ingredient.title }} </div>
                   <div *ngIf="ingredientInRecipe.subRecipe!=null">  (SR) {{ ingredientInRecipe.subRecipe.title }} </div>
-                </td>
-                <td class="text-center col">
+                </th>
+                <td class="text-center text-warning">
                   {{ ingredientInRecipe.qty }}
                 </td>
-                <td class="text-center col">
+                <td class="text-warning">
                   <div *ngIf="ingredientInRecipe.ingredient!=null"> {{ingredientInRecipe.
                     ingredient.categoriesForIngredient[0].category.title}}</div>
                   <div *ngIf="ingredientInRecipe.subRecipe!=null"> {{ingredientInRecipe.
                     subRecipe.categoriesForRecipe[0].category.title}}</div>
                 </td>
-                <td class="text-center col">
-                  <div *ngIf="ingredientInRecipe.ingredient!=null">  {{ ingredientInRecipe.ingredient.
-                    brandForIngredients[0].perUnitCost }}</div>
+                <td class="text-center text-warning">
+                  <div *ngIf="ingredientInRecipe.ingredient!=null">  {{ (ingredientInRecipe.ingredient.
+                    brandForIngredients[0].perUnitCost) | number:'1.2-2'}}</div>
                 </td>
-                <td class="text-center col">
+                <td class="text-warning">
                   <div *ngIf="ingredientInRecipe.ingredient!=null"> {{ ingredientInRecipe.ingredient.unit }}</div>
                   <div *ngIf="ingredientInRecipe.subRecipe!=null"> {{ ingredientInRecipe.subRecipe.unit }}</div>
                 </td>
-                <td class="text-center col">
+                <td class="text-warning">
                   <div *ngIf="ingredientInRecipe.ingredient!=null">
                   {{ ingredientInRecipe.supplier.title }}</div>
                 </td>
-                <td class="text-center col">
+                <td class="text-warning">
                   <div *ngIf="ingredientInRecipe.ingredient!=null">
                     {{ ingredientInRecipe.brand.title }} </div>
                 </td>
@@ -232,17 +274,24 @@
         </div>
 
 
-        <div *ngIf="displayRecipeInfo.title!=null" title="Block of update button" class="d-flex align-items-end justify-content-end mx-5">
-          <button class="btn btn-primary" type="button" (click)="onUpdate()">
+          <button *ngIf="displayRecipeInfo.title!=null" title="Block of update button" class="btn btn-outline-primary rounded-pill d-flex ms-auto mt-3" type="button" (click)="onUpdate()">
             Update
           </button>
+
+    </div>
+    </div>
+
+
+    <div
+      *ngIf="!showRecipe"
+      class="card"
+    >
+      <div class="card-header d-flex justify-content-between">
+        <div class="header-title">
+          <h4 class="card-title">Add New Recipe</h4>
         </div>
       </div>
-
-      <div title="Block of add or update recipe"
-        class="bg-light shadow rounded p-3"
-           [style.display]="!showRecipe ? 'block' : 'none'"
-      >
+        <div class="card-body">
         <form
           #addRecipeForm="ngForm"
           (ngSubmit)="addRecipes()"
@@ -251,23 +300,22 @@
           id="addRecipeForm"
         >
 
-          <div title="Block of title">
-          <label for="titleRecipe">*Title</label>
+
+          <label for="titleRecipe" class="form-label">*Title</label>
           <input
             #titleRecipe="ngModel"
             [(ngModel)]="addRecipe.recipe.title"
             appendTo="body"
-            class="form-control  w-25"
+            class=" form-control  w-25"
             id="titleRecipe"
             name="titleRecipe"
             placeholder="Title is required"
             required
             type="text"
           />
-          </div>
 
-          <div title="Block of Ingredients">
-          <label for="ingredientForRecipe" id="ingredientForRecipe1" class="mt-2"
+
+          <label for="ingredientForRecipe" id="ingredientForRecipe1" class="mt-2 form-label"
             >Ingredient:</label
           >
           <ng-select
@@ -278,7 +326,7 @@
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
-            class="form-control"
+            class="text-secondary form-control"
             id="ingredientForRecipe"
             name="ingredientForRecipe"
             (clear)="resetIngSelects();"
@@ -290,15 +338,16 @@
             >
           </ng-select>
 
-          <table appendTo="body" class="table mt-2 table-hover table-bordered shadow-sm">
+          <div class="bd-example table-responsive mt-2 mx-1 pe-1">
+          <table appendTo="body" class="table table-bordered">
             <thead>
             <tr class="">
-              <th scope="col" class="text-center">Title</th>
-              <th scope="col"  class="text-center">Quantity</th>
-              <th scope="col"  class="text-center">Price</th>
-              <th scope="col"  class="text-center">Supplier</th>
-              <th scope="col"  class="text-center">Brand</th>
-              <th scope="col"  class="text-center">Category</th>
+              <th scope="col" class="text-secondary align-middle">Title</th>
+              <th scope="col" class="text-secondary align-middle">Quantity</th>
+              <th scope="col" class="text-secondary align-middle">Price</th>
+              <th scope="col" class="text-secondary align-middle">Supplier</th>
+              <th scope="col" class="text-secondary align-middle">Brand</th>
+              <th scope="col" class="text-secondary align-middle">Category</th>
             </tr>
             </thead>
             <tbody>
@@ -306,7 +355,7 @@
               *ngFor="let addIng of addIngMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
               appendTo="body"
             >
-              <td>{{ addIng.value.ingredient.title }}</td>
+              <th scope="row" class="text-secondary">{{ addIng.value.ingredient.title }}</th>
               <td>
                 <input
                   (input)="calculateIngCostForRecipe(addIng.value)"
@@ -321,7 +370,7 @@
                   type="text"
                 />
               </td>
-              <td class="price">
+              <td class="text-secondary price">
                 {{
                   addIng.value.costTotal
                 }}
@@ -332,7 +381,7 @@
                  [multiple]="false"
                   [searchable]="true"
                   appendTo="body"
-                  class="form-control"
+                  class="text-secondary form-control"
                   id="supplierForIng{{i}}"
                   name="supplierForIng{{i}}"
                   [(ngModel)]="addIng.value.ingredient.supplierList[0]"
@@ -353,7 +402,7 @@
                   [multiple]="false"
                   [searchable]="true"
                   appendTo="body"
-                  class="form-control"
+                  class="text-secondary form-control"
                   id="brandForIng{{i}}"
                   name="brandForIng{{i}}"
                   [(ngModel)]="addIng.value.ingredient
@@ -376,7 +425,7 @@
                   [multiple]="false"
                   [searchable]="true"
                   appendTo="body"
-                  class="form-control"
+                  class="text-secondary form-control"
                   id="categoriesForIng{{i}}"
                   name="categoryForIng{{i}}"
                   [(ngModel)]="addIng.value.ingredient
@@ -396,12 +445,11 @@
             </tr>
           </tbody>
           </table>
-
           </div>
 
-          <div title="Block of Sub Recipes">
-          <label for="subRecipeForRecipe" id="subRecipeForRecipe1" class="mt-2"
-          >Recipe:</label
+
+          <label for="subRecipeForRecipe" id="subRecipeForRecipe1" class="mt-2 form-label"
+          >Sub Recipe:</label
           >
           <ng-select
             (add)="addSubRecipes($event)"
@@ -411,7 +459,7 @@
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
-            class="form-control"
+            class=" form-control "
             id="subRecipeForRecipe"
             name="subRecipeForRecipe"
             (clear)="resetSubRecipeSelects();"
@@ -420,53 +468,54 @@
               *ngFor="let recipe of skipCurrentRecipeFilter(appComponent.recipes)" [value]="recipe">
               {{ recipe.title }}</ng-option>
           </ng-select>
-          <table appendTo="body" class="table mt-2 table-hover table-bordered shadow-sm">
-            <thead>
-            <tr class="">
-              <th scope="col" class="text-center">Title</th>
-              <th scope="col"  class="text-center">Quantity</th>
-              <th scope="col"  class="text-center">Price</th>
-              <th scope="col"  class="text-center">Category</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr
-              *ngFor="let addRecipe of addSubRecipeMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
-              appendTo="body"
-            >
-              <td>{{ addRecipe.value.subRecipe.title }}</td>
-              <td>
-                <input
-                  (input)="calculateIngCostForRecipe(addRecipe.value)"
-                  [(ngModel)]="addRecipe.value.qty"
+            <div class="bd-example table-responsive mt-2 mx-1 pe-1">
+              <table appendTo="body" class="table  table-bordered">
+                <thead>
+                <tr class="">
+                  <th scope="col" class="text-secondary align-middle">Title</th>
+                  <th scope="col"  class="text-secondary align-middle">Quantity</th>
+                  <th scope="col"  class="text-secondary align-middle">Price</th>
+                  <th scope="col"  class="text-secondary align-middle">Category</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                  *ngFor="let addRecipe of addSubRecipeMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
                   appendTo="body"
-                  class="form-control"
-                  id="addRecipeCont{{i}}"
-                  name="addRecipeCont{{i}}"
-                  placeholder="Quantity"
-                  required
-                  type="text"
-                />
-              </td>
-              <td class="price">
-                {{
-                addRecipe.value.costTotal
-                }}
-              </td>
-              <td>{{addRecipe.value.subRecipe.categoriesForRecipe[0].category.title}}</td>
-            </tr>
-            </tbody>
-          </table>
+                >
+                  <td class="text-secondary">{{ addRecipe.value.subRecipe.title }}</td>
+                  <td>
+                    <input
+                      (input)="calculateIngCostForRecipe(addRecipe.value)"
+                      [(ngModel)]="addRecipe.value.qty"
+                      appendTo="body"
+                      class=" form-control"
+                      id="addRecipeCont{{i}}"
+                      name="addRecipeCont{{i}}"
+                      placeholder="Quantity"
+                      required
+                      type="text"
+                    />
+                  </td>
+                  <td class="text-secondary price">
+                    {{
+                    addRecipe.value.costTotal
+                    }}
+                  </td>
+                  <td class="text-secondary">{{addRecipe.value.subRecipe.categoriesForRecipe[0].category.title}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
 
-          </div>
 
-          <div title="Block of total Cost">
+
             <b> Total Price - {{ totalCost }} </b>
-          </div>
+
 
           <div class="row">
-          <div class="col" title="Block of categoryForRecipe">
-          <label for="categoryForRecipe" id="categoryForRecipe1" class=" mt-2">Category</label>
+          <div class="col">
+          <label for="categoryForRecipe" id="categoryForRecipe1" class="form-label mt-2">Category</label>
           <ng-select
             (add)="setCategories($event,false)"
             (remove)="removeCategories($event,false)"
@@ -475,7 +524,7 @@
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
-            class="form-control w-50"
+            class="text-secondary form-control w-50"
             id="categoryForRecipe"
             name="categoryForRecipe"
           >
@@ -487,9 +536,9 @@
           </ng-select>
           </div>
 
+            <div class="col">
 
-            <div class="col" title="Block of subCategoryForRecipe">
-              <label for="subCategoryForRecipe" id="subCategoryForRecipe1" class=" mt-2">Sub Category</label>
+              <label for="subCategoryForRecipe" id="subCategoryForRecipe1" class="form-label mt-2">Sub Category</label>
               <ng-select
                 (add)="setCategories($event,true)"
                 (remove)="removeCategories($event,true)"
@@ -498,7 +547,7 @@
                 [multiple]="true"
                 [searchable]="true"
                 appendTo="body"
-                class="form-control w-50"
+                class="text-secondary form-control w-50"
                 id="subCategoryForRecipe"
                 name="subCategoryForRecipe"
               >
@@ -509,16 +558,15 @@
                 >
               </ng-select>
             </div>
-
           </div>
 
 
           <div class="row">
-          <div class="col" title="Block of collectionRecipe">
-          <label for="collectionRecipe" class=" mt-2">Collection</label>
+          <div class="col" >
+          <label for="collectionRecipe" class="form-label mt-2">Collection</label>
           <input
             [(ngModel)]="addRecipe.recipe.collection"
-            class="form-control w-50"
+            class="text-secondary form-control w-50"
             id="collectionRecipe"
             name="collectionRecipe"
             placeholder="Enter collection"
@@ -526,11 +574,11 @@
           />
           </div>
 
-          <div class="col" title="Block of courseRecipe">
-          <label for="courseRecipe" class=" mt-2">Course</label>
+          <div class="col" >
+          <label for="courseRecipe" class="form-label mt-2">Course</label>
           <input
             [(ngModel)]="addRecipe.recipe.course"
-            class="form-control w-50"
+            class=" form-control w-50"
             id="courseRecipe"
             name="courseRecipe"
             placeholder="Enter course"
@@ -540,8 +588,8 @@
           </div>
 
           <div class="row">
-          <div  class="col" title="Block of sourceRecipe">
-          <label for="sourceRecipe" class=" mt-2">Source</label>
+          <div  class="col" >
+          <label for="sourceRecipe" class="form-label mt-2">Source</label>
             <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
             </ngx-editor-menu>
             <ngx-editor
@@ -551,6 +599,7 @@
               [disabled]="false"
               data-bs-target="#myModal"
               data-bs-toggle="modal"
+              class="text-secondary"
             ></ngx-editor>
 
 
@@ -574,11 +623,11 @@
 
           </div>
 
-          <div class="col" title="Block of sourceURLRecipe">
-            <label for="sourceURLRecipe" class=" mt-2">Source URL</label>
+          <div class="col" >
+            <label for="sourceURLRecipe" class="form-label mt-2">Source URL</label>
             <input
               [(ngModel)]="addRecipe.recipe.sourceURL"
-              class="form-control w-50"
+              class=" form-control w-50"
               id="sourceURLRecipe"
               name="sourceURLRecipe"
               placeholder="Enter source URL"
@@ -589,7 +638,7 @@
 
           <div class="row">
             <div  class="col" title="Block of methodRecipe">
-              <label for="methodRecipe" class=" mt-2">Method</label>
+              <label for="methodRecipe" class="form-label mt-2">Method</label>
               <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar">
               </ngx-editor-menu>
               <ngx-editor
@@ -601,7 +650,7 @@
             </div>
 
             <div  class="col" title="Block of notesRecipe">
-              <label for="notesRecipe" class=" mt-2">Notes</label>
+              <label for="notesRecipe" class="form-label mt-2">Notes</label>
               <ngx-editor-menu [editor]="editor2" [toolbar]="toolbar">
               </ngx-editor-menu>
               <ngx-editor
@@ -613,12 +662,12 @@
             </div>
           </div>
 
-          <div title="Block of servingQty">
-          <label for="servingQty" class=" mt-2">Serving Qty</label>
+
+          <label for="servingQty" class="form-label mt-2">Serving Qty</label>
           <div class="input-group w-25" >
           <input
             [(ngModel)]="addRecipe.recipe.servingQty"
-            class="form-control w-70"
+            class="rounded-pill form-control w-70"
             id="servingQty"
             name="servingQty"
             placeholder="Enter servingQty"
@@ -636,7 +685,7 @@
               </label>
             </div>
           </div>
-          </div>
+
 
           <!--   <label for="unitListRec">Units:</label>
              <select [(ngModel)]="addRecipe.recipe.unit" class="form-control" id="unitListRec"
@@ -647,17 +696,9 @@
                </optgroup>
              </select>-->
 
-          <p></p>
-
-          <div title="Block of submit button" class="d-flex align-items-end justify-content-end">
-          <button
-            [disabled]="!addRecipeForm.form.valid"
-            class="btn btn-primary  float-right"
-            type="submit"
-          >
+          <button  [disabled]="!addRecipeForm.form.valid"  class="btn btn-outline-primary rounded-pill d-flex ms-auto mt-3" type="submit">
             Submit
           </button>
-        </div>
 
         </form>
       </div>
@@ -665,4 +706,5 @@
     </div>
 
   </div>
+</div>
 </div>
