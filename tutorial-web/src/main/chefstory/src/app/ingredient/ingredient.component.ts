@@ -231,7 +231,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
 
   onUpdate() {
     //alert('test');
-    this.showIng = false;
+
     this.toUpdate = true;
 
     this.addIngredient = new AddIngredient();
@@ -241,6 +241,9 @@ export class IngredientComponent implements OnInit, OnDestroy {
     this.addIngredient.ingredient.subCatList = this.appComponent.getSubCategoriesFor(this.displayIngInfo.categoriesForIngredient).map((t) => t.category.title);
     this.addIngredient.ingredient.supplierList = this.displayIngInfo.supplierForIngredients.map((t) => t.supplier.title);
     this.addIngredient.ingredient.brandList = this.displayIngInfo.brandForIngredients.map((t) => t.brand.title)
+
+    this.appComponent.delay(10)
+    this.showIng = false;
   }
 
   sortIngredients(type: string) {

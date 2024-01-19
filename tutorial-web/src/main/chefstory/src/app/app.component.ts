@@ -303,8 +303,9 @@ export class AppComponent implements OnInit {
   }
 
 
-  handleClick(){
 
+  async delay(ms: number) {
+    await new Promise<void>(resolve => setTimeout(()=>resolve(), ms)).then(()=>console.log("fired after delay of : "+ms+"ms"));
   }
 
 

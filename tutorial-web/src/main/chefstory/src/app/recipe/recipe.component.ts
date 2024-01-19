@@ -323,12 +323,12 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   onUpdate(){
 
-    this.showRecipe=false;
+
     this.toUpdate=true;
 
     this.addRecipe=new AddRecipe();
     this.addRecipe.recipe=this.displayRecipeInfo;
-    console.log('Updating Recipe - ' + JSON.stringify(this.addRecipe.recipe))
+   // console.log('Updating Recipe - ' + JSON.stringify(this.addRecipe.recipe))
 
     this.addRecipe.recipe.catList=this.appComponent.getMainCategoriesFor(this.displayRecipeInfo.categoriesForRecipe).map((t)=> t.category.title);
     this.addRecipe.recipe.subCatList=this.appComponent.getSubCategoriesFor(this.displayRecipeInfo.categoriesForRecipe).map((t)=> t.category.title);
@@ -358,10 +358,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
     });
     this.enableAdj=false;
     this.enableUpdateTotal=true;
+    this.appComponent.delay(10)
+    this.showRecipe=false;
 
-    console.log("-- update button action completed");
+   // console.log("-- update button action completed");
   }
-
 
 
   fixAndEnableAdjusting(u:any){
