@@ -80,7 +80,10 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   refresh(showRecipe:boolean,toUpdate:boolean,refreshCache:boolean): void {
     if(refreshCache) this.appComponent.refreshAppCache();
-    if (this.addRecipeForm != null) this.addRecipeForm.reset();
+    if (this.addRecipeForm != null) {
+      this.addRecipeForm.reset();
+      this.addRecipeForm=null;
+    }
     this.addIngMap= new Map<number, IngredientInRecip>();
     this.addSubRecipeMap= new Map<number, IngredientInRecip>();
     this.totalCost=0;
@@ -190,8 +193,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   removeSubRecipes(recipe:Recipe) {
     let title=this.appComponent.getTitle(recipe);
     let t:Recipe=this.appComponent.getAllRecipes().filter(u=> u.title==title)[0];
-
-    this.addIngMap.delete(t.id);
+    this.addSubRecipeMap.delete(t.id);
     // console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
     this.calculateCostTotal();
   }
@@ -492,6 +494,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   reload(){
+    this.refresh(true,false,true);
     window.location.reload()
   }
 }

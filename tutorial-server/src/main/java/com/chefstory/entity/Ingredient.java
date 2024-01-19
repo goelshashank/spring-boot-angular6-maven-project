@@ -62,7 +62,7 @@ import java.util.stream.Collectors;
 
 
 	public void setTitle(String title) {
-		this.title = title.substring(0, 1).toUpperCase() + title.substring(1);
+		this.title = (title.substring(0, 1).toUpperCase() + title.substring(1)).trim();
 	}
 
 }

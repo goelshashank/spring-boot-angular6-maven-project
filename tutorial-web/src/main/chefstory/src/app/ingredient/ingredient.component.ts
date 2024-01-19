@@ -61,7 +61,10 @@ export class IngredientComponent implements OnInit, OnDestroy {
 
   refresh(showIng: boolean, toUpdate: boolean, refreshCache: boolean): void {
     this.appComponent.refreshAppCache();
-    if (this.addIngForm != null) this.addIngForm.reset();
+    if (this.addIngForm != null) {
+      this.addIngForm.reset();
+      this.addIngForm=null;
+    }
     this.displayIngInfo = new Ingredient();
     this.showIng = showIng;
     this.toUpdate = toUpdate;
@@ -306,6 +309,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
   }
 
   reload() {
+    this.refresh(true,false,true);
     window.location.reload()
   }
 

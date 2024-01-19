@@ -466,7 +466,8 @@
           >
             <ng-option
               *ngFor="let recipe of skipCurrentRecipeFilter(appComponent.recipes)" [value]="recipe">
-              {{ recipe.title }}</ng-option>
+              {{ recipe.title }}
+            </ng-option>
           </ng-select>
             <div class="bd-example table-responsive mt-2 mx-1 pe-1">
               <table appendTo="body" class="table  table-bordered">

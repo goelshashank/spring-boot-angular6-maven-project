@@ -245,12 +245,12 @@ export class AppComponent implements OnInit {
    getTitle(t:BaseModel):string{
     let title=null;
     if(t.title!=null)
-      title=t.title;
+      title=t.title.trim();
     else if(t.label!=null)
-      title=t.label;
+      title=t.label.trim();
     else title=t;
 
-    return title;
+    return title.trim();
   }
 
 
