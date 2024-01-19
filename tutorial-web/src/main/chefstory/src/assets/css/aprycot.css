@@ -3225,6 +3225,22 @@ textarea.form-control-lg {
   .btn-link:disabled, .btn-link.disabled {
     color: #959895; }
 
+.btn-link1 {
+  font-weight: 400;
+  color: #959895;
+  text-decoration: none;
+ }
+.btn-link1:hover {
+  color: #EA6A12; }
+.btn-link1:disabled, .btn-link1.disabled {
+  color: #959895; }
+.btn-link1:enabled , .btn-link1.active {
+  color: #EA6A12;
+  background-color: #e9ecef; }
+
+
+
+
 .btn-lg, .btn-group-lg > .btn {
   padding: 0.5rem 1.5rem;
   font-size: 1.25rem;
@@ -12057,6 +12073,18 @@ textarea.form-control-lg {
   .btn-link:disabled, .btn-link.disabled {
     color: #959895; }
 
+.btn-link1 {
+  font-weight: 400;
+  color: #959895;
+  text-decoration: none; }
+.btn-link1:hover {
+  color: #EA6A12; }
+.btn-link1:disabled, .btn-link1.disabled {
+  color: #959895; }
+.btn-link1:enabled , .btn-link1.active {
+  color: #EA6A12;
+  background-color: #e9ecef; }
+
 .btn-lg, .btn-group-lg > .btn {
   padding: 0.5rem 1.5rem;
   font-size: 1.25rem;
@@ -17023,6 +17051,9 @@ form.comment-text input {
 
 .h-10 {
   height: 10rem; }
+
+.h-2 {
+  height: 2rem !important;}
 
 .avatar {
   position: relative; }

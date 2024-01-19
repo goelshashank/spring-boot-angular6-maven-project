@@ -32,4 +32,10 @@ import javax.validation.constraints.NotBlank;
 		this.type = StringUtils.isNotBlank(type) ? type.toUpperCase() : type;
 		return this;
 	}
+
+
+	public void setTitle(String title) {
+		this.title = title.substring(0, 1).toUpperCase() + title.substring(1);
+	}
+
 }

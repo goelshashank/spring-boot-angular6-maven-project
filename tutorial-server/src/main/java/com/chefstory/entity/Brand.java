@@ -20,4 +20,10 @@ import javax.validation.constraints.NotBlank;
 
 	@Column(name = "title", unique = true, nullable = false) @NotBlank private String title;
 
+
+	public void setTitle(String title) {
+		this.title = title.substring(0, 1).toUpperCase() + title.substring(1);
+	}
+
+
 }

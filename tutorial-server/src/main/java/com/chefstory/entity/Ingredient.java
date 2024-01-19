@@ -43,11 +43,8 @@ import java.util.stream.Collectors;
 	@Column(name = "gst") private Double gst;
 
 	@Column(name = "minimumInventory") private Double minimumInventory;
-
 	@JsonManagedReference(value = "supplierForIngredients") @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL) private List<SupplierForIngredient> supplierForIngredients;
-
 	@JsonManagedReference(value = "brandForIngredients") @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL) private List<BrandForIngredient> brandForIngredients;
-
 	@JsonManagedReference(value = "categoriesForIngredient") @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL) private List<CategoryFor> categoriesForIngredient;
 
 
@@ -61,6 +58,11 @@ import java.util.stream.Collectors;
 
 	@JsonIgnore public List<Long> getCategoryForIds() {
 		return this.getCategoriesForIngredient().stream().map(t -> t.getId()).filter(t -> t != null).collect(Collectors.toList());
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title.substring(0, 1).toUpperCase() + title.substring(1);
 	}
 
 }
