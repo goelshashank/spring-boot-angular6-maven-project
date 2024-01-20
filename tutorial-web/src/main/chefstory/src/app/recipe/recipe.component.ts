@@ -21,6 +21,7 @@ import {ActivatedRoute} from "@angular/router";
 import {RouterPaths} from "../config/RouterPaths";
 import * as XLSX from "xlsx";
 import * as FileSaver from 'file-saver';
+import {delay, retryWhen} from "rxjs";
 
 @Component({
   selector: 'app-recipe',
@@ -210,6 +211,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
      if(!this.enableUpdateTotal)
        return;
 
+     alert('cal')
     this.totalCost = 0;
     this.addIngMap.forEach((value, key) => {
       this.totalCost = this.totalCost + value.costTotal;
@@ -307,7 +309,15 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   getRecipe(recipe: Recipe) {
-    this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).subscribe(
+    this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).pipe(
+      retryWhen(errors =>
+        errors.pipe(
+          //todo: improve retry logic
+          delay(1000)
+        )
+      )
+    )
+    .subscribe(
       (response) => {
         this.displayRecipeInfo = response[0];
        // console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
@@ -318,8 +328,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
       () => {
         console.log('%% get recipe is completed successfully %%');
       });
+    this.calculateCostTotal();
     this.refresh(true,false,false);
   }
+
+
 
   onUpdate(){
 
@@ -358,7 +371,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     });
     this.enableAdj=false;
     this.enableUpdateTotal=true;
-    this.appComponent.delay(10)
+    this.appComponent.sleep(10)
     this.showRecipe=false;
 
    // console.log("-- update button action completed");

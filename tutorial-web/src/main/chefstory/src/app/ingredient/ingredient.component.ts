@@ -200,14 +200,6 @@ export class IngredientComponent implements OnInit, OnDestroy {
     this.addIngredient.ingredient.brandList=null;
   }
 
-  onDeselectChange(event) {
-    if (event.newSelectedOption === null || event.newSelectedOption === undefined) {
-      // Clear your list elements here
-      // You can access the list elements using your preferred method,
-      // such as by querying for them using ViewChild or referencing them directly
-    }
-  }
-
   calculatePerUnitCost(brandForIngredient: BrandForIngredient) {
     brandForIngredient.perUnitCost = brandForIngredient.skuCost / brandForIngredient.skuQty;
   }
@@ -242,7 +234,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
     this.addIngredient.ingredient.supplierList = this.displayIngInfo.supplierForIngredients.map((t) => t.supplier.title);
     this.addIngredient.ingredient.brandList = this.displayIngInfo.brandForIngredients.map((t) => t.brand.title)
 
-    this.appComponent.delay(10)
+    this.appComponent.sleep(10)
     this.showIng = false;
   }
 
