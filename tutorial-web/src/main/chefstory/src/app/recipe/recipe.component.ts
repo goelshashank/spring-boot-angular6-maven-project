@@ -73,31 +73,31 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit(): void {
-    this.refresh(true,false,true);
+    this.refresh(true, false, true);
     this.sortRecipes('category');
     this.appComponent.isRecipeActive=true;
     console.log("++++ Initialized Recipes +++");
   }
 
-  refresh(showRecipe:boolean,toUpdate:boolean,refreshCache:boolean): void {
+  refresh(showRecipe: boolean, toUpdate: boolean, refreshCache: boolean, toUpdateCost: boolean = false): void {
     if(refreshCache) this.appComponent.refreshAppCache();
-    if (this.addRecipeForm != null) {
+    if (!showRecipe && this.addRecipeForm != null) {
       this.addRecipeForm.reset();
       this.addRecipeForm=null;
+      this.displayRecipeInfo = new Recipe();
     }
 
       this.addIngMap = new Map<number, IngredientInRecip>();
       this.addSubRecipeMap = new Map<number, IngredientInRecip>();
-      this.totalCost = 0;
-      this.displayRecipeInfo = new Recipe();
+      if(!toUpdateCost) this.totalCost = 0;
+      this.toUpdate=toUpdate;
+      this.editor = new Editor();
+      this.editor1=new Editor();
+      this.editor2=new Editor();
 
-
-    this.toUpdate=toUpdate;
-    this.editor = new Editor();
-    this.editor1=new Editor();
-    this.editor2=new Editor();
-
+     // alert(this.displayRecipeInfo.title)
     this.showRecipe=showRecipe;
+
   }
 
   addRecipes() {
@@ -211,7 +211,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
      if(!this.enableUpdateTotal)
        return;
 
-     alert('cal')
+
     this.totalCost = 0;
     this.addIngMap.forEach((value, key) => {
       this.totalCost = this.totalCost + value.costTotal;
@@ -326,17 +326,19 @@ export class RecipeComponent implements OnInit , OnDestroy {
         console.log('Error happened in getting recipe' + JSON.stringify(error));
       },
       () => {
+        this.onUpdate(false);
+        this.calculateCostTotal();
+       // alert("++"+this.displayRecipeInfo.title)
+        this.refresh(true, false, false,true);
         console.log('%% get recipe is completed successfully %%');
       });
-    this.calculateCostTotal();
-    this.refresh(true,false,false);
+
   }
 
 
+  onUpdate(toSetShowRecipe: boolean = true){
 
-  onUpdate(){
-
-
+    console.time('Execution time of update recipe');
     this.toUpdate=true;
 
     this.addRecipe=new AddRecipe();
@@ -371,9 +373,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
     });
     this.enableAdj=false;
     this.enableUpdateTotal=true;
-    this.appComponent.sleep(10)
-    this.showRecipe=false;
+    this.appComponent.sleep(5)
+   if(toSetShowRecipe) this.showRecipe=false;
 
+
+    console.timeEnd('Execution time of update recipe');
    // console.log("-- update button action completed");
   }
 
@@ -446,10 +450,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
         // alert('Error happened in remove recipe' + JSON.stringify(error));
       },
       () => {
+        this.reload();
         console.log('%% remove recipe is completed successfully %%');
         //  alert('%% add recipe is completed successfully %%');
       });
-    this.reload();
+
   }
 
   exportRecipes(): void {
@@ -518,6 +523,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   reload(){
     //window.location.reload();
-    this.refresh(true,false,true);
+    this.refresh(true, false, true);
+  }
+
+
+  getTotalCost():number {
+    return +(this.totalCost.toFixed(2))
   }
 }

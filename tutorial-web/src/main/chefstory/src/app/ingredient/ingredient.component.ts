@@ -62,11 +62,11 @@ export class IngredientComponent implements OnInit, OnDestroy {
 
   refresh(showIng: boolean, toUpdate: boolean, refreshCache: boolean): void {
     if(refreshCache)  this.appComponent.refreshAppCache();
-    if (this.addIngForm != null) {
+    if (!showIng && this.addIngForm != null) {
       this.addIngForm.reset();
       this.addIngForm=null;
+      this.displayIngInfo = new Ingredient();
     }
-    this.displayIngInfo = new Ingredient();
     this.toUpdate = toUpdate;
 
     this.showIng = showIng;
@@ -215,14 +215,16 @@ export class IngredientComponent implements OnInit, OnDestroy {
         console.log('Error happened in getting ing' + JSON.stringify(error));
       },
       () => {
+        //alert(this.displayIngInfo.gst);
+        this.refresh(true, false, false);
         console.log('%% get ing is completed successfully %%');
       });
-    //alert(this.displayIngInfo.gst);
-    this.refresh(true, false, false);
+
   }
 
   onUpdate() {
     //alert('test');
+    console.time('Execution time of update ingredient');
 
     this.toUpdate = true;
 
@@ -234,8 +236,10 @@ export class IngredientComponent implements OnInit, OnDestroy {
     this.addIngredient.ingredient.supplierList = this.displayIngInfo.supplierForIngredients.map((t) => t.supplier.title);
     this.addIngredient.ingredient.brandList = this.displayIngInfo.brandForIngredients.map((t) => t.brand.title)
 
-    this.appComponent.sleep(10)
+
+    this.appComponent.sleep(5)
     this.showIng = false;
+    console.timeEnd('Execution time of update ingredient');
   }
 
   sortIngredients(type: string) {
@@ -260,10 +264,11 @@ export class IngredientComponent implements OnInit, OnDestroy {
        // alert('Error happened in remove ingredient' + JSON.stringify(error));
       },
       () => {
+        this.reload();
         console.log('%% remove ingredient is completed successfully %%');
         //  alert('%% add ingredient is completed successfully %%');
       });
-    this.reload();
+
   }
 
   exportIngs(): void {

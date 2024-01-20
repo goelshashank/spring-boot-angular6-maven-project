@@ -200,12 +200,14 @@ export class AppComponent implements OnInit {
   }
 
  async refreshAppCache() {
+   console.time('Execution time of refresh cache');
     this.getConfiguration();
     this.getAllCategories();
     this.getAllIngredients();
     this.getAllRecipes();
     this.getAllSuppliers();
     this.getAllBrands();
+    console.timeEnd('Execution time of refresh cache');
     console.log(' --------  App cache refreshed ---------');
   }
 
