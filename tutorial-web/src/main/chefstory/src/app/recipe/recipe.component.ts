@@ -81,14 +81,15 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   refresh(showRecipe: boolean, toUpdate: boolean, refreshCache: boolean, toUpdateCost: boolean = false): void {
     if(refreshCache) this.appComponent.refreshAppCache();
-    if (!showRecipe && this.addRecipeForm != null) {
-      this.addRecipeForm.reset();
-      this.addRecipeForm=null;
+    if (!showRecipe && (this.addRecipeForm != null && toUpdateCost)) {
+       this.addRecipeForm.reset();
+       this.addRecipeForm=null;
       this.displayRecipeInfo = new Recipe();
     }
 
       this.addIngMap = new Map<number, IngredientInRecip>();
       this.addSubRecipeMap = new Map<number, IngredientInRecip>();
+      this.addRecipe=new AddRecipe();
       if(!toUpdateCost) this.totalCost = 0;
       this.toUpdate=toUpdate;
       this.editor = new Editor();
@@ -107,7 +108,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
     let addRecipeList: AddRecipe[] = [];
     addRecipeList.push(this.addRecipe);
-    let id=this.addRecipe.recipe.id;
+    let title=this.addRecipe.recipe.title;
 
     if (this.addRecipeForm.valid) {
      // console.log('Add recipe list: ' + JSON.stringify(addRecipeList));
@@ -132,7 +133,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
       () => {
         console.log(' %% add recipe is completed successfully %%');
         let recipe:Recipe=new Recipe();
-        recipe.id=id;
+        recipe.title=title;
         this.getRecipe(recipe);
         // alert('%% add recipe is completed successfully %%');
       });
@@ -329,7 +330,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
         this.onUpdate(false);
         this.calculateCostTotal();
        // alert("++"+this.displayRecipeInfo.title)
-        this.refresh(true, false, false,true);
+        this.refresh(true, false, true, true);
         console.log('%% get recipe is completed successfully %%');
       });
 

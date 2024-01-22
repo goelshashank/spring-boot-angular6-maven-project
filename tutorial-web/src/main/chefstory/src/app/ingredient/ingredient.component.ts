@@ -75,7 +75,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
   addIngredients() {
     let addIngredients: AddIngredient[] = [];
     addIngredients.push(this.addIngredient);
-    let id=this.addIngredient.ingredient.id;
+    let title=this.addIngredient.ingredient.title;
 
     if (this.addIngForm.valid) {
       // console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
@@ -103,7 +103,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
 
         this.reload();
         let ing:Ingredient=new Ingredient();
-        ing.id=id;
+        ing.title=title;
         this.getIngredient(ing);
         //  alert('%% add ingredient is completed successfully %%');
       });
@@ -216,7 +216,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
       },
       () => {
         //alert(this.displayIngInfo.gst);
-        this.refresh(true, false, false);
+        this.refresh(true, false, true);
         console.log('%% get ing is completed successfully %%');
       });
 

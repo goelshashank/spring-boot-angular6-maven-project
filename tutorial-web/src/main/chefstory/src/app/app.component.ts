@@ -199,7 +199,7 @@ export class AppComponent implements OnInit {
       });
   }
 
- async refreshAppCache() {
+  async refreshAppCache() {
    console.time('Execution time of refresh cache');
     this.getConfiguration();
     this.getAllCategories();

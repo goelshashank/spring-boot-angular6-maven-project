@@ -24,6 +24,7 @@ import com.chefstory.repository.linkrepo.BrandForIngredientRepo;
 import com.chefstory.service.KitchenService;
 import com.chefstory.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -86,22 +88,39 @@ import static com.chefstory.utils.Constants.UPDATE;
 				HttpStatus.OK);
 	}
 
-	@PostMapping("/getRecipes") public ResponseEntity<Collection<Recipe>> getRecipes(@RequestBody List<Recipe> recipes) {
-		return new ResponseEntity<>(
-				recipes.stream().collect(Collectors.toMap(BaseEntity::getId,
-						t -> kitchenService.recipeRepo.findById(t.getId()))).values(),
-				HttpStatus.OK);
+	@PostMapping("/getRecipes") public ResponseEntity<Collection<Recipe>> getRecipes( @RequestBody List<Recipe> recipes) {
+		List<Recipe>recipeList=new ArrayList<>();
+
+		recipes.stream().forEach(t-> {
+					if(StringUtils.isNotBlank(t.getTitle()))
+						recipeList.addAll(kitchenService.recipeRepo.findByTitle(t.getTitle()));
+					else  {
+						recipeList.add(kitchenService.recipeRepo.findById(t.getId()));
+					}
+				}
+		);
+		return new ResponseEntity<>(recipeList
+				, HttpStatus.OK);
 	}
 
 	@PostMapping("/getIngredients") public ResponseEntity<Collection<Ingredient>> getIngredients(
-			@RequestBody List<Ingredient> ingredients) {
-		return new ResponseEntity<>(
-				ingredients.stream().collect(Collectors.toMap(BaseEntity::getId,
-						t -> kitchenService.ingredientRepo.findById(t.getId()))).values(),
-				HttpStatus.OK);
+			 @RequestBody List<Ingredient> ingredients) {
+
+		List<Ingredient>ingredientList=new ArrayList<>();
+
+		ingredients.stream().forEach(t-> {
+		if(StringUtils.isNotBlank(t.getTitle()))
+			ingredientList.addAll(kitchenService.ingredientRepo.findByTitle(t.getTitle()));
+		else  {
+			ingredientList.add(kitchenService.ingredientRepo.findById(t.getId()));
+		}
+		}
+		);
+		return new ResponseEntity<>(ingredientList
+				, HttpStatus.OK);
 	}
 
-	@PostMapping("/getBrands") public ResponseEntity<Map<Long, Brand>> getBrands(@RequestBody List<Brand> brands) {
+	@PostMapping("/getBrands") public ResponseEntity<Map<Long, Brand>> getBrands( @RequestBody List<Brand> brands) {
 		return new ResponseEntity<>(brands.stream().collect(Collectors.toMap(BaseEntity::getId, t -> kitchenService.brandRepo.findById(t.getId()))),
 				HttpStatus.OK);
 	}
@@ -114,7 +133,7 @@ import static com.chefstory.utils.Constants.UPDATE;
 				HttpStatus.OK);
 	}
 
-	@PostMapping("/getSuppliers") public ResponseEntity<Map<Long, Supplier>> getSuppliers(@RequestBody List<Supplier> suppliers) {
+	@PostMapping("/getSuppliers") public ResponseEntity<Map<Long, Supplier>> getSuppliers( @RequestBody List<Supplier> suppliers) {
 		return new ResponseEntity<>(
 				suppliers.stream().collect(Collectors.toMap(BaseEntity::getId,
 						t -> kitchenService.supplierRepo.findById(t.getId()))), HttpStatus.OK);
