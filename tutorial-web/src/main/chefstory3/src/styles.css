@@ -1,1 +1,32 @@
+@import "assets/css/core/libs.min.css";
+@import "assets/css/aprycot.css";
+
+
+
 /* You can add global styles to this file, and also import other style files */
+.ng-invalid.ng-touched:not(form) {
+  border: 2px solid red;
+}
+
+.sortable tr {
+  cursor: pointer;
+}
+
+
+.comma-separated {
+  display: inline-flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comma-separated li:after {
+  content: "\00a0,\00a0";
+}
+.comma-separated li:last-child:after {
+  content: "";
+}
+
+.overflow-auto {
+  overflow-y: auto;
+}
