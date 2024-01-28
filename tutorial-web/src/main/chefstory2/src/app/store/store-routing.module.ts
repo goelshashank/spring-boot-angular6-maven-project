@@ -36,8 +36,7 @@ const routes: Routes = [
       {path: 'settings', component: SettingsComponent},
       {path: 'stock-at-hand', component: StockAtHandComponent},
       {path: 'supplier', component: SupplierComponent},
-      {path: '', redirectTo: 'home', pathMatch: 'full'},
-
+      {path: "**", component: HomeComponent},
     ]
   }
 ];

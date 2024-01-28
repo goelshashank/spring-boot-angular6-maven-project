@@ -1,5 +1,5 @@
 export enum RouterPaths {
-  HOME = '/home',
+  HOME = '/chefstory/home',
   INGREDIENT = '/ingredient',
   RECIPE = '/recipe'
 }
