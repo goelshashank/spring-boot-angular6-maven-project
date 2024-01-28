@@ -25,9 +25,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css"
             ],
-            "scripts": [],
+            "scripts": [ "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -91,7 +95,14 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [ "src/assets/js/charts/dashboard.js",
+              "src/assets/js/core/external.min.js",
+              "src/assets/js/core/libs.min.js",
+              "src/assets/js/charts/dashboard.js",
+              "src/assets/js/countdown.js",
+              "src/assets/js/fslightbox.js",
+              "src/assets/js/prism.mini.js",
+              "src/assets/js/slider-tabs.js"]
           }
         }
       }
