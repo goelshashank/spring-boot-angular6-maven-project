@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RouterService} from "../service/router.service";
-import {AppComponent} from "../app.component";
+import {StoreComponent} from "../store.component";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {filter} from "rxjs";
 
@@ -12,7 +12,7 @@ import {filter} from "rxjs";
 })
 export class HomeComponent implements OnInit , OnDestroy{
 
-  constructor(public appComponent: AppComponent, public routerService:RouterService, private route: ActivatedRoute,private router:Router) {
+  constructor(public appComponent: StoreComponent, public routerService:RouterService, private route: ActivatedRoute, private router:Router) {
   }
 
   ngOnInit(): void {

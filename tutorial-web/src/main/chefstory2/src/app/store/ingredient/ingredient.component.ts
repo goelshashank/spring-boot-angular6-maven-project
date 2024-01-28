@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, Injectable, OnDestroy, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {FormGroup, NgForm, NgModel} from '@angular/forms';
-import {environment} from '../../environments/environment';
+import {environment} from "../../../environments/environment";
 import {ApiPaths} from '../config/ApiPaths';
 import {HttpClient} from '@angular/common/http';
-import {AppComponent} from '../app.component';
+import {StoreComponent} from '../store.component';
 
 import {Brand} from '../model/Brand';
 import {Supplier} from '../model/Supplier';
@@ -43,7 +43,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
   @ViewChild('addIngForm') addIngForm: NgForm;
   protected readonly RouterPaths = RouterPaths;
 
-  constructor(private http: HttpClient, public appComponent: AppComponent, public routerService: RouterService,
+  constructor(private http: HttpClient, public appComponent: StoreComponent, public routerService: RouterService,
               private route: ActivatedRoute) {
   }
 

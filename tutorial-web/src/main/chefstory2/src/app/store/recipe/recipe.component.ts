@@ -1,12 +1,11 @@
 import { Component, Injectable, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {ApiPaths} from '../config/ApiPaths';
-import {environment} from '../../environments/environment';
 import {AddRecipe} from '../model/AddRecipe';
 import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Recipe} from '../model/Recipe';
 import {Ingredient} from '../model/Ingredient';
-import {AppComponent} from '../app.component';
+import {StoreComponent} from '../store.component';
 import {Category} from '../model/Category';
 import {Constants} from '../config/Constants';
 import {SupplierForIngredient} from '../model/SupplierForIngredient';
@@ -22,6 +21,7 @@ import {RouterPaths} from "../config/RouterPaths";
 import * as XLSX from "xlsx";
 import * as FileSaver from 'file-saver';
 import {delay, retryWhen} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-recipe',
@@ -61,7 +61,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   html: '';
   @ViewChild ('addRecipeForm') addRecipeForm: NgForm;
 
-  constructor(private http: HttpClient, public appComponent: AppComponent
+  constructor(private http: HttpClient, public appComponent: StoreComponent
               ,private routerService:RouterService, private route: ActivatedRoute) {
   }
 
