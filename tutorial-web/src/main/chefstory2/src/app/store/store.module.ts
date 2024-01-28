@@ -21,7 +21,6 @@ import {FormsModule} from "@angular/forms";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {StoreRoutingModule} from "./store-routing.module";
 import {NgxEditorModule} from "ngx-editor";
-import {AuthModule} from "../auth/auth.module";
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {AppComponent} from "../app.component";
 
@@ -49,8 +48,7 @@ import {AppComponent} from "../app.component";
     FormsModule,
     StoreRoutingModule,
     NgSelectModule,
-    NgxEditorModule,
-    AuthModule
+    NgxEditorModule
   ],
 
   providers: [],

@@ -14,16 +14,7 @@ import {SettingsComponent} from "./settings/settings.component";
 import {StockAtHandComponent} from "./stock-at-hand/stock-at-hand.component";
 import {SupplierComponent} from "./supplier/supplier.component";
 import {RouterPaths} from "./config/RouterPaths";
-import {AuthModule} from "../auth/auth.module";
 import {StoreComponent} from "./store.component";
-import {StoreModule} from "./store.module";
-import {AuthComponent} from "../auth/auth.component";
-import {LoginComponent} from "../auth/login/login.component";
-import {RegisterComponent} from "../auth/register/register.component";
-import {ProfileComponent} from "../auth/profile/profile.component";
-import {BoardUserComponent} from "../auth/board-user/board-user.component";
-import {BoardModeratorComponent} from "../auth/board-moderator/board-moderator.component";
-import {BoardAdminComponent} from "../auth/board-admin/board-admin.component";
 
 
 const routes: Routes = [
@@ -32,8 +23,6 @@ const routes: Routes = [
     path: '',
     component: StoreComponent,
     children: [
-
-
       {path: RouterPaths.HOME.substring(1), component: HomeComponent},
       {path: 'ingredient', component: IngredientComponent},
       {path: 'recipe', component: RecipeComponent},
@@ -48,10 +37,7 @@ const routes: Routes = [
       {path: 'stock-at-hand', component: StockAtHandComponent},
       {path: 'supplier', component: SupplierComponent},
       {path: '', redirectTo: 'home', pathMatch: 'full'},
-      {
-        path: 'auth',
-        loadChildren: () => AuthModule
-      }
+
     ]
   }
 ];

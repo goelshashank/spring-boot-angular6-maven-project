@@ -60,7 +60,7 @@ export class StoreComponent implements OnInit {
       //  console.log('Recipes - ' + JSON.stringify(this.recipes));
       },
       (error) => {
-       // alert(environment.baseUrl + ApiPaths.GetAllRecipes)
+       // console.log(alert === window.alert);
         console.log('Error happened in get all recipes' + JSON.stringify(error));
       },
       () => {
