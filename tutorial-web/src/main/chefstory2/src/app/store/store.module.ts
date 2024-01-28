@@ -23,6 +23,7 @@ import {StoreRoutingModule} from "./store-routing.module";
 import {NgxEditorModule} from "ngx-editor";
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {AppComponent} from "../app.component";
+import {AuthModule} from "../auth/auth.module";
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {AppComponent} from "../app.component";
     FormsModule,
     StoreRoutingModule,
     NgSelectModule,
-    NgxEditorModule
+    NgxEditorModule/*,
+    AuthModule*/
   ],
 
   providers: [],

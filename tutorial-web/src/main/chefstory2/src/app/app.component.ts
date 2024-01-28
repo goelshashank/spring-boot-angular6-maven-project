@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive, RouterLinkWithHref, RouterOutlet} from '@angular/router';
-import {CommonModule} from "@angular/common";
+import {CommonModule, isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-root',
@@ -9,14 +9,21 @@ import {CommonModule} from "@angular/common";
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'chefstory';
 
 
-  constructor(private router:Router){
+  constructor(private router:Router,@Inject(PLATFORM_ID) private platformId: Object){
     this.router.navigate(['/chefstory']);
   }
 
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      console.log('Running on client-side');
+    } else {
+      console.log('Running on server-side');
+    }
+  }
 
 
 }

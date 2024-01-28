@@ -15,6 +15,7 @@ import {StockAtHandComponent} from "./stock-at-hand/stock-at-hand.component";
 import {SupplierComponent} from "./supplier/supplier.component";
 import {RouterPaths} from "./config/RouterPaths";
 import {StoreComponent} from "./store.component";
+import {AuthModule} from "../auth/auth.module";
 
 
 const routes: Routes = [
@@ -36,7 +37,9 @@ const routes: Routes = [
       {path: 'settings', component: SettingsComponent},
       {path: 'stock-at-hand', component: StockAtHandComponent},
       {path: 'supplier', component: SupplierComponent},
-      {path: "**", component: HomeComponent},
+      {path: "**", component: HomeComponent}/*,
+      { path: 'auth',
+        loadChildren: () => AuthModule}*/
     ]
   }
 ];
