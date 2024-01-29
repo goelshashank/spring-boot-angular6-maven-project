@@ -298,6 +298,8 @@
           autocomplete="off"
           class="form-group"
           id="addRecipeForm"
+          (keydown.enter)="$event.preventDefault()"
+          (keydown.shift.enter)="$event.preventDefault()"
         >
 
 
@@ -590,37 +592,47 @@
 
           <div class="row">
           <div  class="col" >
-          <label for="sourceRecipe" class="form-label mt-2">Source</label>
-            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-            </ngx-editor-menu>
-            <ngx-editor
-              id="sourceRecipe"
-              [editor]="editor"
-              [(ngModel)]="addRecipe.recipe.source"
-              [disabled]="false"
-              data-bs-target="#myModal"
-              data-bs-toggle="modal"
-              class="text-secondary"
-            ></ngx-editor>
+              <label for="sourceRecipe" class="form-label mt-2">Source</label>
+              <input
+                [(ngModel)]="addRecipe.recipe.source"
+                class=" form-control w-50"
+                id="sourceRecipe"
+                name="sourceRecipe"
+                placeholder="Enter source"
+                type="text"
+                data-bs-toggle="modal" data-bs-target="#exampleModal"
+              />
 
-
-    <!--        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
+            <div class="modal fade hide" data-bs-backdrop="false" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Enter Text</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Source
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <div class="modal-body">
-                    <input type="text" class="form-control" id="inputText">
+                  <div class="modal-body d-flex autofocus">
+                    <textarea
+                      [(ngModel)]="addRecipe.recipe.source"
+                      class=" form-control"
+                      id="sourceRecipeText"
+                      name="sourceRecipeText"
+                      placeholder="Enter text"
+                      type="text"
+                      rows="3"></textarea>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                   <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                      Close
+                    </button>-->
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                      Save changes
+                    </button>
                   </div>
                 </div>
               </div>
-            </div>-->
+            </div>
 
           </div>
 
@@ -638,29 +650,93 @@
           </div>
 
           <div class="row">
-            <div  class="col" title="Block of methodRecipe">
+            <div  class="col" >
               <label for="methodRecipe" class="form-label mt-2">Method</label>
-              <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar">
-              </ngx-editor-menu>
-              <ngx-editor
-                id="methodRecipe"
-                [editor]="editor1"
+              <input
                 [(ngModel)]="addRecipe.recipe.method"
-                [disabled]="false"
-              ></ngx-editor>
+                class=" form-control w-50"
+                id="methodRecipe"
+                name="methodRecipe"
+                placeholder="Enter method"
+                type="text"
+                data-bs-toggle="modal" data-bs-target="#exampleModal2"
+              />
+
+              <div class="modal fade hide" data-bs-backdrop="false" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel2">
+                        Method
+                      </h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex autofocus">
+                    <textarea
+                      [(ngModel)]="addRecipe.recipe.method"
+                      class=" form-control"
+                      id="methodRecipeText"
+                      name="methodRecipeText"
+                      placeholder="Enter text"
+                      type="text"
+                      rows="3"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                         Close
+                       </button>-->
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        Save changes
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div  class="col" title="Block of notesRecipe">
-              <label for="notesRecipe" class="form-label mt-2">Notes</label>
-              <ngx-editor-menu [editor]="editor2" [toolbar]="toolbar">
-              </ngx-editor-menu>
-              <ngx-editor
-                id="notesRecipe"
-                [editor]="editor2"
+            <div  class="col" >
+              <label for="noteRecp" class="form-label mt-2">Notes</label>
+              <input
                 [(ngModel)]="addRecipe.recipe.notes"
-                [disabled]="false"
-              ></ngx-editor>
+                class=" form-control w-50"
+                id="noteRecp"
+                name="noteRecp"
+                placeholder="Enter method"
+                type="text"
+                data-bs-toggle="modal" data-bs-target="#exampleModal3"
+              />
+
+              <div class="modal fade hide" data-bs-backdrop="false" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel3">
+                        Notes
+                      </h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex autofocus">
+                    <textarea
+                      [(ngModel)]="addRecipe.recipe.notes"
+                      class=" form-control"
+                      id="notesRecpText"
+                      name="notesRecpText"
+                      placeholder="Enter text"
+                      type="text"
+                      rows="3"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                         Close
+                       </button>-->
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        Save changes
+                      </button>
+                    </div>
+                  </div>
+                </div>
             </div>
+          </div>
           </div>
 
 
