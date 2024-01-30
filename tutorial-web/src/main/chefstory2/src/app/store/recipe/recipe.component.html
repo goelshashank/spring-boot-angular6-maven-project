@@ -308,7 +308,7 @@
             #titleRecipe="ngModel"
             [(ngModel)]="addRecipe.recipe.title"
             appendTo="body"
-            class=" form-control  w-25"
+            class=" form-control  w-50"
             id="titleRecipe"
             name="titleRecipe"
             placeholder="Title is required"
@@ -513,8 +513,34 @@
 
 
 
-            <b> Total Price - {{ getTotalCost() }} </b>
+          <p><em> Total Price - <b>{{ getTotalCost() }} </b> </em></p>
 
+
+
+
+          <div for="servingQty" class="form-label mt-2">Serving Qty</div>
+          <div class="input-group d-flex flex-row w-50" >
+            <input
+              [(ngModel)]="addRecipe.recipe.servingQty"
+              class="rounded-pill form-control w-25"
+              id="servingQty"
+              name="servingQty"
+              placeholder="Enter servingQty"
+              type="text"
+              (input)="adjustIng()"
+            />
+
+
+            <div class="ms-2 form-check form-switch form-check-inline d-flex align-items-center">
+              <input  class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="adjustinput"
+                      [checked]="enableAdj"
+                      (change)="fixAndEnableAdjusting($event)">
+              <label class="form-check-label d-flex align-items-center mt-1 mx-1 px-1 fst-italic" for="flexCheckDefault">
+                 Adjust with base : <div class="ms-1 text-warning">{{this.addRecipe.recipe.refServingQty}} </div>
+              </label>
+            </div>
+
+          </div>
 
           <div class="row">
           <div class="col">
@@ -527,7 +553,7 @@
             [multiple]="true"
             [searchable]="true"
             appendTo="body"
-            class="text-secondary form-control w-50"
+            class="text-secondary form-control w-75"
             id="categoryForRecipe"
             name="categoryForRecipe"
           >
@@ -550,7 +576,7 @@
                 [multiple]="true"
                 [searchable]="true"
                 appendTo="body"
-                class="text-secondary form-control w-50"
+                class="text-secondary form-control w-75"
                 id="subCategoryForRecipe"
                 name="subCategoryForRecipe"
               >
@@ -569,7 +595,7 @@
           <label for="collectionRecipe" class="form-label mt-2">Collection</label>
           <input
             [(ngModel)]="addRecipe.recipe.collection"
-            class="text-secondary form-control w-50"
+            class="text-secondary form-control w-75"
             id="collectionRecipe"
             name="collectionRecipe"
             placeholder="Enter collection"
@@ -581,7 +607,7 @@
           <label for="courseRecipe" class="form-label mt-2">Course</label>
           <input
             [(ngModel)]="addRecipe.recipe.course"
-            class=" form-control w-50"
+            class=" form-control w-75"
             id="courseRecipe"
             name="courseRecipe"
             placeholder="Enter course"
@@ -595,7 +621,7 @@
               <label for="sourceRecipe" class="form-label mt-2">Source</label>
               <input
                 [(ngModel)]="addRecipe.recipe.source"
-                class=" form-control w-50"
+                class=" form-control w-75"
                 id="sourceRecipe"
                 name="sourceRecipe"
                 placeholder="Enter source"
@@ -640,7 +666,7 @@
             <label for="sourceURLRecipe" class="form-label mt-2">Source URL</label>
             <input
               [(ngModel)]="addRecipe.recipe.sourceURL"
-              class=" form-control w-50"
+              class=" form-control w-75"
               id="sourceURLRecipe"
               name="sourceURLRecipe"
               placeholder="Enter source URL"
@@ -654,7 +680,7 @@
               <label for="methodRecipe" class="form-label mt-2">Method</label>
               <input
                 [(ngModel)]="addRecipe.recipe.method"
-                class=" form-control w-50"
+                class=" form-control w-75"
                 id="methodRecipe"
                 name="methodRecipe"
                 placeholder="Enter method"
@@ -698,10 +724,10 @@
               <label for="noteRecp" class="form-label mt-2">Notes</label>
               <input
                 [(ngModel)]="addRecipe.recipe.notes"
-                class=" form-control w-50"
+                class=" form-control w-75"
                 id="noteRecp"
                 name="noteRecp"
-                placeholder="Enter method"
+                placeholder="Enter notes"
                 type="text"
                 data-bs-toggle="modal" data-bs-target="#exampleModal3"
               />
@@ -740,28 +766,6 @@
           </div>
 
 
-          <label for="servingQty" class="form-label mt-2">Serving Qty</label>
-          <div class="input-group w-25" >
-          <input
-            [(ngModel)]="addRecipe.recipe.servingQty"
-            class="rounded-pill form-control w-70"
-            id="servingQty"
-            name="servingQty"
-            placeholder="Enter servingQty"
-            type="text"
-            (input)="adjustIng()"
-          />
-
-
-            <div  class="mx-1 w-20 form-check">
-              <input  class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="adjustinput"
-                     [checked]="enableAdj"
-                     (change)="fixAndEnableAdjusting($event)">
-              <label class="form-check-label" for="flexCheckDefault">
-                Allow Adjusting with base <i>{{this.addRecipe.recipe.refServingQty}} </i>
-              </label>
-            </div>
-          </div>
 
 
           <!--   <label for="unitListRec">Units:</label>
