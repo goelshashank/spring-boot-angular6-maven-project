@@ -44,6 +44,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   enableAdj=false;
   enableUpdateTotal=true;
   protected readonly RouterPaths = RouterPaths;
+  enableDisplayAdjust=false;
 
   editor: Editor;
   editor1: Editor;
@@ -95,6 +96,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
       this.editor = new Editor();
       this.editor1=new Editor();
       this.editor2=new Editor();
+      this.enableDisplayAdjust=false;
 
      // alert(this.displayRecipeInfo.title)
     this.showRecipe=showRecipe;
@@ -208,7 +210,25 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.calculateCostTotal();
   }
 
-  calculateCostTotal() {
+  calculateCostTotal(fromDisplay: boolean = false) {
+    if(fromDisplay){
+/*
+
+      if(!this.enableUpdateTotal)
+        return;
+*/
+
+      this.totalCost = 0;
+     this.displayRecipeInfo.ingredientInRecipe.forEach(value => {
+
+        this.totalCost = this.totalCost + value.costTotal;
+      });
+
+      return;
+    }
+
+
+
      if(!this.enableUpdateTotal)
        return;
 
@@ -241,7 +261,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.calculateIngCostForRecipe(ingInRecipe);
   }
 
-  calculateIngCostForRecipe(ingInRecipe:IngredientInRecip){
+  calculateIngCostForRecipe(ingInRecipe: IngredientInRecip, fromDisplay: boolean = false){
 
    if(ingInRecipe.ingredient!=null){
      ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0]
@@ -264,7 +284,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
      ingInRecipe.costTotal=(totalIngCost/ingInRecipe.subRecipe.servingQty)*ingInRecipe.qty;
    }
 
-    this.calculateCostTotal();
+    this.calculateCostTotal(fromDisplay);
   }
 
   setCategory(categoryFor: CategoryFor, ing: Ingredient) {
@@ -344,6 +364,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
     this.addRecipe=new AddRecipe();
     this.addRecipe.recipe=this.displayRecipeInfo;
+    this.addRecipe.recipe.refServingQty=null
    // console.log('Updating Recipe - ' + JSON.stringify(this.addRecipe.recipe))
 
     this.addRecipe.recipe.catList=this.appComponent.getMainCategoriesFor(this.displayRecipeInfo.categoriesForRecipe).map((t)=> t.category.title);
@@ -383,12 +404,35 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
 
-  fixAndEnableAdjusting(u:any){
+  fixAndEnableAdjusting(u: any, fromDisplay: boolean = false){
+    if(fromDisplay){
+      this.enableAdj=u.target.checked;
+      this.changeRef(null,fromDisplay);
+
+      return;
+    }
+
+
     this.enableAdj=u.target.checked;
     this.changeRef(null);
   }
 
-   changeRef(t:any) {
+  changeRef(t: any, fromDisplay: boolean = false) {
+
+    if(fromDisplay){
+      if (t == null) {
+
+        this.displayRecipeInfo.refServingQty = this.displayRecipeInfo.servingQty;
+       // alert( this.displayRecipeInfo.refServingQty)
+       this.displayRecipeInfo.ingredientInRecipe.forEach(value => {
+          value.refQty = value.qty;
+        });
+      }
+
+      return;
+
+    }
+
     if (t == null) {
       this.addRecipe.recipe.refServingQty = this.addRecipe.recipe.servingQty;
 
@@ -398,7 +442,26 @@ export class RecipeComponent implements OnInit , OnDestroy {
     }
   }
 
-  adjustIng(){
+  adjustIng(fromDisplay: boolean = false){
+    if(fromDisplay){
+
+      if(!this.enableAdj)
+        return;
+
+      this.enableUpdateTotal=false;
+      this.displayRecipeInfo.ingredientInRecipe.forEach(value=> {
+        value.qty=value.refQty*( this.displayRecipeInfo.servingQty/this.displayRecipeInfo.refServingQty)
+        this.calculateIngCostForRecipe(value,fromDisplay);
+      });
+
+      this.enableUpdateTotal=true;
+      this.calculateCostTotal(fromDisplay);
+
+      return;
+    }
+
+
+
     if(!this.enableAdj)
       return;
 
@@ -527,8 +590,4 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.refresh(true, false, true);
   }
 
-
-  getTotalCost():number {
-    return +(this.totalCost.toFixed(2))
-  }
 }
