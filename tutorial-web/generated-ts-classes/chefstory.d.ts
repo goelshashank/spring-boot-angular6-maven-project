@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.35.1025 on 2024-01-14 00:46:44.
+// Generated using typescript-generator version 2.35.1025 on 2024-05-11 14:48:10.
 
 export interface BaseEntity extends Serializable, Cloneable {
     modifiedTs: Date;
