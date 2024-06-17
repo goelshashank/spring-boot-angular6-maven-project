@@ -9,8 +9,6 @@ import com.chefstory.entity.linkent.BrandForIngredient;
 import com.chefstory.entity.linkent.CategoryFor;
 import com.chefstory.entity.linkent.SupplierForIngredient;
 import com.chefstory.entity.pojo.Status;
-import com.chefstory.model.AddIngredient;
-import com.chefstory.model.AddRecipe;
 import com.chefstory.repository.BrandRepo;
 import com.chefstory.repository.CategoryRepo;
 import com.chefstory.repository.IngredientRepo;
@@ -28,8 +26,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,13 +50,13 @@ import java.util.stream.Collectors;
 	@Autowired private Utils utils;
 
 
-	public List<CategoryFor> addCategories(AddRecipe t) {
-		Recipe recipe = t.getRecipe();
+	public List<CategoryFor> addCategories(Recipe t) {
+		Recipe recipe = t;
 		List<CategoryFor> categoryFors;
-		if (CollectionUtils.isEmpty(t.getRecipe().getCategoriesForRecipe())) {
+		if (CollectionUtils.isEmpty(t.getCategoriesForRecipe())) {
 			return new ArrayList<>();
 		} else {
-				categoryFors = t.getRecipe().getCategoriesForRecipe().stream().map(u -> {
+				categoryFors = t.getCategoriesForRecipe().stream().map(u -> {
 					List<Category> categories = categoryRepo.findByTitleAndType(u.getCategory().getTitle(),u.getCategory().getType());
 					if (CollectionUtils.isEmpty(categories)) {
 						categoryRepo.save(u.getCategory());
@@ -76,13 +72,13 @@ import java.util.stream.Collectors;
 		return categoryFors;
 	}
 
-	public List<CategoryFor> addCategories(AddIngredient t) {
-		Ingredient ingredient = t.getIngredient();
+	public List<CategoryFor> addCategories(Ingredient t) {
+		Ingredient ingredient = t;
 		List<CategoryFor> categoryFors;
-		if (CollectionUtils.isEmpty(t.getIngredient().getCategoriesForIngredient())) {
+		if (CollectionUtils.isEmpty(t.getCategoriesForIngredient())) {
 			return new ArrayList<>();
 		} else {
-			categoryFors = t.getIngredient().getCategoriesForIngredient().stream().map(u -> {
+			categoryFors = t.getCategoriesForIngredient().stream().map(u -> {
 				List<Category> categories = categoryRepo.findByTitleAndType(u.getCategory().getTitle(),u.getCategory().getType());
 				if (CollectionUtils.isEmpty(categories)) {
 					categoryRepo.save(u.getCategory());
@@ -98,13 +94,13 @@ import java.util.stream.Collectors;
 		return categoryFors;
 	}
 
-	public List<BrandForIngredient> addBrands(AddIngredient t) {
-		Ingredient ingredient = t.getIngredient();
+	public List<BrandForIngredient> addBrands(Ingredient t) {
+		Ingredient ingredient = t;
 		List<BrandForIngredient> brandForIngredients;
-		if (CollectionUtils.isEmpty(t.getIngredient().getBrandForIngredients())) {
+		if (CollectionUtils.isEmpty(t.getBrandForIngredients())) {
 			return new ArrayList<>();
 		} else {
-			brandForIngredients = t.getIngredient().getBrandForIngredients().stream().map(u -> {
+			brandForIngredients = t.getBrandForIngredients().stream().map(u -> {
 				List<Brand> brands = brandRepo.findByTitle(u.getBrand().getTitle());
 				if (CollectionUtils.isEmpty(brands)) {
 					brandRepo.save(u.getBrand());
@@ -121,13 +117,13 @@ import java.util.stream.Collectors;
 		return brandForIngredients;
 	}
 
-	public List<SupplierForIngredient> addSupplier(AddIngredient t) {
-		Ingredient ingredient = t.getIngredient();
+	public List<SupplierForIngredient> addSupplier(Ingredient t) {
+		Ingredient ingredient = t;
 		List<SupplierForIngredient> supplierForIngredients;
-		if (CollectionUtils.isEmpty(t.getIngredient().getSupplierForIngredients())) {
+		if (CollectionUtils.isEmpty(t.getSupplierForIngredients())) {
 			return new ArrayList<>();
 		} else {
-			supplierForIngredients = t.getIngredient().getSupplierForIngredients().stream().map(u -> {
+			supplierForIngredients = t.getSupplierForIngredients().stream().map(u -> {
 				List<Supplier> suppliers = supplierRepo.findByTitle(u.getSupplier().getTitle());
 				if (CollectionUtils.isEmpty(suppliers)) {
 					supplierRepo.save(u.getSupplier());

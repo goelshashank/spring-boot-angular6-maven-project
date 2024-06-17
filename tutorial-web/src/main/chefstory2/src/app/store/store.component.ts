@@ -34,7 +34,7 @@ export class StoreComponent implements OnInit {
   categoriesRecipe: Category[] = [];
   categoriesIngredient: Category[] = [];
   appConfiguration: AppConfiguration = new AppConfiguration();
-  displayIngredientInfo: Ingredient = new Ingredient();
+  displayIngredientInfo: Ingredient = new Ingredient(null);
   sidebarExpanded: boolean = false;
   currentRoute:string;
   categoryIngredientMap: Map<String,Ingredient[]>=new Map();

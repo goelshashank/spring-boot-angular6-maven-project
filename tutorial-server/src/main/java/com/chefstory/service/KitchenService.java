@@ -1,17 +1,9 @@
 package com.chefstory.service;
 
-import com.chefstory.entity.Brand;
-import com.chefstory.entity.Category;
 import com.chefstory.entity.Ingredient;
 import com.chefstory.entity.Recipe;
-import com.chefstory.entity.Supplier;
-import com.chefstory.entity.linkent.BrandForIngredient;
-import com.chefstory.entity.linkent.CategoryFor;
 import com.chefstory.entity.linkent.IngredientInRecipe;
-import com.chefstory.entity.linkent.SupplierForIngredient;
 import com.chefstory.entity.pojo.Status;
-import com.chefstory.model.AddIngredient;
-import com.chefstory.model.AddRecipe;
 import com.chefstory.repository.BrandRepo;
 import com.chefstory.repository.CategoryRepo;
 import com.chefstory.repository.IngredientRepo;
@@ -30,8 +22,6 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,18 +43,18 @@ import java.util.stream.Collectors;
 	@PostConstruct public void init() {
 	}
 
-	public void addIngredient(List<AddIngredient> addIngredients) {
+	public void addIngredient(List<Ingredient> addIngredients) {
 		ingredientRepo.saveAll(addIngredients.stream().map(t -> {
-			t.getIngredient().setCategoriesForIngredient(helper.addCategories(t)).setBrandForIngredients(helper.addBrands(t))
+			t.setCategoriesForIngredient(helper.addCategories(t)).setBrandForIngredients(helper.addBrands(t))
 					.setSupplierForIngredients(helper.addSupplier(t));
-			return t.getIngredient();
+			return t;
 		}).collect(Collectors.toList()));
 	}
 
-	public void updateIngredient(List<AddIngredient> updateIngredients) {
+	public void updateIngredient(List<Ingredient> updateIngredients) {
 		updateIngredients.forEach(u -> {
 
-			Ingredient ingredient = u.getIngredient();
+			Ingredient ingredient = u;
 
 			Ingredient oldIng = ingredientRepo.findById(ingredient.getId());
 
@@ -87,22 +77,22 @@ import java.util.stream.Collectors;
 		});
 	}
 
-	public void removeIngredient(List<AddIngredient> addIngredients) {
+	public void removeIngredient(List<Ingredient> addIngredients) {
 		ingredientRepo.saveAll(addIngredients.stream().map(t -> {
-			t.getIngredient().setStatus(Status.INACTIVE);
-			return t.getIngredient();
+			t.setStatus(Status.INACTIVE);
+			return t;
 		}).collect(Collectors.toList()));
 	}
 
-	public void addRecipe(List<AddRecipe> addRecipeList) {
+	public void addRecipe(List<Recipe> addRecipeList) {
 		List<Recipe> recipes = new ArrayList<>();
 		addRecipeList.forEach(t -> {
-			if (CollectionUtils.isEmpty(t.getRecipe().getIngredientInRecipe()))
+			if (CollectionUtils.isEmpty(t.getIngredientInRecipe()))
 				return;
 
-			Recipe recipe = t.getRecipe();
-			 // updateIngredient(t.getRecipe().getIngredientInRecipe().stream().map
-			 // (i -> new AddIngredient().setIngredient(i.getIngredient()))
+			Recipe recipe = t;
+			 // updateIngredient(t.getIngredientInRecipe().stream().map
+			 // (i -> new AddIngredient().setIngredient(i))
 			// .collect(Collectors.toList()));
 
 			List<IngredientInRecipe> ingredientInRecipes =
@@ -119,10 +109,10 @@ import java.util.stream.Collectors;
 		recipeRepo.saveAll(recipes);
 	}
 
-	public void updateRecipe(List<AddRecipe> updateRecipes) {
+	public void updateRecipe(List<Recipe> updateRecipes) {
 		updateRecipes.forEach(u -> {
 
-			Recipe recipe = u.getRecipe();
+			Recipe recipe = u;
 
 			Recipe oldRecipe = recipeRepo.findById(recipe.getId());
 
@@ -142,10 +132,10 @@ import java.util.stream.Collectors;
 		});
 	}
 
-	public void removeRecipe(List<AddRecipe> addRecipeList) {
+	public void removeRecipe(List<Recipe> addRecipeList) {
 		recipeRepo.saveAll(addRecipeList.stream().map(t -> {
-			t.getRecipe().setStatus(Status.INACTIVE);
-			return t.getRecipe();
+			t.setStatus(Status.INACTIVE);
+			return t;
 		}).collect(Collectors.toList()));
 	}
 

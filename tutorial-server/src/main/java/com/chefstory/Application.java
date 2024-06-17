@@ -57,7 +57,7 @@ import static org.zalando.logbook.Conditions.requestTo;
 	@Bean
 	public Logbook logbook() {
 		Logbook logbook = Logbook.create();
-		return logbook;
+		return logbook;a
 	}
 */
 

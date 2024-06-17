@@ -28,7 +28,8 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 09/05/21
  */
-@Data @Accessors(chain = true) @Entity(name = "ingredient") @Table(indexes = {
+@Data @Accessors(chain = true)
+@Entity(name = "ingredient") @Table(indexes = {
 		@Index(columnList = "title") }) @JsonInclude(JsonInclude.Include.NON_NULL) @ToString public class Ingredient
 		extends BaseEntity {
 

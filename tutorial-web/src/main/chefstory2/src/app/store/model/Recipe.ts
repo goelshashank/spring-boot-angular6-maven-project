@@ -25,7 +25,7 @@ export class Recipe extends  BaseModel{
   status: string;
   ingredientInRecipe: IngredientInRecip[]=[];
   categoriesForRecipe: CategoryFor[]=[];
-  unitDetailed: UnitDetailed=new UnitDetailed();
+  unitDetailed: UnitDetailed=new UnitDetailed(null);
   unit: string;
 
   @jsonIgnore() catList:String[]=[];

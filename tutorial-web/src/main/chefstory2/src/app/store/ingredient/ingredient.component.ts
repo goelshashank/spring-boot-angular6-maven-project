@@ -11,7 +11,6 @@ import {Supplier} from '../model/Supplier';
 import {Category} from '../model/Category';
 
 import {Constants} from '../config/Constants';
-import {AddIngredient} from '../model/AddIngredient';
 import {SupplierForIngredient} from '../model/SupplierForIngredient';
 import {CategoryFor} from '../model/CategoryFor';
 import {BrandForIngredient} from '../model/BrandForIngredient';
@@ -33,65 +32,54 @@ import {Recipe} from "../model/Recipe";
 export class IngredientComponent implements OnInit, OnDestroy {
 
   name = 'ingredient';
-  addIngredient: AddIngredient = new AddIngredient();
   imageSrc: string = null;
   file: File = null;
-  displayIngInfo: Ingredient = new Ingredient();
+  ingredient: Ingredient = new Ingredient(null);
   showIng = true;
   toUpdate: boolean = false;
   sortIngredientsBy: string = null;
   @ViewChild('addIngForm') addIngForm: NgForm;
-  protected readonly RouterPaths = RouterPaths;
 
-  constructor(private http: HttpClient, public appComponent: StoreComponent, public routerService: RouterService,
+  constructor(private http: HttpClient, public storeComponent: StoreComponent, public routerService: RouterService,
               private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
-    this.appComponent.currentRoute = 'Nil';
-    this.appComponent.isIngActive=false;
+    this.storeComponent.currentRoute = 'Nil';
+    this.storeComponent.isIngActive=false; //todo: why is this needed
     console.log("++++ Destroyed Ingredient +++");
   }
 
   ngOnInit(): void {
     this.refresh(true, false, true);
     this.sortIngredients('category');
-    this.appComponent.isIngActive=true;
+    this.storeComponent.isIngActive=true;
     console.log("++++ Initialized Ingredients +++");
   }
 
   refresh(showIng: boolean, toUpdate: boolean, refreshCache: boolean): void {
-    if(refreshCache)  this.appComponent.refreshAppCache();
+    if(refreshCache)  this.storeComponent.refreshAppCache();
     if (!showIng && this.addIngForm != null) {
       this.addIngForm.reset();
       this.addIngForm=null;
-      this.displayIngInfo = new Ingredient();
+      this.ingredient = new Ingredient(null);
     }
     this.toUpdate = toUpdate;
-
     this.showIng = showIng;
   }
 
   addIngredients() {
-    let addIngredients: AddIngredient[] = [];
-    addIngredients.push(this.addIngredient);
-    let title=this.addIngredient.ingredient.title;
+    let ingredients: Ingredient[] = [this.ingredient];
+    let title=this.ingredient.title;  //todo: why is this needed
 
     if (this.addIngForm.valid) {
       // console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
     }
 
-    let api: string = null;
-
-    if (!this.toUpdate)
-      api = ApiPaths.AddIngredients;
-    else
-      api = ApiPaths.UpdateIngredients;
-
-    this.http.post(environment.baseUrl + api, addIngredients).subscribe(
+    let api = !this.toUpdate ? ApiPaths.AddIngredients : ApiPaths.UpdateIngredients;
+    this.http.post(environment.baseUrl + api, ingredients).subscribe(
       (response) => {
         console.log(api + 'ingredients response -' + JSON.stringify(response));
-
         // alert('Add ingredients response -' + JSON.stringify(response));
       },
       (error) => {
@@ -102,14 +90,11 @@ export class IngredientComponent implements OnInit, OnDestroy {
         console.log('%%' + api + 'ingredient is completed successfully %%');
 
         this.reload();
-        let ing:Ingredient=new Ingredient();
-        ing.title=title;
+        let ing:Ingredient=new Ingredient(title);
         this.getIngredient(ing);
         //  alert('%% add ingredient is completed successfully %%');
       });
-    this.appComponent.uploadImage(this.file);
-
-
+    this.storeComponent.uploadImage(this.file);
   }
 
 
@@ -125,90 +110,11 @@ export class IngredientComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  setSuppliers(t: Supplier) {
-
-    let title = this.appComponent.getTitle(t);
-
-    if (!this.addIngredient.ingredient.supplierForIngredients.map((o) => o.supplier.title).includes(title)) {
-      let u: SupplierForIngredient = new SupplierForIngredient();
-      u.supplier = new Supplier();
-      u.supplier.title = title;
-      this.addIngredient.ingredient.supplierForIngredients.push(u);
-    }
-    console.log('Added, Supplier  list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.supplierForIngredients)));
-  }
-
-  removeSuppliers(t: Supplier) {
-    let title = this.appComponent.getTitle(t);
-
-    this.addIngredient.ingredient.supplierForIngredients = this.addIngredient.ingredient.supplierForIngredients.filter(({supplier}) => supplier.title != title);
-
-    console.log('After Removal, Supplier  list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.supplierForIngredients)));
-
-  }
-
-  setCategories(t: Category,isSub:boolean) {
-    let title = this.appComponent.getTitle(t);
-
-    if (!this.addIngredient.ingredient.categoriesForIngredient.map((o) => o.category.title).includes(title)) {
-      let u: CategoryFor = new CategoryFor();
-      u.category = new Category();
-      u.category.title = title;
-      u.category.type = Constants.INGREDIENT;
-      u.category.isSub=isSub
-      this.addIngredient.ingredient.categoriesForIngredient.push(u);
-    }
-
-    console.log('Added: Ingredient Categories  list' + JSON.stringify(Array.from(this.addIngredient.ingredient.categoriesForIngredient)));
-  }
-
-  removeCategories(t: Category,isSub:boolean) {
-    let title = this.appComponent.getTitle(t);
-
-    this.addIngredient.ingredient.categoriesForIngredient = this.addIngredient.ingredient.categoriesForIngredient.filter(({category}) => category.title != title);
-
-    console.log('Removed: ingredient categories  list' + JSON.stringify(Array.from(this.addIngredient.ingredient.categoriesForIngredient)));
-  }
-
-
-  setBrands(t: Brand) {
-
-    let title = this.appComponent.getTitle(t);
-
-    if (!this.addIngredient.ingredient.brandForIngredients.map((o) => o.brand.title).includes(title)) {
-      let u: BrandForIngredient = new BrandForIngredient();
-      u.brand = new Brand();
-      u.brand.title = title;
-      this.addIngredient.ingredient.brandForIngredients.push(u);
-    }
-    console.log('Added: Brands list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
-  }
-
-
-  removeBrands(t: Brand) {
-
-    let title = this.appComponent.getTitle(t);
-
-    this.addIngredient.ingredient.brandForIngredients = this.addIngredient.ingredient.brandForIngredients.filter(({brand}) => brand.title != title);
-
-    console.log('Removed:  Brands list - ' + JSON.stringify(Array.from(this.addIngredient.ingredient.brandForIngredients)));
-  }
-
-  clearAllBrands() {
-    this.addIngredient.ingredient.brandForIngredients=null;
-    this.addIngredient.ingredient.brandList=null;
-  }
-
-  calculatePerUnitCost(brandForIngredient: BrandForIngredient) {
-    brandForIngredient.perUnitCost = brandForIngredient.skuCost / brandForIngredient.skuQty;
-  }
-
   getIngredient(ingredient: Ingredient) {
     this.http.post<Ingredient[]>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ingredient)).subscribe(
       (response) => {
-        this.displayIngInfo = response[0];
-        // alert(response[0].gst)
+        this.ingredient = response[0];
+        Ingredient.updateCosts(this.ingredient);
         //  console.log('Ingredient - ' + JSON.stringify(this.displayIngInfo));
       },
       (error) => {
@@ -225,19 +131,10 @@ export class IngredientComponent implements OnInit, OnDestroy {
   onUpdate() {
     //alert('test');
     console.time('Execution time of update ingredient');
-
+    Ingredient.update(this.ingredient)
     this.toUpdate = true;
 
-    this.addIngredient = new AddIngredient();
-    this.addIngredient.ingredient = this.displayIngInfo;
-
-    this.addIngredient.ingredient.catList = this.appComponent.getMainCategoriesFor(this.displayIngInfo.categoriesForIngredient).map((t) => t.category.title);
-    this.addIngredient.ingredient.subCatList = this.appComponent.getSubCategoriesFor(this.displayIngInfo.categoriesForIngredient).map((t) => t.category.title);
-    this.addIngredient.ingredient.supplierList = this.displayIngInfo.supplierForIngredients.map((t) => t.supplier.title);
-    this.addIngredient.ingredient.brandList = this.displayIngInfo.brandForIngredients.map((t) => t.brand.title)
-
-
-    this.appComponent.sleep(5)
+    this.storeComponent.sleep(5)
     this.showIng = false;
     console.timeEnd('Execution time of update ingredient');
   }
@@ -245,16 +142,14 @@ export class IngredientComponent implements OnInit, OnDestroy {
   sortIngredients(type: string) {
     this.sortIngredientsBy = type;
     if (type == 'category') {
-      this.appComponent.sortIngredientsByCategory(this.appComponent.ingredients)
+      this.storeComponent.sortIngredientsByCategory(this.storeComponent.ingredients)
     }
   }
 
 
   remove() {
-    let addIngredient: AddIngredient = new AddIngredient();
-    addIngredient.ingredient = this.displayIngInfo;
 
-    this.http.post(environment.baseUrl + ApiPaths.RemoveIngredients, [addIngredient]).subscribe(
+    this.http.post(environment.baseUrl + ApiPaths.RemoveIngredients, [this.ingredient]).subscribe(
       (response) => {
         console.log('remove ingredients response -' + JSON.stringify(response));
         // alert('Add ingredients response -' + JSON.stringify(response));
@@ -272,7 +167,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
   }
 
   exportIngs(): void {
-    const pojoList: Ingredient[] = this.appComponent.ingredients;
+    const pojoList: Ingredient[] = this.storeComponent.ingredients;
     const workbook = XLSX.utils.book_new();
 
     const data: any[][] = [];
@@ -324,4 +219,6 @@ export class IngredientComponent implements OnInit, OnDestroy {
      this.refresh(true,false,true);
   }
 
+  protected readonly BrandForIngredient = BrandForIngredient;
+  protected readonly Ingredient = Ingredient;
 }

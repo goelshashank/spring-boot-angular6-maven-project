@@ -32,17 +32,17 @@
 
                     <ul aria-labelledby="dropdownMenuButton7" class="dropdown-menu dropdown-menu-end ">
 
-                      <li *ngIf="displayIngInfo.title==null"
-                          [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'" class="dropdown-item ">Update
+                      <li *ngIf="ingredient.title==null"
+                          [ngClass]="ingredient.title!=null ? 'enabled' : 'disabled'" class="dropdown-item ">Update
                         (select any ingredient)</li>
                       <li
-                        *ngIf="displayIngInfo.title!=null"><a (click)="onUpdate()"
+                        *ngIf="ingredient.title!=null"><a (click)="onUpdate()"
                                                               class="dropdown-item ">Update</a></li>
-                      <li *ngIf="displayIngInfo.title==null"
-                          [ngClass]="displayIngInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
+                      <li *ngIf="ingredient.title==null"
+                          [ngClass]="ingredient.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
                         (select any ingredient)</a></li>
                       <li
-                        *ngIf="displayIngInfo.title!=null"><a (click)="remove()" class="dropdown-item">Remove</a></li>
+                        *ngIf="ingredient.title!=null"><a (click)="remove()" class="dropdown-item">Remove</a></li>
                       <li><a (click)="sortIngredients('alphabetically')"
                              class="dropdown-item">Group by Alphabetically</a>
                       </li>
@@ -74,7 +74,7 @@
               id="searchIng"
             >
               <ng-option
-                *ngFor="let ing of appComponent.ingredients"
+                *ngFor="let ing of storeComponent.ingredients"
                 [value]="ing"
               >{{ ing.title }}
               </ng-option
@@ -90,7 +90,7 @@
         <div class=" card-body ">
           <div *ngIf="sortIngredientsBy=='category'" class="">
             <ul
-              *ngFor="let mapCategFoIng of appComponent.categoryIngredientMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
+              *ngFor="let mapCategFoIng of storeComponent.categoryIngredientMap | keyvalue; let i = index; trackBy: this.storeComponent.trackByIndex"
               class="bd-example list-group overflow-auto list-group-flush"
             >
               <li class="list-group-item ">
@@ -111,7 +111,7 @@
           <!--by alphabetically-->
           <div *ngIf="sortIngredientsBy=='alphabetically'" class="row  ps-3 mt-3 w-75 overflow-auto">
             <ul
-              *ngFor="let ing of appComponent.ingredients |  sortByOrder:'title'"
+              *ngFor="let ing of storeComponent.ingredients |  sortByOrder:'title'"
               class="bd-example list-group list-group-flush "
             >
               <li
@@ -131,7 +131,7 @@
 
         <div class="card-header d-flex justify-content-between">
           <div class="header-title">
-            <h4 class="card-title">{{displayIngInfo.title}}</h4>
+            <h4 class="card-title">{{ingredient.title}}</h4>
           </div>
         </div>
 
@@ -140,13 +140,13 @@
           <div class="row">
             <div class="col-5">
             <p class=" d-flex align-middle ">Unit :
-            <span class=" d-flex align-middle  text-warning mx-3">{{ displayIngInfo.unit }}</span></p>
+            <span class=" d-flex align-middle  text-warning mx-3">{{ ingredient.unit }}</span></p>
 
             <p class=" d-flex align-middle ">GST :
-            <span class=" d-flex align-middle  text-warning mx-3">{{ displayIngInfo.gst }} %</span> </p>
+            <span class=" d-flex align-middle  text-warning mx-3">{{ ingredient.gst }} %</span> </p>
 
             <p class=" d-flex align-middle ">Minimum inventory :
-            <span class=" d-flex align-middle  text-warning mx-3">{{ displayIngInfo.minimumInventory }}</span></p>
+            <span class=" d-flex align-middle  text-warning mx-3">{{ ingredient.minimumInventory }}</span></p>
             </div>
 
 
@@ -156,7 +156,7 @@
             <span>
               <ul class="d-flex align-middle  text-warning inline-list comma-separated mx-3">
               <li
-                *ngFor="let categ of appComponent.getMainCategoriesFor(displayIngInfo.categoriesForIngredient)"
+                *ngFor="let categ of storeComponent.getMainCategoriesFor(ingredient.categoriesForIngredient)"
                 class="comma-separated"
               >
                 {{ categ.category.title }}
@@ -170,7 +170,7 @@
               <span>
             <ul class=" d-flex align-middle  text-warning comma-separated mx-3">
               <li
-                *ngFor="let categ of appComponent.getSubCategoriesFor(displayIngInfo.categoriesForIngredient)"
+                *ngFor="let categ of storeComponent.getSubCategoriesFor(ingredient.categoriesForIngredient)"
                 class="comma-separated"
               >
                 {{ categ.category.title }}
@@ -183,7 +183,7 @@
                 <span>
             <ul class="d-flex align-middle  text-warning comma-separated mx-3">
               <li
-                *ngFor="let supp of displayIngInfo.supplierForIngredients" class="comma-separated"
+                *ngFor="let supp of ingredient.supplierForIngredients" class="comma-separated"
               >
                 {{ supp.supplier.title }}
               </li>
@@ -212,20 +212,20 @@
               </tr>
               </thead>
               <tbody>
-                  <tr  *ngFor="let bra of displayIngInfo.brandForIngredients" class="">
+                  <tr  *ngFor="let bra of ingredient.brandForIngredients" class="">
                     <th scope="row" class="text-warning">{{bra.brand.title}}</th>
                     <td class="text-warning">{{bra.skuCost}}</td>
                     <td class="text-warning">{{ bra.skuQty }}</td>
-                    <td class="text-warning">{{ bra.perUnitCost | number:'1.2-2'}} </td>
-                    <td class="text-warning">{{ (bra.perUnitCost * (1 + (this.displayIngInfo.gst) / 100) ) | number:'1.2-2' }}</td>
-                    <td class="text-warning">{{ (bra.skuCost * (1 + (this.displayIngInfo.gst) / 100))  | number:'1.2-2'}}</td>
+                    <td class="text-warning">{{ bra.perUnitCost}} </td>
+                    <td class="text-warning">{{ bra.perUnitCostInclGST}}</td>
+                    <td class="text-warning">{{ bra.skuCostInclGST}}</td>
                   </tr>
 
               </tbody>
             </table>
           </div>
 
-          <button *ngIf="displayIngInfo.title!=null" (click)="onUpdate()" class="btn btn-outline-primary rounded-pill d-flex ms-auto" type="button">
+          <button *ngIf="ingredient.title!=null" (click)="onUpdate()" class="btn btn-outline-primary rounded-pill d-flex ms-auto" type="button">
             Update
           </button>
 
@@ -253,7 +253,7 @@
             <label for="titleIng" class="form-label">*Title</label>
             <input
               #titleIng="ngModel"
-              [(ngModel)]="addIngredient.ingredient.title"
+              [(ngModel)]="ingredient.title"
               class="form-control w-25"
               id="titleIng"
               name="titleIng"
@@ -268,9 +268,9 @@
 
 
                 <ng-select
-                  (add)="setCategories($event,false)"
-                  (remove)="removeCategories($event,false)"
-                  [(ngModel)]="addIngredient.ingredient.catList"
+                  (add)="ingredient.addCategory($event,false)"
+                  (remove)="ingredient.removeCategory($event,false)"
+                  [(ngModel)]="ingredient.catList"
                   [addTag]="true"
                   [multiple]="true"
                   [searchable]="true"
@@ -281,7 +281,7 @@
                 >
 
                   <ng-option
-                    *ngFor="let cat of appComponent.categoriesIngredient"
+                    *ngFor="let cat of storeComponent.categoriesIngredient"
                     [value]="cat"
                   >{{ cat.title }}
                   </ng-option
@@ -293,9 +293,10 @@
                 >Supplier</label
                 >
                 <ng-select
-                  (add)="setSuppliers($event)"
-                  (remove)="removeSuppliers($event)"
-                  [(ngModel)]="addIngredient.ingredient.supplierList"
+                  (add)="ingredient.addSupplier($event)"
+                  (remove)="ingredient.removeSupplier($event)"
+                  (clear)="Ingredient.removeAllSuppliers(ingredient)"
+                  [(ngModel)]="ingredient.supplierList"
                   [addTag]="true"
                   [multiple]="true"
                   [searchable]="true"
@@ -305,7 +306,7 @@
                   name="supplierForIng"
                 >
                   <ng-option
-                    *ngFor="let sup of appComponent.suppliers"
+                    *ngFor="let sup of storeComponent.suppliers"
                     [value]="sup"
                   >{{ sup.title }}
                   </ng-option
@@ -315,14 +316,14 @@
 
                 <label class="mt-2 form-label" for="unitListIng">Units:</label>
                 <select
-                  [(ngModel)]="addIngredient.ingredient.unit"
+                  [(ngModel)]="ingredient.unit"
                   class="form-control w-50"
                   id="unitListIng"
                   name="unitListIng"
                 >
                   <optgroup
                     *ngFor="
-                let group of appComponent.appConfiguration.unitsDetailed
+                let group of storeComponent.appConfiguration.unitsDetailed
                   | keyvalue
               "
                     [attr.label]="group.key"
@@ -339,7 +340,8 @@
                 <label class="mt-2 form-label" for="gstIng">GST %</label>
                 <input
                   #titleIng="ngModel"
-                  [(ngModel)]="addIngredient.ingredient.gst"
+                  (input)="Ingredient.updateCosts(ingredient)"
+                  [(ngModel)]="ingredient.gst"
                   class="form-control w-25"
                   id="gstIng"
                   name="gstIng"
@@ -350,7 +352,7 @@
                 <label class="mt-2 form-label" for="minInvent">Minimum inventory</label>
                 <input
                   #titleIng="ngModel"
-                  [(ngModel)]="addIngredient.ingredient.minimumInventory"
+                  [(ngModel)]="ingredient.minimumInventory"
                   class="form-control w-25"
                   id="minInvent"
                   name="minInvent"
@@ -373,9 +375,9 @@
                 <label class="mt-2 form-label" for="subCategoryForIng" id="subCategoryForIng1"
                 >Sub-Category</label>
                 <ng-select
-                  (add)="setCategories($event,true)"
-                  (remove)="removeCategories($event,true)"
-                  [(ngModel)]="addIngredient.ingredient.subCatList"
+                  (add)="ingredient.addCategory($event,true)"
+                  (remove)="ingredient.removeCategory($event,true)"
+                  [(ngModel)]="ingredient.subCatList"
                   [addTag]="true"
                   [multiple]="true"
                   [searchable]="true"
@@ -385,7 +387,7 @@
                   name="subCategoryForIng"
                 >
                   <ng-option
-                    *ngFor="let cat of appComponent.getSubCategories(appComponent.categoriesIngredient)"
+                    *ngFor="let cat of storeComponent.getSubCategories(storeComponent.categoriesIngredient)"
                     [value]="cat"
                   >{{ cat.title }}
                   </ng-option
@@ -396,10 +398,10 @@
                 <label class="mt-2 form-label" for="brandForIng" id="brandForIng1">Brand</label>
                 <ng-select
                   #filterWith
-                  (add)="setBrands($event)"
-                  (clear)="clearAllBrands()"
-                  (remove)="removeBrands($event)"
-                  [(ngModel)]="addIngredient.ingredient.brandList"
+                  (add)="ingredient.addBrand($event)"
+                  (clear)="Ingredient.removeAllBrands(ingredient)"
+                  (remove)="ingredient.removeBrand($event)"
+                  [(ngModel)]="ingredient.brandList"
                   [addTag]="true"
                   [multiple]="true"
                   [searchable]="true"
@@ -409,7 +411,7 @@
                   name="brandForIng"
                 >
                   <ng-option
-                    *ngFor="let brand of appComponent.brands"
+                    *ngFor="let brand of storeComponent.brands"
                     [value]="brand"
                   >{{ brand.title }}
                   </ng-option
@@ -419,9 +421,9 @@
                 <ul>
                   <li
                     *ngFor="
-                      let addBrandForIng of this.addIngredient.ingredient
+                      let addBrandForIng of this.ingredient
                         .brandForIngredients;  let i=index;
-                      trackBy: this.appComponent.trackByIndex
+                      trackBy: this.storeComponent.trackByIndex
                     "
                   >
                     {{ addBrandForIng.brand.title }}
@@ -430,7 +432,7 @@
                     <div class="input-group mt-2">
                       <span class="input-group-text">SKU/MRP cost</span>
                       <input
-                        (input)="calculatePerUnitCost(addBrandForIng)"
+                        (input)="BrandForIngredient.updateCosts(addBrandForIng,ingredient.gst)"
                         [(ngModel)]="addBrandForIng.skuCost"
                         aria-label="sku Cost"
                         class="form-control"
@@ -441,7 +443,7 @@
                       />
                       <span class="input-group-text">SKU qty</span>
                       <input
-                        (input)="calculatePerUnitCost(addBrandForIng)"
+                        (input)="BrandForIngredient.updateCosts(addBrandForIng,ingredient.gst)"
                         [(ngModel)]="addBrandForIng.skuQty"
                         aria-label="sku Qty"
                         class="form-control"
@@ -453,12 +455,12 @@
                       />
                     </div>
                     <p class=" small"> SKU/MRP cost (including
-                      GST)- {{ addBrandForIng.skuCost * (1 + (this.addIngredient.ingredient.gst) / 100) }} </p>
+                      GST)- {{ addBrandForIng.skuCostInclGST}} </p>
 
                     <div class="row">
                       <p class="small col-6"> Per unit cost (excluding GST)- {{ addBrandForIng.perUnitCost }} </p>
                       <p class="small col-6"> Per unit cost (including
-                        GST)- {{ addBrandForIng.perUnitCost * (1 + (this.addIngredient.ingredient.gst) / 100) }} </p>
+                        GST)- {{ addBrandForIng.perUnitCostInclGST}} </p>
                     </div>
 
                   </li>
@@ -474,7 +476,7 @@
               </button>
 
 
-            <p class="text-center small">Last updated on : {{ addIngredient.ingredient.modifiedTs }}</p>
+            <p class="text-center small">Last updated on : {{ ingredient.modifiedTs }}</p>
           </form>
         </div>
       </div>

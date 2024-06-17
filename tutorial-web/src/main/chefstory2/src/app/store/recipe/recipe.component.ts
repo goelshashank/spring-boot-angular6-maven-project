@@ -11,7 +11,6 @@ import {Constants} from '../config/Constants';
 import {SupplierForIngredient} from '../model/SupplierForIngredient';
 import {BrandForIngredient} from '../model/BrandForIngredient';
 import {CategoryFor} from '../model/CategoryFor';
-import { AddIngredient } from '../model/AddIngredient';
 import { IngredientInRecip } from '../model/IngredientInRecip';
 import {BaseModel} from "../model/BaseModel";
 import {Editor, Toolbar} from "ngx-editor";
@@ -37,7 +36,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   addIngMap: Map<number, IngredientInRecip> = new Map<number, IngredientInRecip>();
   addSubRecipeMap: Map<number, IngredientInRecip> = new Map<number, IngredientInRecip>();
   totalCost: number=0;
-  displayRecipeInfo: Recipe = new Recipe();
+  displayRecipeInfo: Recipe = new Recipe(null);
   showRecipe = true;
   toUpdate: boolean = false;
   sortRecipesBy: string = null;
@@ -85,7 +84,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     if (!showRecipe && (this.addRecipeForm != null && toUpdateCost)) {
        this.addRecipeForm.reset();
        this.addRecipeForm=null;
-      this.displayRecipeInfo = new Recipe();
+      this.displayRecipeInfo = new Recipe(null);
     }
 
       this.addIngMap = new Map<number, IngredientInRecip>();
@@ -134,7 +133,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
       },
       () => {
         console.log(' %% add recipe is completed successfully %%');
-        let recipe:Recipe=new Recipe();
+        let recipe:Recipe=new Recipe(null);
         recipe.title=title;
         this.getRecipe(recipe);
         // alert('%% add recipe is completed successfully %%');
@@ -148,7 +147,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     let t:Ingredient=this.appComponent.getAllIngredients().filter(u=> u.title==title)[0];
 
 
-    let addIngredient: IngredientInRecip = new IngredientInRecip();
+    let addIngredient: IngredientInRecip = new IngredientInRecip(null);
     if (this.addIngMap.get(t.id) != null) {
       addIngredient = this.addIngMap.get(t.id);
     } else {
@@ -183,7 +182,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     let t:Recipe=this.appComponent.getAllRecipes().filter(u=> u.title==title)[0];
 
 
-    let addSubRecipe: IngredientInRecip = new IngredientInRecip();
+    let addSubRecipe: IngredientInRecip = new IngredientInRecip(null);
     if (this.addSubRecipeMap.get(t.id) != null) {
       addSubRecipe = this.addSubRecipeMap.get(t.id);
     } else {
@@ -310,8 +309,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
     let title=this.appComponent.getTitle(t);
 
     if (!this.addRecipe.recipe.categoriesForRecipe.map((o) => o.category.title).includes(title)) {
-      let u: CategoryFor = new CategoryFor();
-      u.category = new Category();
+      let u: CategoryFor = new CategoryFor(null);
+      u.category = new Category(null,null,null);
       u.category.title = title;
       u.category.type = Constants.RECIPE;
       u.category.isSub=isSub;

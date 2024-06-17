@@ -9,20 +9,10 @@ import com.chefstory.entity.Category;
 import com.chefstory.entity.Ingredient;
 import com.chefstory.entity.Recipe;
 import com.chefstory.entity.Supplier;
-import com.chefstory.entity.linkent.BrandForIngredient;
 import com.chefstory.entity.pojo.Status;
 import com.chefstory.entity.pojo.Unit;
-import com.chefstory.model.AddIngredient;
-import com.chefstory.model.AddRecipe;
 import com.chefstory.model.GetConfigResponse;
-import com.chefstory.repository.BrandRepo;
-import com.chefstory.repository.CategoryRepo;
-import com.chefstory.repository.IngredientRepo;
-import com.chefstory.repository.RecipeRepo;
-import com.chefstory.repository.SupplierRepo;
-import com.chefstory.repository.linkrepo.BrandForIngredientRepo;
 import com.chefstory.service.KitchenService;
-import com.chefstory.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +45,6 @@ import static com.chefstory.utils.Constants.UPDATE;
 @RestController @RequestMapping(path = "/chefstory", produces = MediaType.APPLICATION_JSON_VALUE) @Slf4j @Validated public class RecipeController {
 
 	@Autowired private KitchenService kitchenService;
-
-
 
 	@GetMapping("/getAllRecipes") public ResponseEntity<List<Recipe>> getAllRecipes() {
 		return new ResponseEntity<>(
@@ -147,7 +135,7 @@ import static com.chefstory.utils.Constants.UPDATE;
 	}
 
 	@PostMapping("/updateRecipes/{action}")  @Transactional public ResponseEntity<HttpStatus> updateRecipes(
-			@Valid @RequestBody List<AddRecipe> addRecipeList, @PathVariable(name = "action", required = true) String action) {
+			@Valid @RequestBody List<Recipe> addRecipeList, @PathVariable(name = "action", required = true) String action) {
 
 		if (ADD.equalsIgnoreCase(action))
 			kitchenService.addRecipe(addRecipeList);
@@ -160,7 +148,7 @@ import static com.chefstory.utils.Constants.UPDATE;
 	}
 
 	@PostMapping("/updateIngredients/{action}") @Transactional public ResponseEntity<HttpStatus> updateIngredients(
-			@Valid @RequestBody List<AddIngredient> addIngredients, @PathVariable(name = "action", required = true) String action) {
+			@Valid @RequestBody List<Ingredient> addIngredients, @PathVariable(name = "action", required = true) String action) {
 		if (ADD.equalsIgnoreCase(action))
 			kitchenService.addIngredient(addIngredients);
 		else if (UPDATE.equalsIgnoreCase(action))
@@ -206,15 +194,6 @@ import static com.chefstory.utils.Constants.UPDATE;
 	}
 
 
-	//------------------------
-
-	//todo: remove below
-	@GetMapping("/test") public void testIt() {
-		log.info("start");
-
-
-		log.info("stop");
-	}
 
 
 }
