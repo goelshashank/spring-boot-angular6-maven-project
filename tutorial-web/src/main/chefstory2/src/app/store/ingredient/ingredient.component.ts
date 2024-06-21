@@ -1,26 +1,18 @@
-import {AfterViewInit, Component, Injectable, OnDestroy, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import {FormGroup, NgForm, NgModel} from '@angular/forms';
+import {Component, Injectable, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {NgForm} from '@angular/forms';
 import {environment} from "../../../environments/environment";
 import {ApiPaths} from '../config/ApiPaths';
 import {HttpClient} from '@angular/common/http';
 import {StoreComponent} from '../store.component';
-
-import {Brand} from '../model/Brand';
-import {Supplier} from '../model/Supplier';
-
-import {Category} from '../model/Category';
-
-import {Constants} from '../config/Constants';
-import {SupplierForIngredient} from '../model/SupplierForIngredient';
-import {CategoryFor} from '../model/CategoryFor';
 import {BrandForIngredient} from '../model/BrandForIngredient';
 import {Ingredient} from '../model/Ingredient';
 import {RouterService} from "../service/router.service";
 import {ActivatedRoute} from "@angular/router";
-import {RouterPaths} from "../config/RouterPaths";
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
-import {Recipe} from "../model/Recipe";
+import {Flow} from "../utils/Flow";
+import { NgSelectConfig} from "@ng-select/ng-select";
+import {CategoryFor} from "../model/CategoryFor";
 
 @Component({
   selector: 'app-ingredient',
@@ -39,6 +31,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
   toUpdate: boolean = false;
   sortIngredientsBy: string = null;
   @ViewChild('addIngForm') addIngForm: NgForm;
+  @ViewChild('searchIng') searchIng: NgSelectConfig;
 
   constructor(private http: HttpClient, public storeComponent: StoreComponent, public routerService: RouterService,
               private route: ActivatedRoute) {
@@ -51,26 +44,61 @@ export class IngredientComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.refresh(true, false, true);
+    this.refreshFlow(Flow.ON_INIT);
     this.sortIngredients('category');
     this.storeComponent.isIngActive=true;
     console.log("++++ Initialized Ingredients +++");
   }
 
-  refresh(showIng: boolean, toUpdate: boolean, refreshCache: boolean): void {
-    if(refreshCache)  this.storeComponent.refreshAppCache();
-    if (!showIng && this.addIngForm != null) {
-      this.addIngForm.reset();
-      this.addIngForm=null;
-      this.ingredient = new Ingredient(null);
+  refreshFlow(flow: Flow): void {
+    let refreshCache:boolean=false;
+    let clearForm:boolean=false;
+    let clearIng:boolean=false
+
+    if(flow==Flow.ADD_ING) {
+        this.showIng=false;
+        refreshCache=false
+        this.toUpdate=false
+        clearIng=true
+        clearForm=true
+    }else if(flow==Flow.ON_INIT){
+        this.showIng=true;
+        refreshCache=true
+        this.toUpdate=false
+        clearIng=true
+        clearForm=true
+    }else if(flow==Flow.GET_ING){
+        this.showIng=true;
+        refreshCache=false
+        this.toUpdate=false
+        clearIng=false
+        clearForm=false
+    }else if(flow==Flow.SUBMIT_ING){
+        this.showIng=true;
+        refreshCache=true
+        this.toUpdate=false
+        clearIng=false
+        clearForm=true
+    }else if(flow==Flow.REMOVE_ING){
+        this.showIng=true;
+        refreshCache=true
+        this.toUpdate=false
+        clearIng=false
+        clearForm=true
     }
-    this.toUpdate = toUpdate;
-    this.showIng = showIng;
+
+    if(refreshCache)  this.storeComponent.refreshAppCache();
+    if (clearForm) {
+      if(this.addIngForm!=null) this.addIngForm.reset();
+        // this.addIngForm=null;
+    }
+    if(clearIng) this.ingredient=new Ingredient(null)
+
   }
 
   addIngredients() {
     let ingredients: Ingredient[] = [this.ingredient];
-    let title=this.ingredient.title;  //todo: why is this needed
+    let title=this.ingredient.title;
 
     if (this.addIngForm.valid) {
       // console.log('Add ingredient list: ' + JSON.stringify(addIngredients));
@@ -89,7 +117,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
       () => {
         console.log('%%' + api + 'ingredient is completed successfully %%');
 
-        this.reload();
+        this.refreshFlow(Flow.SUBMIT_ING);
         let ing:Ingredient=new Ingredient(title);
         this.getIngredient(ing);
         //  alert('%% add ingredient is completed successfully %%');
@@ -122,7 +150,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
       },
       () => {
         //alert(this.displayIngInfo.gst);
-        this.refresh(true, false, true);
+        this.refreshFlow(Flow.GET_ING);
         console.log('%% get ing is completed successfully %%');
       });
 
@@ -134,7 +162,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
     Ingredient.update(this.ingredient)
     this.toUpdate = true;
 
-    this.storeComponent.sleep(5)
+   // this.storeComponent.sleep(5)
     this.showIng = false;
     console.timeEnd('Execution time of update ingredient');
   }
@@ -159,7 +187,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
        // alert('Error happened in remove ingredient' + JSON.stringify(error));
       },
       () => {
-        this.reload();
+        this.refreshFlow(Flow.REMOVE_ING);
         console.log('%% remove ingredient is completed successfully %%');
         //  alert('%% add ingredient is completed successfully %%');
       });
@@ -214,11 +242,8 @@ export class IngredientComponent implements OnInit, OnDestroy {
 
   }
 
-  reload() {
-   // window.location.reload();
-     this.refresh(true,false,true);
-  }
-
   protected readonly BrandForIngredient = BrandForIngredient;
+  protected readonly CategoryFor = CategoryFor;
   protected readonly Ingredient = Ingredient;
+  protected readonly Flow = Flow;
 }

@@ -12,7 +12,7 @@
               <div class="container align-items-center me-n5">
                 <a class="btn btn-icon btn-link1">
                           <span
-                            (click)="refresh(false,false,false)"
+                            (click)="refreshFlow(Flow.ADD_ING)"
                             class="btn-inner btn-link1"
                             type="submit"
                           >
@@ -52,15 +52,9 @@
 
                     </ul>
                            </span>
-
-
                 </a>
-
               </div>
-
             </div>
-
-
           </div>
 
           <div class="row align-items-center  mx-1 pe-3 pt-3">
@@ -72,6 +66,7 @@
               appendTo="body"
               class="form-control"
               id="searchIng"
+              #searchIng
             >
               <ng-option
                 *ngFor="let ing of storeComponent.ingredients"
@@ -170,7 +165,7 @@
               <span>
             <ul class=" d-flex align-middle  text-warning comma-separated mx-3">
               <li
-                *ngFor="let categ of storeComponent.getSubCategoriesFor(ingredient.categoriesForIngredient)"
+                *ngFor="let categ of CategoryFor.getSubCategoriesFor(ingredient.categoriesForIngredient)"
                 class="comma-separated"
               >
                 {{ categ.category.title }}
@@ -387,7 +382,7 @@
                   name="subCategoryForIng"
                 >
                   <ng-option
-                    *ngFor="let cat of storeComponent.getSubCategories(storeComponent.categoriesIngredient)"
+                    *ngFor="let cat of CategoryFor.getSubCategories(storeComponent.categoriesIngredient)"
                     [value]="cat"
                   >{{ cat.title }}
                   </ng-option

@@ -58,7 +58,7 @@ import static com.chefstory.utils.Constants.UPDATE;
 				HttpStatus.OK);
 	}
 
-	@GetMapping("/getAllIngredients") public ResponseEntity<List<Ingredient>> getAllIngredients() {
+	@GetMapping("/getAllIngredients") public ResponseEntity<List<Ingredient>> getAllIngredients() { //todo: to return only titles and wrap them in pojo
 		return new ResponseEntity<>(
 				kitchenService.ingredientRepo.findAll().stream().filter(t -> t.getStatus().equals(Status.ACTIVE)).collect(Collectors.toList()),
 				HttpStatus.OK);

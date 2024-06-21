@@ -1,0 +1,6 @@
+
+export enum Flow{
+
+    ADD_ING, UPDATE_ING,ON_INIT, GET_ING,SUBMIT_ING,REMOVE_ING
+
+}

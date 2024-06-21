@@ -69,9 +69,9 @@ import java.util.stream.Collectors;
 			});
 
 			ingredient.setCategoriesForIngredient(
-					helper.addCategories(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
-			ingredient.setBrandForIngredients(helper.addBrands(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
-			ingredient.setSupplierForIngredients(helper.addSupplier(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
+					helper.addCategories(u));
+			ingredient.setBrandForIngredients(helper.addBrands(u));
+			ingredient.setSupplierForIngredients(helper.addSupplier(u));
 
 			ingredientRepo.save(ingredient);
 		});
@@ -124,8 +124,8 @@ import java.util.stream.Collectors;
 			});
 
 			recipe.setCategoriesForRecipe(
-					helper.addCategories(u).stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
-			recipe.setIngredientInRecipe(recipe.getIngredientInRecipe().stream().filter(k -> k.getId() == null).collect(Collectors.toList()));
+					helper.addCategories(u));
+			recipe.setIngredientInRecipe(recipe.getIngredientInRecipe());
 
 			recipeRepo.save(recipe);
 
