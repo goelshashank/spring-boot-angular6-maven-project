@@ -34,7 +34,6 @@ export class StoreComponent implements OnInit {
   categoriesRecipe: Category[] = [];
   categoriesIngredient: Category[] = [];
   appConfiguration: AppConfiguration = new AppConfiguration();
-  displayIngredientInfo: Ingredient = new Ingredient(null);
   sidebarExpanded: boolean = false;
   currentRoute:string;
   categoryIngredientMap: Map<String,Ingredient[]>=new Map();
@@ -69,7 +68,11 @@ export class StoreComponent implements OnInit {
     return this.recipes;
   }
 
-  getAllIngredients() {
+  getAllIngredients(refreshCache:boolean) {
+
+    if((refreshCache==null || !refreshCache) && (this.ingredients!=null && this.ingredients.length>0))
+      return  this.ingredients;
+
     this.http.get<Ingredient[]>(environment.baseUrl + ApiPaths.GetAllIngredients).subscribe(
       (response) => {
         this.ingredients = response;
@@ -195,7 +198,7 @@ export class StoreComponent implements OnInit {
    console.time('Execution time of refresh cache');
     this.getConfiguration();
     this.getAllCategories();
-    this.getAllIngredients();
+    this.getAllIngredients(true);
     this.getAllRecipes();
     this.getAllSuppliers();
     this.getAllBrands();
@@ -205,17 +208,25 @@ export class StoreComponent implements OnInit {
 
 
   getIngredient(ing: Ingredient) {
+
+    if(ing.title!=null)
+        return this.getAllIngredients(false).filter(u=> u.title==ing.title)[0];
+    else if(ing.id!=null)
+         return this.getAllIngredients(false).filter(u=> u.id==ing.id)[0];
+
     this.http.post<Map<number, Ingredient>>(environment.baseUrl + ApiPaths.GetIngredients, Array.of(ing)).subscribe(
       (response: Map<number, Ingredient>) => {
-        this.displayIngredientInfo = response.get(ing.id);
+        return response.get(ing.id);
       //  console.log('Ingredient - ' + JSON.stringify(this.displayIngredientInfo));
       },
       (error) => {
         console.log('Error happened in getting Ingredient' + JSON.stringify(error));
+
       },
       () => {
         console.log('%% get Ingredient is completed successfully %%');
       });
+    return null;
   }
 
   async uploadImage(file: File) {

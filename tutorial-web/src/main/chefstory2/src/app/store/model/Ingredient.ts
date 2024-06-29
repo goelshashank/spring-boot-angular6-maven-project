@@ -25,7 +25,7 @@ export class Ingredient extends BaseModel{
 
   @jsonIgnore() catList:String[]=[];
   @jsonIgnore() subCatList:String[]=[];
-  @jsonIgnore() brandList: String[]=[];
+  @jsonIgnore() brandList: String[]=[];  //todo: show all brands not just the selected ones.
   @jsonIgnore() supplierList: String[]=[];
 
 
@@ -35,6 +35,7 @@ export class Ingredient extends BaseModel{
    console.log('After addition, Suppliers- ' + JSON.stringify(Array.from(this.supplierForIngredients)));
   }
   removeSupplier(supplier:Supplier){
+    //todo: show pop up while removing
     this.supplierForIngredients = this.supplierForIngredients.filter(({supplier}) => supplier.title != this.getTitle(supplier));
     console.log('After removal, Suppliers - ' + JSON.stringify(Array.from(this.supplierForIngredients)));
   }

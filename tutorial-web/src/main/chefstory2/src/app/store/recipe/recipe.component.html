@@ -32,17 +32,17 @@
 
                     <ul aria-labelledby="dropdownMenuButton7" class="dropdown-menu dropdown-menu-end ">
 
-                <li *ngIf="displayRecipeInfo.title==null"
-                    [ngClass]="displayRecipeInfo.title!=null ? 'enabled' : 'disabled'" class="dropdown-item">Update
+                <li *ngIf="recipe.title==null"
+                    [ngClass]="recipe.title!=null ? 'enabled' : 'disabled'" class="dropdown-item">Update
                   (select any recipe)</li>
                 <li
-                  *ngIf="displayRecipeInfo.title!=null"><a (click)="onUpdate()" class="dropdown-item">
+                  *ngIf="recipe.title!=null"><a (click)="onUpdate()" class="dropdown-item">
                   Update</a></li>
-                <li *ngIf="displayRecipeInfo.title==null"
-                    [ngClass]="displayRecipeInfo.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
+                <li *ngIf="recipe.title==null"
+                    [ngClass]="recipe.title!=null ? 'enabled' : 'disabled'"><a class="dropdown-item">Remove
                   (select any recipe)</a></li>
                 <li
-                  *ngIf="displayRecipeInfo.title!=null"><a (click)="remove()" class="dropdown-item">Remove</a></li>
+                  *ngIf="recipe.title!=null"><a (click)="remove()" class="dropdown-item">Remove</a></li>
                 <li><a (click)="sortRecipes('alphabetically')" class="dropdown-item">
                   Group by Alphabetically</a>
                 </li>
@@ -131,7 +131,7 @@
 
         <div class="card-header d-flex justify-content-between">
           <div class="header-title">
-            <h4 class="card-title">{{ displayRecipeInfo.title }}</h4>
+            <h4 class="card-title">{{ recipe.title }}</h4>
           </div>
         </div>
 
@@ -142,7 +142,7 @@
 
 
               <p class="d-flex align-middle">Course :
-                <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.course }}</span></p>
+                <span class="d-flex align-middle text-warning mx-3">{{ recipe.course }}</span></p>
 
 
             </div>
@@ -152,7 +152,7 @@
                 <span>
               <ul class="d-flex align-middle  text-warning inline-list comma-separated  text-warning mx-3">
                 <li
-                  *ngFor="let categ of appComponent.getMainCategoriesFor(displayRecipeInfo.categoriesForRecipe)"
+                  *ngFor="let categ of appComponent.getMainCategoriesFor(recipe.categoriesForRecipe)"
                   class="comma-separated"
                 >
                   {{ categ.category.title }}
@@ -166,7 +166,7 @@
                 <span>
               <ul class="d-flex inline-list text-warning comma-separated text-warning  mx-3">
                 <li
-                  *ngFor="let categ of appComponent.getSubCategoriesFor(displayRecipeInfo.categoriesForRecipe)"
+                  *ngFor="let categ of appComponent.getSubCategoriesFor(recipe.categoriesForRecipe)"
                   class="comma-separated"
                 >
                   {{ categ.category.title }}
@@ -180,26 +180,26 @@
           <div class="row">
             <div class="col">
               <p class="d-flex align-middle">Shelf-Life :
-                <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.shelfLife }}</span></p>
+                <span class="d-flex align-middle text-warning mx-3">{{ recipe.shelfLife }}</span></p>
             </div>
             <div class="col">
               <p class="d-flexa lign-middle">Prep-Time :
-                <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.prepTime }}</span></p>
+                <span class="d-flex align-middle text-warning mx-3">{{ recipe.prepTime }}</span></p>
             </div>
             <div class="col">
               <p class="d-flex align-middle">Instructions :
-                <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.instructions }}</span></p>
+                <span class="d-flex align-middle text-warning mx-3">{{ recipe.instructions }}</span></p>
             </div>
           </div>
 
           <div class="row">
             <div class="col">
               <p class="d-flex align-middle">Rating :
-                <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.rating }}</span></p>
+                <span class="d-flex align-middle text-warning mx-3">{{ recipe.rating }}</span></p>
             </div>
             <div class="col">
               <p class="d-flex align-middle">Remarks :
-                <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.remarks }}</span></p>
+                <span class="d-flex align-middle text-warning mx-3">{{ recipe.remarks }}</span></p>
             </div>
             <!--  <div class="col-md">
               <h6 class="align-middle">unit</h6>
@@ -207,7 +207,7 @@
             </div>-->
             <div class="col">
               <p class="d-flex align-middle">Unit :
-                <span class="d-flex align-middle text-warning mx-3">{{ displayRecipeInfo.unit }}</span></p>
+                <span class="d-flex align-middle text-warning mx-3">{{ recipe.unit }}</span></p>
             </div>
           </div>
 
@@ -222,7 +222,7 @@
                   class="col-6 row input-group-sm align-items-baseline ">
                   <input
                     (input)="adjustIng(true)"
-                    [(ngModel)]="displayRecipeInfo.servingQty"
+                    [(ngModel)]="recipe.servingQty"
                          class="col-1 w-65 form-control  text-warning "
                          type="text"
                   [disabled]="!enableDisplayAdjust">
@@ -250,14 +250,14 @@
                 <label class="form-check-label d-flex align-items-center mt-1 mx-1 px-1 fst-italic"
                        for="flexCheckDefault1">
                   Adjust with base :
-                  <div class="ms-1 text-warning">{{ this.displayRecipeInfo.refServingQty }}</div>
+                  <div class="ms-1 text-warning">{{ this.recipe.refServingQty }}</div>
                 </label>
               </div>
 
             </div>
             <div class="col align-items-baseline">
               <p class="">Cook-Time :
-                <span class="text-warning mx-3">{{ displayRecipeInfo.cookTime }}</span></p>
+                <span class="text-warning mx-3">{{ recipe.cookTime }}</span></p>
             </div>
             <div class="col align-items-baseline">
               <p class="">Total Cost :
@@ -282,7 +282,7 @@
               <tbody>
               <tr
                 *ngFor="
-                  let ingredientInRecipe of displayRecipeInfo.ingredientInRecipe
+                  let ingredientInRecipe of recipe.ingredientInRecipe
                 "
               >
                 <th class="text-warning" scope="row">
@@ -328,7 +328,7 @@
           </div>
 
 
-          <button (click)="onUpdate()" *ngIf="displayRecipeInfo.title!=null"
+          <button (click)="onUpdate()" *ngIf="recipe.title!=null"
                   class="btn btn-outline-primary rounded-pill d-flex ms-auto mt-3" title="Block of update button"
                   type="button">
             Update
@@ -362,7 +362,7 @@
             <label class="form-label" for="titleRecipe">*Title</label>
             <input
               #titleRecipe="ngModel"
-              [(ngModel)]="addRecipe.recipe.title"
+              [(ngModel)]="recipe.title"
               appendTo="body"
               class=" form-control  w-50"
               id="titleRecipe"
@@ -377,10 +377,10 @@
             >Ingredient:</label
             >
             <ng-select
-              (add)="addIngredients($event)"
+              (add)="recipe.addIngredient($event)"
               (clear)="resetIngSelects();"
               (remove)="removeIngredients($event)"
-              [(ngModel)]="addRecipe.recipe.ingList"
+              [(ngModel)]="recipe.ingList"
               [addTag]="true"
               [multiple]="true"
               [searchable]="true"
@@ -517,7 +517,7 @@
               (add)="addSubRecipes($event)"
               (clear)="resetSubRecipeSelects();"
               (remove)="removeSubRecipes($event)"
-              [(ngModel)]="addRecipe.recipe.subRecipeList"
+              [(ngModel)]="recipe.subRecipeList"
               [addTag]="true"
               [multiple]="true"
               [searchable]="true"
@@ -527,7 +527,7 @@
               name="subRecipeForRecipe"
             >
               <ng-option
-                *ngFor="let recipe of skipCurrentRecipeFilter(appComponent.recipes)" [value]="recipe">
+                *ngFor="let recipe of skipCurrentRecipe(appComponent.recipes)" [value]="recipe">
                 {{ recipe.title }}
               </ng-option>
             </ng-select>
@@ -579,7 +579,7 @@
             <div class="input-group d-flex flex-row w-50">
               <input
                 (input)="adjustIng()"
-                [(ngModel)]="addRecipe.recipe.servingQty"
+                [(ngModel)]="recipe.servingQty"
                 class="rounded-pill form-control w-25"
                 id="servingQty"
                 name="servingQty"
@@ -596,7 +596,7 @@
                 <label class="form-check-label d-flex align-items-center mt-1 mx-1 px-1 fst-italic"
                        for="flexCheckDefault">
                   Adjust with base :
-                  <div class="ms-1 text-warning">{{ this.addRecipe.recipe.refServingQty }}</div>
+                  <div class="ms-1 text-warning">{{ this.recipe.refServingQty }}</div>
                 </label>
               </div>
 
@@ -608,7 +608,7 @@
                 <ng-select
                   (add)="setCategories($event,false)"
                   (remove)="removeCategories($event,false)"
-                  [(ngModel)]="addRecipe.recipe.catList"
+                  [(ngModel)]="recipe.catList"
                   [addTag]="true"
                   [multiple]="true"
                   [searchable]="true"
@@ -633,7 +633,7 @@
                 <ng-select
                   (add)="setCategories($event,true)"
                   (remove)="removeCategories($event,true)"
-                  [(ngModel)]="addRecipe.recipe.subCatList"
+                  [(ngModel)]="recipe.subCatList"
                   [addTag]="true"
                   [multiple]="true"
                   [searchable]="true"
@@ -657,7 +657,7 @@
               <div class="col">
                 <label class="form-label mt-2" for="collectionRecipe">Collection</label>
                 <input
-                  [(ngModel)]="addRecipe.recipe.collection"
+                  [(ngModel)]="recipe.collection"
                   class="text-secondary form-control w-75"
                   id="collectionRecipe"
                   name="collectionRecipe"
@@ -669,7 +669,7 @@
               <div class="col">
                 <label class="form-label mt-2" for="courseRecipe">Course</label>
                 <input
-                  [(ngModel)]="addRecipe.recipe.course"
+                  [(ngModel)]="recipe.course"
                   class=" form-control w-75"
                   id="courseRecipe"
                   name="courseRecipe"
@@ -683,7 +683,7 @@
               <div class="col">
                 <label class="form-label mt-2" for="sourceRecipe">Source</label>
                 <input
-                  [(ngModel)]="addRecipe.recipe.source"
+                  [(ngModel)]="recipe.source"
                   class=" form-control w-75"
                   data-bs-target="#exampleModal"
                   data-bs-toggle="modal"
@@ -705,7 +705,7 @@
                       </div>
                       <div class="modal-body d-flex autofocus">
                     <textarea
-                      [(ngModel)]="addRecipe.recipe.source"
+                      [(ngModel)]="recipe.source"
                       class=" form-control"
                       id="sourceRecipeText"
                       name="sourceRecipeText"
@@ -730,7 +730,7 @@
               <div class="col">
                 <label class="form-label mt-2" for="sourceURLRecipe">Source URL</label>
                 <input
-                  [(ngModel)]="addRecipe.recipe.sourceURL"
+                  [(ngModel)]="recipe.sourceURL"
                   class=" form-control w-75"
                   id="sourceURLRecipe"
                   name="sourceURLRecipe"
@@ -744,7 +744,7 @@
               <div class="col">
                 <label class="form-label mt-2" for="methodRecipe">Method</label>
                 <input
-                  [(ngModel)]="addRecipe.recipe.method"
+                  [(ngModel)]="recipe.method"
                   class=" form-control w-75"
                   data-bs-target="#exampleModal2"
                   data-bs-toggle="modal"
@@ -766,7 +766,7 @@
                       </div>
                       <div class="modal-body d-flex autofocus">
                     <textarea
-                      [(ngModel)]="addRecipe.recipe.method"
+                      [(ngModel)]="recipe.method"
                       class=" form-control"
                       id="methodRecipeText"
                       name="methodRecipeText"
@@ -790,7 +790,7 @@
               <div class="col">
                 <label class="form-label mt-2" for="noteRecp">Notes</label>
                 <input
-                  [(ngModel)]="addRecipe.recipe.notes"
+                  [(ngModel)]="recipe.notes"
                   class=" form-control w-75"
                   data-bs-target="#exampleModal3"
                   data-bs-toggle="modal"
@@ -812,7 +812,7 @@
                       </div>
                       <div class="modal-body d-flex autofocus">
                     <textarea
-                      [(ngModel)]="addRecipe.recipe.notes"
+                      [(ngModel)]="recipe.notes"
                       class=" form-control"
                       id="notesRecpText"
                       name="notesRecpText"
@@ -836,7 +836,7 @@
 
 
             <!--   <label for="unitListRec">Units:</label>
-               <select [(ngModel)]="addRecipe.recipe.unit" class="form-control" id="unitListRec"
+               <select [(ngModel)]="recipe.unit" class="form-control" id="unitListRec"
                        name="unitListRec">
                  <optgroup [attr.label]="group.key" *ngFor="let group of appComponent.appConfiguration.unitsDetailed | keyvalue">
                    <option *ngFor="let unitDetailed of group.value" value="{{unitDetailed.unit}}">{{unitDetailed.unit}}

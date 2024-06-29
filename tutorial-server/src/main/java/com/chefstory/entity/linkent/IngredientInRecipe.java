@@ -36,9 +36,9 @@ import javax.persistence.UniqueConstraint;
 
 	@ManyToOne @JoinColumn(name = "ingredient_id") private Ingredient ingredient;
 
-	@ManyToOne @JoinColumn(name = "supplier_id") private Supplier supplier;
+	@ManyToOne @JoinColumn(name = "supplier_id") private SupplierForIngredient supplier;
 
-	@ManyToOne @JoinColumn(name = "brand_id") private Brand brand;
+	@ManyToOne @JoinColumn(name = "brand_id") private BrandForIngredient brand;
 
 	@ManyToOne @JoinColumn(name = "category_id") private Category category;
 
@@ -66,14 +66,14 @@ import javax.persistence.UniqueConstraint;
 		return this;
 	}
 
-	public IngredientInRecipe setSupplier(Supplier supplier) {
-		if (supplier!=null && StringUtils.isNotBlank(supplier.getTitle()))
+	public IngredientInRecipe setSupplier(SupplierForIngredient supplier) {
+		if (supplier!=null && StringUtils.isNotBlank(supplier.getSupplier().getTitle()))
 			this.supplier = supplier;
 		return this;
 	}
 
-	public IngredientInRecipe setBrand(Brand brand) {
-		if (brand!=null && StringUtils.isNotBlank(brand.getTitle()))
+	public IngredientInRecipe setBrand(BrandForIngredient brand) {
+		if (brand!=null && StringUtils.isNotBlank(brand.getBrand().getTitle()))
 			this.brand = brand;
 		return this;
 	}
