@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.35.1025 on 2024-05-11 14:57:53.
+// Generated using typescript-generator version 2.35.1025 on 2024-08-08 22:30:14.
 
 export interface BaseEntity extends Serializable, Cloneable {
     modifiedTs: Date;
@@ -56,26 +56,6 @@ export interface Supplier extends BaseEntity {
     title: string;
 }
 
-export interface AddBrand {
-    brand: Brand;
-}
-
-export interface AddCategory {
-    category: Category;
-}
-
-export interface AddIngredient {
-    ingredient: Ingredient;
-}
-
-export interface AddRecipe {
-    recipe: Recipe;
-}
-
-export interface AddSupplier {
-    supplier: Supplier;
-}
-
 export interface GetConfigResponse {
     units: Unit[];
     unitsDetailed: { [index: string]: UnitWrap[] };
@@ -114,8 +94,8 @@ export interface CategoryFor extends BaseEntity {
 export interface IngredientInRecipe extends BaseEntity {
     subRecipe: Recipe;
     ingredient: Ingredient;
-    supplier: Supplier;
-    brand: Brand;
+    supplier: SupplierForIngredient;
+    brand: BrandForIngredient;
     category: Category;
     qty: number;
     recipe: Recipe;
