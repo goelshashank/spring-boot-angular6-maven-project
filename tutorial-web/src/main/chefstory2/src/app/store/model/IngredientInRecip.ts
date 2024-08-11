@@ -19,6 +19,7 @@ export class IngredientInRecip extends BaseModel{
     this.subRecipe=subRecipe;
   }
 
+
   ingredient: Ingredient=new Ingredient(null);
   recipe: Recipe;
   subRecipe : Recipe;

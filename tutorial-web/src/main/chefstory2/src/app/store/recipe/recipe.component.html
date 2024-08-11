@@ -411,7 +411,7 @@
                 </thead>
                 <tbody>
                 <tr
-                  *ngFor="let addIng of addIngMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
+                  *ngFor="let addIng of recipe.addIngMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
                   appendTo="body"
                 >
                   <th class="text-secondary" scope="row">{{ addIng.value.ingredient.title }}</th>

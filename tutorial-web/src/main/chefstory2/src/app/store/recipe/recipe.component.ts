@@ -20,7 +20,6 @@ import * as XLSX from "xlsx";
 import * as FileSaver from 'file-saver';
 import {delay, retryWhen} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {Flow} from "../utils/Flow";
 
 @Component({
   selector: 'app-recipe',
@@ -31,9 +30,9 @@ import {Flow} from "../utils/Flow";
 @Injectable()
 export class RecipeComponent implements OnInit , OnDestroy {
 
+  recipe: Recipe = new Recipe(null);
   name = 'recipe';
   totalCost: number=0;
-  recipe: Recipe = new Recipe(null);
   showRecipe = true;
   toUpdate: boolean = false;
   sortRecipesBy: string = null;
@@ -59,7 +58,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   @ViewChild ('addRecipeForm') addRecipeForm: NgForm;
 
   constructor(private http: HttpClient, public appComponent: StoreComponent
-              ,private routerService:RouterService, private route: ActivatedRoute) {
+    ,private routerService:RouterService, private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
@@ -70,49 +69,51 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit(): void {
-    this.refresh(Flow.ON_INIT);
     this.refresh(true, false, true);
     this.sortRecipes('category');
-    this.appComponent.isRecipeActive=true; //todo: to come back
+    this.appComponent.isRecipeActive=true;
     console.log("++++ Initialized Recipes +++");
   }
 
-  refresh(flow: Flow): void {
-    // showRecipe: boolean, toUpdate: boolean, refreshCache: boolean, toUpdateCost: boolean = false
+  refresh(showRecipe: boolean, toUpdate: boolean, refreshCache: boolean, toUpdateCost: boolean = false): void {
     if(refreshCache) this.appComponent.refreshAppCache();
     if (!showRecipe && (this.addRecipeForm != null && toUpdateCost)) {
-       this.addRecipeForm.reset();
-       this.addRecipeForm=null;
-      this.recipe = new Recipe(null);
+      this.addRecipeForm.reset();
+      this.addRecipeForm=null;
+      this.displayRecipeInfo = new Recipe(null);
     }
 
-      if(!toUpdateCost) this.totalCost = 0;
-      this.toUpdate=toUpdate;
-      this.editor = new Editor();
-      this.editor1=new Editor();
-      this.editor2=new Editor();
-      this.enableDisplayAdjust=false;
+    this.addIngMap = new Map<number, IngredientInRecip>();
+    this.addSubRecipeMap = new Map<number, IngredientInRecip>();
+    this.addRecipe=new AddRecipe();
+    if(!toUpdateCost) this.totalCost = 0;
+    this.toUpdate=toUpdate;
+    this.editor = new Editor();
+    this.editor1=new Editor();
+    this.editor2=new Editor();
+    this.enableDisplayAdjust=false;
 
-     // alert(this.displayRecipeInfo.title)
+    // alert(this.displayRecipeInfo.title)
     this.showRecipe=showRecipe;
 
   }
 
   addRecipes() {
 
-    let addRecipeList: Recipe[] = [this.recipe];
+    let recipes: Recipe[] = [];
+    recipes.push(this.recipe);
     let title=this.recipe.title;
 
     if (this.addRecipeForm.valid) {
-     // console.log('Add recipe list: ' + JSON.stringify(addRecipeList));
+      // console.log('Add recipe list: ' + JSON.stringify(addRecipeList));
     }
 
-    let api:string=!this.toUpdate?ApiPaths.AddRecipes:ApiPaths.UpdateRecipes;
+    let api = !this.toUpdate ? ApiPaths.AddRecipes : ApiPaths.UpdateRecipes;
 
-    this.http.post(environment.baseUrl + api, addRecipeList).subscribe(
+    this.http.post(environment.baseUrl + api, recipes).subscribe(
       (response) => {
         console.log('Add recipes response -' + JSON.stringify(response));
-       // alert('Add recipes response -' + JSON.stringify(response));
+        // alert('Add recipes response -' + JSON.stringify(response));
       },
       (error) => {
         console.log('Error happened' + JSON.stringify(error));
@@ -126,20 +127,61 @@ export class RecipeComponent implements OnInit , OnDestroy {
         // alert('%% add recipe is completed successfully %%');
       });
 
-   // this.reload();
+    // this.reload();
   }
 
 
+  removeIngredients(ing:Ingredient) {
+    let title=this.appComponent.getTitle(ing);
+    let t:Ingredient=this.appComponent.getAllIngredients().filter(u=> u.title==title)[0];
+
+    this.addIngMap.delete(t.id);
+    // console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
+    this.calculateCostTotal();
+  }
+
+  addSubRecipes(recipe:Recipe){
+    let title=this.appComponent.getTitle(recipe);
+    let t:Recipe=this.appComponent.getAllRecipes().filter(u=> u.title==title)[0];
+
+
+    let addSubRecipe: IngredientInRecip = new IngredientInRecip(null);
+    if (this.addSubRecipeMap.get(t.id) != null) {
+      addSubRecipe = this.addSubRecipeMap.get(t.id);
+    } else {
+      addSubRecipe.subRecipe = t;
+    }
+
+    addSubRecipe.qty = 1;
+    addSubRecipe.subRecipe.catList=[this.appComponent.getMainCategoriesFor(addSubRecipe.subRecipe.categoriesForRecipe)[0].category.title];
+    addSubRecipe.subRecipe.subCatList=[this.appComponent.getSubCategoriesFor(addSubRecipe.subRecipe.categoriesForRecipe)[0].category.title];
+
+    this.addSubRecipeMap.set(t.id, addSubRecipe);
+    /*
+        this.setRecipeCategory(addSubRecipe.subRecipe.categoriesForRecipe[0],addSubRecipe.subRecipe);
+    */
+
+    // console.log('Sub Recipe comp list' + JSON.stringify(Array.from(this.addSubRecipeMap.values())));
+  }
+
+  removeSubRecipes(recipe:Recipe) {
+    let title=this.appComponent.getTitle(recipe);
+    let t:Recipe=this.appComponent.getAllRecipes().filter(u=> u.title==title)[0];
+    this.addSubRecipeMap.delete(t.id);
+    // console.log('Ing comp list' + JSON.stringify(Array.from(this.addIngMap.values())));
+    this.calculateCostTotal();
+  }
+
   calculateCostTotal(fromDisplay: boolean = false) {
     if(fromDisplay){
-/*
+      /*
 
-      if(!this.enableUpdateTotal)
-        return;
-*/
+            if(!this.enableUpdateTotal)
+              return;
+      */
 
       this.totalCost = 0;
-     this.recipe.ingredientInRecipe.forEach(value => {
+      this.displayRecipeInfo.ingredientInRecipe.forEach(value => {
 
         this.totalCost = this.totalCost + value.costTotal;
       });
@@ -149,54 +191,105 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
 
 
-     if(!this.enableUpdateTotal)
-       return;
+    if(!this.enableUpdateTotal)
+      return;
 
 
     this.totalCost = 0;
     this.addIngMap.forEach((value, key) => {
       this.totalCost = this.totalCost + value.costTotal;
     });
-     this.addSubRecipeMap.forEach((value, key) => {
-       this.totalCost = this.totalCost + value.costTotal;
-     });
-   }
+    this.addSubRecipeMap.forEach((value, key) => {
+      this.totalCost = this.totalCost + value.costTotal;
+    });
+  }
+
+  setSupplier(supplierForIngredient: SupplierForIngredient, ing: Ingredient) {
+    if(supplierForIngredient==null) {
+      this.addIngMap.get(ing.id).supplier = null;
+      // console.log('Ing supplier removed - ' + JSON.stringify(Array.from(this.addIngMap.values())));
+      return;
+    }
+    this.addIngMap.get(ing.id).supplier=supplierForIngredient.supplier;
+    //  console.log('Ing supplier added - ' + JSON.stringify(Array.from(this.addIngMap.values())));
+  }
+
+  setBrand(brandForIngredient: BrandForIngredient, ingInRecipe: IngredientInRecip) {
+    if (brandForIngredient == null) {
+      this.addIngMap.get(ingInRecipe.ingredient.id).brand = null;
+      return;
+    }
+    ingInRecipe.brand = brandForIngredient.brand;
+    this.calculateIngCostForRecipe(ingInRecipe);
+  }
 
   calculateIngCostForRecipe(ingInRecipe: IngredientInRecip, fromDisplay: boolean = false){
 
-   if(ingInRecipe.ingredient!=null){
-     ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0]
-       .perUnitCost * ingInRecipe.qty);
-   }else {
+    if(ingInRecipe.ingredient!=null){
+      ingInRecipe.costTotal = (ingInRecipe.ingredient.brandForIngredients.filter(t=> t.brand.id==ingInRecipe.brand.id)[0]
+        .perUnitCost * ingInRecipe.qty);
+    }else {
 
-     let totalIngCost:number=0;
+      let totalIngCost:number=0;
 
-     //todo: to optimize this, either pre store during adding ingredient or calculate once while adding recipe.
-     ingInRecipe.subRecipe.ingredientInRecipe.forEach((u)=> {
+      //todo: to optimize this, either pre store during adding ingredient or calculate once while adding recipe.
+      ingInRecipe.subRecipe.ingredientInRecipe.forEach((u)=> {
 
-         if(u.ingredient!=null)
-           totalIngCost =totalIngCost +  (u.ingredient
-             .brandForIngredients.filter(t=> t.brand.id==u.brand.id)[0].perUnitCost * ingInRecipe.qty)
-         else {
-           u.subRecipe.ingredientInRecipe.forEach((t)=>this.calculateIngCostForRecipe(t));
-         }
-       }
-     )
-     ingInRecipe.costTotal=(totalIngCost/ingInRecipe.subRecipe.servingQty)*ingInRecipe.qty;
-   }
+          if(u.ingredient!=null)
+            totalIngCost =totalIngCost +  (u.ingredient
+              .brandForIngredients.filter(t=> t.brand.id==u.brand.id)[0].perUnitCost * ingInRecipe.qty)
+          else {
+            u.subRecipe.ingredientInRecipe.forEach((t)=>this.calculateIngCostForRecipe(t));
+          }
+        }
+      )
+      ingInRecipe.costTotal=(totalIngCost/ingInRecipe.subRecipe.servingQty)*ingInRecipe.qty;
+    }
 
     this.calculateCostTotal(fromDisplay);
   }
 
- /* setRecipeCategory(categoryFor: CategoryFor, recipe: Recipe) {
+  setCategory(categoryFor: CategoryFor, ing: Ingredient) {
     if(categoryFor==null) {
-      this.addSubRecipeMap.get(recipe.id).category = null;
+      this.addIngMap.get(ing.id).category = null;
       return;
     }
 
-    this.addSubRecipeMap.get(recipe.id).category=categoryFor.category;
+    this.addIngMap.get(ing.id).category=categoryFor.category;
   }
-*/
+
+  /* setRecipeCategory(categoryFor: CategoryFor, recipe: Recipe) {
+     if(categoryFor==null) {
+       this.addSubRecipeMap.get(recipe.id).category = null;
+       return;
+     }
+
+     this.addSubRecipeMap.get(recipe.id).category=categoryFor.category;
+   }
+ */
+  setCategories(t: Category,isSub:boolean) {
+
+    let title=this.appComponent.getTitle(t);
+
+    if (!this.addRecipe.recipe.categoriesForRecipe.map((o) => o.category.title).includes(title)) {
+      let u: CategoryFor = new CategoryFor(null);
+      u.category = new Category(null,null,null);
+      u.category.title = title;
+      u.category.type = Constants.RECIPE;
+      u.category.isSub=isSub;
+      this.addRecipe.recipe.categoriesForRecipe.push(u);
+    }
+
+    console.log('Added: recipe Categories  list' + JSON.stringify(Array.from(this.addRecipe.recipe.categoriesForRecipe)));
+  }
+
+  removeCategories(t: Category,isSub:boolean) {
+    let title=this.appComponent.getTitle(t);
+
+    this.addRecipe.recipe.categoriesForRecipe = this.addRecipe.recipe.categoriesForRecipe.filter(({ category }) => category.title != title);
+
+    console.log('Removed: recipe categories  list' + JSON.stringify(Array.from(this.addRecipe.recipe.categoriesForRecipe)));
+  }
 
   getRecipe(recipe: Recipe) {
     this.http.post<Recipe[]>(environment.baseUrl + ApiPaths.GetRecipes, Array.of(recipe)).pipe(
@@ -207,21 +300,21 @@ export class RecipeComponent implements OnInit , OnDestroy {
         )
       )
     )
-    .subscribe(
-      (response) => {
-        this.recipe = response[0];
-       // console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
-      },
-      (error) => {
-        console.log('Error happened in getting recipe' + JSON.stringify(error));
-      },
-      () => {
-        this.onUpdate(false);
-        this.calculateCostTotal();
-       // alert("++"+this.displayRecipeInfo.title)
-        this.refresh(true, false, true, true);
-        console.log('%% get recipe is completed successfully %%');
-      });
+      .subscribe(
+        (response) => {
+          this.displayRecipeInfo = response[0];
+          // console.log('Recipe - ' + JSON.stringify(this.displayRecipeInfo));
+        },
+        (error) => {
+          console.log('Error happened in getting recipe' + JSON.stringify(error));
+        },
+        () => {
+          this.onUpdate(false);
+          this.calculateCostTotal();
+          // alert("++"+this.displayRecipeInfo.title)
+          this.refresh(true, false, true, true);
+          console.log('%% get recipe is completed successfully %%');
+        });
 
   }
 
@@ -231,19 +324,20 @@ export class RecipeComponent implements OnInit , OnDestroy {
     console.time('Execution time of update recipe');
     this.toUpdate=true;
 
-    this.recipe=new Recipe(null);
-    this.recipe.refServingQty=null
-   // console.log('Updating Recipe - ' + JSON.stringify(this.addRecipe.recipe))
+    this.addRecipe=new AddRecipe();
+    this.addRecipe.recipe=this.displayRecipeInfo;
+    this.addRecipe.recipe.refServingQty=null
+    // console.log('Updating Recipe - ' + JSON.stringify(this.addRecipe.recipe))
 
-    this.recipe.catList=this.appComponent.getMainCategoriesFor(this.recipe.categoriesForRecipe).map((t)=> t.category.title);
-    this.recipe.subCatList=this.appComponent.getSubCategoriesFor(this.recipe.categoriesForRecipe).map((t)=> t.category.title);
-    this.recipe.ingList=this.recipe.ingredientInRecipe.filter((u)=>u.ingredient!=null)
+    this.addRecipe.recipe.catList=this.appComponent.getMainCategoriesFor(this.displayRecipeInfo.categoriesForRecipe).map((t)=> t.category.title);
+    this.addRecipe.recipe.subCatList=this.appComponent.getSubCategoriesFor(this.displayRecipeInfo.categoriesForRecipe).map((t)=> t.category.title);
+    this.addRecipe.recipe.ingList=this.displayRecipeInfo.ingredientInRecipe.filter((u)=>u.ingredient!=null)
       .map((t)=> t.ingredient.title);
-    this.recipe.subRecipeList=this.recipe.ingredientInRecipe.filter((u)=> u.subRecipe!=null)
+    this.addRecipe.recipe.subRecipeList=this.displayRecipeInfo.ingredientInRecipe.filter((u)=> u.subRecipe!=null)
       .map((t)=> t.subRecipe.title);
     this.addIngMap=new Map<number, IngredientInRecip>();
-   // console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
-    this.recipe.ingredientInRecipe.forEach((o)=>{
+    // console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
+    this.displayRecipeInfo.ingredientInRecipe.forEach((o)=>{
       if(o.ingredient!=null) {
 
         this.addIngMap.set(o.ingredient.id, o);
@@ -264,11 +358,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.enableAdj=false;
     this.enableUpdateTotal=true;
     this.appComponent.sleep(5)
-   if(toSetShowRecipe) this.showRecipe=false;
+    if(toSetShowRecipe) this.showRecipe=false;
 
 
     console.timeEnd('Execution time of update recipe');
-   // console.log("-- update button action completed");
+    // console.log("-- update button action completed");
   }
 
 
@@ -290,9 +384,9 @@ export class RecipeComponent implements OnInit , OnDestroy {
     if(fromDisplay){
       if (t == null) {
 
-        this.recipe.refServingQty = this.recipe.servingQty;
-       // alert( this.displayRecipeInfo.refServingQty)
-       this.recipe.ingredientInRecipe.forEach(value => {
+        this.displayRecipeInfo.refServingQty = this.displayRecipeInfo.servingQty;
+        // alert( this.displayRecipeInfo.refServingQty)
+        this.displayRecipeInfo.ingredientInRecipe.forEach(value => {
           value.refQty = value.qty;
         });
       }
@@ -302,7 +396,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     }
 
     if (t == null) {
-      this.recipe.refServingQty = this.recipe.servingQty;
+      this.addRecipe.recipe.refServingQty = this.addRecipe.recipe.servingQty;
 
       this.addIngMap.forEach((value, key) => {
         value.refQty = value.qty;
@@ -317,8 +411,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
         return;
 
       this.enableUpdateTotal=false;
-      this.recipe.ingredientInRecipe.forEach(value=> {
-        value.qty=value.refQty*( this.recipe.servingQty/this.recipe.refServingQty)
+      this.displayRecipeInfo.ingredientInRecipe.forEach(value=> {
+        value.qty=value.refQty*( this.displayRecipeInfo.servingQty/this.displayRecipeInfo.refServingQty)
         this.calculateIngCostForRecipe(value,fromDisplay);
       });
 
@@ -335,7 +429,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
     this.enableUpdateTotal=false;
     this.addIngMap.forEach((value, key) => {
-      value.qty=value.refQty*( this.recipe.servingQty/this.recipe.refServingQty)
+      value.qty=value.refQty*( this.addRecipe.recipe.servingQty/this.addRecipe.recipe.refServingQty)
       this.calculateIngCostForRecipe(value);
     });
 
@@ -344,16 +438,33 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   }
 
-  skipCurrentRecipe(recipes:Recipe[]){
-   if(this.recipe==null)
-     return recipes;
+  resetIngSelects(){
+    this.addIngMap.forEach((value, key) => this.removeIngredients(value.ingredient));
+  }
 
-   return recipes.filter((t)=> t.title!=this.recipe.title);
+  resetSubRecipeSelects(){
+    this.addSubRecipeMap.forEach((value, key) => this.removeSubRecipes(value.subRecipe));
+  }
+
+  skipCurrentRecipeFilter(recipes:Recipe[]){
+    if(this.displayRecipeInfo==null)
+      return recipes;
+
+    return recipes.filter((t)=> t.title!=this.displayRecipeInfo.title);
+  }
+
+
+  sortRecipes(type: string) {
+    this.sortRecipesBy = type;
+    if (type == 'category') {
+      this.appComponent.sortRecipesByCategory(this.appComponent.recipes)
+    }
   }
 
 
   remove() {
-    let addRecipe: Recipe = new Recipe(null);
+    let addRecipe: AddRecipe = new AddRecipe();
+    addRecipe.recipe = this.displayRecipeInfo;
 
     this.http.post(environment.baseUrl + ApiPaths.RemoveRecipes, [addRecipe]).subscribe(
       (response) => {
@@ -381,10 +492,10 @@ export class RecipeComponent implements OnInit , OnDestroy {
     let i = 0;
     recipes.forEach(rcp=>{
       const headerRow = ['Title', 'Category', 'Source','Source URL','Method','Notes','Prep Time','Rating','Unit',
-      'Cook Time','Course','Instructions','Shelf Life','Serving Qty','Unit Detailed'];
-       data[++i] = headerRow;
+        'Cook Time','Course','Instructions','Shelf Life','Serving Qty','Unit Detailed'];
+      data[++i] = headerRow;
       const values = [ rcp.title, rcp.categoriesForRecipe[0].category.title,rcp.source,rcp.sourceURL,rcp.method,rcp.notes,
-      rcp.prepTime,rcp.rating,rcp.unit,rcp.cookTime,rcp.course,rcp.instructions,rcp.shelfLife,rcp.servingQty,rcp.unitDetailed];
+        rcp.prepTime,rcp.rating,rcp.unit,rcp.cookTime,rcp.course,rcp.instructions,rcp.shelfLife,rcp.servingQty,rcp.unitDetailed];
       data[++i] = values;
       const headerRow2 = ['INGREDIENTS'];
       data[++i] = headerRow2;
