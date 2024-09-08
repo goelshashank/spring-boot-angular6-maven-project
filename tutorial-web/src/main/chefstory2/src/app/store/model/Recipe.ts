@@ -35,6 +35,7 @@ export class Recipe extends  BaseModel{
   @jsonIgnore() subRecipeList:String[]=[];
 
   @jsonIgnore() refServingQty:number;
+  @jsonIgnore() totalCost:number;
 
   addIngMap: Map<String, IngredientInRecip> = new Map<String, IngredientInRecip>();
   addSubRecipeMap: Map<String, IngredientInRecip> = new Map<String, IngredientInRecip>();
@@ -53,6 +54,15 @@ export class Recipe extends  BaseModel{
       let ingredientInRecip:IngredientInRecip=new IngredientInRecip(ing, null)
       this.addIngMap.set(ing.title, ingredientInRecip);
       this.calculateCost(ingredientInRecip,Constants.ADD)
+
+    // setting default brand,supplier and category
+       ingredientInRecip.ingredient.supplierList=[ingredientInRecip.ingredient.supplierForIngredients[0].supplier.title];
+       ingredientInRecip.ingredient.brandList=[ingredientInRecip.ingredient.brandForIngredients[0].brand.title];
+       ingredientInRecip.ingredient.catList=[CategoryFor.getMainCategoriesFor(ingredientInRecip.ingredient.categoriesForIngredient)[0].category.title];
+
+       ingredientInRecip.addSupplier(ingredientInRecip.ingredient.supplierForIngredients[0]);
+       ingredientInRecip.addBrand(ingredientInRecip.ingredient.brandForIngredients[0]);
+       ingredientInRecip.addCategories([ingredientInRecip.ingredient.categoriesForIngredient[0]]);
   }
 
   removeIngredient(ing:Ingredient) {
@@ -86,22 +96,15 @@ export class Recipe extends  BaseModel{
   addCategory(t: Category,isSub:boolean) {
 
     let title=this.getTitle(t);
-
-    if (!this.categoriesForRecipe.map((o) => o.category.title).includes(title)) {
-      let u: CategoryFor = new CategoryFor(null);
-      u.category = new Category(null,null,null);
-      u.category.title = title;
-      u.category.type = Constants.RECIPE;
-      u.category.isSub=isSub;
-      this.categoriesForRecipe.push(u);
-    }
+    if (!this.categoriesForRecipe.map((o) => o.category.title).includes(title))
+      this.categoriesForRecipe.push(new CategoryFor(new Category(title,Constants.RECIPE,isSub)));
 
     console.log('Added: recipe Categories  list' + JSON.stringify(Array.from(this.categoriesForRecipe)));
   }
 
   removeCategory(t: Category,isSub:boolean) {
-    let title=this.getTitle(t);
 
+    let title=this.getTitle(t);
     this.categoriesForRecipe = this.categoriesForRecipe.filter(({ category }) => category.title != title);
 
     console.log('Removed: recipe categories  list' + JSON.stringify(Array.from(this.categoriesForRecipe)));
@@ -112,15 +115,9 @@ export class Recipe extends  BaseModel{
 
     recipe.refServingQty=null
     // console.log('Updating Recipe - ' + JSON.stringify(this.addRecipe.recipe))
+   recipe.populateStringListComps();
 
-   recipe.catList=CategoryFor.getMainCategoriesFor(recipe.categoriesForRecipe).map((t)=> t.category.title);
-   recipe.subCatList=CategoryFor.getSubCategoriesFor(recipe.categoriesForRecipe).map((t)=> t.category.title);
-   recipe.ingList=recipe.ingredientInRecipe.filter((u)=>u.ingredient!=null)
-      .map((t)=> t.ingredient.title);
-    recipe.subRecipeList=recipe.ingredientInRecipe.filter((u)=> u.subRecipe!=null)
-      .map((t)=> t.subRecipe.title);
-
-    // console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
+   // console.log('Ingredients in Recipe - ' + JSON.stringify(this.displayRecipeInfo.ingredientInRecipe))
     recipe.ingredientInRecipe.forEach((o)=>{
       if(o.ingredient!=null) {
         Ingredient.update(o.ingredient)
@@ -136,19 +133,24 @@ export class Recipe extends  BaseModel{
 
   }
 
+  private populateStringListComps() {
+    this.catList = CategoryFor.getMainCategoriesFor(this.categoriesForRecipe).map((t) => t.category.title);
+    this.subCatList = CategoryFor.getSubCategoriesFor(this.categoriesForRecipe).map((t) => t.category.title);
+    this.ingList = this.ingredientInRecipe.filter((u) => u.ingredient != null)
+      .map((t) => t.ingredient.title);
+    this.subRecipeList = this.ingredientInRecipe.filter((u) => u.subRecipe != null)
+      .map((t) => t.subRecipe.title);
+  }
+
   calculateCost(ingInRecip:IngredientInRecip, action:Constants){
-
-    if(action==Constants.ADD){
+    if(action==Constants.ADD)
        this.perUnitCost= ingInRecip.qty*ingInRecip.brandForIngredient.perUnitCost + this.perUnitCost;
-
-    }else if(action==Constants.REMOVE){
+    else if(action==Constants.REMOVE)
       this.perUnitCost=  this.perUnitCost - ingInRecip.qty*ingInRecip.brandForIngredient.perUnitCost;
-    }
-
   }
 
 
-  calculateCostTotal() {
+  calculateCostTotal():number {
  /*   if(fromDisplay){
 
       this.totalCost = 0;
@@ -175,12 +177,11 @@ export class Recipe extends  BaseModel{
     this.addSubRecipeMap.forEach((value, key) => {
       this.totalCost = this.totalCost + value.costTotal;
     });
+    return this.totalCost;
   }
 
-  calculateIngCostForRecipe(ingInRecipe: IngredientInRecip, fromDisplay: boolean = false){
-
-    ingInRecipe.getIngCostForRecipe()
-
+  calculateIngCostForRecipe(ingInRecipe: IngredientInRecip){
+    ingInRecipe.updateIngCostForRecipe()
     this.calculateCostTotal();
   }
 

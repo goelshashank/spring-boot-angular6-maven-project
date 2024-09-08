@@ -55,7 +55,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
     let clearForm:boolean=false;
     let clearIng:boolean=false
 
-    if(flow==Flow.ADD_ING) {
+    if(flow==Flow.ADD) {
         this.showIng=false;
         refreshCache=false
         this.toUpdate=false
@@ -67,19 +67,19 @@ export class IngredientComponent implements OnInit, OnDestroy {
         this.toUpdate=false
         clearIng=true
         clearForm=true
-    }else if(flow==Flow.GET_ING){
+    }else if(flow==Flow.GET){
         this.showIng=true;
         refreshCache=false
         this.toUpdate=false
         clearIng=false
         clearForm=false
-    }else if(flow==Flow.SUBMIT_ING){
+    }else if(flow==Flow.SUBMIT){
         this.showIng=true;
         refreshCache=true
         this.toUpdate=false
         clearIng=false
         clearForm=true
-    }else if(flow==Flow.REMOVE_ING){
+    }else if(flow==Flow.REMOVE){
         this.showIng=true;
         refreshCache=true
         this.toUpdate=false
@@ -117,7 +117,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
       () => {
         console.log('%%' + api + 'ingredient is completed successfully %%');
 
-        this.refreshFlow(Flow.SUBMIT_ING);
+        this.refreshFlow(Flow.SUBMIT);
         let ing:Ingredient=new Ingredient(title);
         this.getIngredient(ing);
         //  alert('%% add ingredient is completed successfully %%');
@@ -150,7 +150,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
       },
       () => {
         //alert(this.displayIngInfo.gst);
-        this.refreshFlow(Flow.GET_ING);
+        this.refreshFlow(Flow.GET);
         console.log('%% get ing is completed successfully %%');
       });
 
@@ -187,7 +187,7 @@ export class IngredientComponent implements OnInit, OnDestroy {
        // alert('Error happened in remove ingredient' + JSON.stringify(error));
       },
       () => {
-        this.refreshFlow(Flow.REMOVE_ING);
+        this.refreshFlow(Flow.REMOVE);
         console.log('%% remove ingredient is completed successfully %%');
         //  alert('%% add ingredient is completed successfully %%');
       });

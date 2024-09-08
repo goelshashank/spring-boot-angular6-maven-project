@@ -8,10 +8,6 @@ import {BaseModel} from "./BaseModel";
 import {CategoryFor} from "./CategoryFor";
 import {BrandForIngredient} from "./BrandForIngredient";
 import {SupplierForIngredient} from "./SupplierForIngredient";
-import * as console from "node:console";
-import * as console from "node:console";
-import * as console from "node:console";
-
 
 export class IngredientInRecip extends BaseModel{
 
@@ -33,7 +29,7 @@ export class IngredientInRecip extends BaseModel{
   qty: number=0;
 
   @jsonIgnore() refQty;
-  @jsonIgnore() private _costTotal:number;
+  @jsonIgnore() costTotal:number;
 
 
   addSupplier(supplierForIngredient:SupplierForIngredient){
@@ -63,22 +59,7 @@ export class IngredientInRecip extends BaseModel{
     console.log('After addition, categories for ingredients- ' + JSON.stringify(this.brandForIngredient));
   }
 
-  get costTotal(): number {
-    if(this.brandForIngredient!=null)
-      this._costTotal=this.qty*this.brandForIngredient.perUnitCost
-    else
-      this.costTotal(this.subRecipe.calculateCostTotal())
-    return this._costTotal;
-  }
-
-  set costTotal(value: number) {
-    this._costTotal = value;
-  }
-
-
-
-
-  getIngCostForRecipe(){
+  updateIngCostForRecipe():number{
 
     if(this.ingredient!=null){
       this.costTotal = (this.ingredient.brandForIngredients.filter(t=> t.brand.id==this.brandForIngredient.brand.id)[0]
@@ -94,12 +75,13 @@ export class IngredientInRecip extends BaseModel{
             totalIngCost =totalIngCost +  (u.ingredient
               .brandForIngredients.filter(t=> t.brand.id==u.brandForIngredient.brand.id)[0].perUnitCost * this.qty)
           else {
-            u.subRecipe.ingredientInRecipe.forEach((t)=>t.getIngCostForRecipe());
+            u.subRecipe.ingredientInRecipe.forEach((t)=>t.updateIngCostForRecipe());
           }
         }
       )
       this.costTotal=(totalIngCost/this.subRecipe.servingQty)*this.qty;
     }
+    return this.costTotal;
   }
 
 

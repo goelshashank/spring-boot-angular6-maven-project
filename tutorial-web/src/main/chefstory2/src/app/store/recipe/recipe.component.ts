@@ -23,6 +23,7 @@ import {environment} from "../../../environments/environment";
 import {FormRecipeComponent} from "./form-recipe.component";
 import {DisplayRecipeComponent} from "./display-recipe-component";
 import {LeftSelectorRecipeComponent} from "./left-selector-recipe-component";
+import {Flow} from "../utils/Flow";
 
 @Component({
   selector: 'app-recipe',
@@ -40,6 +41,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
   toUpdate: boolean = false;
   sortRecipesBy: string = null;
   enableAdj=false;
+  fromDisplay: boolean = false;
   enableUpdateTotal=true;
   protected readonly RouterPaths = RouterPaths;
   enableDisplayAdjust=false;
@@ -81,7 +83,9 @@ export class RecipeComponent implements OnInit , OnDestroy {
     console.log("++++ Initialized Recipes +++");
   }
 
-  refresh(showRecipe: boolean, toUpdate: boolean, refreshCache: boolean, toUpdateCost: boolean = false): void {
+  refreshFlow(flow:Flow): void {
+
+   // showRecipe: boolean, toUpdate: boolean, refreshCache: boolean, toUpdateCost: boolean = false
     if(refreshCache) this.appComponent.refreshAppCache();
     if (!showRecipe && (this.addRecipeForm != null && toUpdateCost)) {
       this.addRecipeForm.reset();
@@ -230,8 +234,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
     }
   }
 
-  adjustIng(fromDisplay: boolean = false){
-    if(fromDisplay){
+  adjustIng(){
+    if(this.fromDisplay){
 
       if(!this.enableAdj)
         return;
@@ -239,7 +243,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
       this.enableUpdateTotal=false;
       this.recipe.ingredientInRecipe.forEach(value=> {
         value.qty=value.refQty*( this.recipe.servingQty/this.recipe.refServingQty)
-        this.recipe.calculateIngCostForRecipe(value,fromDisplay);
+        this.recipe.calculateIngCostForRecipe(value);
       });
 
       this.enableUpdateTotal=true;
