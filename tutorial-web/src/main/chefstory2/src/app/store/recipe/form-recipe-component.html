@@ -1,0 +1,509 @@
+<div class="card-header d-flex justify-content-between">
+  <div class="header-title">
+    <h4 class="card-title">Add New Recipe</h4>
+  </div>
+</div>
+<div class="card-body">
+  <form
+    #addRecipeForm="ngForm"
+    (keydown.enter)="$event.preventDefault()"
+    (keydown.shift.enter)="$event.preventDefault()"
+    (ngSubmit)="parent.addRecipes()"
+    autocomplete="off"
+    class="form-group"
+    id="addRecipeForm"
+  >
+
+
+    <label class="form-label" for="titleRecipe">*Title</label>
+    <input
+      #titleRecipe="ngModel"
+      [(ngModel)]="recipe.title"
+      appendTo="body"
+      class=" form-control  w-50"
+      id="titleRecipe"
+      name="titleRecipe"
+      placeholder="Title is required"
+      required
+      type="text"
+    />
+
+
+    <label class="mt-2 form-label" for="ingredientForRecipe" id="ingredientForRecipe1"
+    >Ingredient:</label
+    >
+    <ng-select
+      (add)="recipe.addIngredient($event)"
+      (clear)="recipe.removeAllIngredients();"
+      (remove)="recipe.removeIngredient($event)"
+      [(ngModel)]="recipe.ingList"
+      [addTag]="true"
+      [multiple]="true"
+      [searchable]="true"
+      appendTo="body"
+      class="text-secondary form-control"
+      id="ingredientForRecipe"
+      name="ingredientForRecipe"
+    >
+      <ng-option
+        *ngFor="let ing of parent.appComponent.ingredients"
+        [value]="ing"
+      >{{ ing.title }}
+      </ng-option
+      >
+    </ng-select>
+
+    <div class="bd-example table-responsive mt-2 mx-1 pe-1">
+      <table appendTo="body" class="table table-bordered">
+        <thead>
+        <tr class="">
+          <th class="text-secondary align-middle" scope="col">Title</th>
+          <th class="text-secondary align-middle" scope="col">Quantity</th>
+          <th class="text-secondary align-middle" scope="col">Price</th>
+          <th class="text-secondary align-middle" scope="col">Supplier</th>
+          <th class="text-secondary align-middle" scope="col">Brand</th>
+          <th class="text-secondary align-middle" scope="col">Category</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let addIng of recipe.addIngMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
+          appendTo="body"
+        >
+          <th class="text-secondary" scope="row">{{ addIng.value.ingredient.title }}</th>
+          <td>
+            <input
+              (input)="recipe.calculateIngCostForRecipe(addIng.value)"
+              (input)="parent.changeRef(addIng.value)"
+              [(ngModel)]="addIng.value.qty"
+              appendTo="body"
+              class="form-control"
+              id="ingCont{{i}}"
+              name="ingCont{{i}}"
+              placeholder="Quantity"
+              required
+              type="text"
+            />
+          </td>
+          <td class="text-secondary price">
+            {{
+              addIng.value.costTotal |  number:'1.2-2'
+            }}
+          </td>
+          <td>
+            <ng-select
+              (change)="addIng.value.addSupplier($event)"
+              [(ngModel)]="addIng.value.ingredient.supplierList[0]"
+              [multiple]="false"
+              [searchable]="true"
+              appendTo="body"
+              class="text-secondary form-control"
+              id="supplierForIng{{i}}"
+              name="supplierForIng{{i}}"
+            >
+              <ng-option
+                *ngFor="
+                      let supplierForIngredient of addIng.value.ingredient
+                        .supplierForIngredients
+                    "
+                [value]="supplierForIngredient"
+              >{{ supplierForIngredient.supplier.title }}
+              </ng-option
+              >
+            </ng-select>
+          </td>
+          <td>
+            <ng-select
+              (change)="addIng.value.addBrand($event)"
+              [(ngModel)]="addIng.value.ingredient
+                        .brandList[0]"
+              [multiple]="false"
+              [searchable]="true"
+              appendTo="body"
+              class="text-secondary form-control"
+              id="brandForIng{{i}}"
+              name="brandForIng{{i}}"
+            >
+              <!-- [ngModel]="addIng.value.ingredient.brandForIngredients[0]"-->
+              <ng-option
+                *ngFor="
+                      let brandForIngredient of addIng.value.ingredient
+                        .brandForIngredients
+                    "
+                [value]="brandForIngredient"
+              >{{ brandForIngredient.brand.title }}
+              </ng-option
+              >
+            </ng-select>
+          </td>
+          <td>
+            <ng-select
+              (change)="addIng.value.addCategories($event)"
+              [(ngModel)]="addIng.value.ingredient
+                        .catList[0]"
+              [multiple]="false"
+              [searchable]="true"
+              appendTo="body"
+              class="text-secondary form-control"
+              id="categoriesForIng{{i}}"
+              name="categoryForIng{{i}}"
+            >
+              <!-- [ngModel]="addIng.value.ingredient.categoriesForIngredient[0]"-->
+              <ng-option
+                *ngFor="
+                      let categoryFor of addIng.value.ingredient
+                        .categoriesForIngredient
+                    "
+                [value]="categoryFor"
+              >{{ categoryFor.category.title }}
+              </ng-option
+              >
+            </ng-select>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <label class="mt-2 form-label" for="subRecipeForRecipe" id="subRecipeForRecipe1"
+    >Sub Recipe:</label
+    >
+    <ng-select
+      (add)="recipe.addSubRecipe($event)"
+      (clear)="recipe.removeAllSubRecipes();"
+      (remove)="recipe.removeSubRecipe($event)"
+      [(ngModel)]="recipe.subRecipeList"
+      [addTag]="true"
+      [multiple]="true"
+      [searchable]="true"
+      appendTo="body"
+      class=" form-control "
+      id="subRecipeForRecipe"
+      name="subRecipeForRecipe"
+    >
+      <ng-option
+        *ngFor="let recipe of parent.skipCurrentRecipe(appComponent.recipes)" [value]="recipe">
+        {{ recipe.title }}
+      </ng-option>
+    </ng-select>
+    <div class="bd-example table-responsive mt-2 mx-1 pe-1">
+      <table appendTo="body" class="table  table-bordered">
+        <thead>
+        <tr class="">
+          <th class="text-secondary align-middle" scope="col">Title</th>
+          <th class="text-secondary align-middle" scope="col">Quantity</th>
+          <th class="text-secondary align-middle" scope="col">Price</th>
+          <th class="text-secondary align-middle" scope="col">Category</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let addRecipe of recipe.addSubRecipeMap | keyvalue; let i = index; trackBy: this.appComponent.trackByIndex"
+          appendTo="body"
+        >
+          <td class="text-secondary">{{ addRecipe.value.subRecipe.title }}</td>
+          <td>
+            <input
+              (input)="recipe.calculateIngCostForRecipe(addRecipe.value)"
+              [(ngModel)]="addRecipe.value.qty"
+              appendTo="body"
+              class=" form-control"
+              id="addRecipeCont{{i}}"
+              name="addRecipeCont{{i}}"
+              placeholder="Quantity"
+              required
+              type="text"
+            />
+          </td>
+          <td class="text-secondary price">
+            {{
+              addRecipe.value.costTotal
+            }}
+          </td>
+          <td class="text-secondary">{{ addRecipe.value.subRecipe.categoriesForRecipe[0].category.title }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <p><em> Total Price - <b>{{ +(parent.totalCost.toFixed(2)) }} </b> </em></p>
+
+
+    <div class="form-label mt-2" for="servingQty">Serving Qty</div>
+    <div class="input-group d-flex flex-row w-50">
+      <input
+        (input)="parent.adjustIng()"
+        [(ngModel)]="recipe.servingQty"
+        class="rounded-pill form-control w-25"
+        id="servingQty"
+        name="servingQty"
+        placeholder="Enter servingQty"
+        type="text"
+      />
+
+
+      <div class="ms-2 form-check form-switch form-check-inline d-flex align-items-center">
+        <input (change)="parent.fixAndEnableAdjusting($event)" [checked]="parent.enableAdj" class="form-check-input"
+               id="flexCheckDefault" name="adjustinput"
+               type="checkbox"
+               value="">
+        <label class="form-check-label d-flex align-items-center mt-1 mx-1 px-1 fst-italic"
+               for="flexCheckDefault">
+          Adjust with base :
+          <div class="ms-1 text-warning">{{ this.recipe.refServingQty }}</div>
+        </label>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label class="form-label mt-2" for="categoryForRecipe" id="categoryForRecipe1">Category</label>
+        <ng-select
+          (add)="recipe.addCategory($event,false)"
+          (remove)="recipe.removeCategory($event,false)"
+          [(ngModel)]="recipe.catList"
+          [addTag]="true"
+          [multiple]="true"
+          [searchable]="true"
+          appendTo="body"
+          class="text-secondary form-control w-75"
+          id="categoryForRecipe"
+          name="categoryForRecipe"
+        >
+          <ng-option
+            *ngFor="let cat of appComponent.categoriesRecipe"
+            [value]="cat"
+          >{{ cat.title }}
+          </ng-option
+          >
+        </ng-select>
+      </div>
+
+      <div class="col">
+
+        <label class="form-label mt-2" for="subCategoryForRecipe" id="subCategoryForRecipe1">Sub
+          Category</label>
+        <ng-select
+          (add)="recipe.addCategory($event,true)"
+          (remove)="recipe.removeCategory($event,true)"
+          [(ngModel)]="recipe.subCatList"
+          [addTag]="true"
+          [multiple]="true"
+          [searchable]="true"
+          appendTo="body"
+          class="text-secondary form-control w-75"
+          id="subCategoryForRecipe"
+          name="subCategoryForRecipe"
+        >
+          <ng-option
+            *ngFor="let cat of appComponent.getSubCategories(appComponent.categoriesRecipe)"
+            [value]="cat"
+          >{{ cat.title }}
+          </ng-option
+          >
+        </ng-select>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col">
+        <label class="form-label mt-2" for="collectionRecipe">Collection</label>
+        <input
+          [(ngModel)]="recipe.collection"
+          class="text-secondary form-control w-75"
+          id="collectionRecipe"
+          name="collectionRecipe"
+          placeholder="Enter collection"
+          type="text"
+        />
+      </div>
+
+      <div class="col">
+        <label class="form-label mt-2" for="courseRecipe">Course</label>
+        <input
+          [(ngModel)]="recipe.course"
+          class=" form-control w-75"
+          id="courseRecipe"
+          name="courseRecipe"
+          placeholder="Enter course"
+          type="text"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label class="form-label mt-2" for="sourceRecipe">Source</label>
+        <input
+          [(ngModel)]="recipe.source"
+          class=" form-control w-75"
+          data-bs-target="#exampleModal"
+          data-bs-toggle="modal"
+          id="sourceRecipe"
+          name="sourceRecipe"
+          placeholder="Enter source" type="text"
+        />
+
+        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade hide"
+             data-bs-backdrop="false"
+             id="exampleModal" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Source
+                </h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+              </div>
+              <div class="modal-body d-flex autofocus">
+                    <textarea
+                      [(ngModel)]="recipe.source"
+                      class=" form-control"
+                      id="sourceRecipeText"
+                      name="sourceRecipeText"
+                      placeholder="Enter text"
+                      rows="3"
+                      type="text"></textarea>
+              </div>
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                   Close
+                 </button>-->
+                <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col">
+        <label class="form-label mt-2" for="sourceURLRecipe">Source URL</label>
+        <input
+          [(ngModel)]="recipe.sourceURL"
+          class=" form-control w-75"
+          id="sourceURLRecipe"
+          name="sourceURLRecipe"
+          placeholder="Enter source URL"
+          type="text"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label class="form-label mt-2" for="methodRecipe">Method</label>
+        <input
+          [(ngModel)]="recipe.method"
+          class=" form-control w-75"
+          data-bs-target="#exampleModal2"
+          data-bs-toggle="modal"
+          id="methodRecipe"
+          name="methodRecipe"
+          placeholder="Enter method" type="text"
+        />
+
+        <div aria-hidden="true" aria-labelledby="exampleModalLabel2" class="modal fade hide"
+             data-bs-backdrop="false"
+             id="exampleModal2" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">
+                  Method
+                </h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+              </div>
+              <div class="modal-body d-flex autofocus">
+                    <textarea
+                      [(ngModel)]="recipe.method"
+                      class=" form-control"
+                      id="methodRecipeText"
+                      name="methodRecipeText"
+                      placeholder="Enter text"
+                      rows="3"
+                      type="text"></textarea>
+              </div>
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                   Close
+                 </button>-->
+                <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <label class="form-label mt-2" for="noteRecp">Notes</label>
+        <input
+          [(ngModel)]="recipe.notes"
+          class=" form-control w-75"
+          data-bs-target="#exampleModal3"
+          data-bs-toggle="modal"
+          id="noteRecp"
+          name="noteRecp"
+          placeholder="Enter notes" type="text"
+        />
+
+        <div aria-hidden="true" aria-labelledby="exampleModalLabel3" class="modal fade hide"
+             data-bs-backdrop="false"
+             id="exampleModal3" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel3">
+                  Notes
+                </h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+              </div>
+              <div class="modal-body d-flex autofocus">
+                    <textarea
+                      [(ngModel)]="recipe.notes"
+                      class=" form-control"
+                      id="notesRecpText"
+                      name="notesRecpText"
+                      placeholder="Enter text"
+                      rows="3"
+                      type="text"></textarea>
+              </div>
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                   Close
+                 </button>-->
+                <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--   <label for="unitListRec">Units:</label>
+       <select [(ngModel)]="recipe.unit" class="form-control" id="unitListRec"
+               name="unitListRec">
+         <optgroup [attr.label]="group.key" *ngFor="let group of appComponent.appConfiguration.unitsDetailed | keyvalue">
+           <option *ngFor="let unitDetailed of group.value" value="{{unitDetailed.unit}}">{{unitDetailed.unit}}
+             ({{unitDetailed.description}})</option>
+         </optgroup>
+       </select>-->
+
+    <button [disabled]="!addRecipeForm.form.valid"
+            class="btn btn-outline-primary rounded-pill d-flex ms-auto mt-3" type="submit">
+      Submit
+    </button>
+
+  </form>
+</div>

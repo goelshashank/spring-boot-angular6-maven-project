@@ -8,6 +8,9 @@ import {BaseModel} from "./BaseModel";
 import {CategoryFor} from "./CategoryFor";
 import {BrandForIngredient} from "./BrandForIngredient";
 import {SupplierForIngredient} from "./SupplierForIngredient";
+import * as console from "node:console";
+import * as console from "node:console";
+import * as console from "node:console";
 
 
 export class IngredientInRecip extends BaseModel{
@@ -30,16 +33,18 @@ export class IngredientInRecip extends BaseModel{
   qty: number=0;
 
   @jsonIgnore() refQty;
-  @jsonIgnore() costTotal:number=0;
+  @jsonIgnore() private _costTotal:number;
 
-  addSuppliers(supplierForIngredient:SupplierForIngredient){
+
+  addSupplier(supplierForIngredient:SupplierForIngredient){
     this.supplierForIngredient=supplierForIngredient
 
     if(!this.ingredient.supplierForIngredients.map((o) => o.title).includes(supplierForIngredient.title))
     this.ingredient.supplierForIngredients.push(supplierForIngredient);
     console.log('After addition, suppliers for ingredients- ' + JSON.stringify(this.supplierForIngredient));
   }
-  addBrands(brandForIngredient:BrandForIngredient){
+
+  addBrand(brandForIngredient:BrandForIngredient){
     this.brandForIngredient=brandForIngredient;
 
     if(!this.ingredient.brandForIngredients.map((o) => o.title).includes(brandForIngredient.title))
@@ -55,7 +60,47 @@ export class IngredientInRecip extends BaseModel{
         this.ingredient.categoriesForIngredient.push(t);
     }
   )
-    console.log('After addition, brands for ingredients- ' + JSON.stringify(this.brandForIngredient));
+    console.log('After addition, categories for ingredients- ' + JSON.stringify(this.brandForIngredient));
   }
+
+  get costTotal(): number {
+    if(this.brandForIngredient!=null)
+      this._costTotal=this.qty*this.brandForIngredient.perUnitCost
+    else
+      this.costTotal(this.subRecipe.calculateCostTotal())
+    return this._costTotal;
+  }
+
+  set costTotal(value: number) {
+    this._costTotal = value;
+  }
+
+
+
+
+  getIngCostForRecipe(){
+
+    if(this.ingredient!=null){
+      this.costTotal = (this.ingredient.brandForIngredients.filter(t=> t.brand.id==this.brandForIngredient.brand.id)[0]
+        .perUnitCost * this.qty);
+    }else {
+
+      let totalIngCost:number=0;
+
+      //todo: to optimize this, either pre store during adding ingredient or calculate once while adding recipe.
+      this.subRecipe.ingredientInRecipe.forEach((u)=> {
+
+          if(u.ingredient!=null)
+            totalIngCost =totalIngCost +  (u.ingredient
+              .brandForIngredients.filter(t=> t.brand.id==u.brandForIngredient.brand.id)[0].perUnitCost * this.qty)
+          else {
+            u.subRecipe.ingredientInRecipe.forEach((t)=>t.getIngCostForRecipe());
+          }
+        }
+      )
+      this.costTotal=(totalIngCost/this.subRecipe.servingQty)*this.qty;
+    }
+  }
+
 
 }

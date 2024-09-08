@@ -1,0 +1,205 @@
+
+<div class="card-header d-flex justify-content-between">
+  <div class="header-title">
+    <h4 class="card-title">{{ recipe.title }}</h4>
+  </div>
+</div>
+<div class="card-body ms-3">
+  <div class="row">
+    <div class="col">
+
+
+      <p class="d-flex align-middle">Course :
+        <span class="d-flex align-middle text-warning mx-3">{{ recipe.course }}</span></p>
+
+
+    </div>
+    <div class="col">
+
+      <p class="d-flex align-middle">Categories :
+        <span>
+              <ul class="d-flex align-middle  text-warning inline-list comma-separated  text-warning mx-3">
+                <li
+                  *ngFor="let categ of appComponent.getMainCategoriesFor(recipe.categoriesForRecipe)"
+                  class="comma-separated"
+                >
+                  {{ categ.category.title }}
+                </li>
+              </ul>
+              </span>
+      </p>
+    </div>
+    <div class="col">
+      <p class="d-flex align-middle">Sub-Categories :
+        <span>
+              <ul class="d-flex inline-list text-warning comma-separated text-warning  mx-3">
+                <li
+                  *ngFor="let categ of appComponent.getSubCategoriesFor(recipe.categoriesForRecipe)"
+                  class="comma-separated"
+                >
+                  {{ categ.category.title }}
+                </li>
+              </ul>
+              </span>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <p class="d-flex align-middle">Shelf-Life :
+        <span class="d-flex align-middle text-warning mx-3">{{ recipe.shelfLife }}</span></p>
+    </div>
+    <div class="col">
+      <p class="d-flexa lign-middle">Prep-Time :
+        <span class="d-flex align-middle text-warning mx-3">{{ recipe.prepTime }}</span></p>
+    </div>
+    <div class="col">
+      <p class="d-flex align-middle">Instructions :
+        <span class="d-flex align-middle text-warning mx-3">{{ recipe.instructions }}</span></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <p class="d-flex align-middle">Rating :
+        <span class="d-flex align-middle text-warning mx-3">{{ recipe.rating }}</span></p>
+    </div>
+    <div class="col">
+      <p class="d-flex align-middle">Remarks :
+        <span class="d-flex align-middle text-warning mx-3">{{ recipe.remarks }}</span></p>
+    </div>
+    <!--  <div class="col-md">
+      <h6 class="align-middle">unit</h6>
+      <p class="align-middle">{{displayRecipeInfo.unitDetailed.unit}}</p>
+    </div>-->
+    <div class="col">
+      <p class="d-flex align-middle">Unit :
+        <span class="d-flex align-middle text-warning mx-3">{{ recipe.unit }}</span></p>
+    </div>
+  </div>
+
+  <div class="row align-items-baseline">
+    <div class="col align-items-baseline">
+
+      <div class="row align-items-baseline">
+
+        <p class="col-auto">Serving-Qty : </p>
+
+        <div
+          class="col-6 row input-group-sm align-items-baseline ">
+          <input
+            (input)="parent.adjustIng(true)"
+            [(ngModel)]="recipe.servingQty"
+            class="col-1 w-65 form-control  text-warning "
+            type="text"
+            [disabled]="!parent.enableDisplayAdjust">
+          <span *ngIf="parent.enableDisplayAdjust" class="col-auto btn-xs btn-success  ms-2 " type="button">
+                        <svg class="bi bi-check-circle-fill" fill="currentColor" height="16" viewBox="0 0 16 16"
+                             width="16" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                  </span>
+          <span *ngIf="!parent.enableDisplayAdjust"  class="col-auto btn-xs btn-warning  ms-2 " type="button" (click)="parent.enableDisplayAdjust=true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-slash-minus" viewBox="0 0 16 16">
+  <path d="m1.854 14.854 13-13a.5.5 0 0 0-.708-.708l-13 13a.5.5 0 0 0 .708.708M4 1a.5.5 0 0 1 .5.5v2h2a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2h-2a.5.5 0 0 1 0-1h2v-2A.5.5 0 0 1 4 1m5 11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5A.5.5 0 0 1 9 12"/>
+</svg>
+                  </span>
+        </div>
+      </div>
+
+      <div class="ms-2 form-check form-switch form-check-inline d-flex align-items-center">
+        <input (change)="parent.fixAndEnableAdjusting($event,true)" [checked]="parent.enableAdj" class="form-check-input"
+               id="flexCheckDefault1" name="adjustinput"
+               type="checkbox"
+               value=""
+        >
+        <label class="form-check-label d-flex align-items-center mt-1 mx-1 px-1 fst-italic"
+               for="flexCheckDefault1">
+          Adjust with base :
+          <div class="ms-1 text-warning">{{ this.recipe.refServingQty }}</div>
+        </label>
+      </div>
+
+    </div>
+    <div class="col align-items-baseline">
+      <p class="">Cook-Time :
+        <span class="text-warning mx-3">{{ recipe.cookTime }}</span></p>
+    </div>
+    <div class="col align-items-baseline">
+      <p class="">Total Cost :
+        <span class="text-warning mx-3">{{ +(parent.totalCost.toFixed(2)) }}</span></p>
+    </div>
+  </div>
+
+
+  <div class="bd-example table-responsive mt-2 mx-1 pe-1">
+    <table class="table table-bordered">
+      <thead class="">
+      <tr>
+        <th class="text-secondary align-middle" scope="col">Ingredients</th>
+        <th class="text-secondary align-middle" scope="col">Quantity-Unit</th>
+        <th class="text-secondary align-middle" scope="col">Category</th>
+        <th class="text-secondary align-middle" scope="col">Per-Unit-Cost</th>
+        <th class="text-secondary align-middle" scope="col">Unit</th>
+        <th class="text-secondary align-middle" scope="col">Supplier</th>
+        <th class="text-secondary align-middle" scope="col">Brand</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="
+                  let ingredientInRecipe of recipe.ingredientInRecipe
+                "
+      >
+        <th class="text-warning" scope="row">
+          <div *ngIf="ingredientInRecipe.ingredient!=null"> {{ ingredientInRecipe.ingredient.title }}</div>
+          <div *ngIf="ingredientInRecipe.subRecipe!=null"> (SR) {{ ingredientInRecipe.subRecipe.title }}</div>
+        </th>
+        <td class="text-center text-warning">
+          {{ ingredientInRecipe.qty | number:'1.2-2' }}
+        </td>
+        <td class="text-warning">
+          <div *ngIf="ingredientInRecipe.ingredient!=null"> {{
+              ingredientInRecipe.ingredient.categoriesForIngredient[0].category.title
+            }}
+          </div>
+          <div *ngIf="ingredientInRecipe.subRecipe!=null"> {{
+              ingredientInRecipe.subRecipe.categoriesForRecipe[0].category.title
+            }}
+          </div>
+        </td>
+        <td class="text-center text-warning">
+          <div *ngIf="ingredientInRecipe.ingredient!=null"> {{
+              (ingredientInRecipe.ingredient.brandForIngredients[0].perUnitCost) | number:'1.2-2'
+            }}
+          </div>
+        </td>
+        <td class="text-warning">
+          <div *ngIf="ingredientInRecipe.ingredient!=null"> {{ ingredientInRecipe.ingredient.unit }}</div>
+          <div *ngIf="ingredientInRecipe.subRecipe!=null"> {{ ingredientInRecipe.subRecipe.unit }}</div>
+        </td>
+        <td class="text-warning">
+          <div *ngIf="ingredientInRecipe.ingredient!=null">
+            {{ ingredientInRecipe.supplier.title }}
+          </div>
+        </td>
+        <td class="text-warning">
+          <div *ngIf="ingredientInRecipe.ingredient!=null">
+            {{ ingredientInRecipe.brand.title }}
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <button (click)="parent.onUpdate()" *ngIf="recipe.title!=null"
+          class="btn btn-outline-primary rounded-pill d-flex ms-auto mt-3" title="Block of update button"
+          type="button">
+    Update
+  </button>
+
+</div>

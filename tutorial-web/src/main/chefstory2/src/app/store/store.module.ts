@@ -24,6 +24,9 @@ import {NgxEditorModule} from "ngx-editor";
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {AppComponent} from "../app.component";
 import {AuthModule} from "../auth/auth.module";
+import {FormRecipeComponent} from "./recipe/form-recipe.component";
+import {DisplayRecipeComponent} from "./recipe/display-recipe-component";
+import {LeftSelectorRecipeComponent} from "./recipe/left-selector-recipe-component";
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import {AuthModule} from "../auth/auth.module";
     CategoriesComponent,
     StockAtHandComponent,
     SettingsComponent,
-    SortByOrderPipe
+    SortByOrderPipe,
+    FormRecipeComponent,
+    DisplayRecipeComponent,
+    LeftSelectorRecipeComponent
   ],
   imports: [
     HttpClientModule,
@@ -49,8 +55,10 @@ import {AuthModule} from "../auth/auth.module";
     FormsModule,
     StoreRoutingModule,
     NgSelectModule,
-    NgxEditorModule/*,
-    AuthModule*/
+    NgxEditorModule,
+    FormRecipeComponent,
+    /*,
+        AuthModule*/
   ],
 
   providers: [],
