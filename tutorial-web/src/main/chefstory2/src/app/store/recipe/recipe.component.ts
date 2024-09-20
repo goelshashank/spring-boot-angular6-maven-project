@@ -1,17 +1,11 @@
-import { Component, Injectable, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ApiPaths} from '../config/ApiPaths';
 import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Recipe} from '../model/Recipe';
-import {Ingredient} from '../model/Ingredient';
 import {StoreComponent} from '../store.component';
 import {Category} from '../model/Category';
-import {Constants} from '../config/Constants';
-import {SupplierForIngredient} from '../model/SupplierForIngredient';
-import {BrandForIngredient} from '../model/BrandForIngredient';
-import {CategoryFor} from '../model/CategoryFor';
-import { IngredientInRecip } from '../model/IngredientInRecip';
-import {BaseModel} from "../model/BaseModel";
+import {IngredientInRecip} from '../model/IngredientInRecip';
 import {Editor, Toolbar} from "ngx-editor";
 import {RouterService} from "../service/router.service";
 import {ActivatedRoute} from "@angular/router";
@@ -77,7 +71,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit(): void {
-    this.refresh(true, false, true);
+    //this.refresh(true, false, true);
+    this.refreshFlow(Flow.ON_INIT);
     this.sortRecipes('category');
     this.appComponent.isRecipeActive=true;
     console.log("++++ Initialized Recipes +++");
@@ -85,7 +80,23 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   refreshFlow(flow:Flow): void {
 
-   // showRecipe: boolean, toUpdate: boolean, refreshCache: boolean, toUpdateCost: boolean = false
+    let refreshCache:boolean=false;
+    let toUpdate:boolean=false;
+    let toUpdateCost:boolean=false
+    let showRecipe:boolean=false;
+
+    if(flow==Flow.GET) {
+      showRecipe=true;
+      this.toUpdate=false
+      refreshCache=true
+      toUpdateCost=true
+    }else if(flow==Flow.RELOAD){
+      showRecipe=true;
+      this.toUpdate=false
+      refreshCache=true
+      toUpdateCost=false
+    }
+
     if(refreshCache) this.appComponent.refreshAppCache();
     if (!showRecipe && (this.addRecipeForm != null && toUpdateCost)) {
       this.addRecipeForm.reset();
@@ -170,8 +181,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
         () => {
           this.onUpdate(false);
           this.recipe.calculateCostTotal();
-          // alert("++"+this.displayRecipeInfo.title)
-          this.refresh(true, false, true, true);
+          this.refreshFlow(Flow.GET);
           console.log('%% get recipe is completed successfully %%');
         });
 
@@ -251,8 +261,6 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
       return;
     }
-
-
 
     if(!this.enableAdj)
       return;
@@ -369,7 +377,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
 
   reload(){
     //window.location.reload();
-    this.refresh(true, false, true);
+    this.refreshFlow(Flow.RELOAD)
   }
 
 }
