@@ -1,4 +1,3 @@
-/*
 // form.component.ts
 
 import { Component, Input } from '@angular/core';
@@ -19,4 +18,3 @@ export class LeftSelectorRecipeComponent {
   @Input() appComponent: StoreComponent;
   protected readonly Flow = Flow;
 }
-*/

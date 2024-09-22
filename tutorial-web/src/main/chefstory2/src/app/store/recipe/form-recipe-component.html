@@ -1,4 +1,3 @@
-<!--
 <div class="card-header d-flex justify-content-between">
   <div class="header-title">
     <h4 class="card-title">Add New Recipe</h4>
@@ -125,7 +124,7 @@
               id="brandForIng{{i}}"
               name="brandForIng{{i}}"
             >
-              &lt;!&ndash; [ngModel]="addIng.value.ingredient.brandForIngredients[0]"&ndash;&gt;
+              <!-- [ngModel]="addIng.value.ingredient.brandForIngredients[0]"-->
               <ng-option
                 *ngFor="
                       let brandForIngredient of addIng.value.ingredient
@@ -149,7 +148,7 @@
               id="categoriesForIng{{i}}"
               name="categoryForIng{{i}}"
             >
-              &lt;!&ndash; [ngModel]="addIng.value.ingredient.categoriesForIngredient[0]"&ndash;&gt;
+              <!-- [ngModel]="addIng.value.ingredient.categoriesForIngredient[0]"-->
               <ng-option
                 *ngFor="
                       let categoryFor of addIng.value.ingredient
@@ -371,9 +370,9 @@
                       type="text"></textarea>
               </div>
               <div class="modal-footer">
-                &lt;!&ndash; <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                    Close
-                 </button>&ndash;&gt;
+                 </button>-->
                 <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
                   Save changes
                 </button>
@@ -432,9 +431,9 @@
                       type="text"></textarea>
               </div>
               <div class="modal-footer">
-                &lt;!&ndash; <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                    Close
-                 </button>&ndash;&gt;
+                 </button>-->
                 <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
                   Save changes
                 </button>
@@ -478,9 +477,9 @@
                       type="text"></textarea>
               </div>
               <div class="modal-footer">
-                &lt;!&ndash; <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                    Close
-                 </button>&ndash;&gt;
+                 </button>-->
                 <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
                   Save changes
                 </button>
@@ -492,14 +491,14 @@
     </div>
 
 
-    &lt;!&ndash;   <label for="unitListRec">Units:</label>
+    <!--   <label for="unitListRec">Units:</label>
        <select [(ngModel)]="recipe.unit" class="form-control" id="unitListRec"
                name="unitListRec">
          <optgroup [attr.label]="group.key" *ngFor="let group of appComponent.appConfiguration.unitsDetailed | keyvalue">
            <option *ngFor="let unitDetailed of group.value" value="{{unitDetailed.unit}}">{{unitDetailed.unit}}
              ({{unitDetailed.description}})</option>
          </optgroup>
-       </select>&ndash;&gt;
+       </select>-->
 
     <button [disabled]="!addRecipeForm.form.valid"
             class="btn btn-outline-primary rounded-pill d-flex ms-auto mt-3" type="submit">
@@ -508,4 +507,3 @@
 
   </form>
 </div>
--->

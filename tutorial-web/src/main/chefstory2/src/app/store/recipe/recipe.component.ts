@@ -15,6 +15,9 @@ import * as FileSaver from 'file-saver';
 import {delay, retryWhen} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Flow} from "../utils/Flow";
+import {FormRecipeComponent} from "./form-recipe.component";
+import {DisplayRecipeComponent} from "./display-recipe-component";
+import {LeftSelectorRecipeComponent} from "./left-selector-recipe-component";
 
 @Component({
   selector: 'app-recipe',
@@ -52,11 +55,9 @@ export class RecipeComponent implements OnInit , OnDestroy {
   ];
   html: '';
   @ViewChild ('addRecipeForm') addRecipeForm: NgForm;
-/*
   @ViewChild(FormRecipeComponent) formComp: FormRecipeComponent;
   @ViewChild(DisplayRecipeComponent) displayComp: DisplayRecipeComponent;
   @ViewChild(LeftSelectorRecipeComponent) leftSelectorComp: LeftSelectorRecipeComponent;
-*/
 
   constructor(private http: HttpClient, public appComponent: StoreComponent
     ,private routerService:RouterService, private route: ActivatedRoute) {
