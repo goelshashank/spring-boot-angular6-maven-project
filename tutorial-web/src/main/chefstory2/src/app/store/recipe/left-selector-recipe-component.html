@@ -1,3 +1,4 @@
+<!--
 
 <div class="card-header-no-border-bottom ">
   <div class="row align-items-center">
@@ -9,7 +10,7 @@
       <div class="container align-items-center me-n5">
         <a class="btn btn-icon btn-link1">
                    <span
-                     (click)="parent.refresh(false,true,true,true)"
+                     (click)="parent.refreshFlow(Flow.ADD)"
                      class="btn-inner btn-link1"
                      type="submit"
                    >
@@ -108,7 +109,7 @@
       <li class="dropdown-divider"></li>
     </ul>
   </div>
-  <!--by alphabetically-->
+  &lt;!&ndash;by alphabetically&ndash;&gt;
   <div *ngIf="parent.sortRecipesBy=='alphabetically'" class="row  ps-3 mt-3 w-75 overflow-auto">
     <ul
       *ngFor="let recipe of appComponent.recipes |  sortByOrder:'title'"
@@ -124,3 +125,4 @@
   </div>
 
 </div>
+-->

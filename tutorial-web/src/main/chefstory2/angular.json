@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "chefstory2": {
+    "chefstory": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/chefstory2",
+            "outputPath": "dist/chefstory",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "chefstory2:build:production"
+              "buildTarget": "chefstory:build:production"
             },
             "development": {
-              "buildTarget": "chefstory2:build:development"
+              "buildTarget": "chefstory:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "chefstory2:build"
+            "buildTarget": "chefstory:build"
           }
         },
         "test": {

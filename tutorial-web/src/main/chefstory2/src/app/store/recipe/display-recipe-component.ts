@@ -1,3 +1,4 @@
+/*
 // form.component.ts
 
 import { Component, Input } from '@angular/core';
@@ -16,3 +17,4 @@ export class DisplayRecipeComponent {
   @Input() recipe: Recipe;
   @Input() appComponent: StoreComponent;
 }
+*/

@@ -150,18 +150,17 @@ export class Recipe extends  BaseModel{
   }
 
 
-  calculateCostTotal():number {
- /*   if(fromDisplay){
+  calculateCostTotal(fromDisplay:boolean=false):number {
+    if(fromDisplay){
 
       this.totalCost = 0;
-      this.recipe.ingredientInRecipe.forEach(value => {
+      this.ingredientInRecipe.forEach(value => {
 
         this.totalCost = this.totalCost + value.costTotal;
       });
 
-      return;
+      return this.totalCost;
     }
-*/
 /*
 
 
@@ -180,9 +179,9 @@ export class Recipe extends  BaseModel{
     return this.totalCost;
   }
 
-  calculateIngCostForRecipe(ingInRecipe: IngredientInRecip){
+  calculateIngCostForRecipe(ingInRecipe: IngredientInRecip,fromDisplay:boolean=false){
     ingInRecipe.updateIngCostForRecipe()
-    this.calculateCostTotal();
+    this.calculateCostTotal(fromDisplay);
   }
 
 

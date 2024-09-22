@@ -1,3 +1,4 @@
+<!--
 
 <div class="card-header d-flex justify-content-between">
   <div class="header-title">
@@ -69,10 +70,10 @@
       <p class="d-flex align-middle">Remarks :
         <span class="d-flex align-middle text-warning mx-3">{{ recipe.remarks }}</span></p>
     </div>
-    <!--  <div class="col-md">
+    &lt;!&ndash;  <div class="col-md">
       <h6 class="align-middle">unit</h6>
       <p class="align-middle">{{displayRecipeInfo.unitDetailed.unit}}</p>
-    </div>-->
+    </div>&ndash;&gt;
     <div class="col">
       <p class="d-flex align-middle">Unit :
         <span class="d-flex align-middle text-warning mx-3">{{ recipe.unit }}</span></p>
@@ -182,12 +183,12 @@
         </td>
         <td class="text-warning">
           <div *ngIf="ingredientInRecipe.ingredient!=null">
-            {{ ingredientInRecipe.supplier.title }}
+            {{ ingredientInRecipe.supplierForIngredient.title }}
           </div>
         </td>
         <td class="text-warning">
           <div *ngIf="ingredientInRecipe.ingredient!=null">
-            {{ ingredientInRecipe.brand.title }}
+            {{ ingredientInRecipe.brandForIngredient.title }}
           </div>
         </td>
       </tr>
@@ -203,3 +204,4 @@
   </button>
 
 </div>
+-->

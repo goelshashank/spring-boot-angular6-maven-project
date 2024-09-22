@@ -14,9 +14,6 @@ import * as XLSX from "xlsx";
 import * as FileSaver from 'file-saver';
 import {delay, retryWhen} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {FormRecipeComponent} from "./form-recipe.component";
-import {DisplayRecipeComponent} from "./display-recipe-component";
-import {LeftSelectorRecipeComponent} from "./left-selector-recipe-component";
 import {Flow} from "../utils/Flow";
 
 @Component({
@@ -55,9 +52,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
   ];
   html: '';
   @ViewChild ('addRecipeForm') addRecipeForm: NgForm;
+/*
   @ViewChild(FormRecipeComponent) formComp: FormRecipeComponent;
   @ViewChild(DisplayRecipeComponent) displayComp: DisplayRecipeComponent;
   @ViewChild(LeftSelectorRecipeComponent) leftSelectorComp: LeftSelectorRecipeComponent;
+*/
 
   constructor(private http: HttpClient, public appComponent: StoreComponent
     ,private routerService:RouterService, private route: ActivatedRoute) {
@@ -95,6 +94,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
       this.toUpdate=false
       refreshCache=true
       toUpdateCost=false
+    }else if (flow==Flow.ADD){
+      showRecipe=false;
+      this.toUpdate=true
+      refreshCache=true
+      toUpdateCost=true
     }
 
     if(refreshCache) this.appComponent.refreshAppCache();
@@ -180,7 +184,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
         },
         () => {
           this.onUpdate(false);
-          this.recipe.calculateCostTotal();
+          this.recipe.calculateCostTotal(false);
           this.refreshFlow(Flow.GET);
           console.log('%% get recipe is completed successfully %%');
         });
@@ -214,7 +218,6 @@ export class RecipeComponent implements OnInit , OnDestroy {
       return;
     }
 
-
     this.enableAdj=u.target.checked;
     this.changeRef(null);
   }
@@ -244,8 +247,8 @@ export class RecipeComponent implements OnInit , OnDestroy {
     }
   }
 
-  adjustIng(){
-    if(this.fromDisplay){
+  adjustIng(fromDisplay: boolean = false){
+    if(fromDisplay){
 
       if(!this.enableAdj)
         return;
@@ -253,11 +256,11 @@ export class RecipeComponent implements OnInit , OnDestroy {
       this.enableUpdateTotal=false;
       this.recipe.ingredientInRecipe.forEach(value=> {
         value.qty=value.refQty*( this.recipe.servingQty/this.recipe.refServingQty)
-        this.recipe.calculateIngCostForRecipe(value);
+        this.recipe.calculateIngCostForRecipe(value,fromDisplay);
       });
 
       this.enableUpdateTotal=true;
-      this.recipe.calculateCostTotal();
+      this.recipe.calculateCostTotal(fromDisplay);
 
       return;
     }
@@ -272,7 +275,7 @@ export class RecipeComponent implements OnInit , OnDestroy {
     });
 
     this.enableUpdateTotal=true;
-    this.recipe.calculateCostTotal();
+    this.recipe.calculateCostTotal(fromDisplay);
 
   }
 
@@ -380,4 +383,5 @@ export class RecipeComponent implements OnInit , OnDestroy {
     this.refreshFlow(Flow.RELOAD)
   }
 
+  protected readonly Flow = Flow;
 }
